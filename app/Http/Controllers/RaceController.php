@@ -39,8 +39,7 @@ class RaceController extends Controller {
             return redirect('/');
         }
     }
-
-    // public function getRaceData(Request $request) {
+    
     public function getOneRace(Request $request) {
         $race_id = $request->race_id;
         $Api = new ApiController;

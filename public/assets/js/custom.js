@@ -37,13 +37,13 @@ var TableManaged = function () {
             },
             "columnDefs": [{  // set default column settings
                 'orderable': false,
-                'targets': [0]
+                'targets': [-1]
             }, {
                 "searchable": false,
                 "targets": [0]
             }],
             "order": [
-                [1, "asc"]
+                [0, "asc"]
             ] // set first column as a default sort by asc
         });
 
@@ -107,8 +107,6 @@ var TableManaged = function () {
             ] // set first column as a default sort by asc
         });
 
-        var tableWrapper = jQuery('#sample_3_wrapper');
-
         table.on('click', '.editBallotModal', function(){
             var id = $(this).data('id');
             var start = ($(this).data('start').slice(0, 16));
@@ -140,11 +138,21 @@ var TableManaged = function () {
         });
 
         table.on('click', '.deleteBallotModal', function(){
-            var $this = $(this);
+            var target_id= 'ballot_id';
             var id = $(this).data('id');
+            var api = api_url+'/ballot/delete';
+
             var modal = $('#deleteBallotModal');
-            modal.find('#ballot_id').val(id);
+
+            modal.find('.id').val(id);
+            modal.find('.target_id').val(target_id);
+            modal.find('.api').val(api);
             modal.modal('show');
+
+            // var id = $(this).data('id');
+            // var modal = $('#deleteBallotModal');
+            // modal.find('#ballot_id').val(id);
+            // modal.modal('show');
         });
 
         table.find('.group-checkable').change(function () {
@@ -182,12 +190,80 @@ var TableManaged = function () {
                 confrim.modal('show');
             } else {
                 modal.modal('show');
-                var ballot_ids = allVals.join(",");
-                modal.find('.ballot_ids').val(ballot_ids);
+                var target_id = 'ballot_id';
+                var ids = allVals.join(",");
+                var api = api_url+'/ballot/delete';
+
+                modal.find('.target_id').val(target_id);
+                modal.find('.ids').val(ids);
+                modal.find('.api').val(api);
             }
         });
 
-        tableWrapper.find('.dataTables_length select').select2();
+        $("[name='active_ballot_checkbox']").bootstrapSwitch({
+            on:'Actived',
+            off:'No',
+            onLabel:'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
+            offLabel:'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
+            same:false,
+            size:'md',
+            onClass:'primary',
+            offClass:'default'
+        });
+        
+        $("[name='active_ballot_checkbox']").change(function() {
+            var checked = $(this).is(":checked");
+            var ballot_id = $(this).data('id');
+            if (checked) {
+                $(this).attr("checked", true);
+                var is_deleted = "false";
+            } else {
+                $(this).attr("checked", false);
+                var is_deleted = "true";
+            }
+
+            $.ajax({
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                url: base_url+'/changeBallotActive',
+                type: 'post',
+                data: {
+                    is_deleted : is_deleted,
+                    ballot_id : ballot_id
+                },
+                success: function(response) {
+                    var response = JSON.parse(response);
+                    console.log(response);
+                    if(response.state == 'success'){
+                        toastr[response.state]('Ballot activation state is changed successfully.');
+                    } else {
+                        toastr['error']('Whoops! Something went wrong.');
+                    }
+                }
+            });
+        });
+
+        $('#active_change_option').on('change', function(){
+            var state = $(this).val();
+        
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: base_url+'/getChangedBallot',
+                type: 'POST',
+                data: {
+                    state : state
+                },
+                success:function(response){
+                    $('#addBallotModal').remove();
+                    $('#deleteBallotsModal').remove();
+                    $('#confirmModal').remove();
+                    $('#change_table').html(response);
+    
+                    ballotTable();
+                }
+            });
+        });
     }
 
     var raceTable = function () {
@@ -510,7 +586,7 @@ var TableManaged = function () {
 
                     modal.find('#prev_candidate_name').val(cand.data[0].candidate_name);
                     modal.find('#prev_cand_photo').attr("src", ""+cand.data[0].photo);
-                    // modal.find('#prev_party_logo').val(prop.data[0].prop_answer_type);
+                    modal.find('#prev_party_logo').attr("src", ""+cand.data[0].party_logo);
                     modal.find('#email').val(cand.data[0].email);
                     modal.find('#party_id').val(cand.data[0].party_id);
                 }
@@ -539,7 +615,6 @@ var TableManaged = function () {
 
                     modal.find('#edit_candidate_name').val(cand.data[0].candidate_name);
                     modal.find('#edit_cand_photo').val(cand.data[0].photo);
-                    // document.getElementById("edit_cand_photo").name = "newFileName";
                     modal.find('#edit_email').val(cand.data[0].email);
                     modal.find('#edit_party_id').val(cand.data[0].party_id);
                 }
@@ -563,6 +638,7 @@ var TableManaged = function () {
 
         $('#cand_ballot_name').change(function(){
             var ballot_id = $(this).val();
+            var res = "";
 
             $.ajax({
                 headers: {
@@ -574,33 +650,34 @@ var TableManaged = function () {
                     ballot_id : ballot_id
                 },
                 success:function(response){
-                    $.ajax({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        url: base_url+'/getCandRaces',
-                        type: 'POST',
-                        data: {
-                            ballot_id : ballot_id
-                        },
-                        success: function(response){
-                            var response = JSON.parse(response);
-                            console.log(response.data);
-                            console.log(response.data.length);
-                            var race_option = '';
-                            race_option += '<select class="form-control" name="cand_race_name" id="cand_race_name">';
-                            // @if(empty($races->data))
-                            //     <option value="-1">No Race</opiton>
-                            // @else
-                            //     @foreach($races->data as $race)
-                            //     <option value="{{ $race->race_id }}">{{ $race->race_name }}</opiton>
-                            //     @endforeach
-                            // @endif
-                            // </select>
+                    // res = JSON.parse(response);
+                    // console.log(res);
 
-                            $('.race_option').html(race_option);
-                        }
-                    });
+                    // $.ajax({
+                    //     headers: {
+                    //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    //     },
+                    //     url: base_url+'/getCandRaces',
+                    //     type: 'POST',
+                    //     data: {
+                    //         ballot_id : ballot_id
+                    //     },
+                    //     success: function(response){
+                    //         var response = JSON.parse(response);
+                    //         var race_option = '';
+                    //         race_option += '<select class="form-control" name="cand_race_name" id="cand_race_name">';
+                    //         // @if(empty($races->data))
+                    //         //     <option value="-1">No Race</opiton>
+                    //         // @else
+                    //         //     @foreach($races->data as $race)
+                    //         //     <option value="{{ $race->race_id }}">{{ $race->race_name }}</opiton>
+                    //         //     @endforeach
+                    //         // @endif
+                    //         // </select>
+
+                    //         $('.race_option').html(race_option);
+                    //     }
+                    // });
 
                     $('#addCandidateModal').remove();
                     $('#deleteCandidatesModal').remove();
@@ -617,10 +694,8 @@ var TableManaged = function () {
 
         var table = $('#language_table');
 
-        // begin: third table
         table.dataTable({
 
-            // Internationalisation. For more info refer to http://datatables.net/manual/i18n
             "language": {
                 "aria": {
                     "sortAscending": ": activate to sort column ascending",
@@ -647,32 +722,68 @@ var TableManaged = function () {
             },
             "columnDefs": [{  // set default column settings
                 'orderable': false,
-                'targets': [0]
+                'targets': [-1]
             }, {
                 "searchable": false,
                 "targets": [0]
             }],
             "order": [
-                [1, "asc"]
+                [0, "asc"]
             ] // set first column as a default sort by asc
         });
+        
+        $("[name='aval_ballot_lang']").change(function() {
+            var ballot_id = $('#ballot_lang_option').val();
+            var lang_id = $(this).data('id');
+            
+            var checked = $(this).is(":checked");
+            if (checked) {
+                $(this).attr("checked", true);
+                var avaliable = "true";
+            } else {
+                $(this).attr("checked", false);
+                var avaliable = "false";
+            }
 
-        var tableWrapper = jQuery('#sample_3_wrapper');
-
-        table.find('.group-checkable').change(function () {
-            var set = jQuery(this).attr("data-set");
-            var checked = jQuery(this).is(":checked");
-            jQuery(set).each(function () {
-                if (checked) {
-                    $(this).attr("checked", true);
-                } else {
-                    $(this).attr("checked", false);
+            $.ajax({
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                url: base_url+'/setAvalBallotLang',
+                type: 'post',
+                data: {
+                    ballot_id : ballot_id,
+                    avaliable : avaliable,
+                    lang_id : lang_id
+                },
+                success: function(response) {
+                    console.log(response);
+                    // var response = JSON.parse(response);
+                    // if(response.state == 'success'){
+                    //     toastr[response.state]('Set ballot language successfully.');
+                    // } else {
+                    //     toastr['error']('Whoops! Something went wrong.');
+                    // }
                 }
             });
-            jQuery.uniform.update(set);
         });
 
-        tableWrapper.find('.dataTables_length select').select2(); // initialize select2 dropdown
+        $('#ballot_lang_option').change(function(){
+            var ballot_id = $(this).val();
+            
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: base_url+'/getChangedLangs',
+                type: 'POST',
+                data: {
+                    ballot_id : ballot_id
+                },
+                success:function(response){
+                    $('#change_table').html(response);
+                    languageTable();
+                }
+            });
+        });
     }    
     
     var countryTable = function () {
@@ -1331,8 +1442,6 @@ var TableManaged = function () {
             ] // set first column as a default sort by asc
         });
 
-        var tableWrapper = jQuery('#sample_3_wrapper');
-
         $(document).on('click', '.addUserModal', function(){
             var modal = $('#addUserModal');
             modal.modal('show');
@@ -1380,7 +1489,6 @@ var TableManaged = function () {
                     modal.find('#edit_user_name').val(user.data[0].user_name);
                     modal.find('#edit_display_name').val(user.data[0].display_name);
                     modal.find('#edit_user_email').val(user.data[0].user_email);
-                    modal.find('#edit_user_password').val(user.data[0].user_password);
                     modal.find('#edit_user_avatar').attr("src", ""+user.data[0].user_avatar)
                 }
             });
@@ -1495,8 +1603,6 @@ var TableManaged = function () {
                 // });
             }
         });
-
-        tableWrapper.find('.dataTables_length select').select2(); // initialize select2 dropdown
     }
 
     var partyTable = function () {

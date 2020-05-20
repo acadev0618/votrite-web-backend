@@ -9,6 +9,9 @@ class CountryController extends Controller {
 
     public function index() {
         if(Session::get('display_name')) {
+            $BallotController = new BallotController;
+            $ballots = $BallotController->getActiveBallot();
+            
             return view('country')->with(['sliderAction' => 'manage', 'subAction' => 'country']);
         } else {
             return redirect('/');

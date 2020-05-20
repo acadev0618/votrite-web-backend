@@ -22,9 +22,6 @@
 						<table class="table table-striped table-bordered table-hover" id="dashboard_table">
 							<thead>
 								<tr>
-									<th class="table-checkbox">
-										<input type="checkbox" class="group-checkable" data-set="#dashboard_table .checkboxes"/>
-									</th>
 									<th class="table-no">
 										No
 									</th>
@@ -44,9 +41,6 @@
                                 @else
                                     @foreach($ballots->data as $ballot)
                                     <tr class="odd gradeX">
-                                        <td>
-                                            <input type="checkbox" class="checkboxes" value="{{ $ballot->ballot_id }}" data-id="{{ $ballot->ballot_id }}"/>
-                                        </td>
                                         <td>
                                         {{ $loop->index+1 }}
                                         </td>

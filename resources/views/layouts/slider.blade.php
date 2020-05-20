@@ -35,22 +35,6 @@
                         <a href="{{ asset('/ballot') }}">
                         Ballote</a>
                     </li>
-                    @if($subAction == "language")
-                    <li class="active">
-                    @else
-                    <li>
-                    @endif
-                        <a href="{{ asset('/language') }}">
-                        Languages</a>
-                    </li>
-                    @if($subAction == "country")
-                    <li class="active">
-                    @else
-                    <li>
-                    @endif
-                        <a href="{{ asset('/country') }}">
-                        Countries</a>
-                    </li>
                     @if($subAction == "race")
                     <li class="active">
                     @else
@@ -98,6 +82,22 @@
                     @endif
                         <a href="{{ asset('/party') }}">
                         Parties</a>
+                    </li>
+                    @if($subAction == "country")
+                    <li class="active">
+                    @else
+                    <li>
+                    @endif
+                        <a href="{{ asset('/country') }}">
+                        Countries</a>
+                    </li>
+                    @if($subAction == "language")
+                    <li class="active">
+                    @else
+                    <li>
+                    @endif
+                        <a href="{{ asset('/language') }}">
+                        Languages</a>
                     </li>
                 </ul>
             </li>

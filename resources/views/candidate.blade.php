@@ -116,17 +116,13 @@
 													{{ $candidate->candidate_name }}
 												</td>
 												<td class="text-center">
-													<img src="{{ $candidate->photo }}" style="width: 60px;">
+													<img src="{{ $candidate->photo }}" width="60" height="60">
 												</td>
 												<td>
-													@if($candidate->party_id == '1')
-														DEMOCRAT
-													@else
-														REPUBLICAN
-													@endif
+													{{ $candidate->party_name }}
 												</td>
 												<td class="text-center">
-													<img src="{{ $candidate->photo }}" style="width: 60px;">
+													<img src="{{ $candidate->party_logo }}" width="60" height="60">
 												</td>
 												<td>
 													<a class="previewCandidateModal" data-toggle="modal" data-id="{{ $candidate->candidate_id }}"><i class="fa fa-eye" data-toggle="tooltip" title="Preview"></i></a>
@@ -169,17 +165,18 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-4" for="title">Email:</label>
-                <div class="col-sm-8">
+                <label class="control-label col-sm-3" for="title">Email:</label>
+                <div class="col-sm-9">
                     <input type="email" class="form-control" name="email" required>
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-4" for="title">Party:</label>
-                <div class="col-sm-8">
+                <label class="control-label col-sm-3" for="title">Party:</label>
+                <div class="col-sm-9">
                     <select class="form-control" name="party_id">
-						<option value="1">DEMOCRAT</opiton>
-						<option value="2">REPUBLICAN</opiton>
+					@foreach($parties->data as $party)
+						<option value="{{ $party->party_id }}">{{ $party->party_name }}</opiton>
+					@endforeach
 					</select>
                 </div>
             </div>
@@ -187,11 +184,11 @@
 				<input type="text" name="ballot_id" id="ballot_id" hidden/>
 				<input type="text" name="race_id" id="race_id" hidden/>
 				<input type="text" name="lang_id" id="lang_id" hidden/>
-                <button type="button" class="btn btn-warning" data-dismiss="modal">
-                    <span class='glyphicon glyphicon-remove'></span> Close
-                </button>
                 <button type="submit" class="btn btn-success addInvoice">
                     <span id="" class='glyphicon glyphicon-check'></span> Add
+                </button>
+                <button type="button" class="btn btn-warning" data-dismiss="modal">
+                    <span class='glyphicon glyphicon-remove'></span> Close
                 </button>
             </div>
         </form>
@@ -213,18 +210,10 @@
                 </div>
             </div>
             <div class="form-group">
-				<!-- <div class="col-sm-6">
-					<label class="control-label col-sm-8" for="title">Candidate Photo:</label>
-					<div class="col-sm-4">
-						<img id="edit_cand_photo" src="https://cdn.vuetifyjs.com/images/lists/1.jpg" style="width: 60px;">
-					</div>
+				<label class="control-label col-sm-4" for="title">Candidate Photo:</label>
+				<div class="col-sm-8">
+					<input type="file" class="form-control" name="edit_photo" id="edit_photo" value="sdfsfd.txt" accept="image/png, image/jpeg" required></input>
 				</div>
-				<div class="col-sm-6"> -->
-					<label class="control-label col-sm-4" for="title">Candidate Photo:</label>
-					<div class="col-sm-8">
-						<input type="file" class="form-control" name="edit_photo" id="edit_photo" value="sdfsfd.txt" accept="image/png, image/jpeg" required></input>
-					</div>
-				<!-- </div> -->
             </div>
             <div class="form-group">
                 <label class="control-label col-sm-4" for="title">Email:</label>
@@ -236,26 +225,27 @@
                 <label class="control-label col-sm-4" for="title">Party:</label>
                 <div class="col-sm-8">
                     <select class="form-control" name="edit_party_id" id="edit_party_id">
-						<option value="1">DEMOCRAT</opiton>
-						<option value="2">REPUBLICAN</opiton>
+					@foreach($parties->data as $party)
+						<option value="{{ $party->party_id }}">{{ $party->party_name }}</opiton>
+					@endforeach
 					</select>
                 </div>
             </div>
             <div class="modal-footer">
 				<input type="text" name="edit_lang_id" id="edit_lang_id" hidden/>
 				<input type="text" name="edit_cand_id" id="edit_cand_id" hidden/>
+                <button type="submit" class="btn btn-success addInvoice">
+                    <span id="" class='glyphicon glyphicon-check'></span> Save
+                </button>
                 <button type="button" class="btn btn-warning" data-dismiss="modal">
                     <span class='glyphicon glyphicon-remove'></span> Close
-                </button>
-                <button type="submit" class="btn btn-success addInvoice">
-                    <span id="" class='glyphicon glyphicon-check'></span> Edit
                 </button>
             </div>
         </form>
     </div>
 </div>
 
-<div id="previewCandidateModal" class="modal fade" tabindex="-1" data-width="520">
+<div id="previewCandidateModal" class="modal fade" tabindex="-1" data-width="600">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">×</button>
         <h4 class="modal-title">Preview The Candidate</h4>
@@ -272,13 +262,13 @@
 				<div class="col-sm-6">
 					<label class="control-label col-sm-8" for="title">Candidate Photo:</label>
 					<div class="col-sm-4">
-						<img id="prev_cand_photo" src="https://cdn.vuetifyjs.com/images/lists/1.jpg" style="width: 60px;">
+						<img id="prev_cand_photo" style="width: 60px;">
 					</div>
 				</div>
 				<div class="col-sm-6">
 					<label class="control-label col-sm-8" for="title">Party Logo:</label>
 					<div class="col-sm-4">
-						<img id="prev_party_logo" src="https://cdn.vuetifyjs.com/images/lists/1.jpg" style="width: 60px;">
+						<img id="prev_party_logo" style="width: 60px;">
 					</div>
 				</div>
             </div>
@@ -293,8 +283,9 @@
 					<label class="control-label col-sm-3" for="title">Party:</label>
 					<div class="col-sm-9">
 						<select class="form-control" id="party_id" readonly>
-							<option value="1" disabled>DEMOCRAT</opiton>
-							<option value="2" disabled>REPUBLICAN</opiton>
+						@foreach($parties->data as $party)
+							<option value="{{ $party->party_id }}" disabled>{{ $party->party_name }}</opiton>
+						@endforeach
 						</select>
 					</div>
 				</div>
@@ -324,11 +315,11 @@
 			<input type="text" class="target_id" name="target_id" hidden />
 			<input type="text" class="api" name="api" hidden />
 
-			<button type="button" class="btn btn-warning" data-dismiss="modal">
-				<span class='glyphicon glyphicon-remove'></span> Close
-			</button>
 			<button type="submit" class="btn btn-danger delete">
 				<i class="fa fa-trash-o"></i> Delete
+			</button>
+			<button type="button" class="btn btn-warning" data-dismiss="modal">
+				<span class='glyphicon glyphicon-remove'></span> Close
 			</button>
 		</form>
     </div>
@@ -350,11 +341,11 @@
 			<input type="text" class="id" name="id" hidden />
 			<input type="text" class="api" name="api" hidden />
 
-			<button type="button" class="btn btn-warning" data-dismiss="modal">
-                    <span class='glyphicon glyphicon-remove'></span> Close
-                </button>
 			<button type="submit" class="btn btn-danger delete">
 				<i class="fa fa-trash-o"></i> Delete
+			</button>
+			<button type="button" class="btn btn-warning" data-dismiss="modal">
+				<span class='glyphicon glyphicon-remove'></span> Close
 			</button>
 		</form>
     </div>

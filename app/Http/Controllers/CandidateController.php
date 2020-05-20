@@ -10,6 +10,7 @@ class CandidateController extends Controller {
         if(Session::get('display_name')) {
             $BallotController = new BallotController;
             $RaceController = new RaceController;
+            $PartyController = new PartyController;
             $LanguageController = new LanguageController;
 
             $ballots = $BallotController->getActiveBallot();
@@ -18,12 +19,15 @@ class CandidateController extends Controller {
                 $races = trim(' ');
                 $languages = trim(' ');
                 $candidates = trim(' ');
+                $parties = trim(' ');
             } else {
                 $ballot_id = $ballots->data[0]->ballot_id;
                 $races = $RaceController->getRaceOfBallot($ballot_id);
+                $parties = $PartyController->getPartyOfBallot($ballot_id);
                 if(empty($races->data)) {
                     $languages = trim(' ');
                     $candidates = trim(' ');
+                    $parties = trim(' ');
                 } else {
                     $languages = $LanguageController->getLangOfBallot($ballot_id);
                     $race_id = $races->data[0]->race_id;
@@ -37,7 +41,8 @@ class CandidateController extends Controller {
                 'ballots' => $ballots,
                 'races' => $races,
                 'languages' => $languages,
-                'candidates' => $candidates
+                'candidates' => $candidates,
+                'parties' => $parties
             ]);
         } else {
             return redirect('/');
@@ -114,6 +119,7 @@ class CandidateController extends Controller {
         $BallotController = new BallotController;
         $RaceController = new RaceController;
         $LanguageController = new LanguageController;
+        $PartyController = new PartyController;
 
         $ballots = $BallotController->getActiveBallot();
         
@@ -121,24 +127,29 @@ class CandidateController extends Controller {
             $races = trim(' ');
             $languages = trim(' ');
             $candidates = trim(' ');
+            $parties = trim(' ');
         } else {
             $ballot_id = $request->ballot_id;
             $races = $RaceController->getRaceOfBallot($ballot_id);
+            $parties = $PartyController->getPartyOfBallot($ballot_id);
             if(empty($races->data)) {
                 $languages = trim(' ');
                 $candidates = trim(' ');
+                $parties = trim(' ');
             } else {
                 $languages = $LanguageController->getLangOfBallot($ballot_id);
                 $race_id = $races->data[0]->race_id;
                 $candidates = $this->getCandidateOfRace($race_id);
             }
+            // return json_encode($candidates);
         }
 
         return view('candidateTable')->with([
             'ballots' => $ballots,
             'races' => $races,
             'languages' => $languages,
-            'candidates' => $candidates
+            'candidates' => $candidates,
+            'parties' => $parties
         ]);
     }
 

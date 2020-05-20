@@ -16,5 +16,5 @@
 <link href="{{ asset('assets/bootstrap-modal/css/bootstrap-modal-bs3patch.css') }}" rel="stylesheet" type="text/css"/>
 <link href="{{ asset('assets/bootstrap-modal/css/bootstrap-modal.css') }}" rel="stylesheet" type="text/css"/>
 
-<link id="favicon" rel="shortcut icon" href="{{asset('assets/img/favicon_white.png')}}" />
+<link id="favicon" rel="shortcut icon" href="{{asset('assets/img/favicon_dark.png')}}" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">

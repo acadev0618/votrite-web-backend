@@ -114,7 +114,7 @@
             <div class="form-group">
                 <label class="control-label col-sm-4" for="title">Password:</label>
                 <div class="col-sm-8">
-                    <input type="text" class="form-control" name="user_password" id="add_user_password" required>
+                    <input type="password" class="form-control" name="user_password" id="add_user_password" required>
                 </div>
             </div>
             <div class="form-group">
@@ -124,11 +124,11 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-warning" data-dismiss="modal">
-                    <span class='glyphicon glyphicon-remove'></span> Close
-                </button>
                 <button type="submit" class="btn btn-success add">
                     <span id="" class='glyphicon glyphicon-check'></span> Add
+                </button>
+                <button type="button" class="btn btn-warning" data-dismiss="modal">
+                    <span class='glyphicon glyphicon-remove'></span> Close
                 </button>
             </div>
         </form>
@@ -162,12 +162,6 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-4" for="title">Password:</label>
-                <div class="col-sm-8">
-                    <input type="text" class="form-control" name="user_password" id="edit_user_password" />
-                </div>
-            </div>
-            <div class="form-group">
                 <label class="control-label col-sm-4" for="title">Avatar:</label>
                 <div class="col-sm-8">
                     <input type="file" class="form-control" name="user_avatar" id="edit_user_avatar" accept="image/png, image/jpeg" required></input>
@@ -175,11 +169,11 @@
             </div>
             <div class="modal-footer">
 				<input type="text" class="user_id" name="user_id" hidden />
+                <button type="submit" class="btn btn-success edit">
+                    <span class='glyphicon glyphicon-check'></span> Save
+                </button>
                 <button type="button" class="btn btn-warning" data-dismiss="modal">
                     <span class='glyphicon glyphicon-remove'></span> Close
-                </button>
-                <button type="submit" class="btn btn-success edit">
-                    <span class='glyphicon glyphicon-check'></span> Edit
                 </button>
             </div>
         </form>
@@ -214,7 +208,7 @@
             <div class="form-group">
                 <label class="control-label col-sm-4" for="title">Avatar:</label>
                 <div class="col-sm-8">
-                    <img id="preview_user_avatar" src="https://cdn.vuetifyjs.com/images/lists/1.jpg" style="width: 60px;">
+                    <img id="preview_user_avatar" style="width: 60px;">
                 </div>
             </div>
             <div class="modal-footer">
@@ -231,7 +225,7 @@
         <button type="button" class="close" data-dismiss="modal">×</button>
         <h4 class="modal-title text-center">Delete The User</h4>
     </div>
-    <div class="modal-body">					
+    <div class="modal-body">
         <p>Are you sure you want to delete this User?</p>
         <p class="text-warning"><small>This action cannot be undone.</small></p>
     </div>
@@ -242,11 +236,11 @@
             <input type="text" class="id" name="id" hidden />
             <input type="text" class="api" name="api" hidden />
             
-			<button type="button" class="btn btn-warning" data-dismiss="modal">
-				<span class='glyphicon glyphicon-remove'></span> Close
-			</button>
 			<button type="submit" class="btn btn-danger delete">
 				<i class="fa fa-trash-o"></i> Delete
+			</button>
+			<button type="button" class="btn btn-warning" data-dismiss="modal">
+				<span class='glyphicon glyphicon-remove'></span> Close
 			</button>
 		</form>
     </div>
@@ -268,11 +262,11 @@
             <input type="text" class="target_id" name="target_id" hidden />
             <input type="text" class="api" name="api" hidden />
 
-            <button type="button" class="btn btn-warning" data-dismiss="modal">
-                <span class='glyphicon glyphicon-remove'></span> Close
-            </button>
             <button type="submit" class="btn btn-danger delete">
                 <i class="fa fa-trash-o"></i> Delete
+            </button>
+            <button type="button" class="btn btn-warning" data-dismiss="modal">
+                <span class='glyphicon glyphicon-remove'></span> Close
             </button>
         </form>
     </div>

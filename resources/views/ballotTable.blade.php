@@ -1,111 +1,68 @@
-@extends('layouts.app')
-
-@section('content')
-<div class="page-content-wrapper">
-	<div class="page-content">
-		<h3 class="page-title">
-		Active Ballots
-		</h3>
-		<div class="row">
-			<div class="col-md-12">
-				<div class="portlet box blue">
-					<div class="portlet-title">
-						<div class="caption">
-							Ballot Table
-						</div>
-					</div>
-					<div class="portlet-body">
-						<div class="table-toolbar">
-							<div class="row">
-								<div class="col-md-6">
-									<div class="btn-group">
-                                            <select class="form-control" id="active_change_option" name="active_change_option">
-                                                <option value="1">Actived</option>
-                                                <option value="2">Show All</option>
-                                            </select>
-									</div>
-								</div>
-								<div class="col-md-6">
-									<div class="btn-group ballot-actions">
-										<button href="#addBallotModal" class="btn btn-primary" data-toggle="modal"><i class="fa fa-plus-circle"></i> <span>  Add Ballot</span></button>
-										<button class="btn btn-danger deleteBallotsModal" data-toggle="modal" style="margin-left: 10px;"><i class="fa fa-minus-circle"></i> <span>  Delete Ballots</span></button>
-									</div>
-								</div>
-							</div>
-						</div>
-                        <div id="change_table">
-                            <table class="table table-striped table-bordered table-hover" id="ballot_table">
-                                <thead>
-                                    <tr>
-                                        <th class="table-checkbox">
-                                            <input type="checkbox" class="group-checkable" data-set="#ballot_table .checkboxes"/>
-                                        </th>
-                                        <th class="table-no">
-                                            No
-                                        </th>
-                                        <th>
-                                            Ballot
-                                        </th>
-                                        <th>
-                                            Client
-                                        </th>
-                                        <th>
-                                            Address
-                                        </th>
-                                        <th style="width: 4%;">
-                                            Status
-                                        </th>
-                                        <th style="width: 6%;">
-                                            Actions
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @if(empty($ballots->data))
-                                    @else
-                                    @foreach($ballots->data as $ballot)
-                                    <tr class="odd gradeX">
-                                        <td>
-                                            <input type="checkbox" class="checkboxes" data-id="{{ $ballot->ballot_id }}"/>
-                                        </td>
-                                        <td>
-                                        {{ $loop->index+1 }}
-                                        </td>
-                                        <td id="election">
-                                            {{ $ballot->election }}
-                                        </td>
-                                        <td>
-                                            {{ $ballot->client }}
-                                        </td>
-                                        <td>
-                                            {{ $ballot->address }}
-                                        </td>
-                                        <td>
-                                        @if($ballot->is_delete == 'true')
-                                            <!-- <input type="checkbox" name="active_ballot_checkbox" data-id="{{ $ballot->ballot_id }}"> -->
-                                            Inactive
-                                        @else
-                                            <!-- <input type="checkbox" checked="checked" name="active_ballot_checkbox" data-id="{{ $ballot->ballot_id }}"> -->
-                                            Active
-                                        @endif
-                                        </td>
-                                        <td>
-                                            <a class="previewBallotModal" data-id="{{ $ballot->ballot_id }}" data-election="{{ $ballot->election }}" data-client="{{ $ballot->client }}" data-address="{{ $ballot->address }}" data-board="{{ $ballot->board }}" data-start="{{ $ballot->start_date }}" data-end="{{ $ballot->end_date }}" data-toggle="modal"><i class="fa fa-eye" data-toggle="tooltip" title="Preview"></i></a>
-                                            <a class="editBallotModal" data-id="{{ $ballot->ballot_id }}" data-election="{{ $ballot->election }}" data-client="{{ $ballot->client }}" data-address="{{ $ballot->address }}" data-board="{{ $ballot->board }}" data-start="{{ $ballot->start_date }}" data-end="{{ $ballot->end_date }}" data-toggle="modal"><i class="fa fa-edit" data-toggle="tooltip" title="Edit"></i></a>
-                                            <a class="deleteBallotModal" data-id="{{ $ballot->ballot_id }}" data-toggle="modal"><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete"></i></a>
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                    @endif
-                                </tbody>
-                            </table>
-                        </div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
+<table class="table table-striped table-bordered table-hover" id="ballot_table">
+    <thead>
+        <tr>
+            <th class="table-checkbox">
+                <input type="checkbox" class="group-checkable" data-set="#ballot_table .checkboxes" style="width: 17px; height: 17px;"/>
+            </th>
+            <th class="table-no">
+                No
+            </th>
+            <th>
+                Ballot
+            </th>
+            <th>
+                Client
+            </th>
+            <th>
+                Address
+            </th>
+            <th style="width: 4%;">
+                Status
+            </th>
+            <th style="width: 6%;">
+                Actions
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @if(empty($ballots->data))
+        @else
+        @foreach($ballots->data as $ballot)
+        <tr class="odd gradeX">
+            <td>
+                <input type="checkbox" class="checkboxes" data-id="{{ $ballot->ballot_id }}" style="width: 17px; height: 17px;"/>
+            </td>
+            <td>
+            {{ $loop->index+1 }}
+            </td>
+            <td id="election">
+                {{ $ballot->election }}
+            </td>
+            <td>
+                {{ $ballot->client }}
+            </td>
+            <td>
+                {{ $ballot->address }}
+            </td>
+            <td>
+            @if($ballot->is_delete == 'true')
+                <!-- <input type="checkbox" name="active_ballot_checkbox" data-id="{{ $ballot->ballot_id }}"> -->
+                Inactive
+            @else
+                <!-- <input type="checkbox" checked="checked" name="active_ballot_checkbox" data-id="{{ $ballot->ballot_id }}"> -->
+                Active
+            @endif
+            </td>
+            <td>
+                <a class="previewBallotModal" data-id="{{ $ballot->ballot_id }}" data-election="{{ $ballot->election }}" data-client="{{ $ballot->client }}" data-address="{{ $ballot->address }}" data-board="{{ $ballot->board }}" data-start="{{ $ballot->start_date }}" data-end="{{ $ballot->end_date }}" data-toggle="modal"><i class="fa fa-eye" data-toggle="tooltip" title="Preview"></i></a>
+                <a class="editBallotModal" data-id="{{ $ballot->ballot_id }}" data-election="{{ $ballot->election }}" data-client="{{ $ballot->client }}" data-address="{{ $ballot->address }}" data-board="{{ $ballot->board }}" data-start="{{ $ballot->start_date }}" data-end="{{ $ballot->end_date }}" data-toggle="modal"><i class="fa fa-edit" data-toggle="tooltip" title="Edit"></i></a>
+                <a class="deleteBallotModal" data-id="{{ $ballot->ballot_id }}" data-toggle="modal"><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete"></i></a>
+            </td>
+        </tr>
+        @endforeach
+        @endif
+    </tbody>
+</table>
 
 <div id="addBallotModal" class="modal fade" tabindex="-1" data-width="620">
     <div class="modal-header">
@@ -341,19 +298,3 @@
         </form>
     </div>
 </div>
-
-<div id="confirmModal" class="modal fade" tabindex="-1" data-width="320">
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">×</button>
-        <h4 class="modal-title text-center">Confirm</h4>
-    </div>
-    <div class="modal-body">					
-        <p>Please select ballots.</p>
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-warning" data-dismiss="modal">
-            <span class='glyphicon glyphicon-remove'></span> Close
-        </button>
-    </div>
-</div>
-@endsection
