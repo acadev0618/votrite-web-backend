@@ -19,7 +19,7 @@ class BallotController extends Controller {
 
     public function getActiveBallot() {
         $data = "is_delete=false";
-        $api_url = env('api').'/ballot';
+        $api_url = env('API').'/ballot';
 
         $Api = new ApiController;
         $response = $Api->getParamApi($api_url, $data);
@@ -40,7 +40,7 @@ class BallotController extends Controller {
             "end_date" => $end_date
         );
         $data = json_encode($data);
-        $api = env('api').'/ballot/create';
+        $api = env('API').'/ballot/create';
 
         $BaseController = new BaseController;
         return $BaseController->createData($data, $api);
@@ -60,7 +60,7 @@ class BallotController extends Controller {
             'keys' => $ballot_id
         );
         $data = json_encode($data);
-        $api = env('api').'/ballot/update';
+        $api = env('API').'/ballot/update';
 
         $BaseController = new BaseController;
         return $BaseController->updateData($data, $api);
@@ -76,7 +76,7 @@ class BallotController extends Controller {
         );
         
         $json = json_encode($data);
-        $api_url = env('api').'/ballot/delete';
+        $api_url = env('API').'/ballot/delete';
         
         $controller = new ApiController;
         $response = $controller->postApi($json, $api_url);
@@ -109,7 +109,7 @@ class BallotController extends Controller {
             );
             
             $json = json_encode($data);
-            $api_url = env('api').'/ballot/delete';
+            $api_url = env('API').'/ballot/delete';
             
             $controller = new ApiController;
             $response = $controller->postApi($json, $api_url);

@@ -10,7 +10,7 @@ class UserController extends Controller {
     
     public function index() {
         if(Session::get('display_name')) {
-            $api_url = env('api').'/user';
+            $api_url = env('API').'/user';
 
             $controller = new ApiController;
             $response = $controller->getApi($api_url);
@@ -30,7 +30,7 @@ class UserController extends Controller {
             "user_avatar" => "https://cdn.vuetifyjs.com/images/lists/1.jpg"
         );
         $data = json_encode($data);
-        $api = env('api').'/user/create';
+        $api = env('API').'/user/create';
 
         $BaseController = new BaseController;
         return $BaseController->createData($data, $api);
@@ -47,7 +47,7 @@ class UserController extends Controller {
             'keys' => $user_id
         );
         $data = json_encode($data);
-        $api = env('api').'/user/update';
+        $api = env('API').'/user/update';
 
         $BaseController = new BaseController;
         return $BaseController->updateData($data, $api);

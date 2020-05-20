@@ -17,7 +17,7 @@ class LanguageController extends Controller {
 
     public function getLangOfBallot($ballot_id) {
         $Api = new ApiController;
-        $api_url = env('api').'/ballot/language';
+        $api_url = env('API').'/ballot/language';
         $param = 'ballot_id='.$ballot_id;
 
         $response = $Api->getParamApi($api_url, $param);

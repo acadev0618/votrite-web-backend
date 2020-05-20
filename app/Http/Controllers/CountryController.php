@@ -17,7 +17,7 @@ class CountryController extends Controller {
     
     public function getCountryOfBallot($ballot_id) {
         $Api = new ApiController;
-        $api_url = env('api').'/ballot/country';
+        $api_url = env('API').'/ballot/country';
         $param = 'ballot_id='.$ballot_id;
 
         $response = $Api->getParamApi($api_url, $param);

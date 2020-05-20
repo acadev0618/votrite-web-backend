@@ -56,7 +56,7 @@ class RaceController extends Controller {
     public function getOneRace(Request $request) {
         $race_id = $request->race_id;
         $Api = new ApiController;
-        $api_url = env('api').'/race';
+        $api_url = env('API').'/race';
         $param = 'race_id='.$race_id;
 
         $race = $Api->getParamApi($api_url, $param);
@@ -67,7 +67,7 @@ class RaceController extends Controller {
 
     public function getRaceOfBallot($ballot_id) {
         $Api = new ApiController;
-        $api_url = env('api').'/race';
+        $api_url = env('API').'/race';
         $param = 'ballot_id='.$ballot_id;
 
         $response = $Api->getParamApi($api_url, $param);
@@ -77,7 +77,7 @@ class RaceController extends Controller {
     public function getAllRace() {
         $Api = new ApiController;
 
-        $api_url = env('api').'/race';
+        $api_url = env('API').'/race';
 
         $response = $Api->getApi($api_url);
         return $response;
@@ -97,7 +97,7 @@ class RaceController extends Controller {
             "race_location_id" => $request->race_location_id
         );
         $data = json_encode($data);
-        $api = env('api').'/race/create';
+        $api = env('API').'/race/create';
 
         $BaseController = new BaseController;
         return $BaseController->createData($data, $api);
@@ -118,7 +118,7 @@ class RaceController extends Controller {
             'keys' => $race_id
         );
         $data = json_encode($data);
-        $api = env('api').'/race/update';
+        $api = env('API').'/race/update';
 
         $BaseController = new BaseController;
         return $BaseController->updateData($data, $api);

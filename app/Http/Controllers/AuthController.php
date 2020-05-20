@@ -26,7 +26,7 @@ class AuthController extends Controller {
         $json = json_encode($data);
 
         $handle = curl_init();
-        $url = env('api').'/user/login';
+        $url = env('API').'/user/login';
         curl_setopt_array(
             $handle,
             array(
