@@ -49,30 +49,33 @@
 								</tr>
 							</thead>
 							<tbody>
-								@foreach($users as $user) 
-								<tr class="odd gradeX">
-									<td>
-										<input type="checkbox" class="checkboxes" value="{{ $user->user_id }}" data-id="{{ $user->user_id }}"/>
-									</td>
-									<td>
-                                    {{ $loop->index+1 }}
-									</td>
-									<td>
-										{{ $user->user_name }}
-									</td>
-									<td>
-										{{ $user->display_name }}
-									</td>
-									<td>
-										{{ $user->user_email }}
-                                    </td>
-                                    <td>
-                                        <a class="previewUserModal" data-toggle="modal" data-id="{{ $user->user_id }}" data-username="{{ $user->user_name }}" data-alias="{{ $user->display_name }}" data-email="{{ $user->user_email }}" data-password="{{ $user->user_password }}" data-avatar="{{ $user->user_avatar }}"><i class="fa fa-eye" data-toggle="tooltip" title="Preview"></i></a>
-                                        <a class="editUserModal" data-toggle="modal" data-id="{{ $user->user_id }}" data-username="{{ $user->user_name }}" data-alias="{{ $user->display_name }}" data-email="{{ $user->user_email }}" data-password="{{ $user->user_password }}" data-avatar="{{ $user->user_avatar }}"><i class="fa fa-edit" data-toggle="tooltip" title="Edit"></i></a>
-										<a class="deleteUserModal" data-toggle="modal" data-id="{{ $user->user_id }}"><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete"></i></a>
-                                    </td>
-								</tr>
-								@endforeach
+                                @if(empty($users->data))
+                                @else
+                                    @foreach($users->data as $user) 
+                                    <tr class="odd gradeX">
+                                        <td>
+                                            <input type="checkbox" class="checkboxes" value="{{ $user->user_id }}" data-id="{{ $user->user_id }}"/>
+                                        </td>
+                                        <td>
+                                        {{ $loop->index+1 }}
+                                        </td>
+                                        <td>
+                                            {{ $user->user_name }}
+                                        </td>
+                                        <td>
+                                            {{ $user->display_name }}
+                                        </td>
+                                        <td>
+                                            {{ $user->user_email }}
+                                        </td>
+                                        <td>
+                                            <a class="previewUserModal" data-toggle="modal" data-id="{{ $user->user_id }}" data-username="{{ $user->user_name }}" data-alias="{{ $user->display_name }}" data-email="{{ $user->user_email }}" data-password="{{ $user->user_password }}" data-avatar="{{ $user->user_avatar }}"><i class="fa fa-eye" data-toggle="tooltip" title="Preview"></i></a>
+                                            <a class="editUserModal" data-toggle="modal" data-id="{{ $user->user_id }}" data-username="{{ $user->user_name }}" data-alias="{{ $user->display_name }}" data-email="{{ $user->user_email }}" data-password="{{ $user->user_password }}" data-avatar="{{ $user->user_avatar }}"><i class="fa fa-edit" data-toggle="tooltip" title="Edit"></i></a>
+                                            <a class="deleteUserModal" data-toggle="modal" data-id="{{ $user->user_id }}"><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete"></i></a>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                @endif
 							</tbody>
 						</table>
 					</div>
@@ -88,7 +91,7 @@
         <h4 class="modal-title text-center">Add New User</h4>
     </div>
     <div class="modal-body">
-        <form class="form-horizontal" role="form" method="post" action="{{ asset('/createUser') }}">
+        <form class="form-horizontal" role="form" method="post" action="{{ asset('/createUser') }}" enctype="multipart/form-data">
 		@csrf
             <div class="form-group">
                 <label class="control-label col-sm-4" for="title">User Name:</label>
@@ -138,7 +141,7 @@
         <h4 class="modal-title text-center">Edit The User</h4>
     </div>
     <div class="modal-body">
-		<form class="form-horizontal" role="form" method="post" action="{{ asset('/updateUser') }}">
+		<form class="form-horizontal" role="form" method="post" action="{{ asset('/updateUser') }}" enctype="multipart/form-data">
 		@csrf
 		<div class="form-group">
                 <label class="control-label col-sm-4" for="title">User Name:</label>
@@ -167,11 +170,11 @@
             <div class="form-group">
                 <label class="control-label col-sm-4" for="title">Avatar:</label>
                 <div class="col-sm-8">
-                    <input type="text" class="form-control" name="user_avatar" id="edit_user_avatar" />
+                    <input type="file" class="form-control" name="user_avatar" id="edit_user_avatar" accept="image/png, image/jpeg" required></input>
                 </div>
             </div>
             <div class="modal-footer">
-				<input type="text" class="user_id" name="user_id" value="0" hidden />
+				<input type="text" class="user_id" name="user_id" hidden />
                 <button type="button" class="btn btn-warning" data-dismiss="modal">
                     <span class='glyphicon glyphicon-remove'></span> Close
                 </button>
@@ -211,7 +214,7 @@
             <div class="form-group">
                 <label class="control-label col-sm-4" for="title">Avatar:</label>
                 <div class="col-sm-8">
-                    <input type="text" class="form-control" id="preview_user_avatar" disabled>
+                    <img id="preview_user_avatar" src="https://cdn.vuetifyjs.com/images/lists/1.jpg" style="width: 60px;">
                 </div>
             </div>
             <div class="modal-footer">

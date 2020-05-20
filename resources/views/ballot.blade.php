@@ -49,7 +49,9 @@
 								</tr>
 							</thead>
 							<tbody>
-                                @foreach($ballots as $ballot)
+                                @if(empty($ballots->data))
+                                @else
+                                @foreach($ballots->data as $ballot)
 								<tr class="odd gradeX">
 									<td>
 										<input type="checkbox" class="checkboxes" data-id="{{ $ballot->ballot_id }}"/>
@@ -73,6 +75,7 @@
 									</td>
                                 </tr>
                                 @endforeach
+                                @endif
 							</tbody>
 						</table>
 					</div>

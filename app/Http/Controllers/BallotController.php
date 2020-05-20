@@ -11,7 +11,7 @@ class BallotController extends Controller {
         if(Session::get('display_name')) {
             $response = $this->getActiveBallot();
 
-            return view('ballot')->with(['ballots' => $response->data, 'sliderAction' => 'manage', 'subAction' => 'ballot']);
+            return view('ballot')->with(['ballots' => $response, 'sliderAction' => 'manage', 'subAction' => 'ballot']);
         } else {
             return redirect('/');
         }

@@ -86,6 +86,7 @@ class BaseController extends Controller {
         $Api = new ApiController;
         $response = $Api->postApi($request, $api_url);
         
+
         if($response->state == "success") {
             $notification = array(
                 'message' => 'Successfully updated data.', 
@@ -98,5 +99,13 @@ class BaseController extends Controller {
             );
         }
         return back()->with($notification);
+    }
+
+    public function fileUpload($photo, $directory) {
+        $photo_name = $photo->getClientOriginalName();
+        $photo->move(public_path('/uploads/'.$directory), $photo_name);
+        $photo_link = (env('app_url').'/uploads/'.$directory).$photo_name;
+
+        return $photo_link;
     }
 }

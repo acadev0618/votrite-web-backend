@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Session;
 
 class RaceController extends Controller {
-
+    
     public function index() {
         if(Session::get('display_name')) {
             $BallotController = new BallotController;
@@ -14,16 +14,23 @@ class RaceController extends Controller {
             $CountryController = new CountryController;
             
             $ballots = $BallotController->getActiveBallot();
-            $languages = $LanguageController->getLangOfBallot(1);
-            $countries = $CountryController->getCountryOfBallot(1);
-            $races = $this->getRaceOfBallot(1);
+            if(empty($ballots->data)) {
+                $languages = trim(' ');
+                $countries = trim(' ');
+                $races = trim(' ');
+            } else {
+                $ballot_id = $ballots->data[0]->ballot_id;
+                $languages = $LanguageController->getLangOfBallot($ballot_id);
+                $countries = $CountryController->getCountryOfBallot($ballot_id);
+                $races = $this->getRaceOfBallot($ballot_id);
+            }
 
             return view('race')->with(
                 [
-                    'ballots' => $ballots->data, 
-                    'races' => $races->data,
-                    'languages' => $languages->data,
-                    'countries' => $countries->data,
+                    'ballots' => $ballots, 
+                    'races' => $races,
+                    'languages' => $languages,
+                    'countries' => $countries,
                     'sliderAction' => 'manage',
                     'subAction' => 'race',
                 ]
@@ -34,25 +41,6 @@ class RaceController extends Controller {
     }
 
     // public function getRaceData(Request $request) {
-    //     $race_id = $request->race_id;
-    //     $LanguageController = new LanguageController;
-    //     $CountryController = new CountryController;
-
-    //     $race = $this->getOneRace($race_id);
-    //     $ballot_id = json_decode($race)->data[0]->ballot_id;
-    //     $ballot_languages = $LanguageController->getLangOfBallot($ballot_id);
-    //     $ballot_countries = $CountryController->getCountryOfBallot($ballot_id);
-        
-    //     $response = array(
-    //         'race' => $race,
-    //         'languages' => $ballot_languages,
-    //         'countries' => $ballot_countries
-    //     );
-    //     $response = json_encode($response);
-        
-    //     return $response;
-    // }
-
     public function getOneRace(Request $request) {
         $race_id = $request->race_id;
         $Api = new ApiController;
@@ -63,6 +51,31 @@ class RaceController extends Controller {
         $race = json_encode($race);
 
         return $race;
+    }
+
+    public function getChangedRaces(Request $request) {
+        $BallotController = new BallotController;
+        $LanguageController = new LanguageController;
+        $CountryController = new CountryController;
+
+        $ballots = $BallotController->getActiveBallot();
+        if(empty($ballots->data)) {
+            $languages = trim(' ');
+            $countries = trim(' ');
+            $races = trim(' ');
+        } else {
+            $ballot_id = $request->ballot_id;
+            $languages = $LanguageController->getLangOfBallot($ballot_id);
+            $countries = $CountryController->getCountryOfBallot($ballot_id);
+            $races = $this->getRaceOfBallot($ballot_id);
+        }
+        
+        return view('raceTable')->with([
+            'ballots' => $ballots,
+            'languages' => $languages,
+            'countries' => $countries,
+            'races' => $races
+        ]);
     }
 
     public function getRaceOfBallot($ballot_id) {

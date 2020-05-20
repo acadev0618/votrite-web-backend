@@ -1,116 +1,64 @@
-@extends('layouts.app')
 
-@section('content')
-<div class="page-content-wrapper">
-	<div class="page-content">
-		<h3 class="page-title">
-		Mass Propositions
-		</h3>
-		<div class="row">
-			<div class="col-md-12">
-				<div class="portlet box blue">
-					<div class="portlet-title">
-						<div class="caption">
-							Mass Proposition Table
-						</div>
-					</div>
-					<div class="portlet-body">
-						<div class="table-toolbar">
-							<div class="row">
-								<div class="col-md-6">
-									<div class="row">
-										<div class="col-md-5 form-group">
-											<label class="col-sm-2 control-label select_name">Ballot:</label>
-											<div class="col-sm-10">
-												<select class="form-control" name="mass_prop_ballot_name" id="mass_prop_ballot_name">
-												@if(empty($ballots->data))
-                                                    <option value="-1">No Ballot</opiton>
-                                                @else
-													@foreach($ballots->data as $ballot)
-													<option value="{{ $ballot->ballot_id }}">{{ $ballot->election }}</opiton>
-													@endforeach
-                                                @endif
-												</select>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-md-6">
-									<div class="btn-group ballot-actions">
-										<button class="btn btn-primary addMassPropositionModal" data-toggle="modal" style="margin-left: 10px;"><i class="fa fa-plus-circle"></i> <span>  Add Mass Proposition</span></button>
-										<button class="btn btn-danger deleteMassPropositionsModal" data-toggle="modal" style="margin-left: 10px;"><i class="fa fa-minus-circle"></i> <span>  Delete Mass Proposiitons</span></button>
-									</div>
-								</div>
-							</div>
-						</div>
-                        <div id="change_table">
-							<table class="table table-striped table-bordered table-hover" id="mass_proposition_table">
-								<thead>
-									<tr>
-										<th class="table-checkbox">
-											<input type="checkbox" class="group-checkable" data-set="#mass_proposition_table .checkboxes"/>
-										</th>
-										<th class="table-no">
-											No
-										</th>
-										<th>
-											Proposition Name
-										</th>
-										<th>
-											Proposition Title
-										</th>
-										<th>
-											Answer Type
-										</th>
-										<th style="width: 6%;">
-											Actions
-										</th>
-									</tr>
-								</thead>
-								<tbody>
-								@if(empty($ballots->data))
-								@else
-									@if(empty($propositions->data))
-									@else
-										@foreach($propositions->data as $prop)
-										<tr class="odd gradeX">
-											<td>
-												<input type="checkbox" class="checkboxes" value="1" data-id="{{ $prop->proposition_id }}"/>
-											</td>
-											<td>
-												{{ $loop->index+1 }}
-											</td>
-											<td>
-												{{ $prop->prop_name }}
-											</td>
-											<td>
-												{{ $prop->prop_name }}
-											</td>
-											<td>
-											@if($prop->prop_answer_type == '1')
-												YES/NO
-											@else
-												FOR/AGAINST
-											@endif
-											</td>
-											<td>
-												<a class="preview previewMassPropositionModal" data-toggle="modal" data-id="{{ $prop->proposition_id }}"><i class="fa fa-eye" data-toggle="tooltip" title="Preview"></i></a>
-												<a class="editMassPropositionModal" data-toggle="modal" data-id="{{ $prop->proposition_id }}"><i class="fa fa-edit" data-toggle="tooltip" title="Edit"></i></a>
-												<a class="deleteMassPropositionModal" data-toggle="modal" data-id="{{ $prop->proposition_id }}"><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete"></i></a>
-											</td>
-										</tr>
-										@endforeach
-									@endif
-								@endif
-								</tbody>
-							</table>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
+<table class="table table-striped table-bordered table-hover" id="mass_proposition_table">
+    <thead>
+        <tr>
+            <th class="table-checkbox">
+                <input type="checkbox" class="group-checkable" data-set="#mass_proposition_table .checkboxes"/>
+            </th>
+            <th class="table-no">
+                No
+            </th>
+            <th>
+                Proposition Name
+            </th>
+            <th>
+                Proposition Title
+            </th>
+            <th>
+                Answer Type
+            </th>
+            <th style="width: 6%;">
+                Actions
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+    @if(empty($ballots->data))
+    @else
+        @if(empty($propositions->data))
+        @else
+            @foreach($propositions->data as $prop)
+            <tr class="odd gradeX">
+                <td>
+                    <input type="checkbox" class="checkboxes" value="1" data-id="{{ $prop->proposition_id }}"/>
+                </td>
+                <td>
+                    {{ $loop->index+1 }}
+                </td>
+                <td>
+                    {{ $prop->prop_name }}
+                </td>
+                <td>
+                    {{ $prop->prop_name }}
+                </td>
+                <td>
+                @if($prop->prop_answer_type == '1')
+                    YES/NO
+                @else
+                    FOR/AGAINST
+                @endif
+                </td>
+                <td>
+                    <a class="preview previewMassPropositionModal" data-toggle="modal" data-id="{{ $prop->proposition_id }}"><i class="fa fa-eye" data-toggle="tooltip" title="Preview"></i></a>
+                    <a class="editMassPropositionModal" data-toggle="modal" data-id="{{ $prop->proposition_id }}"><i class="fa fa-edit" data-toggle="tooltip" title="Edit"></i></a>
+                    <a class="deleteMassPropositionModal" data-toggle="modal" data-id="{{ $prop->proposition_id }}"><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete"></i></a>
+                </td>
+            </tr>
+            @endforeach
+        @endif
+    @endif
+    </tbody>
+</table>
 
 <div id="addMassPropositionModal" class="modal fade" tabindex="-1" data-width="620">
     <div class="modal-header">
@@ -403,4 +351,3 @@
 		</button>
 	</div>
 </div>
-@endsection

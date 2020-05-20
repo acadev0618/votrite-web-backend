@@ -40,25 +40,28 @@
 								</tr>
 							</thead>
 							<tbody>
-                                @foreach($ballots as $ballot)
-								<tr class="odd gradeX">
-									<td>
-										<input type="checkbox" class="checkboxes" value="{{ $ballot->ballot_id }}" data-id="{{ $ballot->ballot_id }}"/>
-									</td>
-									<td>
-                                    {{ $loop->index+1 }}
-									</td>
-									<td>
-                                    {{ $ballot->election }}
-									</td>
-									<td>
-                                    {{ $ballot->start_date }}
-									</td>
-									<td>
-                                    {{ $ballot->end_date }}
-									</td>
-                                </tr>
-                                @endforeach
+                                @if(empty($ballots->data))
+                                @else
+                                    @foreach($ballots->data as $ballot)
+                                    <tr class="odd gradeX">
+                                        <td>
+                                            <input type="checkbox" class="checkboxes" value="{{ $ballot->ballot_id }}" data-id="{{ $ballot->ballot_id }}"/>
+                                        </td>
+                                        <td>
+                                        {{ $loop->index+1 }}
+                                        </td>
+                                        <td>
+                                        {{ $ballot->election }}
+                                        </td>
+                                        <td>
+                                        {{ $ballot->start_date }}
+                                        </td>
+                                        <td>
+                                        {{ $ballot->end_date }}
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                @endif
 							</tbody>
 						</table>
 					</div>

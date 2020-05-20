@@ -1,152 +1,73 @@
-@extends('layouts.app')
 
-@section('content')
-<div class="page-content-wrapper">
-	<div class="page-content">
-		<h3 class="page-title">
-		Candidates
-		</h3>
-		<div class="row">
-			<div class="col-md-12">
-				<div class="portlet box blue">
-					<div class="portlet-title">
-						<div class="caption">
-							Candidate Table
-						</div>
-					</div>
-					<div class="portlet-body">
-						<div class="table-toolbar">
-							<div class="row">
-								<div class="col-md-6 select_options">
-									<div class="col-md-4 form-group">
-										<label class="col-sm-3 control-label select_name">Ballot:</label>
-										<div class="col-sm-9">
-											<select class="form-control" name="cand_ballot_name" id="cand_ballot_name">
-											@if(empty($ballots->data))
-												<option value="-1">No Ballot</opiton>
-											@else
-												@foreach($ballots->data as $ballot)
-												<option value="{{ $ballot->ballot_id }}">{{ $ballot->election }}</opiton>
-												@endforeach
-											@endif
-											</select>
-										</div>
-									</div>
-									<div class="col-md-4 form-group ">
-										<label class="col-sm-3 control-label select_name">Race:</label>
-										<div class="col-sm-9 race_option">
-											<select class="form-control" name="cand_race_name" id="cand_race_name">
-											@if(empty($races->data))
-												<option value="-1">No Race</opiton>
-											@else
-												@foreach($races->data as $race)
-												<option value="{{ $race->race_id }}">{{ $race->race_name }}</opiton>
-												@endforeach
-											@endif
-											</select>
-										</div>
-									</div>
-								
-									<div class="col-md-4 form-group">
-										<label class="col-sm-4 control-label select_name">Language:</label>
-										<div class="col-sm-8">
-											<select class="form-control" name="cand_lang_name" id="cand_lang_name">
-											@if(empty($languages->data))
-											<option value="-1">No Language</option>
-											@else
-												@foreach($languages->data as $lang)
-												<option value="{{ $lang->ballot_lang_id }}">{{ $lang->language_name }}</option>
-												@endforeach
-											@endif
-											</select>
-										</div>
-									</div>
-								</div>
-								<div class="col-md-3 col-md-offset-3">
-									<div class="btn-group ballot-actions">
-										<button class="btn btn-primary addCandidateModal" data-toggle="modal"><i class="fa fa-plus-circle"></i> <span>  Add Candidate</span></button>
-										<button class="btn btn-danger deleteCandidatesModal" data-toggle="modal" style="margin-left: 10px;"><i class="fa fa-minus-circle"></i> <span>  Delete Candidates</span></button>
-									</div>
-								</div>
-							</div>
-						</div>
-                        <div id='change_table'>
-							<table class="table table-striped table-bordered table-hover" id="candidate_table">
-								<thead>
-									<tr>
-										<th class="table-checkbox">
-											<input type="checkbox" class="group-checkable" data-set="#candidate_table .checkboxes"/>
-										</th>
-										<th class="table-no">
-											No
-										</th>
-										<th>
-											Candidate Name
-										</th>
-										<th style="width: 6%;">
-											Candidate Photo
-										</th>
-										<th>
-											Party Name
-										</th>
-										<th style="width: 6%;">
-											Party Logo
-										</th>
-										<th style="width: 6%;">
-											Actions
-										</th>
-									</tr>
-								</thead>
-								<tbody>
-								@if(empty($ballots->data))
-								@else
-									@if(empty($races->data))
-									@else
-										@if(empty($candidates->data))
-										@else
-											@foreach($candidates->data as $candidate)
-											<tr class="odd gradeX">
-												<td>
-													<input type="checkbox" class="checkboxes" value="1" data-id="{{ $candidate->candidate_id }}"/>
-												</td>
-												<td>
-													{{ $loop->index+1 }}
-												</td>
-												<td>
-													{{ $candidate->candidate_name }}
-												</td>
-												<td class="text-center">
-													<img src="{{ $candidate->photo }}" style="width: 60px;">
-												</td>
-												<td>
-													@if($candidate->party_id == '1')
-														DEMOCRAT
-													@else
-														REPUBLICAN
-													@endif
-												</td>
-												<td class="text-center">
-													<img src="{{ $candidate->photo }}" style="width: 60px;">
-												</td>
-												<td>
-													<a class="previewCandidateModal" data-toggle="modal" data-id="{{ $candidate->candidate_id }}"><i class="fa fa-eye" data-toggle="tooltip" title="Preview"></i></a>
-													<a class="editCandidateModal" data-toggle="modal" data-id="{{ $candidate->candidate_id }}"><i class="fa fa-edit" data-toggle="tooltip" title="Edit"></i></a>
-													<a class="deleteCandidateModal" data-toggle="modal" data-id="{{ $candidate->candidate_id }}"><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete"></i></a>
-												</td>
-											</tr>
-											@endforeach
-										@endif
-									@endif
-								@endif
-								</tbody>
-							</table>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
+<table class="table table-striped table-bordered table-hover" id="candidate_table">
+	<thead>
+		<tr>
+			<th class="table-checkbox">
+				<input type="checkbox" class="group-checkable" data-set="#candidate_table .checkboxes"/>
+			</th>
+			<th class="table-no">
+				No
+			</th>
+			<th>
+				Candidate Name
+			</th>
+			<th style="width: 6%;">
+				Candidate Photo
+			</th>
+			<th>
+				Party Name
+			</th>
+			<th style="width: 6%;">
+				Party Logo
+			</th>
+			<th style="width: 6%;">
+				Actions
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+	@if(empty($ballots->data))
+	@else
+		@if(empty($races->data))
+		@else
+			@if(empty($candidates->data))
+			@else
+				@foreach($candidates->data as $candidate)
+				<tr class="odd gradeX">
+					<td>
+						<input type="checkbox" class="checkboxes" value="1" data-id="{{ $candidate->candidate_id }}"/>
+					</td>
+					<td>
+						{{ $loop->index+1 }}
+					</td>
+					<td>
+						{{ $candidate->candidate_name }}
+					</td>
+					<td class="text-center">
+						<img src="{{ $candidate->photo }}" style="width: 60px;">
+					</td>
+					<td>
+						@if($candidate->party_id == '1')
+							DEMOCRAT
+						@else
+							REPUBLICAN
+						@endif
+					</td>
+					<td class="text-center">
+						<img src="{{ $candidate->photo }}" style="width: 60px;">
+					</td>
+					<td>
+						<a class="previewCandidateModal" data-toggle="modal" data-id="{{ $candidate->candidate_id }}"><i class="fa fa-eye" data-toggle="tooltip" title="Preview"></i></a>
+						<a class="editCandidateModal" data-toggle="modal" data-id="{{ $candidate->candidate_id }}"><i class="fa fa-edit" data-toggle="tooltip" title="Edit"></i></a>
+						<a class="deleteCandidateModal" data-toggle="modal" data-id="{{ $candidate->candidate_id }}"><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete"></i></a>
+					</td>
+				</tr>
+				@endforeach
+			@endif
+		@endif
+	@endif
+	</tbody>
+</table>
 
 <div id="addCandidateModal" class="modal fade" tabindex="-1" data-width="520">
     <div class="modal-header">
@@ -165,7 +86,7 @@
             <div class="form-group">
                 <label class="control-label col-sm-4" for="title">Candidate Photo:</label>
                 <div class="col-sm-8">
-                    <input type="file" class="form-control" name="photo" accept="image/png, image/jpeg" required></input>
+                    <input type="file" class="form-control" name="photo" required></input>
                 </div>
             </div>
             <div class="form-group">
@@ -222,7 +143,7 @@
 				<div class="col-sm-6"> -->
 					<label class="control-label col-sm-4" for="title">Candidate Photo:</label>
 					<div class="col-sm-8">
-						<input type="file" class="form-control" name="edit_photo" id="edit_photo" value="sdfsfd.txt" accept="image/png, image/jpeg" required></input>
+						<input type="file" class="form-control" name="edit_photo" id="edit_photo"></input>
 					</div>
 				<!-- </div> -->
             </div>
@@ -343,8 +264,7 @@
         <p>Are you sure you want to delete this Candidate?</p>
         <p class="text-warning"><small>This action cannot be undone.</small></p>
     </div>
-    <div class="modal-footer">
-		<form class="form-horizontal" role="form" method="post" action="{{ asset('/deleteData') }}">
+    <div class="modal-footer"><form class="form-horizontal" role="form" method="post" action="{{ asset('/deleteData') }}">
         @csrf 
 			<input type="text" class="target_id" name="target_id" hidden />
 			<input type="text" class="id" name="id" hidden />
@@ -359,19 +279,3 @@
 		</form>
     </div>
 </div>
-
-<div id="confirmModal" class="modal fade" tabindex="-1" data-width="320">
-	<div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal">×</button>
-		<h4 class="modal-title text-center">Confirm</h4>
-	</div>
-	<div class="modal-body">					
-		<p class="modal_content">Please select porpositions.</p>
-	</div>
-	<div class="modal-footer">
-		<button type="button" class="btn btn-warning" data-dismiss="modal">
-			<span class='glyphicon glyphicon-remove'></span> Close
-		</button>
-	</div>
-</div>
-@endsection

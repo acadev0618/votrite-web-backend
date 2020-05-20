@@ -1,5 +1,5 @@
-var api_url = "http://10.10.10.143:9191/api";
-var base_url="http://localhost/VotRiteBackend/public";
+var api_url = "http://54.82.83.93:9191/api";
+var base_url="http://54.82.83.93/votrite-web-backend/public";
 
 var TableManaged = function () {
 
@@ -192,11 +192,10 @@ var TableManaged = function () {
 
     var raceTable = function () {
 
-        var table = $('#race_table');
+        var table = $('#change_table #race_table');
 
         table.dataTable({
 
-            // Internationalisation. For more info refer to http://datatables.net/manual/i18n
             "language": {
                 "aria": {
                     "sortAscending": ": activate to sort column ascending",
@@ -232,8 +231,6 @@ var TableManaged = function () {
                 [1, "asc"]
             ] // set first column as a default sort by asc
         });
-
-        var tableWrapper = jQuery('#sample_3_wrapper');
 
         table.find('.group-checkable').change(function () {
             var set = jQuery(this).attr("data-set");
@@ -281,8 +278,16 @@ var TableManaged = function () {
         });
 
         $('.addRaceModal').click(function(){
-            var modal = $('#addRaceModal');
-            modal.modal('show');
+            var ballot_id = $('#select_ballot_name').val();
+            if(ballot_id == -1) {
+                var modal = $('#confirmModal');
+                modal.find('.modal_content').text("Please make ballot, first.");
+                modal.modal('show');
+            } else {
+                var modal = $('#addRaceModal');
+                modal.find('#ballot_id').val(ballot_id);
+                modal.modal('show');
+            }
         });
 
         $('.previewRaceModal').click(function(){
@@ -297,21 +302,17 @@ var TableManaged = function () {
                     race_id : race_id
                 },
                 success: function(response) {
-                    var response = JSON.parse(response);
-                    console.log(response);
-                    // var race = JSON.parse(response.race);
-                    // var languages = JSON.parse(response.languages);
-                    // var countries = JSON.parse(response.countries);
+                    var race = JSON.parse(response);
 
-                    // modal.find('#race_name').val(race.data[0].race_name);
-                    // modal.find('#race_type').val(race.data[0].race_type);
-                    // modal.find('#min_num_of_votes').val(race.data[0].min_num_of_votes);
-                    // modal.find('#max_num_of_votes').val(race.data[0].max_num_of_votes);
-                    // modal.find('#max_num_of_write_ins').val(race.data[0].max_num_of_write_ins);
-                    // // modal.find('#race_lang_id').val(res.data[0].race_lang_id);
-                    // // modal.find('#race_location_id').val(res.data[0].race_location_id);
-                    // modal.find('#race_title').val(race.data[0].race_title);
-                    // modal.find('#race_voted_position').val(race.data[0].race_voted_position);
+                    modal.find('#race_name').val(race.data[0].race_name);
+                    modal.find('#race_type').val(race.data[0].race_type);
+                    modal.find('#min_num_of_votes').val(race.data[0].min_num_of_votes);
+                    modal.find('#max_num_of_votes').val(race.data[0].max_num_of_votes);
+                    modal.find('#max_num_of_write_ins').val(race.data[0].max_num_of_write_ins);
+                    modal.find('#race_lang_id').val(race.data[0].race_lang_id);
+                    modal.find('#race_location_id').val(race.data[0].race_location_id);
+                    modal.find('#race_title').val(race.data[0].race_title);
+                    modal.find('#race_voted_position').val(race.data[0].race_voted_position);
                 }
             });
 
@@ -324,16 +325,13 @@ var TableManaged = function () {
 
             $.ajax({
                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                url: base_url+'/getRaceData',
+                url: base_url+'/getOneRace',
                 type: 'post',
                 data: {
                     race_id : race_id
                 },
                 success: function(response) {
-                    var response = JSON.parse(response);
-                    var race = JSON.parse(response.race);
-                    var languages = JSON.parse(response.languages);
-                    var countries = JSON.parse(response.countries);
+                    var race = JSON.parse(response);
 
                     modal.find('#edit_race_id').val(race_id);
                     modal.find('#edit_race_name').val(race.data[0].race_name);
@@ -341,8 +339,8 @@ var TableManaged = function () {
                     modal.find('#edit_min_num_of_votes').val(race.data[0].min_num_of_votes);
                     modal.find('#edit_max_num_of_votes').val(race.data[0].max_num_of_votes);
                     modal.find('#edit_max_num_of_write_ins').val(race.data[0].max_num_of_write_ins);
-                    // modal.find('#edit_race_lang_id').val(res.data[0].race_lang_id);
-                    // modal.find('#edit_race_location_id').val(res.data[0].race_location_id);
+                    modal.find('#edit_race_lang_id').val(race.data[0].race_lang_id);
+                    modal.find('#edit_race_location_id').val(race.data[0].race_location_id);
                     modal.find('#edit_race_title').val(race.data[0].race_title);
                     modal.find('#edit_race_voted_position').val(race.data[0].race_voted_position);
                 }
@@ -363,17 +361,33 @@ var TableManaged = function () {
             modal.modal('show');
         });
 
-        tableWrapper.find('.dataTables_length select').select2();
+        $('#select_ballot_name').on('change', function(){
+            var ballot_id = $(this).val();
+        
+            $.ajax({
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                url: base_url+'/getChangedRaces',
+                type: 'POST',
+                data: {
+                    ballot_id : ballot_id,
+                },
+                success:function(response){
+                    $('#addRaceModal').remove();
+                    $('#deleteRacesModal').remove();
+                    $('#confirmModal').remove();
+                    $('#change_table').html(response);
+                    
+                    raceTable();
+                }
+            });
+        });
     }
 
     var candidateTable = function () {
 
         var table = $('#candidate_table');
 
-        // begin: third table
         table.dataTable({
-
-            // Internationalisation. For more info refer to http://datatables.net/manual/i18n
             "language": {
                 "aria": {
                     "sortAscending": ": activate to sort column ascending",
@@ -410,8 +424,6 @@ var TableManaged = function () {
             ] // set first column as a default sort by asc
         });
 
-        var tableWrapper = jQuery('#sample_3_wrapper');
-
         table.find('.group-checkable').change(function () {
             var set = jQuery(this).attr("data-set");
             var checked = jQuery(this).is(":checked");
@@ -425,7 +437,180 @@ var TableManaged = function () {
             jQuery.uniform.update(set);
         });
 
-        tableWrapper.find('.dataTables_length select').select2(); // initialize select2 dropdown
+        table.find('.checkboxes').change(function(){
+            var checked = $(this).is(":checked");
+            if (checked) {
+                $(this).attr("checked", true);
+            } else {
+                $(this).attr("checked", false);
+            }
+        });
+
+        $('.addCandidateModal').click(function(){
+            var ballot_id = $('#cand_ballot_name').val();
+            var race_id = $('#cand_race_name').val();
+            var lang_id = $('#cand_lang_name').val();
+            var confirmModal = $('#confirmModal');
+            var addModal = $('#addCandidateModal');
+
+            addModal.find('#ballot_id').val(ballot_id);
+            addModal.find('#race_id').val(race_id);
+            addModal.find('#lang_id').val(lang_id);
+            
+            if(ballot_id == -1) {
+                confirmModal.find('.modal_content').text("Please make ballot, first.");
+                confirmModal.modal('show');
+            } else if(race_id == -1) {
+                confirmModal.find('.modal_content').text("Please make race, first.");
+                confirmModal.modal('show');
+            } else if(lang_id == -1) {
+                confirmModal.find('.modal_content').text("Please make language, first.");
+                confirmModal.modal('show');
+            } else {
+                addModal.modal('show');
+            }
+        });
+
+        $(document).on('click', '.deleteCandidatesModal', function(){
+            var modal = $('#deleteCandidatesModal');
+            var allVals = [];
+
+            table.find(".checkboxes:checked").each(function() {  
+                allVals.push($(this).attr('data-id'));
+            });
+
+            if(allVals.length <= 0) {
+                var confrim = $('#confirmModal');
+                confrim.modal('show');
+            } else {
+                modal.modal('show');
+                var target_id = 'candidate_id';
+                var ids = allVals.join(",");
+                var api = api_url+'/candidate/delete';
+
+                modal.find('.target_id').val(target_id);
+                modal.find('.ids').val(ids);
+                modal.find('.api').val(api);
+            }
+        });
+
+        $('.previewCandidateModal').click(function(){
+            var cand_id = $(this).data('id');
+            var modal = $('#previewCandidateModal');
+
+            $.ajax({
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                url: base_url+'/getOneCand',
+                type: 'post',
+                data: {
+                    candidate_id : cand_id
+                },
+                success: function(response) {
+                    var cand = JSON.parse(response);
+
+                    modal.find('#prev_candidate_name').val(cand.data[0].candidate_name);
+                    modal.find('#prev_cand_photo').attr("src", ""+cand.data[0].photo);
+                    // modal.find('#prev_party_logo').val(prop.data[0].prop_answer_type);
+                    modal.find('#email').val(cand.data[0].email);
+                    modal.find('#party_id').val(cand.data[0].party_id);
+                }
+            });
+
+            modal.modal('show');
+        });
+
+        $('.editCandidateModal').click(function(){
+            var cand_id = $(this).data('id');
+            var lang_id = $('#cand_lang_name').val();
+            var modal = $('#editCandidateModal');
+
+            modal.find('#edit_cand_id').val(cand_id);
+            modal.find('#edit_lang_id').val(lang_id);
+
+            $.ajax({
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                url: base_url+'/getOneCand',
+                type: 'post',
+                data: {
+                    candidate_id : cand_id
+                },
+                success: function(response) {
+                    var cand = JSON.parse(response);
+
+                    modal.find('#edit_candidate_name').val(cand.data[0].candidate_name);
+                    modal.find('#edit_cand_photo').val(cand.data[0].photo);
+                    // document.getElementById("edit_cand_photo").name = "newFileName";
+                    modal.find('#edit_email').val(cand.data[0].email);
+                    modal.find('#edit_party_id').val(cand.data[0].party_id);
+                }
+            });
+
+            modal.modal('show');
+        });
+
+        $('.deleteCandidateModal').click(function(){
+            var target_id= 'candidate_id';
+            var id = $(this).data('id');
+            var api = api_url+'/candidate/delete';
+
+            var modal = $('#deleteCandidateModal');
+
+            modal.find('.id').val(id);
+            modal.find('.target_id').val(target_id);
+            modal.find('.api').val(api);
+            modal.modal('show');
+        });
+
+        $('#cand_ballot_name').change(function(){
+            var ballot_id = $(this).val();
+
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: base_url+'/getChangedCand',
+                type: 'POST',
+                data: {
+                    ballot_id : ballot_id
+                },
+                success:function(response){
+                    $.ajax({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        url: base_url+'/getCandRaces',
+                        type: 'POST',
+                        data: {
+                            ballot_id : ballot_id
+                        },
+                        success: function(response){
+                            var response = JSON.parse(response);
+                            console.log(response.data);
+                            console.log(response.data.length);
+                            var race_option = '';
+                            race_option += '<select class="form-control" name="cand_race_name" id="cand_race_name">';
+                            // @if(empty($races->data))
+                            //     <option value="-1">No Race</opiton>
+                            // @else
+                            //     @foreach($races->data as $race)
+                            //     <option value="{{ $race->race_id }}">{{ $race->race_name }}</opiton>
+                            //     @endforeach
+                            // @endif
+                            // </select>
+
+                            $('.race_option').html(race_option);
+                        }
+                    });
+
+                    $('#addCandidateModal').remove();
+                    $('#deleteCandidatesModal').remove();
+                    $('#confirmModal').remove();
+                    $('#change_table').html(response);
+    
+                    candidateTable();
+                }
+            });
+        });
     }
 
     var languageTable = function () {
@@ -554,9 +739,8 @@ var TableManaged = function () {
     
     var propositionTable = function () {
 
-        var table = $('#proposition_table');
+        var table = $('#change_table #proposition_table');
 
-        // begin: third table
         table.dataTable({
 
             // Internationalisation. For more info refer to http://datatables.net/manual/i18n
@@ -596,8 +780,6 @@ var TableManaged = function () {
             ] // set first column as a default sort by asc
         });
 
-        var tableWrapper = jQuery('#sample_3_wrapper');
-
         table.find('.group-checkable').change(function () {
             var set = jQuery(this).attr("data-set");
             var checked = jQuery(this).is(":checked");
@@ -611,14 +793,147 @@ var TableManaged = function () {
             jQuery.uniform.update(set);
         });
 
-        tableWrapper.find('.dataTables_length select').select2(); // initialize select2 dropdown
+        table.find('.checkboxes').change(function(){
+            var checked = $(this).is(":checked");
+            if (checked) {
+                $(this).attr("checked", true);
+            } else {
+                $(this).attr("checked", false);
+            }
+        });
+
+        $('.addPropositionModal').click(function() {
+            var ballot_id = $('#prop_ballot_name').val();
+
+            if(ballot_id == -1) {
+                var modal = $('#confirmModal');
+                modal.find('.modal_content').text("Please make ballot, first.");
+                modal.modal('show');
+            } else {
+                var modal = $('#addPropositionModal');
+                modal.find('#ballot_id').val(ballot_id);
+                modal.modal('show');
+            }
+        });
+
+        $('.previewPropositionModal').click(function(){
+            var prop_id = $(this).data('id');
+            var modal = $('#previewPropositionModal');
+
+            $.ajax({
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                url: base_url+'/getOneProp',
+                type: 'post',
+                data: {
+                    prop_id : prop_id
+                },
+                success: function(response) {
+                    var prop = JSON.parse(response);
+
+                    modal.find('#prev_prop_name').val(prop.data[0].prop_name);
+                    modal.find('#prev_prop_lang_id').val(prop.data[0].prop_lang_id);
+                    modal.find('#prev_prop_answer_type').val(prop.data[0].prop_answer_type);
+                    modal.find('#prev_prop_location_id').val(prop.data[0].prop_location_id);
+                    modal.find('#prev_prop_title').val(prop.data[0].prop_title);
+                    modal.find('#prev_prop_text').val(prop.data[0].prop_text);
+                }
+            });
+
+            modal.modal('show');
+        });
+
+        $('.editPropositionModal').click(function(){
+            var prop_id = $(this).data('id');
+            var modal = $('#editPropositionModal');
+
+            $.ajax({
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                url: base_url+'/getOneProp',
+                type: 'post',
+                data: {
+                    prop_id : prop_id,
+                },
+                success: function(response) {
+                    var prop = JSON.parse(response);
+
+                    modal.find('#edit_prop_id').val(prop_id);
+                    modal.find('#edit_prop_name').val(prop.data[0].prop_name);
+                    modal.find('#edit_prop_lang_id').val(prop.data[0].prop_lang_id);
+                    modal.find('#edit_prop_answer_type').val(prop.data[0].prop_answer_type);
+                    modal.find('#edit_prop_location_id').val(prop.data[0].prop_location_id);
+                    modal.find('#edit_prop_title').val(prop.data[0].prop_title);
+                    modal.find('#edit_prop_text').val(prop.data[0].prop_text);
+                }
+            });
+
+            modal.modal('show');
+        });
+
+        $('.deletePropositionModal').click(function(){
+            var target_id= 'proposition_id';
+            var id = $(this).data('id');
+            var api = api_url+'/proposition/delete';
+
+            var modal = $('#deletePropositionModal');
+
+            modal.find('.id').val(id);
+            modal.find('.target_id').val(target_id);
+            modal.find('.api').val(api);
+            modal.modal('show');
+        });
+
+        $(document).on('click', '.deletePropositionsModal', function(){
+            var modal = $('#deletePropositionsModal');
+            var allVals = [];
+
+            table.find(".checkboxes:checked").each(function() {  
+                allVals.push($(this).attr('data-id'));
+            });
+
+            if(allVals.length <= 0) {
+                var confrim = $('#confirmModal');
+                confrim.modal('show');
+            } else {
+                modal.modal('show');
+                var target_id = 'proposition_id';
+                var ids = allVals.join(",");
+                var api = api_url+'/proposition/delete';
+
+                modal.find('.target_id').val(target_id);
+                modal.find('.ids').val(ids);
+                modal.find('.api').val(api);
+            }
+        });
+
+        $('#prop_ballot_name').on('change', function(){
+            var ballot_id = $(this).val();
+        
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: base_url+'/getChangedProps',
+                type: 'POST',
+                data: {
+                    ballot_id : ballot_id,
+                    prop_type : 'P'
+                },
+                success:function(response){
+                    $('#addPropositionModal').remove();
+                    $('#deletePropositionsModal').remove();
+                    $('#confirmModal').remove();
+                    $('#change_table').html(response);
+    
+                    propositionTable();
+                }
+            });
+        });
     }
     
     var massPropositionTable = function () {
 
-        var table = $('#mass_proposition_table');
+        var table = $('#change_table #mass_proposition_table');
 
-        // begin: third table
         table.dataTable({
 
             // Internationalisation. For more info refer to http://datatables.net/manual/i18n
@@ -658,8 +973,6 @@ var TableManaged = function () {
             ] // set first column as a default sort by asc
         });
 
-        var tableWrapper = jQuery('#sample_3_wrapper');
-
         table.find('.group-checkable').change(function () {
             var set = jQuery(this).attr("data-set");
             var checked = jQuery(this).is(":checked");
@@ -673,17 +986,146 @@ var TableManaged = function () {
             jQuery.uniform.update(set);
         });
 
-        tableWrapper.find('.dataTables_length select').select2(); // initialize select2 dropdown
+        table.find('.checkboxes').change(function(){
+            var checked = $(this).is(":checked");
+            if (checked) {
+                $(this).attr("checked", true);
+            } else {
+                $(this).attr("checked", false);
+            }
+        });
+
+        $('.addMassPropositionModal').click(function() {
+            var ballot_id = $('#mass_prop_ballot_name').val();
+
+            if(ballot_id == -1) {
+                var modal = $('#confirmModal');
+                modal.find('.modal_content').text("Please make ballot, first.");
+                modal.modal('show');
+            } else {
+                var modal = $('#addMassPropositionModal');
+                modal.find('#ballot_id').val(ballot_id);
+                modal.modal('show');
+            }
+        });
+
+        $('.previewMassPropositionModal').click(function(){
+            var prop_id = $(this).data('id');
+            var modal = $('#previewMassPropositionModal');
+
+            $.ajax({
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                url: base_url+'/getOneProp',
+                type: 'post',
+                data: {
+                    prop_id : prop_id
+                },
+                success: function(response) {
+                    var prop = JSON.parse(response);
+
+                    modal.find('#prev_prop_name').val(prop.data[0].prop_name);
+                    modal.find('#prev_prop_lang_id').val(prop.data[0].prop_lang_id);
+                    modal.find('#prev_prop_answer_type').val(prop.data[0].prop_answer_type);
+                    modal.find('#prev_prop_location_id').val(prop.data[0].prop_location_id);
+                    modal.find('#prev_prop_title').val(prop.data[0].prop_title);
+                    modal.find('#prev_prop_text').val(prop.data[0].prop_text);
+                }
+            });
+
+            modal.modal('show');
+        });
+
+        $('.editMassPropositionModal').click(function(){
+            var prop_id = $(this).data('id');
+            var modal = $('#editMassPropositionModal');
+
+            $.ajax({
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                url: base_url+'/getOneProp',
+                type: 'post',
+                data: {
+                    prop_id : prop_id,
+                },
+                success: function(response) {
+                    var prop = JSON.parse(response);
+
+                    modal.find('#edit_prop_id').val(prop_id);
+                    modal.find('#edit_prop_name').val(prop.data[0].prop_name);
+                    modal.find('#edit_prop_lang_id').val(prop.data[0].prop_lang_id);
+                    modal.find('#edit_prop_answer_type').val(prop.data[0].prop_answer_type);
+                    modal.find('#edit_prop_location_id').val(prop.data[0].prop_location_id);
+                    modal.find('#edit_prop_title').val(prop.data[0].prop_title);
+                    modal.find('#edit_prop_text').val(prop.data[0].prop_text);
+                }
+            });
+
+            modal.modal('show');
+        });
+
+        $('.deleteMassPropositionModal').click(function(){
+            var target_id= 'proposition_id';
+            var id = $(this).data('id');
+            var api = api_url+'/proposition/delete';
+
+            var modal = $('#deleteMassPropositionModal');
+
+            modal.find('.id').val(id);
+            modal.find('.target_id').val(target_id);
+            modal.find('.api').val(api);
+            modal.modal('show');
+        });
+
+        $(document).on('click', '.deleteMassPropositionsModal', function(){
+            var modal = $('#deleteMassPropositionsModal');
+            var allVals = [];
+
+            table.find(".checkboxes:checked").each(function() {  
+                allVals.push($(this).attr('data-id'));
+            });
+
+            if(allVals.length <= 0) {
+                var confrim = $('#confirmModal');
+                confrim.modal('show');
+            } else {
+                modal.modal('show');
+                var target_id = 'proposition_id';
+                var ids = allVals.join(",");
+                var api = api_url+'/proposition/delete';
+
+                modal.find('.target_id').val(target_id);
+                modal.find('.ids').val(ids);
+                modal.find('.api').val(api);
+            }
+        });
+
+        $('#mass_prop_ballot_name').on('change', function(){
+            var ballot_id = $(this).val();
+        
+            $.ajax({
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                url: base_url+'/getChangedMassProps',
+                type: 'POST',
+                data: {
+                    ballot_id : ballot_id,
+                    prop_type : 'M'
+                },
+                success:function(response){
+                    $('#addMassPropositionModal').remove();
+                    $('#deleteMassPropositionsModal').remove();
+                    $('#confirmModal').remove();
+                    $('#change_table').html(response);
+    
+                    massPropositionTable();
+                }
+            });
+        });
     }
 
     var voterTable = function () {
 
         var table = $('#voter_table');
 
-        // begin: third table
         table.dataTable({
-
-            // Internationalisation. For more info refer to http://datatables.net/manual/i18n
             "language": {
                 "aria": {
                     "sortAscending": ": activate to sort column ascending",
@@ -720,8 +1162,6 @@ var TableManaged = function () {
             ] // set first column as a default sort by asc
         });
 
-        var tableWrapper = jQuery('#sample_3_wrapper');
-
         table.find('.group-checkable').change(function () {
             var set = jQuery(this).attr("data-set");
             var checked = jQuery(this).is(":checked");
@@ -735,7 +1175,117 @@ var TableManaged = function () {
             jQuery.uniform.update(set);
         });
 
-        tableWrapper.find('.dataTables_length select').select2(); // initialize select2 dropdown
+        table.find('.checkboxes').change(function(){
+            var checked = $(this).is(":checked");
+            if (checked) {
+                $(this).attr("checked", true);
+            } else {
+                $(this).attr("checked", false);
+            }
+        });
+
+        $('.addVoterModal').click(function(){
+            var modal = $('#addVoterModal');
+            modal.modal('show');
+        });
+
+        $('.editVoterModal').click(function(){
+            var voter_id = $(this).data('id');
+            var modal = $('#editVoterModal');
+            $.ajax({
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                url: base_url+'/getOneVoter',
+                type: 'post',
+                data: {
+                    voter_id : voter_id,
+                },
+                success: function(response) {
+                    var voter = JSON.parse(response);
+
+                    modal.find('#edit_voter_id').val(voter_id);
+                    modal.find('#edit_voter_email').val(voter.data[0].voter_email);
+                    modal.find('#edit_voter_phone').val(voter.data[0].voter_phone);
+                }
+            });
+            modal.modal('show');
+        });
+
+        $('.deleteVoterModal').click(function(){
+            var target_id= 'voter_id';
+            var id = $(this).data('id');
+            var api = api_url+'/voter/delete';
+
+            var modal = $('#deleteVoterModal');
+
+            modal.find('.id').val(id);
+            modal.find('.target_id').val(target_id);
+            modal.find('.api').val(api);
+            modal.modal('show');
+        });
+
+        $(document).on('click', '.deleteVotersModal', function(){
+            var modal = $('#deleteVotersModal');
+            var allVals = [];
+
+            table.find(".checkboxes:checked").each(function() {  
+                allVals.push($(this).attr('data-id'));
+            });
+
+            if(allVals.length <= 0) {
+                var confrim = $('#confirmModal');
+                confrim.modal('show');
+            } else {
+                modal.modal('show');
+                var target_id = 'voter_id';
+                var ids = allVals.join(",");
+                var api = api_url+'/voter/delete';
+
+                modal.find('.target_id').val(target_id);
+                modal.find('.ids').val(ids);
+                modal.find('.api').val(api);
+            }
+        });
+
+        $("[name='verfy_checkbox']").change(function() {
+            var checked = $(this).is(":checked");
+            var voter_id = $(this).data('id');
+            if (checked) {
+                $(this).attr("checked", true);
+                var veryfied = "true";
+            } else {
+                $(this).attr("checked", false);
+                var veryfied = "false";
+            }
+
+            $.ajax({
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                url: base_url+'/verifiyVoter',
+                type: 'post',
+                data: {
+                    registration_confirmed : veryfied,
+                    voter_id : voter_id
+                },
+                success: function(response) {
+                    var response = JSON.parse(response);
+                    if(response.state == 'success'){
+                        toastr[response.state]('Voter verification state is changed successfully.');
+                    } else {
+                        toastr['error']('Whoops! Something went wrong.');
+                    }
+                }
+            });
+        });
+
+        $("[name='verfy_checkbox']").bootstrapSwitch({
+            on:'Veryfied',
+            off:'No ',
+            onLabel:'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
+            offLabel:'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
+            same:false,
+            size:'md',
+            onClass:'primary',
+            offClass:'default'
+        });
     }
 
     var usersTable = function () {
@@ -790,22 +1340,51 @@ var TableManaged = function () {
 
         table.on('click', '.previewUserModal', function(){
             var modal = $('#previewUserModal');
-            $('#preview_user_name').val($(this).data('username'));
-            $('#preview_display_name').val($(this).data('alias'));
-            $('#preview_user_email').val($(this).data('email'));
-            $('#preview_user_avatar').val($(this).data('avatar'));
+            var user_id = $(this).data('id');
+
+            $.ajax({
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                url: base_url+'/getOneUser',
+                type: 'post',
+                data: {
+                    user_id : user_id
+                },
+                success: function(response) {
+                    var user = JSON.parse(response);
+                    
+                    $('#preview_user_name').val(user.data[0].user_name);
+                    $('#preview_display_name').val(user.data[0].display_name);
+                    $('#preview_user_email').val(user.data[0].user_email);
+                    $('#preview_user_avatar').attr("src", ""+user.data[0].user_avatar)
+                }
+            });
+
             modal.modal('show');
         });
 
         table.on('click', '.editUserModal', function(){
-            var id = $(this).data('id');
+            var user_id = $(this).data('id');
             var modal = $('#editUserModal');
-            $('#edit_user_name').val($(this).data('username'));
-            $('#edit_display_name').val($(this).data('alias'));
-            $('#edit_user_email').val($(this).data('email'));
-            $('#edit_user_password').val("password");
-            $('#edit_user_avatar').val($(this).data('avatar'));
-            modal.find(".user_id").val(id);
+            modal.find(".user_id").val(user_id);
+
+            $.ajax({
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                url: base_url+'/getOneUser',
+                type: 'post',
+                data: {
+                    user_id : user_id
+                },
+                success: function(response) {
+                    var user = JSON.parse(response);
+
+                    modal.find('#edit_user_name').val(user.data[0].user_name);
+                    modal.find('#edit_display_name').val(user.data[0].display_name);
+                    modal.find('#edit_user_email').val(user.data[0].user_email);
+                    modal.find('#edit_user_password').val(user.data[0].user_password);
+                    modal.find('#edit_user_avatar').attr("src", ""+user.data[0].user_avatar)
+                }
+            });
+
             modal.modal('show');
         });
 
@@ -922,12 +1501,9 @@ var TableManaged = function () {
 
     var partyTable = function () {
 
-        var table = $('#party_table');
+        var table = $('#change_table #party_table');
 
-        // begin: third table
         table.dataTable({
-
-            // Internationalisation. For more info refer to http://datatables.net/manual/i18n
             "language": {
                 "aria": {
                     "sortAscending": ": activate to sort column ascending",
@@ -964,8 +1540,6 @@ var TableManaged = function () {
             ] // set first column as a default sort by asc
         });
 
-        var tableWrapper = jQuery('#sample_3_wrapper');
-
         table.find('.group-checkable').change(function () {
             var set = jQuery(this).attr("data-set");
             var checked = jQuery(this).is(":checked");
@@ -979,7 +1553,134 @@ var TableManaged = function () {
             jQuery.uniform.update(set);
         });
 
-        tableWrapper.find('.dataTables_length select').select2(); // initialize select2 dropdown
+        table.find('.checkboxes').change(function(){
+            var checked = $(this).is(":checked");
+            if (checked) {
+                $(this).attr("checked", true);
+            } else {
+                $(this).attr("checked", false);
+            }
+        });
+
+        $('.previewPartyModal').click(function(){
+            var party_id = $(this).data('id');
+            var modal = $('#previewPartyModal');
+
+            $.ajax({
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                url: base_url+'/getOneParty',
+                type: 'post',
+                data: {
+                    party_id : party_id
+                },
+                success: function(response) {
+                    var party = JSON.parse(response);
+
+                    modal.find('#party_name').val(party.data[0].party_name);
+                    modal.find('#party_logo').attr("src", ""+party.data[0].party_logo);
+                }
+            });
+
+            modal.modal('show');
+        });
+
+        $('.addPartyModal').click(function(){
+            var ballot_id = $('#party_ballot_name').val();
+            var addModal = $('#addPartyModal');
+
+            addModal.find('#ballot_id').val(ballot_id);
+            
+            if(ballot_id == -1) {
+                confirmModal.find('.modal_content').text("Please make ballot, first.");
+                confirmModal.modal('show');
+            } else {
+                addModal.modal('show');
+            }
+        });
+
+        $('.editPartyModal').click(function(){
+            var ballot_id = $('#party_ballot_name').val();
+            var party_id = $(this).data('id');
+            var modal = $('#editPartyModal');
+            modal.find('#edit_ballot_id').val(ballot_id);
+            modal.find('#edit_party_id').val(party_id);
+
+            $.ajax({
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                url: base_url+'/getOneParty',
+                type: 'post',
+                data: {
+                    party_id : party_id
+                },
+                success: function(response) {
+                    var party = JSON.parse(response);
+
+                    modal.find('#edit_party_name').val(party.data[0].party_name);
+                    modal.find('#edit_party_logo').attr("src", ""+party.data[0].party_logo);
+                }
+            });
+
+            modal.modal('show');
+        });
+
+        $('.deletePartyModal').click(function(){
+            var target_id= 'party_id';
+            var id = $(this).data('id');
+            var api = api_url+'/ballot/party/delete';
+
+            var modal = $('#deletePartyModal');
+
+            modal.find('.id').val(id);
+            modal.find('.target_id').val(target_id);
+            modal.find('.api').val(api);
+            modal.modal('show');
+        });
+
+        $(document).on('click', '.deletePartiesModal', function(){
+            var modal = $('#deletePartiesModal');
+            var allVals = [];
+
+            table.find(".checkboxes:checked").each(function() {  
+                allVals.push($(this).attr('data-id'));
+            });
+
+            if(allVals.length <= 0) {
+                var confrim = $('#confirmModal');
+                confrim.modal('show');
+            } else {
+                modal.modal('show');
+                var target_id = 'party_id';
+                var ids = allVals.join(",");
+                var api = api_url+'/ballot/party/delete';
+
+                modal.find('.target_id').val(target_id);
+                modal.find('.ids').val(ids);
+                modal.find('.api').val(api);
+            }
+        });
+
+        $('#party_ballot_name').on('change', function(){
+            var ballot_id = $(this).val();
+        
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: base_url+'/getChangedParty',
+                type: 'POST',
+                data: {
+                    ballot_id : ballot_id
+                },
+                success:function(response){
+                    $('#addPartyModal').remove();
+                    $('#deletepartiesModal').remove();
+                    $('#confirmModal').remove();
+                    $('#change_table').html(response);
+    
+                    partyTable();
+                }
+            });
+        });
     }
 
     return {
@@ -1001,39 +1702,4 @@ var TableManaged = function () {
             partyTable();
         }
     };
-
 }();
-
-$('#ballot_name').on('change', function(){
-    var ballot_id = $(this).val();
-
-    $.ajax({
-        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-        url: base_url+'/getData',
-        type: 'POST',
-        data: {
-            key : "ballot_id=",
-            id : ballot_id,
-            api : api_url+'/race'
-        },
-        success:function(response){
-            var res = JSON.parse(response);
-            console.log(res);
-            // var trs = " ";
-            // trs += '<tr class="odd gradeX">'
-            //         + '<td><input type="checkbox" class="checkboxes" value="1"/></td>'
-            //         + '<td>'+res.data[0].race_id+'</td>'
-            //         + '<td>'+res.data[0].race_id+'</td>'
-            //         + '<td>'+res.data[0].race_id+'</td>'
-            //         + '<td>'+res.data[0].race_id+'</td>'
-            //         + '<td>'+res.data[0].race_id+'</td>'
-            //         + '<td>'+res.data[0].race_id+'</td>';
-
-            // $('#race_tbody').html(trs);
-        }
-    });
-});
-
-$('.manage_ul li').click(function() {
-    $(this).addClass('active');
-});

@@ -8,9 +8,120 @@ use Session;
 class PropositionController extends Controller {
     public function index() {
         if(Session::get('display_name')) {
-            return view('proposition')->with(['sliderAction' => 'manage', 'subAction' => 'proposition']);
+            $BallotController = new BallotController;
+            $LanguageController = new LanguageController;
+            $CountryController = new CountryController;
+
+            $ballots = $BallotController->getActiveBallot();
+            
+            if(empty($ballots->data)) {
+                $languages = trim(' ');
+                $countries = trim(' ');
+                $propositions = trim(' ');
+            } else {
+                $ballot_id = $ballots->data[0]->ballot_id;
+                $prop_type = 'P';
+                $languages = $LanguageController->getLangOfBallot($ballot_id);
+                $countries = $CountryController->getCountryOfBallot($ballot_id);
+                $propositions = $this->getPropOfBallot($ballot_id, $prop_type);
+            }
+
+            return view('proposition')->with([
+                'sliderAction' => 'manage',
+                'subAction' => 'proposition',
+                'ballots' => $ballots,
+                'languages' => $languages,
+                'countries' => $countries,
+                'propositions' => $propositions
+            ]);
         } else {
             return redirect('/');
         }
+    }
+
+    public function getPropOfBallot($ballot_id, $prop_type) {
+        $Api = new ApiController;
+        $api_url = env('API').'/proposition';
+        $param = 'ballot_id='.$ballot_id.'&prop_type='.$prop_type;
+
+        $response = $Api->getParamApi($api_url, $param);
+        return $response;
+    }
+
+    public function createProposition(Request $request){
+        $ballot_id = $request->ballot_id;
+        $data = array(
+            "ballot_id" => $request->ballot_id,
+            "prop_name" => $request->prop_name,
+            "prop_title" => $request->prop_title,
+            "prop_text" => $request->prop_text,
+            "prop_answer_type" => $request->prop_answer_type,
+            "prop_location_id" => $request->prop_location_id,
+            "prop_lang_id" => $request->prop_lang_id,
+            "prop_type" => $request->prop_type
+        );
+        $data = json_encode($data);
+        $api = env('API').'/proposition/create';
+
+        $BaseController = new BaseController;
+        return $BaseController->createData($data, $api);
+    }
+
+    public function getOneProp(Request $request) {
+        $prop_id = $request->prop_id;
+        $Api = new ApiController;
+        $api_url = env('API').'/proposition';
+        $param = 'proposition_id='.$prop_id;
+
+        $race = $Api->getParamApi($api_url, $param);
+        $race = json_encode($race);
+
+        return $race;
+    }
+
+    public function updateProposition(Request $request) {
+        $prop_id = array('proposition_id' => $request->prop_id);
+        $data = array(
+            "prop_name" => $request->prop_name,
+            "prop_title" => $request->prop_title,
+            "prop_text" => $request->prop_text,
+            "prop_answer_type" => $request->prop_answer_type,
+            "prop_location_id" => $request->prop_location_id,
+            "prop_lang_id" => $request->prop_lang_id,
+            "prop_type" => $request->prop_type,
+            'keys' => $prop_id
+        );
+        $data = json_encode($data);
+        $api = env('API').'/proposition/update';
+
+        $BaseController = new BaseController;
+        return $BaseController->updateData($data, $api);
+    }
+
+    public function getChangedProps(Request $request) {
+        $BallotController = new BallotController;
+        $LanguageController = new LanguageController;
+        $CountryController = new CountryController;
+
+        $ballots = $BallotController->getActiveBallot();
+
+        if(empty($ballots->data)) {
+            $languages = trim(' ');
+            $countries = trim(' ');
+            $propositions = trim(' ');
+        } else {
+            $ballot_id = $request->ballot_id;
+            $prop_type = $request->prop_type;
+            $languages = $LanguageController->getLangOfBallot($ballot_id);
+            $countries = $CountryController->getCountryOfBallot($ballot_id);
+            $propositions = $this->getPropOfBallot($ballot_id, $prop_type);
+        }
+        
+        return view('propsTable')->with([
+            'ballots' => $ballots,
+            'languages' => $languages,
+            'countries' => $countries,
+            'propositions' => $propositions
+        ]);
     }
 }
