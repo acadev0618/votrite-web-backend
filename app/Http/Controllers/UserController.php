@@ -52,7 +52,6 @@ class UserController extends Controller {
             'user_name' => $request->user_name,
             'display_name' => $request->display_name,
             'user_email' => $request->user_email,
-            'user_password' => $request->user_password,
             'user_avatar' => $photo_link,
             'keys' => $user_id
         );

@@ -3,7 +3,7 @@
     <thead>
         <tr>
             <th class="table-checkbox">
-                <input type="checkbox" class="group-checkable" data-set="#party_table .checkboxes"/>
+                <input type="checkbox" class="group-checkable" data-set="#party_table .checkboxes" style="width: 17px; height: 17px;"/>
             </th>
             <th class="table-no">
                 No
@@ -27,7 +27,7 @@
             @foreach($parties->data as $party)
             <tr class="odd gradeX">
                 <td>
-                    <input type="checkbox" class="checkboxes" data-id="{{ $party->party_id }}"/>
+                    <input type="checkbox" class="checkboxes" data-id="{{ $party->party_id }}" style="width: 17px; height: 17px;"/>
                 </td>
                 <td>
                     {{ $loop->index+1 }}
@@ -36,7 +36,7 @@
                     {{ $party->party_name }}
                 </td>
                 <td style="text-center">
-                    <img src="{{ $party->party_logo }}" style="width: 60px;">
+                    <img src="{{ $party->party_logo }}" width="60" height="60">
                 </td>
                 <td>
                     <a class="previewPartyModal" data-toggle="modal" data-id="{{ $party->party_id }}"><i class="fa fa-eye" data-toggle="tooltip" title="Preview"></i></a>
@@ -72,11 +72,11 @@
             </div>
             <div class="modal-footer">
             <input type="text" id="ballot_id" name="ballot_id" hidden/>
-                <button type="button" class="btn btn-warning" data-dismiss="modal">
-                    <span class='glyphicon glyphicon-remove'></span> Close
-                </button>
                 <button type="submit" class="btn btn-success addInvoice">
                     <span id="" class='glyphicon glyphicon-check'></span> Add
+                </button>
+                <button type="button" class="btn btn-warning" data-dismiss="modal">
+                    <span class='glyphicon glyphicon-remove'></span> Close
                 </button>
             </div>
         </form>
@@ -106,11 +106,11 @@
             <div class="modal-footer">
             <input type="text" name="ballot_id" id="edit_ballot_id" hidden>
             <input type="text" name="party_id" id="edit_party_id" hidden>
+                <button type="submit" class="btn btn-success addInvoice">
+                    <span id="" class='glyphicon glyphicon-check'></span> Save
+                </button>
                 <button type="button" class="btn btn-warning" data-dismiss="modal">
                     <span class='glyphicon glyphicon-remove'></span> Close
-                </button>
-                <button type="submit" class="btn btn-success addInvoice">
-                    <span id="" class='glyphicon glyphicon-check'></span> Edit
                 </button>
             </div>
         </form>
@@ -161,11 +161,11 @@
 			<input type="text" class="target_id" name="target_id" hidden />
 			<input type="text" class="api" name="api" hidden />
 
-			<button type="button" class="btn btn-warning" data-dismiss="modal">
-				<span class='glyphicon glyphicon-remove'></span> Close
-			</button>
 			<button type="submit" class="btn btn-danger delete">
 				<i class="fa fa-trash-o"></i> Delete
+			</button>
+			<button type="button" class="btn btn-warning" data-dismiss="modal">
+				<span class='glyphicon glyphicon-remove'></span> Close
 			</button>
 		</form>
     </div>
@@ -187,12 +187,12 @@
 			<input type="text" class="id" name="id" hidden />
 			<input type="text" class="api" name="api" hidden />
 
-			<button type="button" class="btn btn-warning" data-dismiss="modal">
-                    <span class='glyphicon glyphicon-remove'></span> Close
-                </button>
 			<button type="submit" class="btn btn-danger delete">
 				<i class="fa fa-trash-o"></i> Delete
 			</button>
+			<button type="button" class="btn btn-warning" data-dismiss="modal">
+                <span class='glyphicon glyphicon-remove'></span> Close
+            </button>
 		</form>
     </div>
 </div>

@@ -17,32 +17,26 @@
 					<div class="portlet-body">
 						<div class="table-toolbar">
 							<div class="row">
-								<div class="col-md-9 select_options">
+								<div class="col-md-6 select_options">
 									<div class="col-md-4 form-group">
 										<label class="col-sm-2 control-label select_name">Ballot:</label>
 										<div class="col-sm-10">
-											<select class="form-control" name="ballot_id">
+											<select class="form-control" name="country_ballot_option" id="country_ballot_option">
 												<option>Rochdale Vilage Election</opiton>
 												<option>Rochdale Vilage Election</opiton>
 												<option>Rochdale Vilage Election</opiton>
 											</select>
 										</div>
 									</div>
-									<div class="col-md-4 form-group">
+									<div class="col-md-6 form-group">
 										<label class="col-sm-2 control-label select_name">State:</label>
 										<div class="col-sm-10">
-											<select class="form-control" name="location_id">
+											<select class="form-control" name="country_state_option" id="country_state_option">
 												<option>AR</opiton>
 												<option>AR</opiton>
 												<option>AR</opiton>
 											</select>
 										</div>
-									</div>
-								</div>
-								<div class="col-md-3">
-									<div class="btn-group ballot-actions">
-										<button href="#addCountryModal" class="btn btn-primary" data-toggle="modal"><i class="fa fa-plus-circle"></i> <span>  Add Country</span></button>
-										<button href="#deleteCountrisModal" class="btn btn-danger" data-toggle="modal" style="margin-left: 10px;"><i class="fa fa-minus-circle"></i> <span>  Delete Countries</span></button>
 									</div>
 								</div>
 							</div>
@@ -297,7 +291,7 @@
             </div>
             <div class="modal-footer">
                 <button type="submit" class="btn btn-success addInvoice">
-                    <span id="" class='glyphicon glyphicon-check'></span> Edit
+                    <span id="" class='glyphicon glyphicon-check'></span> Save
                 </button>
                 <button type="button" class="btn btn-warning" data-dismiss="modal">
                     <span class='glyphicon glyphicon-remove'></span> Close
@@ -442,8 +436,8 @@
         <p class="text-warning"><small>This action cannot be undone.</small></p>
     </div>
     <div class="modal-footer">
-        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
         <input type="submit" class="btn btn-danger" value="Delete">
+        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
     </div>
 </div>
 @endsection

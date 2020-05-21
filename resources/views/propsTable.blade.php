@@ -3,7 +3,7 @@
 	<thead>
 		<tr>
 			<th class="table-checkbox">
-				<input type="checkbox" class="group-checkable" data-set="#proposition_table .checkboxes"/>
+				<input type="checkbox" class="group-checkable" data-set="#proposition_table .checkboxes" style="width: 17px; height: 17px;"/>
 			</th>
 			<th class="table-no">
 				No
@@ -30,7 +30,7 @@
 			@foreach($propositions->data as $prop)
 			<tr class="odd gradeX">
 				<td>
-					<input type="checkbox" class="checkboxes" value="1" data-id="{{ $prop->proposition_id }}"/>
+					<input type="checkbox" class="checkboxes" value="1" data-id="{{ $prop->proposition_id }}" style="width: 17px; height: 17px;"/>
 				</td>
 				<td>
 					{{ $loop->index+1 }}
@@ -126,11 +126,11 @@
             <div class="modal-footer">
 				<input type="text" name="ballot_id" id="ballot_id" hidden />
 				<input type="text" name="prop_type" value="P" hidden />
-                <button type="button" class="btn btn-warning" data-dismiss="modal">
-                    <span class='glyphicon glyphicon-remove'></span> Close
-                </button>
                 <button type="submit" class="btn btn-success" id="add">
                     <span class="glyphicon glyphicon-check"></span> Add
+                </button>
+                <button type="button" class="btn btn-warning" data-dismiss="modal">
+                    <span class='glyphicon glyphicon-remove'></span> Close
                 </button>
             </div>
         </form>
@@ -202,11 +202,11 @@
             </div>
             <div class="modal-footer">
                 <input type="text" id="edit_prop_id" name="prop_id" hidden>
+                <button type="submit" class="btn btn-success addInvoice">
+                    <span id="" class='glyphicon glyphicon-check'></span> Save
+                </button>
                 <button type="button" class="btn btn-warning" data-dismiss="modal">
                     <span class='glyphicon glyphicon-remove'></span> Close
-                </button>
-                <button type="submit" class="btn btn-success addInvoice">
-                    <span id="" class='glyphicon glyphicon-check'></span> Edit
                 </button>
             </div>
         </form>
@@ -300,11 +300,11 @@
 			<input type="text" class="target_id" name="target_id" hidden />
 			<input type="text" class="api" name="api" hidden />
 
-			<button type="button" class="btn btn-warning" data-dismiss="modal">
-				<span class='glyphicon glyphicon-remove'></span> Close
-			</button>
 			<button type="submit" class="btn btn-danger delete">
 				<i class="fa fa-trash-o"></i> Delete
+			</button>
+			<button type="button" class="btn btn-warning" data-dismiss="modal">
+				<span class='glyphicon glyphicon-remove'></span> Close
 			</button>
 		</form>
     </div>
@@ -326,12 +326,12 @@
 			<input type="text" class="id" name="id" hidden />
 			<input type="text" class="api" name="api" hidden />
 
-			<button type="button" class="btn btn-warning" data-dismiss="modal">
-                    <span class='glyphicon glyphicon-remove'></span> Close
-                </button>
 			<button type="submit" class="btn btn-danger delete">
 				<i class="fa fa-trash-o"></i> Delete
 			</button>
+			<button type="button" class="btn btn-warning" data-dismiss="modal">
+                <span class='glyphicon glyphicon-remove'></span> Close
+            </button>
 		</form>
     </div>
 </div>

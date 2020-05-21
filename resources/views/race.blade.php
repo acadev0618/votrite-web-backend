@@ -234,11 +234,11 @@
                 </div>
                 <div class="modal-footer">
                     <input type="text" id="ballot_id" name="ballot_id" hidden />
+                    <button type="submit" class="btn btn-success add">
+                        <span id="" class='glyphicon glyphicon-check'></span> Add
+                    </button>
                     <button type="button" class="btn btn-warning" data-dismiss="modal">
                         <span class='glyphicon glyphicon-remove'></span> Close
-                    </button>
-                    <button type="submit" class="btn btn-success add">
-                        <span id="" class='glyphicon glyphicon-check'></span> Save
                     </button>
                 </div>
             </form>
@@ -481,11 +481,11 @@
                 </div>
                 <div class="modal-footer">
                     <input type="text" id="edit_race_id" name="race_id" hidden>
+                    <button type="submit" class="btn btn-success addInvoice">
+                        <span id="" class='glyphicon glyphicon-check'></span> Save
+                    </button>
                     <button type="button" class="btn btn-warning" data-dismiss="modal">
                         <span class='glyphicon glyphicon-remove'></span> Close
-                    </button>
-                    <button type="submit" class="btn btn-success addInvoice">
-                        <span id="" class='glyphicon glyphicon-check'></span> Edit
                     </button>
                 </div>
             </form>
@@ -508,11 +508,11 @@
                 <input type="text" class="target_id" name="target_id" hidden />
                 <input type="text" class="api" name="api" hidden />
 
-                <button type="button" class="btn btn-warning" data-dismiss="modal">
-                    <span class='glyphicon glyphicon-remove'></span> Close
-                </button>
                 <button type="submit" class="btn btn-danger delete">
                     <i class="fa fa-trash-o"></i> Delete
+                </button>
+                <button type="button" class="btn btn-warning" data-dismiss="modal">
+                    <span class='glyphicon glyphicon-remove'></span> Close
                 </button>
             </form>
         </div>
@@ -534,11 +534,11 @@
                 <input type="text" class="id" name="id" hidden />
                 <input type="text" class="api" name="api" hidden />
                 
-                <button type="button" class="btn btn-warning" data-dismiss="modal">
-                    <span class='glyphicon glyphicon-remove'></span> Close
-                </button>
                 <button type="submit" class="btn btn-danger delete">
                     <i class="fa fa-trash-o"></i> Delete
+                </button>
+                <button type="button" class="btn btn-warning" data-dismiss="modal">
+                    <span class='glyphicon glyphicon-remove'></span> Close
                 </button>
             </form>
         </div>

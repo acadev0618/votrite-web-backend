@@ -9,12 +9,40 @@ class BallotController extends Controller {
 
     public function index() {
         if(Session::get('display_name')) {
-            $response = $this->getActiveBallot();
+            $ballots = $this->getActiveBallot();
 
-            return view('ballot')->with(['ballots' => $response, 'sliderAction' => 'manage', 'subAction' => 'ballot']);
+            return view('ballot')->with([
+                'ballots' => $ballots, 
+                'sliderAction' => 'manage', 
+                'subAction' => 'ballot'
+            ]);
         } else {
             return redirect('/');
         }
+    }
+
+    public function getAllBallots() {
+        $api_url = env('API').'/ballot';
+
+        $Api = new ApiController;
+        $response = $Api->getApi($api_url);
+
+        return $response;
+    }
+
+    public function changeBallotActive(Request $request) {
+        $ballot_id = array('ballot_id' => $request->ballot_id);
+        $data = array(
+            "is_delete" => $request->is_deleted,
+            'keys' => $ballot_id
+        );
+        $data = json_encode($data);
+        $api = env('API').'/ballot/update';
+
+        $Api = new ApiController;
+        $response = $Api->postApi($data, $api);
+
+        return json_encode($response);
     }
 
     public function getActiveBallot() {
@@ -128,5 +156,18 @@ class BallotController extends Controller {
         );
 
         return back()->with($notification);
+    }
+
+    public function getChangedBallot(Request $request) {
+        $state = $request->state;
+        if($state == '1') {
+            $ballots = $this->getActiveBallot();
+        } else {
+            $ballots = $this->getAllBallots();
+        }
+
+        return view('ballotTable')->with([
+            'ballots' => $ballots
+        ]);
     }
 }

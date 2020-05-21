@@ -33,6 +33,8 @@ Route::post('/createBallot', 'BallotController@createBallot')->name('request');
 Route::post('/updateBallot', 'BallotController@updateBallot')->name('request');
 Route::post('/deleteBallot', 'BallotController@deleteBallot')->name('request');
 Route::post('/deleteBallots', 'BallotController@deleteBallots')->name('request');
+Route::post('/changeBallotActive', 'BallotController@changeBallotActive')->name('request');
+Route::post('/getChangedBallot', 'BallotController@getChangedBallot')->name('request');
 
 Route::post('/createRace', 'RaceController@createRace')->name('request');
 Route::post('/updateRace', 'RaceController@updateRace')->name('request');
@@ -60,3 +62,6 @@ Route::post('/createVoter', 'VoterController@createVoter')->name('request');
 Route::post('/getOneVoter', 'VoterController@getOneVoter')->name('request');
 Route::post('/updateVoter', 'VoterController@updateVoter')->name('request');
 Route::post('/verifiyVoter', 'VoterController@verifiyVoter')->name('request');
+
+Route::post('/getChangedLangs', 'LanguageController@getChangedLangs')->name('request');
+Route::post('/setAvalBallotLang', 'LanguageController@setAvalBallotLang')->name('request');
