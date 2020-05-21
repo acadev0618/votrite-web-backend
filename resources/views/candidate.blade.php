@@ -55,7 +55,7 @@
 											<option value="-1">No Language</option>
 											@else
 												@foreach($languages->data as $lang)
-												<option value="{{ $lang->ballot_lang_id }}">{{ $lang->language_name }}</option>
+												<option value="{{ $lang->lang_id }}">{{ $lang->language_name }}</option>
 												@endforeach
 											@endif
 											</select>
@@ -75,7 +75,7 @@
 								<thead>
 									<tr>
 										<th class="table-checkbox">
-											<input type="checkbox" class="group-checkable" data-set="#candidate_table .checkboxes"/>
+											<input type="checkbox" class="group-checkable changed_sel" data-set="#candidate_table .checkboxes"/>
 										</th>
 										<th class="table-no">
 											No
@@ -107,7 +107,7 @@
 											@foreach($candidates->data as $candidate)
 											<tr class="odd gradeX">
 												<td>
-													<input type="checkbox" class="checkboxes" value="1" data-id="{{ $candidate->candidate_id }}"/>
+													<input type="checkbox" class="checkboxes changed_sel" value="1" data-id="{{ $candidate->candidate_id }}"/>
 												</td>
 												<td>
 													{{ $loop->index+1 }}
@@ -165,18 +165,22 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-3" for="title">Email:</label>
-                <div class="col-sm-9">
+                <label class="control-label col-sm-4" for="title">Email:</label>
+                <div class="col-sm-8">
                     <input type="email" class="form-control" name="email" required>
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-3" for="title">Party:</label>
-                <div class="col-sm-9">
-                    <select class="form-control" name="party_id">
-					@foreach($parties->data as $party)
-						<option value="{{ $party->party_id }}">{{ $party->party_name }}</opiton>
-					@endforeach
+                <label class="control-label col-sm-4" for="title">Party:</label>
+                <div class="col-sm-8">
+                    <select class="form-control" name="party_id" id="add_cand_party">
+					@if(empty($parties->data))
+						<option value="-1">No Party</opiton>
+					@else
+						@foreach($parties->data as $party)
+							<option value="{{ $party->party_id }}">{{ $party->party_name }}</opiton>
+						@endforeach
+					@endif
 					</select>
                 </div>
             </div>
@@ -184,6 +188,7 @@
 				<input type="text" name="ballot_id" id="ballot_id" hidden/>
 				<input type="text" name="race_id" id="race_id" hidden/>
 				<input type="text" name="lang_id" id="lang_id" hidden/>
+
                 <button type="submit" class="btn btn-success addInvoice">
                     <span id="" class='glyphicon glyphicon-check'></span> Add
                 </button>
@@ -225,9 +230,13 @@
                 <label class="control-label col-sm-4" for="title">Party:</label>
                 <div class="col-sm-8">
                     <select class="form-control" name="edit_party_id" id="edit_party_id">
-					@foreach($parties->data as $party)
-						<option value="{{ $party->party_id }}">{{ $party->party_name }}</opiton>
-					@endforeach
+					@if(empty($parties->data))
+						<option value="-1">No Party</opiton>
+					@else
+						@foreach($parties->data as $party)
+							<option value="{{ $party->party_id }}">{{ $party->party_name }}</opiton>
+						@endforeach
+					@endif
 					</select>
                 </div>
             </div>
@@ -283,9 +292,13 @@
 					<label class="control-label col-sm-3" for="title">Party:</label>
 					<div class="col-sm-9">
 						<select class="form-control" id="party_id" readonly>
+					@if(empty($parties->data))
+						<option value="-1">No Party</opiton>
+					@else
 						@foreach($parties->data as $party)
-							<option value="{{ $party->party_id }}" disabled>{{ $party->party_name }}</opiton>
+							<option value="{{ $party->party_id }}">{{ $party->party_name }}</opiton>
 						@endforeach
+					@endif
 						</select>
 					</div>
 				</div>
@@ -351,16 +364,16 @@
     </div>
 </div>
 
-<div id="confirmModal" class="modal fade" tabindex="-1" data-width="320">
+<div id="candConfirmModal" class="modal fade" tabindex="-1" data-width="320">
 	<div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal">×</button>
+		<button type="button" class="close modal_hide">×</button>
 		<h4 class="modal-title text-center">Confirm</h4>
 	</div>
 	<div class="modal-body">					
 		<p class="modal_content">Please select porpositions.</p>
 	</div>
 	<div class="modal-footer">
-		<button type="button" class="btn btn-warning" data-dismiss="modal">
+		<button type="button" class="btn btn-warning modal_hide">
 			<span class='glyphicon glyphicon-remove'></span> Close
 		</button>
 	</div>

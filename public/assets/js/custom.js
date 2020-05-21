@@ -848,21 +848,22 @@ var TableManaged = function () {
             var ballot_id = $('#cand_ballot_name').val();
             var race_id = $('#cand_race_name').val();
             var lang_id = $('#cand_lang_name').val();
-            var confirmModal = $('#confirmModal');
+            var party_id = $('#add_cand_party').val();
+            var confirmModal = $('#candConfirmModal');
             var addModal = $('#addCandidateModal');
 
             addModal.find('#ballot_id').val(ballot_id);
             addModal.find('#race_id').val(race_id);
             addModal.find('#lang_id').val(lang_id);
             
-            if(ballot_id == -1) {
-                confirmModal.find('.modal_content').text("Please make ballot, first.");
+            if(ballot_id < 0) {
+                confirmModal.find('.modal_content').text("There aren't any ballots. Please make the ballot, first.");
                 confirmModal.modal('show');
-            } else if(race_id == -1) {
-                confirmModal.find('.modal_content').text("Please make race, first.");
+            } else if(race_id < 0) {
+                confirmModal.find('.modal_content').text("There aren't any races in this ballot. Please make the race, first.");
                 confirmModal.modal('show');
-            } else if(lang_id == -1) {
-                confirmModal.find('.modal_content').text("Please make language, first.");
+            } else if(party_id < 0) {
+                confirmModal.find('.modal_content').text("There aren't any parties in this ballot. Please make the party, first.");
                 confirmModal.modal('show');
             } else {
                 addModal.modal('show');
@@ -878,7 +879,7 @@ var TableManaged = function () {
             });
 
             if(allVals.length <= 0) {
-                var confrim = $('#confirmModal');
+                var confrim = $('#candConfirmModal');
                 confrim.modal('show');
             } else {
                 modal.modal('show');
@@ -890,6 +891,12 @@ var TableManaged = function () {
                 modal.find('.ids').val(ids);
                 modal.find('.api').val(api);
             }
+        });
+
+        var confirmModal = $('#candConfirmModal');
+        confirmModal.find('.modal_hide').click(function(){
+            confirmModal.modal('hide');
+            confirmModal.find('.modal_content').text('Please select porpositions.');
         });
 
         $('.previewCandidateModal').click(function(){
@@ -960,7 +967,6 @@ var TableManaged = function () {
 
         $('#cand_ballot_name').change(function(){
             var ballot_id = $(this).val();
-            var res = "";
 
             $.ajax({
                 headers: {
@@ -1005,8 +1011,9 @@ var TableManaged = function () {
                     $('#deleteCandidatesModal').remove();
                     $('#confirmModal').remove();
                     $('#change_table').html(response);
-    
+
                     var table = $('#candidate_table');
+
                     table.dataTable({
                         "language": {
                             "aria": {
@@ -1070,21 +1077,22 @@ var TableManaged = function () {
                         var ballot_id = $('#cand_ballot_name').val();
                         var race_id = $('#cand_race_name').val();
                         var lang_id = $('#cand_lang_name').val();
-                        var confirmModal = $('#confirmModal');
+                        var party_id = $('#add_cand_party').val();
+                        var confirmModal = $('#candConfirmModal');
                         var addModal = $('#addCandidateModal');
 
                         addModal.find('#ballot_id').val(ballot_id);
                         addModal.find('#race_id').val(race_id);
                         addModal.find('#lang_id').val(lang_id);
                         
-                        if(ballot_id == -1) {
-                            confirmModal.find('.modal_content').text("Please make ballot, first.");
+                        if(ballot_id < 0) {
+                            confirmModal.find('.modal_content').text("There aren't any ballots. Please make the ballot, first.");
                             confirmModal.modal('show');
-                        } else if(race_id == -1) {
-                            confirmModal.find('.modal_content').text("Please make race, first.");
+                        } else if(race_id < 0) {
+                            confirmModal.find('.modal_content').text("There aren't any races in this ballot. Please make the race, first.");
                             confirmModal.modal('show');
-                        } else if(lang_id == -1) {
-                            confirmModal.find('.modal_content').text("Please make language, first.");
+                        } else if(party_id < 0) {
+                            confirmModal.find('.modal_content').text("There aren't any parties in this ballot. Please make the party, first.");
                             confirmModal.modal('show');
                         } else {
                             addModal.modal('show');
@@ -1100,7 +1108,7 @@ var TableManaged = function () {
                         });
 
                         if(allVals.length <= 0) {
-                            var confrim = $('#confirmModal');
+                            var confrim = $('#candConfirmModal');
                             confrim.modal('show');
                         } else {
                             modal.modal('show');
@@ -1112,6 +1120,12 @@ var TableManaged = function () {
                             modal.find('.ids').val(ids);
                             modal.find('.api').val(api);
                         }
+                    });
+
+                    var confirmModal = $('#candConfirmModal');
+                    confirmModal.find('.modal_hide').click(function(){
+                        confirmModal.modal('hide');
+                        confirmModal.find('.modal_content').text('Please select porpositions.');
                     });
 
                     $('.previewCandidateModal').click(function(){

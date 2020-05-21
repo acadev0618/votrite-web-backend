@@ -14,22 +14,19 @@ class CandidateController extends Controller {
             $LanguageController = new LanguageController;
 
             $ballots = $BallotController->getActiveBallot();
-            
             if(empty($ballots->data)) {
                 $races = trim(' ');
-                $languages = trim(' ');
-                $candidates = trim(' ');
                 $parties = trim(' ');
+                $candidates = trim(' ');
+                $languages = trim(' ');
             } else {
                 $ballot_id = $ballots->data[0]->ballot_id;
                 $races = $RaceController->getRaceOfBallot($ballot_id);
                 $parties = $PartyController->getPartyOfBallot($ballot_id);
+                $languages = $LanguageController->getLangOfBallot($ballot_id);
                 if(empty($races->data)) {
-                    $languages = trim(' ');
                     $candidates = trim(' ');
-                    $parties = trim(' ');
                 } else {
-                    $languages = $LanguageController->getLangOfBallot($ballot_id);
                     $race_id = $races->data[0]->race_id;
                     $candidates = $this->getCandidateOfRace($race_id);
                 }
@@ -73,10 +70,9 @@ class CandidateController extends Controller {
             "party_id" => $request->party_id,
             "lang_id" => $request->lang_id
         );
-        
         $data = json_encode($data);
         $api = env('API').'/candidate/create';
-
+        
         $BaseController = new BaseController;
         return $BaseController->createData($data, $api);
     }
@@ -118,30 +114,26 @@ class CandidateController extends Controller {
     public function getChangedCand(Request $request) {
         $BallotController = new BallotController;
         $RaceController = new RaceController;
-        $LanguageController = new LanguageController;
         $PartyController = new PartyController;
+        $LanguageController = new LanguageController;
 
         $ballots = $BallotController->getActiveBallot();
-        
         if(empty($ballots->data)) {
             $races = trim(' ');
-            $languages = trim(' ');
-            $candidates = trim(' ');
             $parties = trim(' ');
+            $candidates = trim(' ');
+            $languages = trim(' ');
         } else {
             $ballot_id = $request->ballot_id;
             $races = $RaceController->getRaceOfBallot($ballot_id);
             $parties = $PartyController->getPartyOfBallot($ballot_id);
+            $languages = $LanguageController->getLangOfBallot($ballot_id);
             if(empty($races->data)) {
-                $languages = trim(' ');
                 $candidates = trim(' ');
-                $parties = trim(' ');
             } else {
-                $languages = $LanguageController->getLangOfBallot($ballot_id);
                 $race_id = $races->data[0]->race_id;
                 $candidates = $this->getCandidateOfRace($race_id);
             }
-            // return json_encode($candidates);
         }
 
         return view('candidateTable')->with([
