@@ -3,6 +3,7 @@
         <div class="page-logo">
             <a href="{{ asset('/dashboard') }}">
                 <img src="{{ asset('assets/img/favicon_white.png') }}" alt="logo" class="logo-default"/>
+                <input id='userid' type="hidden" value={{$userid}} class="form-control"/>
             </a>
             <div class="menu-toggler sidebar-toggler hide"></div>
         </div>
@@ -17,12 +18,12 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-default">
                         <li>
-                            <a href="#">
+                            <a href="#changepwd">
                                 <i class="icon-user"></i> My Profile
                             </a>
                         </li>
                         <li>
-                            <a href="#">
+                            <a data-toggle="modal" href="#changepwd">
                                 <i class="fa fa-cog"></i> Change Password
                             </a>
                         </li>

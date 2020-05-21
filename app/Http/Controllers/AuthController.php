@@ -51,15 +51,29 @@ class AuthController extends Controller {
                 'user_id' => $response->data[0]->user_id
             );
 
-            Session::put(['display_name' => $data['display_name'], 'avatar' => $data['user_avatar']]);
+            Session::put([
+                'display_name' => $data['display_name'], 
+                'avatar' => $data['user_avatar'], 
+                'user_id' => $data['user_id']
+            ]);
             $message = 'Welcome to '.$data['display_name'].' !';
             return redirect('/dashboard')->with(['message' => $message, 'data' => $data]);
         }
     }
 
     public function logout() {
-        session()->forget('display_name', 'avatar');
+        session()->forget('display_name', 'avatar', 'user_id');
         session()->flush();
         return redirect('/');
+    }
+
+    public function profile(Request $request, $id){
+
+        return view('auth.profile')->with(['sliderAction' => 'dashboard', 'subAction' => '', 'userid' => $id]);
+    }
+
+    public function changepwd(Request $request, $id){
+
+        return view('auth.changepwd')->with(['sliderAction' => 'dashboard', 'subAction' => '', 'userid' => $id]);
     }
 }

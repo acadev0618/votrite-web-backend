@@ -133,6 +133,32 @@
     </div>
 </div>
 
+<div id="changepwd" class="modal fade" tabindex="-1" data-width="620">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h4 class="modal-title">Change Password</h4>
+    </div>
+    <div class="modal-body">
+        <form action="#">
+            <div class="form-group">
+                <label class="control-label">Current Password</label>
+                <input id='currentpwd' type="password" class="form-control"/>
+            </div>
+            <div class="form-group">
+                <label class="control-label">New Password</label>
+                <input id='newpwd' type="password" class="form-control"/>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Re-type New Password</label>
+                <input id='rnewpwd' type="password" class="form-control"/>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <a id="changebtn" class="btn green-haze">Change Password </a>
+        <a id="reset" class="btn default"> Cancel </a>
+    </div>
+</div>
 <div id="addLanguageModal" class="modal fade" tabindex="-1" data-width="620">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">×</button>
@@ -289,4 +315,52 @@
         </form>
     </div>
 </div>
+@endsection
+@section('script')
+<script>
+    $('#changebtn').click(function(){
+        const csrfToken = document.head.querySelector("[name~=csrf-token][content]").content;
+        const baseurl = document.head.querySelector("[name~=baseurl][content]").content;
+        var userid = $('#userid').val();
+        var newpwd = $('#newpwd').val();
+        var rnewpwd = $('#rnewpwd').val();
+        if(newpwd == rnewpwd && newpwd != ''){
+
+            let order = {
+                "user_password": newpwd,
+                "keys": {"user_id":parseInt(userid)}
+            }
+            console.log(order);
+            fetch(baseurl+'user/update', {
+                mode: 'no-cors',
+                method: 'post',
+                body: JSON.stringify(order),
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*',
+                    "X-CSRF-Token": csrfToken
+                }
+            })
+            .then(response => {
+                // console.log(response);
+                toastr.success("Password Changed");
+                window.location.href='/logout';
+                return response;
+            })
+            .then(text => {
+                return console.log(text);
+            })
+            .catch(error => console.error(error));
+        }else{
+            toastr.warning("Please re-enter password");
+        }
+        
+    });
+    $('#reset').click(function(){
+        $('#currentpwd').val(null);
+        $('#newpwd').val(null);
+        $('#rnewpwd').val(null);
+    });
+</script>
 @endsection

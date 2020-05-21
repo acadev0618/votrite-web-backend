@@ -15,6 +15,11 @@ Route::get('/users', 'UserController@index')->name('request');
 Route::get('/party', 'PartyController@index')->name('request');
 Route::get('/logout', 'AuthController@logout')->name('request');
 
+////////////////////////////////
+Route::get('/profile/{id}', 'AuthController@profile')->name('profile');
+Route::get('/changepwd/{id}', 'AuthController@changepwd')->name('changepwd');
+///////////////////////////////
+
 Route::post('/deleteData', 'BaseController@deleteData')->name('request');
 Route::post('/mutiDeleteData', 'BaseController@mutiDeleteData')->name('request');
 

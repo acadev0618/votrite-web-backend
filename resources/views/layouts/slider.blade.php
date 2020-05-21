@@ -112,6 +112,46 @@
                     <span class="selected"></span>
                 </a>
             </li>
+            @if($sliderAction == "result")
+            <li class="active open">
+            @else
+            <li>
+            @endif
+                <a href="#">
+                    <i class="icon-briefcase"></i>
+                    <span class="title">Result</span>
+                    <span class="arrow open"></span>
+                    <span class="selected"></span>
+                </a>
+                <ul class="sub-menu manage_ul">
+                    @if($subAction == "candidate")
+                    <li class="active">
+                    @else
+                    <li>
+                    @endif
+                        <a href="{{ asset('/candidateresult') }}">
+                        Candidate</a>
+                    </li>
+
+                    @if($subAction == "proposition")
+                    <li class="active">
+                    @else
+                    <li>
+                    @endif
+                        <a href="{{ asset('/propositionresult') }}">
+                        Proposition</a>
+                    </li>
+
+                    @if($subAction == "ballotresult")
+                    <li class="active">
+                    @else
+                    <li>
+                    @endif
+                        <a href="{{ asset('/ballotresult') }}">
+                        Ballot Result</a>
+                    </li>
+                </ul>
+            </li>
         </ul>
     </div>
 </div>
