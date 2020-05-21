@@ -1,5 +1,5 @@
-var api_url = "http://ec2-54-82-83-93.compute-1.amazonaws.com:9191/api";
-var base_url="http://ec2-54-82-83-93.compute-1.amazonaws.com";
+var api_url = "http://ec2-3-90-78-113.compute-1.amazonaws.com:9191/api";
+var base_url="http://ec2-3-90-78-113.compute-1.amazonaws.com";
 
 var TableManaged = function () {
 
