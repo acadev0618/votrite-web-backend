@@ -337,7 +337,7 @@
     </div>
 </div>
 
-<div id="deleteMassPropositionsModal" class="modal fade" tabindex="-1" data-width="520">
+<div id="deleteMassPropositionsModal" class="modal fade" tabindex="-1" data-width="420">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">×</button>
         <h4 class="modal-title">Delete Propositions</h4>
@@ -363,7 +363,7 @@
     </div>
 </div>
 
-<div id="deleteMassPropositionModal" class="modal fade" tabindex="-1" data-width="520">
+<div id="deleteMassPropositionModal" class="modal fade" tabindex="-1" data-width="420">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">×</button>
         <h4 class="modal-title">Delete The Proposition</h4>

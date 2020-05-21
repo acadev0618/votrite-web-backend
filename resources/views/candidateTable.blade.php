@@ -219,7 +219,7 @@
     </div>
 </div>
 
-<div id="deleteCandidatesModal" class="modal fade" tabindex="-1" data-width="520">
+<div id="deleteCandidatesModal" class="modal fade" tabindex="-1" data-width="420">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">×</button>
         <h4 class="modal-title">Delete Candidates</h4>
@@ -245,7 +245,7 @@
     </div>
 </div>
 
-<div id="deleteCandidateModal" class="modal fade" tabindex="-1" data-width="520">
+<div id="deleteCandidateModal" class="modal fade" tabindex="-1" data-width="420">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">×</button>
         <h4 class="modal-title">Delete The Candidate</h4>
