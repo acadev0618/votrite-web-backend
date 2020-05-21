@@ -33,9 +33,28 @@
 				</td>
 				<td class="text-center">
 					@if(empty($ballot_languages->data))
-						<input type="checkbox" class="form-control changed_sel" id="aval_ballot_lang" name="aval_ballot_lang" data-id="{{ $language->language_id }}" style="margin-left: 30px;">
+						<input type="checkbox" class="form-control changed_sel" id="aval_ballot_lang" name="aval_ballot_lang" data-id="{{ $language->language_id }}" style="margin-left: 32px">
 					@else
-						<input type="checkbox" checked="checked" class="form-control changed_sel" id="aval_ballot_lang" name="aval_ballot_lang" data-id="{{ $language->language_id }}" style="margin-left: 30px;">
+						@foreach($ballot_languages->data as $ballot_language)
+							@if($ballot_language->lang_id == $language->language_id)
+								<?php $flag = 1;?>
+								@break
+							@else
+								<?php $flag = -1;?>
+							@endif
+						@endforeach
+						<?php 
+							if($flag > 0) {
+						?>
+							<input type="checkbox" checked="checked" class="form-control changed_sel" id="aval_ballot_lang" name="aval_ballot_lang" data-id="{{ $language->language_id }}" style="margin-left: 32px">
+						<?php 
+							} else if($flag < 0) {
+						?>
+							<input type="checkbox" class="form-control changed_sel" id="aval_ballot_lang" name="aval_ballot_lang" data-id="{{ $language->language_id }}" style="margin-left: 32px">
+						<?php 
+							}
+							$flag = 0;
+						?>
 					@endif
 				</td>
 			</tr>

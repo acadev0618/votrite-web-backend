@@ -94,14 +94,13 @@ class LanguageController extends Controller {
             $data = json_encode($data);
             $api = env('API').'/ballot/language/create';
             $response = $Api->postApi($data, $api);
-        } else  {
+        } else if($avaliable == "false") {
             $data = array(
                 'ballot_id' => $ballot_id,
-                'ballot_lang_id' => $ballot_lang_id
+                'lang_id' => $lang_id
             );
             $data = json_encode($data);
             $api = env('API').'/ballot/language/delete';
-            $response = $Api->postApi($data, $api);
             $response = $Api->postApi($data, $api);
         }
 

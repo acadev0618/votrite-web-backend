@@ -1199,9 +1199,7 @@ var TableManaged = function () {
     }
 
     var languageTable = function () {
-
         var table = $('#language_table');
-
         table.dataTable({
 
             "language": {
@@ -1263,10 +1261,17 @@ var TableManaged = function () {
                     lang_id : lang_id
                 },
                 success: function(response) {
-                    console.log(response);
                     var response = JSON.parse(response);
                     if(response.state == 'success'){
-                        toastr[response.state]('Set ballot language successfully.');
+                        if(response.message == "0") {
+                            toastr['error']('Whoops! Something went wrong.');    
+                        } else {
+                            if(avaliable == 'true') {
+                                toastr['success']('It is set to ballot language successfully.');
+                            } else if(avaliable == 'false'){
+                                toastr['info']('It is deleted to ballot language successfully.');
+                            }
+                        }
                     } else {
                         toastr['error']('Whoops! Something went wrong.');
                     }
@@ -1351,10 +1356,17 @@ var TableManaged = function () {
                                 lang_id : lang_id
                             },
                             success: function(response) {
-                                console.log(response);
                                 var response = JSON.parse(response);
                                 if(response.state == 'success'){
-                                    toastr[response.state]('Set ballot language successfully.');
+                                    if(response.message == "0") {
+                                        toastr['error']('Whoops! Something went wrong.');    
+                                    } else {
+                                        if(avaliable == 'true') {
+                                            toastr['success']('It is set to ballot language successfully.');
+                                        } else if(avaliable == 'false'){
+                                            toastr['info']('It is deleted to ballot language successfully.');
+                                        }
+                                    }
                                 } else {
                                     toastr['error']('Whoops! Something went wrong.');
                                 }
@@ -2240,7 +2252,7 @@ var TableManaged = function () {
             }
         });
 
-        $("[name='verfy_checkbox']").change(function() {
+        $(".verify_checkbox").change(function() {
             var checked = $(this).is(":checked");
             var voter_id = $(this).data('id');
             if (checked) {
@@ -2270,7 +2282,7 @@ var TableManaged = function () {
             });
         });
 
-        $("[name='verfy_checkbox']").bootstrapSwitch({
+        $(".verify_checkbox").bootstrapSwitch({
             on:'Veryfied',
             off:'No ',
             onLabel:'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',

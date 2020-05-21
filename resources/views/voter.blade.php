@@ -69,9 +69,9 @@
 											</td>
 											<td>
 											@if($voter->registration_confirmed == 'true')
-												<input type="checkbox" checked="checked" name="verfy_checkbox" data-id="{{ $voter->voter_id }}">
+												<input type="checkbox" checked="checked" name="verify_checkbox" class="verify_checkbox" data-id="{{ $voter->voter_id }}">
 											@else
-												<input type="checkbox" name="verfy_checkbox" data-id="{{ $voter->voter_id }}">
+												<input type="checkbox" name="verify_checkbox" class="verify_checkbox" data-id="{{ $voter->voter_id }}">
 											@endif
 											</td>
                                             <td>
