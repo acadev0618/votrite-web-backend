@@ -285,7 +285,7 @@
     </div>
 </div>
 
-<div id="deleteMassPropositionsModal" class="modal fade" tabindex="-1" data-width="520">
+<div id="deleteMassPropositionsModal" class="modal fade" tabindex="-1" data-width="420">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">×</button>
         <h4 class="modal-title">Delete Propositions</h4>
@@ -311,7 +311,7 @@
     </div>
 </div>
 
-<div id="deleteMassPropositionModal" class="modal fade" tabindex="-1" data-width="520">
+<div id="deleteMassPropositionModal" class="modal fade" tabindex="-1" data-width="420">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">×</button>
         <h4 class="modal-title">Delete The Proposition</h4>
@@ -335,19 +335,4 @@
             </button>
 		</form>
     </div>
-</div>
-
-<div id="confirmModal" class="modal fade" tabindex="-1" data-width="320">
-	<div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal">×</button>
-		<h4 class="modal-title text-center">Confirm</h4>
-	</div>
-	<div class="modal-body">					
-		<p class="modal_content">Please select porpositions.</p>
-	</div>
-	<div class="modal-footer">
-		<button type="button" class="btn btn-warning" data-dismiss="modal">
-			<span class='glyphicon glyphicon-remove'></span> Close
-		</button>
-	</div>
 </div>

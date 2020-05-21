@@ -21,11 +21,9 @@ class LanguageController extends Controller {
                     $ballot_languages = trim(' ');
                 } else {
                     $ballot_id = $ballots->data[0]->ballot_id;
-                    $ballot_languages = trim(' ');
+                    $ballot_languages = $this->getLangOfBallot($ballot_id);
                 }
             }
-
-            // var_dump($ballot_languages);die();
 
             return view('language')->with([
                 'sliderAction' => 'manage', 

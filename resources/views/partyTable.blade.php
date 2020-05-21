@@ -145,7 +145,7 @@
     </div>
 </div>
 
-<div id="deletePartiesModal" class="modal fade" tabindex="-1" data-width="520">
+<div id="deletePartiesModal" class="modal fade" tabindex="-1" data-width="420">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">×</button>
         <h4 class="modal-title">Delete Parties</h4>
@@ -171,7 +171,7 @@
     </div>
 </div>
 
-<div id="deletePartyModal" class="modal fade" tabindex="-1" data-width="520">
+<div id="deletePartyModal" class="modal fade" tabindex="-1" data-width="420">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">×</button>
         <h4 class="modal-title">Delete The Party</h4>
