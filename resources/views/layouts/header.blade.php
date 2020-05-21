@@ -2,7 +2,7 @@
     <div class="page-header-inner">
         <div class="page-logo">
             <a href="{{ asset('/dashboard') }}">
-                <img src="{{ asset('assets/img/favicon_white.png') }}" alt="logo" class="logo-default"/>
+                <img src="{{ asset('assets/img/old_logo.png') }}" alt="logo" class="logo-default"/>
                 <input id='userid' type="hidden" value={{$userid}} class="form-control"/>
             </a>
             <div class="menu-toggler sidebar-toggler hide"></div>

@@ -3,7 +3,7 @@
     <thead>
         <tr>
             <th class="table-checkbox">
-                <input type="checkbox" class="group-checkable" data-set="#mass_proposition_table .checkboxes" style="width: 17px; height: 17px;"/>
+                <input type="checkbox" class="group-checkable changed_sel" data-set="#mass_proposition_table .checkboxes" style="margin-left: 5px; margin-right: 5px;"/>
             </th>
             <th class="table-no">
                 No
@@ -30,7 +30,7 @@
             @foreach($propositions->data as $prop)
             <tr class="odd gradeX">
                 <td>
-                    <input type="checkbox" class="checkboxes" value="1" data-id="{{ $prop->proposition_id }}" style="width: 17px; height: 17px;"/>
+                    <input type="checkbox" class="checkboxes changed_sel" value="1" data-id="{{ $prop->proposition_id }}" style="margin-left: 5px; margin-right: 5px;"/>
                 </td>
                 <td>
                     {{ $loop->index+1 }}

@@ -54,3 +54,7 @@
 .modal-body {
     margin-right: 20px;
 }
+.changed_sel {
+    width: 15px; 
+    height: 15px;
+}

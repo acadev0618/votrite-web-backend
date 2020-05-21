@@ -756,12 +756,12 @@ var TableManaged = function () {
                 },
                 success: function(response) {
                     console.log(response);
-                    // var response = JSON.parse(response);
-                    // if(response.state == 'success'){
-                    //     toastr[response.state]('Set ballot language successfully.');
-                    // } else {
-                    //     toastr['error']('Whoops! Something went wrong.');
-                    // }
+                    var response = JSON.parse(response);
+                    if(response.state == 'success'){
+                        toastr[response.state]('Set ballot language successfully.');
+                    } else {
+                        toastr['error']('Whoops! Something went wrong.');
+                    }
                 }
             });
         });

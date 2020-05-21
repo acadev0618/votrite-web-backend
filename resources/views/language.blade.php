@@ -75,15 +75,7 @@
                                                 @if(empty($ballot_languages->data))
                                                     <input type="checkbox" class="form-control" id="aval_ballot_lang" name="aval_ballot_lang" data-id="{{ $language->language_id }}">
                                                 @else
-                                                    @foreach($ballot_languages->data as $ballot_language)
-                                                        @if($ballot_language->lang_id == $language->language_id)
-                                                            <input type="checkbox" checked="checked" class="form-control" id="aval_ballot_lang" name="aval_ballot_lang" data-id="{{ $language->language_id }}">
-                                                            @break
-                                                        @else
-                                                            <input type="checkbox" class="form-control" id="aval_ballot_lang" name="aval_ballot_lang" data-id="{{ $language->language_id }}">
-                                                            @break
-                                                        @endif
-                                                    @endforeach
+                                                    <input type="checkbox" checked="checked" class="form-control" id="aval_ballot_lang" name="aval_ballot_lang" data-id="{{ $language->language_id }}">
                                                 @endif
                                             </td>
                                         </tr>

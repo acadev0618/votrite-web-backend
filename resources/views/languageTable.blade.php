@@ -18,32 +18,29 @@
 	<tbody>
 	@if(empty($ballots->data))
 	@else
-		@foreach($langs->data as $lang)
-		<tr class="odd gradeX">
-			<td>
-				{{$loop->index+1}}
-			</td>
-			<td>
-				{{ $lang->language_code }}
-			</td>
-			<td>
-				{{ $lang->language_name }}
-			</td>
-			<td class="text-center">
-			@if(empty($ballot_langs->data))
-				<input type="checkbox" style="width: 20px; height: 17px;" id="aval_ballot_lang" name="aval_ballot_lang" data-id="{{ $lang->language_id }}">
-			@else
-				@foreach($ballot_langs->data as $ballot_lang)
-					@if($ballot_lang->ballot_lang_id == $lang->language_id)
-						<input type="checkbox" checked="checked" style="width: 20px; height: 17px;" id="aval_ballot_lang" name="aval_ballot_lang" data-id="{{ $lang->language_id }}">
+		@if(empty($languages->data))
+		@else
+			@foreach($languages->data as $language)
+			<tr class="odd gradeX">
+				<td>
+					{{$loop->index+1}}
+				</td>
+				<td>
+					{{ $language->language_code }}
+				</td>
+				<td>
+					{{ $language->language_name }}
+				</td>
+				<td class="text-center">
+					@if(empty($ballot_languages->data))
+						<input type="checkbox" class="form-control changed_sel" id="aval_ballot_lang" name="aval_ballot_lang" data-id="{{ $language->language_id }}" style="margin-left: 30px;">
 					@else
-						<input type="checkbox" style="width: 20px; height: 17px;" id="aval_ballot_lang" name="aval_ballot_lang" data-id="{{ $lang->language_id }}">
+						<input type="checkbox" checked="checked" class="form-control changed_sel" id="aval_ballot_lang" name="aval_ballot_lang" data-id="{{ $language->language_id }}" style="margin-left: 30px;">
 					@endif
-				@endforeach
-			@endif
-			</td>
-		</tr>
-		@endforeach
+				</td>
+			</tr>
+			@endforeach
+		@endif
 	@endif
 	</tbody>
 </table>

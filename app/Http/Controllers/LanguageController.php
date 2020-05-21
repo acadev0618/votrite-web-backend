@@ -21,9 +21,11 @@ class LanguageController extends Controller {
                     $ballot_languages = trim(' ');
                 } else {
                     $ballot_id = $ballots->data[0]->ballot_id;
-                    $ballot_languages = $this->getLangOfBallot($ballot_id);
+                    $ballot_languages = trim(' ');
                 }
             }
+
+            // var_dump($ballot_languages);die();
 
             return view('language')->with([
                 'sliderAction' => 'manage', 
@@ -61,20 +63,21 @@ class LanguageController extends Controller {
 
         if(empty($ballots->data)) {
             $languages = trim(' ');
-            $ballot_langs = trim(' ');
+            $ballot_languages = trim(' ');
         } else {
             $languages = $this->getAllLang();
-            $ballot_id = $request->ballot_id;
-            $ballot_langs = $this->getLangOfBallot($ballot_id);
-            if(empty($ballot_langs)) {
-                $ballot_langs = trim(' ');
+            if(empty($languages)) {
+                $ballot_languages = trim(' ');
+            } else {
+                $ballot_id = $request->ballot_id;
+                $ballot_languages = $this->getLangOfBallot($ballot_id);
             }
         }
-        
+
         return view('languageTable')->with([
             'ballots' => $ballots,
-            'langs' => $languages,
-            'ballot_langs' => $ballot_langs
+            'languages' => $languages,
+            'ballot_languages' => $ballot_languages
         ]);
     }
 

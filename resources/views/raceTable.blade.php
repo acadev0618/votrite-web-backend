@@ -2,7 +2,7 @@
     <thead>
         <tr>
             <th class="table-checkbox">
-                <input type="checkbox" class="group-checkable" data-set="#race_table .checkboxes" style="width: 17px; height: 17px;"/>
+                <input type="checkbox" class="group-checkable changed_sel" data-set="#race_table .checkboxes" style="margin-left: 5px; margin-right: 5px;"/>
             </th>
             <th class="table-no">
                 No
@@ -32,7 +32,7 @@
                 @foreach($races->data as $race)
                 <tr class="odd gradeX">
                     <td>
-                        <input type="checkbox" class="checkboxes" value="{{ $race->race_id }}" data-id="{{ $race->race_id }}" style="width: 17px; height: 17px;"/>
+                        <input type="checkbox" class="checkboxes changed_sel" value="{{ $race->race_id }}" data-id="{{ $race->race_id }}" style="margin-left: 5px; margin-right: 5px;"/>
                     </td>
                     <td>
                         {{ $loop->index+1 }}
