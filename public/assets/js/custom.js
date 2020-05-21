@@ -1,5 +1,5 @@
-var api_url = "http://54.82.83.93:9191/api";
-var base_url="http://54.82.83.93/votrite-web-backend/public";
+var api_url = "http://ec2-54-82-83-93.compute-1.amazonaws.com:9191/api";
+var base_url="http://ec2-54-82-83-93.compute-1.amazonaws.com";
 
 var TableManaged = function () {
 
