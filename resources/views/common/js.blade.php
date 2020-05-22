@@ -22,7 +22,10 @@
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 
 <script>
-jQuery(document).ready(function() {       
+    window.baseurl = document.head.querySelector("[name~=baseurl][content]").content;
+    window.csrfToken = document.head.querySelector("[name~=csrf-token][content]").content;
+jQuery(document).ready(function() {
+    
     Metronic.init();
     Layout.init();
     QuickSidebar.init();

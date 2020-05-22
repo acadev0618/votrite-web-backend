@@ -3,8 +3,9 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Session;
 use Illuminate\Support\Facades\View;
+use Session;
+use Artisan;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,6 +27,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         $user_id = Session::get('user_id');
+        $exitCode = Artisan::call('view:clear');
         View::share('userid', $user_id);
 
     }

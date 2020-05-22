@@ -129,7 +129,7 @@
                     @else
                     <li>
                     @endif
-                        <a href="{{ asset('/candidateresult') }}">
+                        <a href="{{ asset('/result/candidate') }}">
                         Candidate</a>
                     </li>
 
@@ -138,16 +138,16 @@
                     @else
                     <li>
                     @endif
-                        <a href="{{ asset('/propositionresult') }}">
+                        <a href="{{ asset('/result/proposition') }}">
                         Proposition</a>
                     </li>
 
-                    @if($subAction == "ballotresult")
+                    @if($subAction == "ballot")
                     <li class="active">
                     @else
                     <li>
                     @endif
-                        <a href="{{ asset('/ballotresult') }}">
+                        <a href="{{ asset('/result/ballot') }}">
                         Ballot Result</a>
                     </li>
                 </ul>

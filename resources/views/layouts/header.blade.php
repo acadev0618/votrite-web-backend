@@ -17,11 +17,11 @@
                         <i class="fa fa-angle-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-default">
-                        <li>
+                        <!-- <li>
                             <a href="#changepwd">
                                 <i class="icon-user"></i> My Profile
                             </a>
-                        </li>
+                        </li> -->
                         <li>
                             <a data-toggle="modal" href="#changepwd">
                                 <i class="fa fa-cog"></i> Change Password
@@ -40,3 +40,25 @@
 </div>
 
 <div class="clearfix"></div>
+<div id="changepwd" class="modal fade" tabindex="-1" data-width="620">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h4 class="modal-title">Change Password</h4>
+    </div>
+    <div class="modal-body">
+        <form action="#">
+            <div class="form-group">
+                <label class="control-label">New Password</label>
+                <input id='newpwd' type="password" class="form-control"/>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Re-type New Password</label>
+                <input id='rnewpwd' type="password" class="form-control"/>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <a id="changebtn" class="btn green-haze">Change Password </a>
+        <a id="reset" class="btn default"> Cancel </a>
+    </div>
+</div>

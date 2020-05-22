@@ -52,11 +52,11 @@ return [
     |
     */
 
-    'url' => env('base_url', 'http://54.82.83.93/votrite-web-backend/public'),
+    'url' => env('base_url', 'http://10.10.10.143/votrite-web-backend/public'),
 
     'asset_url' => env('ASSET_URL', null),
 
-    'api_url' => env('api', 'http://54.82.83.93:9191/api'),
+    'api_url' => env('api', 'http://10.10.10.143:9191/api'),
 
     /*
     |--------------------------------------------------------------------------

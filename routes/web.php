@@ -18,6 +18,12 @@ Route::get('/logout', 'AuthController@logout')->name('request');
 ////////////////////////////////
 Route::get('/profile/{id}', 'AuthController@profile')->name('profile');
 Route::get('/changepwd/{id}', 'AuthController@changepwd')->name('changepwd');
+
+Route::prefix('result')->group(function () {
+    Route::get('candidate', 'ResultController@candidate');
+    Route::get('proposition', 'ResultController@proposition');
+    Route::get('ballot', 'ResultController@ballot');
+});
 ///////////////////////////////
 
 Route::post('/deleteData', 'BaseController@deleteData')->name('request');
