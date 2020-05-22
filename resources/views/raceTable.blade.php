@@ -1,4 +1,3 @@
-
 <table class="table table-striped table-bordered table-hover" id="race_table">
     <thead>
         <tr>

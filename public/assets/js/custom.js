@@ -244,8 +244,6 @@ var TableManaged = function () {
                     state : state
                 },
                 success:function(response){
-                    $('#addBallotModal').remove();
-                    $('#deleteBallotsModal').remove();
                     $('#confirmModal').remove();
                     $('#change_table').html(response);
     
