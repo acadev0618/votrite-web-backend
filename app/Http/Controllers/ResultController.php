@@ -49,7 +49,7 @@ class ResultController extends Controller
     public function proposition() {
         if(Session::get('display_name')) {
             $BallotController = new BallotController;
-            $CountryController = new CountryController;
+            $CountyController = new CountyController;
             $RaceController = new RaceController;
             $PropositionController = new PropositionController;
 
@@ -63,7 +63,7 @@ class ResultController extends Controller
                 $ballot_id = $ballots->data[0]->ballot_id;
                 $races = $RaceController->getRaceOfBallot($ballot_id);
                 $prop_type = 'P';
-                $countries = $CountryController->getCountryOfBallot($ballot_id);
+                $countries = $CountyController->getCountyOfBallot($ballot_id);
                 $propositions = $PropositionController->getPropOfBallot($ballot_id, $prop_type);
             }
 
