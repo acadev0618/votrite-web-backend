@@ -65,6 +65,7 @@ Route::post('/verifiyVoter', 'VoterController@verifiyVoter')->name('request');
 
 Route::post('/getChangedLangs', 'LanguageController@getChangedLangs')->name('request');
 Route::post('/setAvalBallotLang', 'LanguageController@setAvalBallotLang')->name('request');
+Route::post('/saveAllLang', 'LanguageController@saveAllLang')->name('request');
 
 Route::post('/setAvalBallotCounty', 'CountyController@setAvalBallotCounty')->name('request');
 Route::post('/saveAllCounty', 'CountyController@saveAllCounty')->name('request');

@@ -35,74 +35,60 @@
 										</div>
 									</div>
 								</div>
+								<div class="col-md-6">
+									<div class="col-sm-12 btn-group ballot-actions">
+										<div class="col-sm-8"></div>
+										<div class="col-sm-2" style="margin-top: 8px;">
+											<input type="checkbox" class="form-control select_all_ballot_lang" id="select_all_ballot_lang" data-set="#lang_list .lang_check">
+											<label class="form-label">Select all</label>
+										</div>
+										<div class="col-sm-2">
+											<button type="submit" id="save_all_ballot_lang" class="btn btn-success save_all_ballot_lang disabled"><span id="" class='glyphicon glyphicon-check'></span> Save all</button>
+											<button type="submit" id="save_all_ballot_lang" class="btn btn-success save_all_ballot_lang_ disabled" style="display:none;"><span id="" class='glyphicon glyphicon-check'></span> Save all</button>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
                         <div id="change_table">
-                            <table class="table table-striped table-bordered table-hover" id="language_table">
-                                <thead>
-                                    <tr>
-                                        <th class="table-no">
-                                            No
-                                        </th>
-                                        <th>
-                                            Language Code
-                                        </th>
-                                        <th>
-                                            Language Name
-                                        </th>
-                                        <th style="width: 6%;">
-                                            Avaliable
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                @if(empty($ballots->data))
+                            <div class="row" id="lang_list" style="margin-top: 40px;">
+							@if(empty($ballots->data))
+                                <h4 class="text-center">There aren't any ballots.</h4>
+                            @else
+                                @if(empty($languages->data))
+                                    <h4 class="text-center">There aren't any languages.</h4>
                                 @else
-                                    @if(empty($languages->data))
+                                    @if(empty($ballot_languages->data))
+                                        @foreach($languages->data as $language)
+                                            <div class="col-sm-2 change_aval_lang" data-id="{{ $language->language_id }}" style="margin-bottom: 10px;">
+                                                <input type="checkbox" class="form-control lang_check" name="lang_check" data-id="{{ $language->language_id }}">
+                                                <label class="form-label" data-id="{{ $language->language_id }}">{{ $language->language_name }}</label>
+                                            </div>
+                                        @endforeach
                                     @else
                                         @foreach($languages->data as $language)
-                                        <tr class="odd gradeX">
-                                            <td>
-                                                {{$loop->index+1}}
-                                            </td>
-                                            <td>
-                                                {{ $language->language_code }}
-                                            </td>
-                                            <td>
-                                                {{ $language->language_name }}
-                                            </td>
-                                            <td class="text-center">
-                                                @if(empty($ballot_languages->data))
-                                                    <input type="checkbox" class="form-control changed_sel" id="aval_ballot_lang" name="aval_ballot_lang" data-id="{{ $language->language_id }}">
-                                                @else
-                                                    @foreach($ballot_languages->data as $ballot_language)
-                                                        @if($ballot_language->lang_id == $language->language_id)
-                                                            <?php $flag = 1;?>
-                                                            @break
-                                                        @else
-                                                            <?php $flag = -1;?>
-                                                        @endif
-                                                    @endforeach
-                                                    <?php 
-                                                        if($flag > 0) {
-                                                    ?>
-                                                        <input type="checkbox" checked="checked" class="form-control changed_sel" id="aval_ballot_lang" name="aval_ballot_lang" data-id="{{ $language->language_id }}">
-                                                    <?php 
-                                                        } else if($flag < 0) {
-                                                    ?>
-                                                        <input type="checkbox" class="form-control changed_sel" id="aval_ballot_lang" name="aval_ballot_lang" data-id="{{ $language->language_id }}">
-                                                    <?php 
-                                                        }
-                                                        $flag = 0;
-                                                    ?>
+                                        <?php $flag = 0;?>
+                                            @foreach($ballot_languages->data as $ballot_language)
+                                                @if($language->language_id == $ballot_language->lang_id)
+                                                <?php $flag = 1;?>														
                                                 @endif
-                                            </td>
-                                        </tr>
+                                            @endforeach
+                                            <?php if($flag == 1) { ?>
+                                                <div class="col-sm-2 change_aval_lang" data-id="{{ $language->language_id }}" style="margin-bottom: 10px;">
+                                                    <input type="checkbox" checked="checked" class="form-control lang_check" name="lang_check" data-id="{{ $language->language_id }}">
+                                                    <label class="form-label" data-id="{{ $language->language_id }}">{{ $language->language_name }}</label>
+                                                </div>
+                                            <?php }  else { ?>
+                                                <div class="col-sm-2 change_aval_lang" data-id="{{ $language->language_id }}" style="margin-bottom: 10px;">
+                                                    <input type="checkbox" class="form-control lang_check" name="lang_check" data-id="{{ $language->language_id }}">
+                                                    <label class="form-label" data-id="{{ $language->language_id }}">{{ $language->language_name }}</label>
+                                                </div>
+                                            <?php } ?>
                                         @endforeach
                                     @endif
                                 @endif
-                                </tbody>
-                            </table>
+							@endif
+							</div>
                         </div>
 					</div>
 				</div>

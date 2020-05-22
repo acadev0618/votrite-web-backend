@@ -101,4 +101,99 @@ class LanguageController extends Controller {
 
         return json_encode($response);
     }
+
+    public function saveAllLang(Request $request) {
+        $ballot_id = $request->ballot_id;
+        $ids = $request->ids;
+
+        $avaliable = $request->avaliable;
+        if($avaliable == "false") {
+            $response = $this->deleteAll($ballot_id);
+            return $response;
+        } else if($avaliable == "true") {
+            $response = $this->saveAll($ballot_id, $ids);
+            return $response;
+        }
+    }
+
+    public function saveAll($ballot_id, $ids) {
+        $ids = explode(',', $ids);
+        $ballot_langs = $this->getLangOfBallot($ballot_id);
+        if(empty($ballot_langs->data)) {
+            for($i = 0; $i < count($ids); $i ++) {
+                $data = array(
+                    'ballot_id' => $ballot_id,
+                    'lang_id' => $ids[$i]
+                );
+                $json = json_encode($data);
+                $api_url = env('API').'/ballot/language/create';
+                
+                $controller = new ApiController;
+                $response = $controller->postApi($json, $api_url);
+            }
+            return json_encode($response);
+        } else if(count($ids) == count($ballot_langs->data)){
+            $response = array(
+                'state' => "success",
+                'message'=> "-2"
+            );
+            return json_encode($response);
+        } else {
+            $selected = [];
+            for($i = 0; $i < count($ids); $i ++) {
+                $flag = 0;
+                for($j = 0; $j < count($ballot_langs->data); $j ++) {
+                    if($ids[$i] == $ballot_langs->data[$j]->lang_id) {
+                        $flag = 1;
+                    }
+                }
+                if($flag != 1) {
+                    array_push($selected, $ids[$i]);
+                }
+            }
+
+            for($k = 0; $k < count($selected); $k ++) {
+                $data = array(
+                    'ballot_id' => $ballot_id,
+                    'lang_id' => $selected[$k]
+                );
+                $json = json_encode($data);
+                $api_url = env('API').'/ballot/language/create';
+                
+                $controller = new ApiController;
+                $response = $controller->postApi($json, $api_url);
+            }
+            return json_encode($response);
+        } 
+    }
+
+    public function deleteAll($ballot_id) {
+        $ballot_langs = $this->getLangOfBallot($ballot_id);
+
+        if(empty($ballot_langs->data)) {
+            $response = array(
+                'state' => "success",
+                'message'=> "-1"
+            );
+            return json_encode($response);
+        } else {
+            $ids = [];
+            for($i = 0; $i < count($ballot_langs->data); $i ++) {
+                array_push($ids, $ballot_langs->data[$i]->lang_id);
+            }
+
+            for($i = 0; $i < count($ids); $i ++) {
+                $data = array(
+                    'ballot_id' => $ballot_id,
+                    'lang_id' => $ids[$i]
+                );
+                $json = json_encode($data);
+                $api_url = env('API').'/ballot/language/delete';
+                
+                $controller = new ApiController;
+                $response = $controller->postApi($json, $api_url);
+            }
+            return json_encode($response);
+        }
+    }
 }
