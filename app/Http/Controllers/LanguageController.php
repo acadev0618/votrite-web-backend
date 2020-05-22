@@ -83,23 +83,18 @@ class LanguageController extends Controller {
         $ballot_id = $request->ballot_id;
         $lang_id = $request->lang_id;
         $avaliable = $request->avaliable;
-
         $Api = new ApiController;
 
+        $data = array(
+            'ballot_id' => $ballot_id,
+            'lang_id' => $lang_id
+        );
+        $data = json_encode($data);
+
         if($avaliable == "true") {
-            $data = array(
-                'ballot_id' => $ballot_id,
-                'lang_id' => $lang_id
-            );
-            $data = json_encode($data);
             $api = env('API').'/ballot/language/create';
             $response = $Api->postApi($data, $api);
         } else if($avaliable == "false") {
-            $data = array(
-                'ballot_id' => $ballot_id,
-                'lang_id' => $lang_id
-            );
-            $data = json_encode($data);
             $api = env('API').'/ballot/language/delete';
             $response = $Api->postApi($data, $api);
         }

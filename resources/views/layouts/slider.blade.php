@@ -83,13 +83,13 @@
                         <a href="{{ asset('/party') }}">
                         Parties</a>
                     </li>
-                    @if($subAction == "country")
+                    @if($subAction == "county")
                     <li class="active">
                     @else
                     <li>
                     @endif
-                        <a href="{{ asset('/country') }}">
-                        Countries</a>
+                        <a href="{{ asset('/county') }}">
+                        Counties</a>
                     </li>
                     @if($subAction == "language")
                     <li class="active">

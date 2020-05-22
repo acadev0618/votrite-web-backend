@@ -6,23 +6,24 @@ use Illuminate\Http\Request;
 use Session;
 
 class PropositionController extends Controller {
+    
     public function index() {
         if(Session::get('display_name')) {
             $BallotController = new BallotController;
             $LanguageController = new LanguageController;
-            $CountryController = new CountryController;
+            $CountyController = new CountyController;
 
             $ballots = $BallotController->getActiveBallot();
             
             if(empty($ballots->data)) {
                 $languages = trim(' ');
-                $countries = trim(' ');
+                $counties = trim(' ');
                 $propositions = trim(' ');
             } else {
                 $ballot_id = $ballots->data[0]->ballot_id;
                 $prop_type = 'P';
                 $languages = $LanguageController->getLangOfBallot($ballot_id);
-                $countries = $CountryController->getCountryOfBallot($ballot_id);
+                $counties = $CountyController->getCountyOfBallot($ballot_id);
                 $propositions = $this->getPropOfBallot($ballot_id, $prop_type);
             }
 
@@ -31,7 +32,7 @@ class PropositionController extends Controller {
                 'subAction' => 'proposition',
                 'ballots' => $ballots,
                 'languages' => $languages,
-                'countries' => $countries,
+                'counties' => $counties,
                 'propositions' => $propositions
             ]);
         } else {
@@ -101,26 +102,26 @@ class PropositionController extends Controller {
     public function getChangedProps(Request $request) {
         $BallotController = new BallotController;
         $LanguageController = new LanguageController;
-        $CountryController = new CountryController;
+        $CountyController = new CountyController;
 
         $ballots = $BallotController->getActiveBallot();
 
         if(empty($ballots->data)) {
             $languages = trim(' ');
-            $countries = trim(' ');
+            $counties = trim(' ');
             $propositions = trim(' ');
         } else {
             $ballot_id = $request->ballot_id;
             $prop_type = $request->prop_type;
             $languages = $LanguageController->getLangOfBallot($ballot_id);
-            $countries = $CountryController->getCountryOfBallot($ballot_id);
+            $counties = $CountyController->getCountyOfBallot($ballot_id);
             $propositions = $this->getPropOfBallot($ballot_id, $prop_type);
         }
         
         return view('propsTable')->with([
             'ballots' => $ballots,
             'languages' => $languages,
-            'countries' => $countries,
+            'counties' => $counties,
             'propositions' => $propositions
         ]);
     }

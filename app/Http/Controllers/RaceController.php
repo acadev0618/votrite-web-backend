@@ -11,17 +11,17 @@ class RaceController extends Controller {
         if(Session::get('display_name')) {
             $BallotController = new BallotController;
             $LanguageController = new LanguageController;
-            $CountryController = new CountryController;
+            $CountyController = new CountyController;
             
             $ballots = $BallotController->getActiveBallot();
             if(empty($ballots->data)) {
                 $languages = trim(' ');
-                $countries = trim(' ');
+                $counties = trim(' ');
                 $races = trim(' ');
             } else {
                 $ballot_id = $ballots->data[0]->ballot_id;
                 $languages = $LanguageController->getLangOfBallot($ballot_id);
-                $countries = $CountryController->getCountryOfBallot($ballot_id);
+                $counties = $CountyController->getCountyOfBallot($ballot_id);
                 $races = $this->getRaceOfBallot($ballot_id);
             }
 
@@ -30,7 +30,7 @@ class RaceController extends Controller {
                     'ballots' => $ballots, 
                     'races' => $races,
                     'languages' => $languages,
-                    'countries' => $countries,
+                    'counties' => $counties,
                     'sliderAction' => 'manage',
                     'subAction' => 'race',
                 ]
@@ -55,24 +55,24 @@ class RaceController extends Controller {
     public function getChangedRaces(Request $request) {
         $BallotController = new BallotController;
         $LanguageController = new LanguageController;
-        $CountryController = new CountryController;
+        $CountyController = new CountyController;
 
         $ballots = $BallotController->getActiveBallot();
         if(empty($ballots->data)) {
             $languages = trim(' ');
-            $countries = trim(' ');
+            $counties = trim(' ');
             $races = trim(' ');
         } else {
             $ballot_id = $request->ballot_id;
             $languages = $LanguageController->getLangOfBallot($ballot_id);
-            $countries = $CountryController->getCountryOfBallot($ballot_id);
+            $counties = $CountyController->getCountyOfBallot($ballot_id);
             $races = $this->getRaceOfBallot($ballot_id);
         }
         
         return view('raceTable')->with([
             'ballots' => $ballots,
             'languages' => $languages,
-            'countries' => $countries,
+            'counties' => $counties,
             'races' => $races
         ]);
     }
@@ -108,6 +108,7 @@ class RaceController extends Controller {
             "race_lang_id" => $request->race_lang_id,
             "race_location_id" => $request->race_location_id
         );
+        
         $data = json_encode($data);
         $api = env('API').'/race/create';
 

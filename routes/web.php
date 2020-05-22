@@ -7,7 +7,7 @@ Route::get('/ballot', 'BallotController@index')->name('request');
 Route::get('/race', 'RaceController@index')->name('request');
 Route::get('/candidate', 'CandidateController@index')->name('request');
 Route::get('/language', 'LanguageController@index')->name('request');
-Route::get('/country', 'CountryController@index')->name('request');
+Route::get('/county', 'CountyController@index')->name('request');
 Route::get('/proposition', 'PropositionController@index')->name('request');
 Route::get('/mass_proposition', 'MassPropositionController@index')->name('request');
 Route::get('/voter', 'VoterController@index')->name('request');
@@ -65,3 +65,7 @@ Route::post('/verifiyVoter', 'VoterController@verifiyVoter')->name('request');
 
 Route::post('/getChangedLangs', 'LanguageController@getChangedLangs')->name('request');
 Route::post('/setAvalBallotLang', 'LanguageController@setAvalBallotLang')->name('request');
+
+Route::post('/setAvalBallotCounty', 'CountyController@setAvalBallotCounty')->name('request');
+Route::post('/saveAllCounty', 'CountyController@saveAllCounty')->name('request');
+Route::post('/getChangedCountyOfBallot', 'CountyController@getChangedCountyOfBallot')->name('request');

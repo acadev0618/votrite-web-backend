@@ -10,19 +10,19 @@ class MassPropositionController extends Controller {
         if(Session::get('display_name')) {
             $BallotController = new BallotController;
             $LanguageController = new LanguageController;
-            $CountryController = new CountryController;
+            $CountyController = new CountyController;
 
             $ballots = $BallotController->getActiveBallot();
             
             if(empty($ballots->data)) {
                 $languages = trim(' ');
-                $countries = trim(' ');
+                $counties = trim(' ');
                 $propositions = trim(' ');
             } else {
                 $ballot_id = $ballots->data[0]->ballot_id;
                 $prop_type = 'M';
                 $languages = $LanguageController->getLangOfBallot($ballot_id);
-                $countries = $CountryController->getCountryOfBallot($ballot_id);
+                $counties = $CountyController->getCountyOfBallot($ballot_id);
                 $propositions = $this->getMassPropOfBallot($ballot_id, $prop_type);
             }
 
@@ -31,7 +31,7 @@ class MassPropositionController extends Controller {
                 'subAction' => 'mass_proposition',
                 'ballots' => $ballots,
                 'languages' => $languages,
-                'countries' => $countries,
+                'counties' => $counties,
                 'propositions' => $propositions
             ]);
         } else {
@@ -51,27 +51,27 @@ class MassPropositionController extends Controller {
     public function getChangedMassProps(Request $request) {
         $BallotController = new BallotController;
         $LanguageController = new LanguageController;
-        $CountryController = new CountryController;
+        $CountyController = new CountyController;
         $PropositionController = new PropositionController;
 
         $ballots = $BallotController->getActiveBallot();
 
         if(empty($ballots->data)) {
             $languages = trim(' ');
-            $countries = trim(' ');
+            $counties = trim(' ');
             $propositions = trim(' ');
         } else {
             $ballot_id = $request->ballot_id;
             $prop_type = $request->prop_type;
             $languages = $LanguageController->getLangOfBallot($ballot_id);
-            $countries = $CountryController->getCountryOfBallot($ballot_id);
+            $counties = $CountyController->getCountyOfBallot($ballot_id);
             $propositions = $PropositionController->getPropOfBallot($ballot_id, $prop_type);
         }
         
         return view('massPropTable')->with([
             'ballots' => $ballots,
             'languages' => $languages,
-            'countries' => $countries,
+            'counties' => $counties,
             'propositions' => $propositions
         ]);
     }
