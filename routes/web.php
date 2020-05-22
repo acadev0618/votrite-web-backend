@@ -1,6 +1,7 @@
 <?php
 
 Route::get('/', 'AuthController@login')->name('request');
+
 Route::get('/forgotPassword', 'AuthController@forgotPassword')->name('request');
 Route::get('/dashboard', 'DashboardController@index')->name('request');
 Route::get('/ballot', 'BallotController@index')->name('request');
