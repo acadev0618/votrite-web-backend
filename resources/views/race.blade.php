@@ -100,7 +100,7 @@
                                                 @endif
                                                 </td>
                                                 <td>
-                                                    <a class="preview previewRaceModal" data-toggle="modal" data-id="{{ $race->race_id }}" data-ballotId="{{ $race->ballot_id }}" data-raceName="{{ $race->race_name }}" data-maxNum="{{ $race->max_num_of_votes }}" data-minNum="{{ $race->min_num_of_votes }}" data-lang="{{ $race->race_lang_id }}" data-country="{{ $race->race_location_id }}" data-raceTitle="{{ $race->race_title }}" data-votedPosition="{{ $race->race_voted_position }}"><i class="fa fa-eye" data-toggle="tooltip" title="Preview"></i></a>
+                                                    <a class="preview previewRaceModal" data-toggle="modal" data-id="{{ $race->race_id }}" data-ballotId="{{ $race->ballot_id }}" data-raceName="{{ $race->race_name }}" data-maxNum="{{ $race->max_num_of_votes }}" data-minNum="{{ $race->min_num_of_votes }}" data-lang="{{ $race->race_lang_id }}" data-county="{{ $race->race_location_id }}" data-raceTitle="{{ $race->race_title }}" data-votedPosition="{{ $race->race_voted_position }}"><i class="fa fa-eye" data-toggle="tooltip" title="Preview"></i></a>
                                                     <a class="editRaceModal" data-toggle="modal" data-id="{{ $race->race_id }}"><i class="fa fa-edit" data-toggle="tooltip" title="Edit"></i></a>
                                                     <a class="deleteRaceModal" data-toggle="modal" data-id="{{ $race->race_id }}"><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete"></i></a>
                                                 </td>
@@ -200,21 +200,21 @@
                             <option value="0">No Language</option>
                             @else
                                 @foreach($languages->data as $lang)
-                                <option value="{{ $lang->ballot_lang_id }}">{{ $lang->language_name }}</option>
+                                <option value="{{ $lang->lang_id }}">{{ $lang->language_name }}</option>
                                 @endforeach
                             @endif
                         </select>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-sm-5" for="title">Choose Country:</label>
+                    <label class="control-label col-sm-5" for="title">Choose County:</label>
                     <div class="col-sm-7">
                         <select class="form-control" name="race_location_id" id="add_race_location_id">
-                        @if(empty($countries->data))
-                        <option value="0" value="0">No Countries</option>
+                        @if(empty($counties->data))
+                        <option value="0" value="0">No Counties</option>
                         @else
-                            @foreach($countries->data as $country)
-                            <option value="{{ $country->ballot_country_id }}">{{ $country->country_name }}</option>
+                            @foreach($counties->data as $county)
+                            <option value="{{ $county->county_id }}">{{ $county->county_name }}</option>
                             @endforeach
                         @endif
                         </select>
@@ -325,21 +325,21 @@
                             <option value="0">No Language</option>
                             @else
                                 @foreach($languages->data as $lang)
-                                <option disabled value="{{ $lang->ballot_lang_id }}">{{ $lang->language_name }}</option>
+                                <option disabled value="{{ $lang->lang_id }}">{{ $lang->language_name }}</option>
                                 @endforeach
                             @endif
                         </select>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-sm-5" for="title">Country:</label>
+                    <label class="control-label col-sm-5" for="title">County:</label>
                     <div class="col-sm-7">
                         <select class="form-control" name="race_location_id" id="race_location_id" readonly>
-                        @if(empty($countries->data))
-                        <option value="0">No Countries</option>
+                        @if(empty($counties->data))
+                        <option value="0">No Counties</option>
                         @else
-                            @foreach($countries->data as $country)
-                            <option disabled value="{{ $country->ballot_country_id }}">{{ $country->country_name }}</option>
+                            @foreach($counties->data as $county)
+                            <option disabled value="{{ $county->county_id }}">{{ $county->county_name }}</option>
                             @endforeach
                         @endif
                         </select>
@@ -447,21 +447,21 @@
                             <option value="0">No Language</option>
                             @else
                                 @foreach($languages->data as $lang)
-                                <option value="{{ $lang->ballot_lang_id }}">{{ $lang->language_name }}</option>
+                                <option value="{{ $lang->lang_id }}">{{ $lang->language_name }}</option>
                                 @endforeach
                             @endif
                         </select>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-sm-5" for="title">Choose Country:</label>
+                    <label class="control-label col-sm-5" for="title">Choose County:</label>
                     <div class="col-sm-7">
                         <select class="form-control" name="race_location_id" id="edit_race_location_id">
-                        @if(empty($countries->data))
-                        <option value="0">No Countries</option>
+                        @if(empty($counties->data))
+                        <option value="0">No Counties</option>
                         @else
-                            @foreach($countries->data as $country)
-                            <option value="{{ $country->ballot_country_id }}">{{ $country->country_name }}</option>
+                            @foreach($counties->data as $county)
+                            <option value="{{ $county->county_id }}">{{ $county->county_name }}</option>
                             @endforeach
                         @endif
                         </select>

@@ -1,65 +1,38 @@
-<table class="table table-striped table-bordered table-hover" id="language_table">
-	<thead>
-		<tr>
-			<th class="table-no">
-				No
-			</th>
-			<th>
-				Language Code
-			</th>
-			<th>
-				Language Name
-			</th>
-			<th style="width: 6%;">
-				Avaliable
-			</th>
-		</tr>
-	</thead>
-	<tbody>
+<div class="row" id="lang_list" style="margin-top: 35px;">
 	@if(empty($ballots->data))
+		<h4 class="text-center">There aren't any ballots.</h4>
 	@else
 		@if(empty($languages->data))
+			<h4 class="text-center">There aren't any languages.</h4>
 		@else
-			@foreach($languages->data as $language)
-			<tr class="odd gradeX">
-				<td>
-					{{$loop->index+1}}
-				</td>
-				<td>
-					{{ $language->language_code }}
-				</td>
-				<td>
-					{{ $language->language_name }}
-				</td>
-				<td class="text-center">
-					@if(empty($ballot_languages->data))
-						<input type="checkbox" class="form-control changed_sel" id="aval_ballot_lang" name="aval_ballot_lang" data-id="{{ $language->language_id }}" style="margin-left: 32px">
-					@else
-						@foreach($ballot_languages->data as $ballot_language)
-							@if($ballot_language->lang_id == $language->language_id)
-								<?php $flag = 1;?>
-								@break
-							@else
-								<?php $flag = -1;?>
-							@endif
-						@endforeach
-						<?php 
-							if($flag > 0) {
-						?>
-							<input type="checkbox" checked="checked" class="form-control changed_sel" id="aval_ballot_lang" name="aval_ballot_lang" data-id="{{ $language->language_id }}" style="margin-left: 32px">
-						<?php 
-							} else if($flag < 0) {
-						?>
-							<input type="checkbox" class="form-control changed_sel" id="aval_ballot_lang" name="aval_ballot_lang" data-id="{{ $language->language_id }}" style="margin-left: 32px">
-						<?php 
-							}
-							$flag = 0;
-						?>
-					@endif
-				</td>
-			</tr>
-			@endforeach
+			@if(empty($ballot_languages->data))
+				@foreach($languages->data as $language)
+					<div class="col-sm-2 change_aval_county" data-id="{{ $language->language_id }}" style="margin-bottom: 5px;">
+						<input type="checkbox" class="changed_lang lang_check" data-id="{{ $language->language_id }}" style="margin-left: 6px;">
+						<label style="margin-left: 2px;" data-id="{{ $language->language_id }}">{{ $language->language_name }}</label>
+					</div>
+				@endforeach
+			@else
+				@foreach($languages->data as $language)
+				<?php $flag = 0;?>
+					@foreach($ballot_languages->data as $ballot_language)
+						@if($language->language_id == $ballot_language->lang_id)
+						<?php $flag = 1;?>														
+						@endif
+					@endforeach
+					<?php if($flag == 1) { ?>
+						<div class="col-sm-2 change_aval_county" data-id="{{ $language->language_id }}" style="margin-bottom: 5px;">
+							<input type="checkbox" checked="checked" class="changed_lang lang_check" data-id="{{ $language->language_id }}" style="margin-left: 6px;">
+							<label style="margin-left: 2px;" data-id="{{ $language->language_id }}">{{ $language->language_name }}</label>
+						</div>
+					<?php }  else { ?>
+						<div class="col-sm-2 change_aval_county" data-id="{{ $language->language_id }}" style="margin-bottom: 5px;">
+							<input type="checkbox" class="changed_lang lang_check" data-id="{{ $language->language_id }}" style="margin-left: 6px;">
+							<label style="margin-left: 2px;" data-id="{{ $language->language_id }}">{{ $language->language_name }}</label>
+						</div>
+					<?php } ?>
+				@endforeach
+			@endif
 		@endif
 	@endif
-	</tbody>
-</table>
+	</div>

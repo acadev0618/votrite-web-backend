@@ -244,13 +244,10 @@ var TableManaged = function () {
                     state : state
                 },
                 success:function(response){
-                    $('#addBallotModal').remove();
-                    $('#deleteBallotsModal').remove();
                     $('#confirmModal').remove();
                     $('#change_table').html(response);
     
                     var table = $('#ballot_table');
-
                     table.dataTable({
                         "language": {
                             "aria": {
@@ -1199,51 +1196,77 @@ var TableManaged = function () {
     }
 
     var languageTable = function () {
-        var table = $('#language_table');
-        table.dataTable({
+        var list = $("#lang_list");
 
-            "language": {
-                "aria": {
-                    "sortAscending": ": activate to sort column ascending",
-                    "sortDescending": ": activate to sort column descending"
+        $('.lang_check').change(function() {
+            var checked = $(this).is(":checked");
+            var ballot_id = $('#ballot_lang_option').val();
+
+            if (checked) {
+                $(this).attr("checked", true);
+                var avaliable = "true";
+                var lang_id = $(this).data('id');
+            } else {
+                $(this).attr("checked", false);
+                var avaliable = "false";
+                var lang_id = $(this).data('id');
+            }
+           
+            $.ajax({
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                url: base_url+'/setAvalBallotLang',
+                type: 'post',
+                data: {
+                    ballot_id : ballot_id,
+                    lang_id : lang_id,
+                    avaliable : avaliable
                 },
-                "emptyTable": "No data available in table",
-                "info": "Showing _START_ to _END_ of _TOTAL_ entries",
-                "infoEmpty": "No entries found",
-                "infoFiltered": "(filtered1 from _MAX_ total entries)",
-                "lengthMenu": "Show _MENU_ entries",
-                "search": "Search:",
-                "zeroRecords": "No matching records found"
-            },
-            "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
-            
-            "lengthMenu": [
-                [5, 15, 20, -1],
-                [5, 15, 20, "All"] // change per page values here
-            ],
-            // set the initial value
-            "pageLength": 5,
-            "language": {
-                "lengthMenu": " _MENU_ records"
-            },
-            "columnDefs": [{  // set default column settings
-                'orderable': false,
-                'targets': [-1]
-            }, {
-                "searchable": false,
-                "targets": [0]
-            }],
-            "order": [
-                [0, "asc"]
-            ] // set first column as a default sort by asc
+                success: function(response) {
+                    var response = JSON.parse(response);
+                    if(response.state == 'success'){
+                        if(response.message == "0") {
+                            toastr['warning']('Warning! This language have already deleted.');    
+                        } else {
+                            if(avaliable == 'true') {
+                                toastr['success']('Success! Add is successfully.');
+                            } else if(avaliable == 'false'){
+                                toastr['info']('Success! Deleted is successfully.');
+                            }
+                        }
+                    } else {
+                        toastr['warning']('Warning! This language have already added.');
+                    }
+                }
+            });
+        });
+
+        $('.select_all_ballot_lang').change(function () {
+            $('.save_all_ballot_lang').removeClass("disabled");
+            $('.save_all_ballot_lang_').removeClass("disabled");
+            var set = jQuery(this).attr("data-set");
+            var checked = jQuery(this).is(":checked");
+            jQuery(set).each(function () {
+                if (checked) {
+                    $(this).attr("checked", true);
+                } else {
+                    $(this).attr("checked", false);
+                }
+            });
+            jQuery.uniform.update(set);
         });
         
-        $("[name='aval_ballot_lang']").change(function() {
-            var ballot_id = $('#ballot_lang_option').val();
-            var lang_id = $(this).data('id');
+        $(document).on('click', '.save_all_ballot_lang', function(){
+            var allVals = [];
+            $('.save_all_ballot_lang').addClass("disabled");
+            list.find(".lang_check:checked").each(function() {  
+                allVals.push($(this).attr('data-id'));
+            });
             
-            var checked = $(this).is(":checked");
-            if (checked) {
+            var ids = allVals.join(",");
+            var ballot_id = $('#ballot_lang_option').val();
+
+            var checkedAll = $('.select_all_ballot_lang').is(":checked");
+            if (checkedAll) {
                 $(this).attr("checked", true);
                 var avaliable = "true";
             } else {
@@ -1253,24 +1276,25 @@ var TableManaged = function () {
 
             $.ajax({
                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                url: base_url+'/setAvalBallotLang',
+                url: base_url+'/saveAllLang',
                 type: 'post',
                 data: {
                     ballot_id : ballot_id,
-                    avaliable : avaliable,
-                    lang_id : lang_id
+                    ids : ids,
+                    avaliable : avaliable
                 },
                 success: function(response) {
+                    $('.save_all_ballot_lang').removeClass("disabled");
                     var response = JSON.parse(response);
                     if(response.state == 'success'){
-                        if(response.message == "0") {
-                            toastr['error']('Whoops! Something went wrong.');    
+                        if(response.message == "-1") {
+                            toastr['warning']('Have already deleted all.');
+                        } else if(response.message == "1") {
+                            toastr['info']('All languages is deleted in this ballot successfully.');
+                        } else if(response.message == "-2") {
+                            toastr['warning']('Have already added all.');
                         } else {
-                            if(avaliable == 'true') {
-                                toastr['success']('It is set to ballot language successfully.');
-                            } else if(avaliable == 'false'){
-                                toastr['info']('It is deleted to ballot language successfully.');
-                            }
+                            toastr['success']('All languages is added in this ballot successfully.');
                         }
                     } else {
                         toastr['error']('Whoops! Something went wrong.');
@@ -1280,8 +1304,9 @@ var TableManaged = function () {
         });
 
         $('#ballot_lang_option').change(function(){
+            $('.save_all_ballot_lang').remove();
+            $('.save_all_ballot_lang_').show();
             var ballot_id = $(this).val();
-            
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -1294,78 +1319,88 @@ var TableManaged = function () {
                 success:function(response){
                     $('#change_table').html(response);
                     
-                    var table = $('#language_table');
-                    table.dataTable({
-
-                        "language": {
-                            "aria": {
-                                "sortAscending": ": activate to sort column ascending",
-                                "sortDescending": ": activate to sort column descending"
-                            },
-                            "emptyTable": "No data available in table",
-                            "info": "Showing _START_ to _END_ of _TOTAL_ entries",
-                            "infoEmpty": "No entries found",
-                            "infoFiltered": "(filtered1 from _MAX_ total entries)",
-                            "lengthMenu": "Show _MENU_ entries",
-                            "search": "Search:",
-                            "zeroRecords": "No matching records found"
-                        },
-                        "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
-                        
-                        "lengthMenu": [
-                            [5, 15, 20, -1],
-                            [5, 15, 20, "All"] // change per page values here
-                        ],
-                        // set the initial value
-                        "pageLength": 5,
-                        "language": {
-                            "lengthMenu": " _MENU_ records"
-                        },
-                        "columnDefs": [{  // set default column settings
-                            'orderable': false,
-                            'targets': [-1]
-                        }, {
-                            "searchable": false,
-                            "targets": [0]
-                        }],
-                        "order": [
-                            [0, "asc"]
-                        ] // set first column as a default sort by asc
-                    });
-                    
-                    $("[name='aval_ballot_lang']").change(function() {
-                        var ballot_id = $('#ballot_lang_option').val();
-                        var lang_id = $(this).data('id');
-                        
+                    $('.lang_check').change(function() {
                         var checked = $(this).is(":checked");
+                        var ballot_id = $('#ballot_lang_option').val();
+
                         if (checked) {
                             $(this).attr("checked", true);
                             var avaliable = "true";
+                            var lang_id = $(this).data('id');
                         } else {
                             $(this).attr("checked", false);
                             var avaliable = "false";
+                            var lang_id = $(this).data('id');
                         }
-
+                    
                         $.ajax({
                             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                             url: base_url+'/setAvalBallotLang',
                             type: 'post',
                             data: {
                                 ballot_id : ballot_id,
-                                avaliable : avaliable,
-                                lang_id : lang_id
+                                lang_id : lang_id,
+                                avaliable : avaliable
                             },
                             success: function(response) {
                                 var response = JSON.parse(response);
                                 if(response.state == 'success'){
                                     if(response.message == "0") {
-                                        toastr['error']('Whoops! Something went wrong.');    
+                                        toastr['warning']('Warning! This language have already deleted.');    
                                     } else {
                                         if(avaliable == 'true') {
-                                            toastr['success']('It is set to ballot language successfully.');
+                                            toastr['success']('Success! Add is successfully.');
                                         } else if(avaliable == 'false'){
-                                            toastr['info']('It is deleted to ballot language successfully.');
+                                            toastr['info']('Success! Deleted is successfully.');
                                         }
+                                    }
+                                } else {
+                                    toastr['warning']('Warning! This language have already added.');
+                                }
+                            }
+                        });
+                    });
+        
+                    $(document).on('click', '.save_all_ballot_lang_', function(){
+                        var allVals = [];
+                        $('.save_all_ballot_lang').addClass("disabled");
+                        list.find(".lang_check:checked").each(function() {  
+                            allVals.push($(this).attr('data-id'));
+                        });
+                        
+                        var ids = allVals.join(",");
+                        var ballot_id = $('#ballot_lang_option').val();
+            
+                        var checkedAll = $('.select_all_ballot_lang').is(":checked");
+                        if (checkedAll) {
+                            $(this).attr("checked", true);
+                            var avaliable = "true";
+                        } else {
+                            $(this).attr("checked", false);
+                            var avaliable = "false";
+                        }
+            
+                        $.ajax({
+                            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                            url: base_url+'/saveAllLang',
+                            type: 'post',
+                            data: {
+                                ballot_id : ballot_id,
+                                ids : ids,
+                                avaliable : avaliable
+                            },
+                            success: function(response) {
+                                $('.save_all_ballot_lang').removeClass("disabled");
+                                var response = JSON.parse(response);
+                                if(response.state == 'success'){
+                                    if(response.message == "-1") {
+                                        toastr['warning']('Have already deleted all.');
+                                    } else if(response.message == "1") {
+                                        toastr['info']('All languages is deleted in this ballot successfully.');
+                                    } else if(response.message == "-2") {
+                                        toastr['warning']('Have already added all.');
+                                    } else {
+                                        toastr['success']('All languages is added in this ballot successfully.');
                                     }
                                 } else {
                                     toastr['error']('Whoops! Something went wrong.');
@@ -1378,46 +1413,56 @@ var TableManaged = function () {
         });
     }    
     
-    var countryTable = function () {
-        var table = $('#country_table');
-        table.dataTable({
-            "language": {
-                "aria": {
-                    "sortAscending": ": activate to sort column ascending",
-                    "sortDescending": ": activate to sort column descending"
+    var countyTable = function () {
+        var list = $("#county_list");
+
+        $('.county_check').change(function() {
+            var checked = $(this).is(":checked");
+            var ballot_id = $('#county_ballot_option').val();
+            var state_id = $('#county_state_option').val();
+
+            if (checked) {
+                $(this).attr("checked", true);
+                var avaliable = "true";
+                var county_id = $(this).parents('.change_aval_county').data('id');
+            } else {
+                $(this).attr("checked", false);
+                var avaliable = "false";
+                var county_id = $(this).parents('.change_aval_county').data('id');
+            }
+           
+            $.ajax({
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                url: base_url+'/setAvalBallotCounty',
+                type: 'post',
+                data: {
+                    ballot_id : ballot_id,
+                    state_id : state_id,
+                    county_id : county_id,
+                    avaliable : avaliable
                 },
-                "emptyTable": "No data available in table",
-                "info": "Showing _START_ to _END_ of _TOTAL_ entries",
-                "infoEmpty": "No entries found",
-                "infoFiltered": "(filtered1 from _MAX_ total entries)",
-                "lengthMenu": "Show _MENU_ entries",
-                "search": "Search:",
-                "zeroRecords": "No matching records found"
-            },
-            "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
-            
-            "lengthMenu": [
-                [5, 15, 20, -1],
-                [5, 15, 20, "All"] // change per page values here
-            ],
-            // set the initial value
-            "pageLength": 5,
-            "language": {
-                "lengthMenu": " _MENU_ records"
-            },
-            "columnDefs": [{  // set default column settings
-                'orderable': false,
-                'targets': [0]
-            }, {
-                "searchable": false,
-                "targets": [0]
-            }],
-            "order": [
-                [1, "asc"]
-            ] // set first column as a default sort by asc
+                success: function(response) {
+                    var response = JSON.parse(response);
+                    if(response.state == 'success'){
+                        if(response.message == "0") {
+                            toastr['warning']('Warning! This county have already deleted.');    
+                        } else {
+                            if(avaliable == 'true') {
+                                toastr['success']('Success! Add is successfully.');
+                            } else if(avaliable == 'false'){
+                                toastr['info']('Success! Deleted is successfully.');
+                            }
+                        }
+                    } else {
+                        toastr['warning']('Warning! This county have already added.');
+                    }
+                }
+            });
         });
 
-        table.find('.group-checkable').change(function () {
+        $('.select_all_ballot_county').change(function () {
+            $('.save_all_ballot_county').removeClass("disabled");
+            $('.save_all_ballot_county_').removeClass("disabled");
             var set = jQuery(this).attr("data-set");
             var checked = jQuery(this).is(":checked");
             jQuery(set).each(function () {
@@ -1428,6 +1473,231 @@ var TableManaged = function () {
                 }
             });
             jQuery.uniform.update(set);
+        });
+        
+        $(document).on('click', '.save_all_ballot_county', function(){
+            var allVals = [];
+            $('.save_all_ballot_county').addClass("disabled");
+            list.find(".county_check:checked").each(function() {  
+                allVals.push($(this).attr('data-id'));
+            });
+            
+            var ids = allVals.join(",");
+            var ballot_id = $('#county_ballot_option').val();
+            var state_id = $('#county_state_option').val();
+
+            var checkedAll = $('.select_all_ballot_county').is(":checked");
+            if (checkedAll) {
+                $(this).attr("checked", true);
+                var avaliable = "true";
+            } else {
+                $(this).attr("checked", false);
+                var avaliable = "false";
+            }
+
+            $.ajax({
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                url: base_url+'/saveAllCounty',
+                type: 'post',
+                data: {
+                    ballot_id : ballot_id,
+                    state_id : state_id,
+                    ids : ids,
+                    avaliable : avaliable
+                },
+                success: function(response) {
+                    $('.save_all_ballot_county').removeClass("disabled");
+                    var response = JSON.parse(response);
+                    if(response.state == 'success'){
+                        if(response.message == "-1") {
+                            toastr['warning']('Have already deleted all.');
+                        } else if(response.message == "1") {
+                            toastr['info']('All counties is deleted in this ballot successfully.');
+                        } else if(response.message == "-2") {
+                            toastr['warning']('Have already added all.');
+                        } else {
+                            toastr['success']('All counties is added in this ballot successfully.');
+                        }
+                    } else {
+                        toastr['error']('Whoops! Something went wrong.');
+                    }
+                }
+            });
+        });
+        
+        $('#county_ballot_option').on('change', function(){
+            var ballot_id = $('#county_ballot_option').val();
+            var state_id = $('#county_state_option').val();
+            $.ajax({
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                url: base_url+'/getChangedCountyOfBallot',
+                type: 'POST',
+                data: {
+                    ballot_id : ballot_id,
+                    state_id : state_id
+                },
+                success:function(response){
+                    $('#change_table').html(response);
+                    
+                    $('.county_check').change(function() {
+                        var checked = $(this).is(":checked");
+                        var ballot_id = $('#county_ballot_option').val();
+                        var state_id = $('#county_state_option').val();
+            
+                        if (checked) {
+                            $(this).attr("checked", true);
+                            var avaliable = "true";
+                            var county_id = $(this).parents('.change_aval_county').data('id');
+                        } else {
+                            $(this).attr("checked", false);
+                            var avaliable = "false";
+                            var county_id = $(this).parents('.change_aval_county').data('id');
+                        }
+                       
+                        $.ajax({
+                            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                            url: base_url+'/setAvalBallotCounty',
+                            type: 'post',
+                            data: {
+                                ballot_id : ballot_id,
+                                state_id : state_id,
+                                county_id : county_id,
+                                avaliable : avaliable
+                            },
+                            success: function(response) {
+                                var response = JSON.parse(response);
+                                if(response.state == 'success'){
+                                    if(response.message == "0") {
+                                        toastr['warning']('Warning! This county have already deleted.');    
+                                    } else {
+                                        if(avaliable == 'true') {
+                                            toastr['success']('Success! Add is successfully.');
+                                        } else if(avaliable == 'false'){
+                                            toastr['info']('Success! Deleted is successfully.');
+                                        }
+                                    }
+                                } else {
+                                    toastr['warning']('Warning! This county have already added.');
+                                }
+                            }
+                        });
+                    });
+                }
+            });
+        });
+        
+        $('#county_state_option').on('change', function(){
+            $('.save_all_ballot_county').remove();
+            $('.save_all_ballot_county_').show();
+            var ballot_id = $('#county_ballot_option').val();
+            var state_id = $('#county_state_option').val();
+            $.ajax({
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                url: base_url+'/getChangedCountyOfBallot',
+                type: 'POST',
+                data: {
+                    ballot_id : ballot_id,
+                    state_id : state_id
+                },
+                success:function(response){
+                    $('#change_table').html(response);
+                    
+                    var list = $("#county_list");
+                    $('.county_check').change(function() {
+                        var checked = $(this).is(":checked");
+                        var ballot_id = $('#county_ballot_option').val();
+                        var state_id = $('#county_state_option').val();
+            
+                        if (checked) {
+                            $(this).attr("checked", true);
+                            var avaliable = "true";
+                            var county_id = $(this).parents('.change_aval_county').data('id');
+                        } else {
+                            $(this).attr("checked", false);
+                            var avaliable = "false";
+                            var county_id = $(this).parents('.change_aval_county').data('id');
+                        }
+                       
+                        $.ajax({
+                            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                            url: base_url+'/setAvalBallotCounty',
+                            type: 'post',
+                            data: {
+                                ballot_id : ballot_id,
+                                state_id : state_id,
+                                county_id : county_id,
+                                avaliable : avaliable
+                            },
+                            success: function(response) {
+                                var response = JSON.parse(response);
+                                if(response.state == 'success'){
+                                    if(response.message == "0") {
+                                        toastr['warning']('Warning! This county have already deleted.');    
+                                    } else {
+                                        if(avaliable == 'true') {
+                                            toastr['success']('Success! Add is successfully.');
+                                        } else if(avaliable == 'false'){
+                                            toastr['info']('Success! Deleted is successfully.');
+                                        }
+                                    }
+                                } else {
+                                    toastr['warning']('Warning! This county have already added.');
+                                }
+                            }
+                        });
+                    });
+        
+                    $(document).on('click', '.save_all_ballot_county_', function(){
+                        var allVals = [];
+                        $('.save_all_ballot_county_').addClass("disabled");
+                        list.find(".county_check:checked").each(function() {  
+                            allVals.push($(this).attr('data-id'));
+                        });
+                        
+                        var ids = allVals.join(",");
+                        var ballot_id = $('#county_ballot_option').val();
+                        var state_id = $('#county_state_option').val();
+            
+                        var checkedAll = $('.select_all_ballot_county').is(":checked");
+                        if (checkedAll) {
+                            $(this).attr("checked", true);
+                            var avaliable = "true";
+                        } else {
+                            $(this).attr("checked", false);
+                            var avaliable = "false";
+                        }
+            
+                        $.ajax({
+                            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                            url: base_url+'/saveAllCounty',
+                            type: 'post',
+                            data: {
+                                ballot_id : ballot_id,
+                                state_id : state_id,
+                                ids : ids,
+                                avaliable : avaliable
+                            },
+                            success: function(response) {
+                                $('.save_all_ballot_county_').removeClass("disabled");
+                                var response = JSON.parse(response);
+                                if(response.state == 'success'){
+                                    if(response.message == "-1") {
+                                        toastr['warning']('Have already deleted all.');
+                                    } else if(response.message == "1") {
+                                        toastr['info']('All counties is deleted in this ballot successfully.');
+                                    } else if(response.message == "-2") {
+                                        toastr['warning']('Have already added all.');
+                                    } else {
+                                        toastr['success']('All counties is added in this ballot successfully.');
+                                    }
+                                } else {
+                                    toastr['error']('Whoops! Something went wrong.');
+                                }
+                            }
+                        });
+                    });
+                }
+            });
         });
     }  
     
@@ -2846,7 +3116,7 @@ var TableManaged = function () {
             raceTable();
             candidateTable();
             languageTable();
-            countryTable();
+            countyTable();
             propositionTable();
             massPropositionTable();
             voterTable();
