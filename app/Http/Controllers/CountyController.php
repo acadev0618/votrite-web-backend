@@ -45,10 +45,10 @@ class CountyController extends Controller {
             $ballot_counties = trim(' ');
             $counties = trim(' ');
         } else {
-            $state_id = $states->data[0]->state_id;
+            $state_id = $request->state_id;
             $counties = $this->getCountiesOfState($state_id);
             $ballot_id = $request->ballot_id;
-            $ballot_counties = $this->getCountyOfBallot($ballot_id);
+            $ballot_counties = $this->getCounties($ballot_id , $state_id);
         }
 
         return view('countyChanged')->with([
@@ -139,7 +139,7 @@ class CountyController extends Controller {
 
     public function saveAll($ballot_id, $state_id, $ids) {
         $ids = explode(',', $ids);
-        $ballot_counties = $this->getCountyOfBallot($ballot_id);
+        $ballot_counties = $this->getCounties($ballot_id , $state_id);
         if(empty($ballot_counties->data)) {
             for($i = 0; $i < count($ids); $i ++) {
                 $data = array(
@@ -161,6 +161,7 @@ class CountyController extends Controller {
             );
             return json_encode($response);
         } else {
+            $selected = [];
             for($i = 0; $i < count($ids); $i ++) {
                 $flag = 0;
                 for($j = 0; $j < count($ballot_counties->data); $j ++) {
@@ -168,16 +169,16 @@ class CountyController extends Controller {
                         $flag = 1;
                     }
                 }
-                if($flag == 1) {
-                    unset($ids[$i]);
+                if($flag != 1) {
+                    array_push($selected, $ids[$i]);
                 }
             }
-            
-            for($k = 0; $k < count($ids); $k ++) {
+
+            for($k = 0; $k < count($selected); $k ++) {
                 $data = array(
                     'ballot_id' => $ballot_id,
                     'state_id' => $state_id,
-                    'county_id' => $ids[$i]
+                    'county_id' => $selected[$k]
                 );
                 $json = json_encode($data);
                 $api_url = env('API').'/ballot/county/create';

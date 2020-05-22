@@ -1380,8 +1380,54 @@ var TableManaged = function () {
     
     var countyTable = function () {
         var list = $("#county_list");
+
+        $('.county_check').change(function() {
+            var checked = $(this).is(":checked");
+            var ballot_id = $('#county_ballot_option').val();
+            var state_id = $('#county_state_option').val();
+
+            if (checked) {
+                $(this).attr("checked", true);
+                var avaliable = "true";
+                var county_id = $(this).parents('.change_aval_county').data('id');
+            } else {
+                $(this).attr("checked", false);
+                var avaliable = "false";
+                var county_id = $(this).parents('.change_aval_county').data('id');
+            }
+           
+            $.ajax({
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                url: base_url+'/setAvalBallotCounty',
+                type: 'post',
+                data: {
+                    ballot_id : ballot_id,
+                    state_id : state_id,
+                    county_id : county_id,
+                    avaliable : avaliable
+                },
+                success: function(response) {
+                    var response = JSON.parse(response);
+                    if(response.state == 'success'){
+                        if(response.message == "0") {
+                            toastr['warning']('Warning! This county have already deleted.');    
+                        } else {
+                            if(avaliable == 'true') {
+                                toastr['success']('Success! Add is successfully.');
+                            } else if(avaliable == 'false'){
+                                toastr['info']('Success! Deleted is successfully.');
+                            }
+                        }
+                    } else {
+                        toastr['warning']('Warning! This county have already added.');
+                    }
+                }
+            });
+        });
+
         $('.select_all_ballot_county').change(function () {
             $('.save_all_ballot_county').removeClass("disabled");
+            $('.save_all_ballot_county_').removeClass("disabled");
             var set = jQuery(this).attr("data-set");
             var checked = jQuery(this).is(":checked");
             jQuery(set).each(function () {
@@ -1400,11 +1446,11 @@ var TableManaged = function () {
             list.find(".county_check:checked").each(function() {  
                 allVals.push($(this).attr('data-id'));
             });
-
+            
             var ids = allVals.join(",");
             var ballot_id = $('#county_ballot_option').val();
             var state_id = $('#county_state_option').val();
-            
+
             var checkedAll = $('.select_all_ballot_county').is(":checked");
             if (checkedAll) {
                 $(this).attr("checked", true);
@@ -1443,128 +1489,22 @@ var TableManaged = function () {
                 }
             });
         });
-
-        $('.county_check').change(function() {
-            var checked = $(this).is(":checked");
-            var ballot_id = $('#county_ballot_option').val();
-            var state_id = $('#county_state_option').val();
-
-            if (checked) {
-                $(this).attr("checked", true);
-                var avaliable = "true";
-                var county_id = $(this).parents('.change_aval_county').data('id');
-            } else {
-                $(this).attr("checked", false);
-                var avaliable = "false";
-                var county_id = $(this).parents('.change_aval_county').data('id');
-            }
-           
-            $.ajax({
-                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                url: base_url+'/setAvalBallotCounty',
-                type: 'post',
-                data: {
-                    ballot_id : ballot_id,
-                    state_id : state_id,
-                    county_id : county_id,
-                    avaliable : avaliable
-                },
-                success: function(response) {
-                    var response = JSON.parse(response);
-                    if(response.state == 'success'){
-                        if(response.message == "0") {
-                            toastr['error']('Whoops! Something went wrong.');    
-                        } else {
-                            if(avaliable == 'true') {
-                                toastr['success']('It is set to ballot county successfully.');
-                            } else if(avaliable == 'false'){
-                                toastr['info']('It is deleted to ballot county successfully.');
-                            }
-                        }
-                    } else {
-                        toastr['error']('Whoops! Something went wrong.');
-                    }
-                }
-            });
-        });
         
         $('#county_ballot_option').on('change', function(){
-            var ballot_id = $(this).val();
+            var ballot_id = $('#county_ballot_option').val();
+            var state_id = $('#county_state_option').val();
             $.ajax({
                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                 url: base_url+'/getChangedCountyOfBallot',
                 type: 'POST',
                 data: {
                     ballot_id : ballot_id,
+                    state_id : state_id
                 },
                 success:function(response){
                     $('#change_table').html(response);
-
-                    var list = $("#county_list");
-                    $('.select_all_ballot_county').change(function () {
-                        $('.save_all_ballot_county').removeClass("disabled");
-                        var set = jQuery(this).attr("data-set");
-                        var checked = jQuery(this).is(":checked");
-                        jQuery(set).each(function () {
-                            if (checked) {
-                                $(this).attr("checked", true);
-                            } else {
-                                $(this).attr("checked", false);
-                            }
-                        });
-                        jQuery.uniform.update(set);
-                    });
                     
-                    $(document).on('click', '.save_all_ballot_county', function(){
-                        var allVals = [];
-                        $('.save_all_ballot_county').addClass("disabled");
-                        list.find(".county_check:checked").each(function() {  
-                            allVals.push($(this).attr('data-id'));
-                        });
-            
-                        var ids = allVals.join(",");
-                        var ballot_id = $('#county_ballot_option').val();
-                        var state_id = $('#county_state_option').val();
-                        
-                        var checkedAll = $('.select_all_ballot_county').is(":checked");
-                        if (checkedAll) {
-                            $(this).attr("checked", true);
-                            var avaliable = "true";
-                        } else {
-                            $(this).attr("checked", false);
-                            var avaliable = "false";
-                        }
-            
-                        $.ajax({
-                            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                            url: base_url+'/saveAllCounty',
-                            type: 'post',
-                            data: {
-                                ballot_id : ballot_id,
-                                state_id : state_id,
-                                ids : ids,
-                                avaliable : avaliable
-                            },
-                            success: function(response) {
-                                $('.save_all_ballot_county').removeClass("disabled");
-                                var response = JSON.parse(response);
-                                if(response.state == 'success'){
-                                    if(response.message == "-1") {
-                                        toastr['warning']('Have already deleted all.');
-                                    } else if(response.message == "1") {
-                                        toastr['info']('All counties is deleted in this ballot successfully.');
-                                    } else if(response.message == "-2") {
-                                        toastr['warning']('Have already added all.');
-                                    } else {
-                                        toastr['success']('All counties is added in this ballot successfully.');
-                                    }
-                                } else {
-                                    toastr['error']('Whoops! Something went wrong.');
-                                }
-                            }
-                        });
-                    });
-            
+                    var list = $("#county_list");
                     $('.county_check').change(function() {
                         var checked = $(this).is(":checked");
                         var ballot_id = $('#county_ballot_option').val();
@@ -1594,13 +1534,127 @@ var TableManaged = function () {
                                 var response = JSON.parse(response);
                                 if(response.state == 'success'){
                                     if(response.message == "0") {
-                                        toastr['error']('Whoops! Something went wrong.');    
+                                        toastr['warning']('Warning! This county have already deleted.');    
                                     } else {
                                         if(avaliable == 'true') {
-                                            toastr['success']('It is set to ballot county successfully.');
+                                            toastr['success']('Success! Add is successfully.');
                                         } else if(avaliable == 'false'){
-                                            toastr['info']('It is deleted to ballot county successfully.');
+                                            toastr['info']('Success! Deleted is successfully.');
                                         }
+                                    }
+                                } else {
+                                    toastr['warning']('Warning! This county have already added.');
+                                }
+                            }
+                        });
+                    });
+                }
+            });
+        });
+        
+        $('#county_state_option').on('change', function(){
+            $('.save_all_ballot_county').remove();
+            $('.save_all_ballot_county_').show();
+            var ballot_id = $('#county_ballot_option').val();
+            var state_id = $('#county_state_option').val();
+            $.ajax({
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                url: base_url+'/getChangedCountyOfBallot',
+                type: 'POST',
+                data: {
+                    ballot_id : ballot_id,
+                    state_id : state_id
+                },
+                success:function(response){
+                    $('#change_table').html(response);
+                    
+                    var list = $("#county_list");
+                    $('.county_check').change(function() {
+                        var checked = $(this).is(":checked");
+                        var ballot_id = $('#county_ballot_option').val();
+                        var state_id = $('#county_state_option').val();
+            
+                        if (checked) {
+                            $(this).attr("checked", true);
+                            var avaliable = "true";
+                            var county_id = $(this).parents('.change_aval_county').data('id');
+                        } else {
+                            $(this).attr("checked", false);
+                            var avaliable = "false";
+                            var county_id = $(this).parents('.change_aval_county').data('id');
+                        }
+                       
+                        $.ajax({
+                            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                            url: base_url+'/setAvalBallotCounty',
+                            type: 'post',
+                            data: {
+                                ballot_id : ballot_id,
+                                state_id : state_id,
+                                county_id : county_id,
+                                avaliable : avaliable
+                            },
+                            success: function(response) {
+                                var response = JSON.parse(response);
+                                if(response.state == 'success'){
+                                    if(response.message == "0") {
+                                        toastr['warning']('Warning! This county have already deleted.');    
+                                    } else {
+                                        if(avaliable == 'true') {
+                                            toastr['success']('Success! Add is successfully.');
+                                        } else if(avaliable == 'false'){
+                                            toastr['info']('Success! Deleted is successfully.');
+                                        }
+                                    }
+                                } else {
+                                    toastr['warning']('Warning! This county have already added.');
+                                }
+                            }
+                        });
+                    });
+        
+                    $(document).on('click', '.save_all_ballot_county_', function(){
+                        var allVals = [];
+                        $('.save_all_ballot_county_').addClass("disabled");
+                        list.find(".county_check:checked").each(function() {  
+                            allVals.push($(this).attr('data-id'));
+                        });
+                        
+                        var ids = allVals.join(",");
+                        var ballot_id = $('#county_ballot_option').val();
+                        var state_id = $('#county_state_option').val();
+            
+                        var checkedAll = $('.select_all_ballot_county').is(":checked");
+                        if (checkedAll) {
+                            $(this).attr("checked", true);
+                            var avaliable = "true";
+                        } else {
+                            $(this).attr("checked", false);
+                            var avaliable = "false";
+                        }
+            
+                        $.ajax({
+                            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                            url: base_url+'/saveAllCounty',
+                            type: 'post',
+                            data: {
+                                ballot_id : ballot_id,
+                                state_id : state_id,
+                                ids : ids,
+                                avaliable : avaliable
+                            },
+                            success: function(response) {
+                                $('.save_all_ballot_county_').removeClass("disabled");
+                                var response = JSON.parse(response);
+                                if(response.state == 'success'){
+                                    if(response.message == "-1") {
+                                        toastr['warning']('Have already deleted all.');
+                                    } else if(response.message == "1") {
+                                        toastr['info']('All counties is deleted in this ballot successfully.');
+                                    } else if(response.message == "-2") {
+                                        toastr['warning']('Have already added all.');
+                                    } else {
+                                        toastr['success']('All counties is added in this ballot successfully.');
                                     }
                                 } else {
                                     toastr['error']('Whoops! Something went wrong.');

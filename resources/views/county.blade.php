@@ -56,6 +56,7 @@
 										</div>
 										<div class="col-sm-2">
 											<button type="submit" id="save_all_ballot_county" class="btn btn-success save_all_ballot_county disabled"><span id="" class='glyphicon glyphicon-check'></span> Save all</button>
+											<button type="submit" id="save_all_ballot_county" class="btn btn-success save_all_ballot_county_ disabled" style="display:none;"><span id="" class='glyphicon glyphicon-check'></span> Save all</button>
 										</div>
 									</div>
 								</div>
