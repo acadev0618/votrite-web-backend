@@ -25,7 +25,7 @@
 			var rnewpwd = $('#rnewpwd').val();
 			if(newpwd == rnewpwd && newpwd != ''){
 
-				let order = {
+				var order = {
 					"user_password": newpwd,
 					"keys": {"user_id":parseInt(userid)}
 				}
@@ -34,7 +34,7 @@
 				    type: 'POST',
 					url: baseurl+'user/update',
 					crossDomain: true,
-					data: order,
+					data: JSON.stringify(order),
 					dataType: 'json',
 				    success: function(responseData, textStatus, jqXHR) {
 				        toastr.success("Password Changed");

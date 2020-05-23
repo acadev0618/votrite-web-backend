@@ -2,6 +2,7 @@
 
 ////////////////////////////////////  Authentication Urls   //////////////////////////////////////
 Route::get('/', 'AuthController@login')->name('request');
+
 Route::get('/forgotPassword', 'AuthController@forgotPassword')->name('request');
 Route::get('/logout', 'AuthController@logout')->name('request');
 Route::post('/login', 'AuthController@loginApi')->name('request');
