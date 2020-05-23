@@ -1,20 +1,31 @@
 <?php
 
+////////////////////////////////////  Authentication Urls   //////////////////////////////////////
 Route::get('/', 'AuthController@login')->name('request');
 
 Route::get('/forgotPassword', 'AuthController@forgotPassword')->name('request');
-Route::get('/dashboard', 'DashboardController@index')->name('request');
-Route::get('/ballot', 'BallotController@index')->name('request');
-Route::get('/race', 'RaceController@index')->name('request');
-Route::get('/candidate', 'CandidateController@index')->name('request');
-Route::get('/language', 'LanguageController@index')->name('request');
-Route::get('/county', 'CountyController@index')->name('request');
-Route::get('/proposition', 'PropositionController@index')->name('request');
-Route::get('/mass_proposition', 'MassPropositionController@index')->name('request');
-Route::get('/voter', 'VoterController@index')->name('request');
-Route::get('/users', 'UserController@index')->name('request');
-Route::get('/party', 'PartyController@index')->name('request');
 Route::get('/logout', 'AuthController@logout')->name('request');
+Route::post('/login', 'AuthController@loginApi')->name('request');
+
+////////////////////////////////////  Dashboard Urls   //////////////////////////////////////
+Route::get('/dashboard', 'DashboardController@index')->name('request');
+
+////////////////////////////////////  Manage Urls   /////////////////////////////////////////
+Route::prefix('/manage')->group(function() {
+    Route::get('/ballot', 'BallotController@index')->name('request');
+    Route::get('/race', 'RaceController@index')->name('request');
+    Route::get('/candidate', 'CandidateController@index')->name('request');
+    Route::get('/proposition', 'PropositionController@index')->name('request');
+    Route::get('/mass_proposition', 'MassPropositionController@index')->name('request');
+    Route::get('/voter', 'VoterController@index')->name('request');
+    Route::get('/party', 'PartyController@index')->name('request');
+    Route::get('/county', 'CountyController@index')->name('request');
+    Route::get('/language', 'LanguageController@index')->name('request');
+});
+
+////////////////////////////////////  User Url   ////////////////////////////////////////////
+Route::get('/users', 'UserController@index')->name('request');
+
 
 ////////////////////////////////
 Route::get('/profile/{id}', 'AuthController@profile')->name('profile');
@@ -27,10 +38,9 @@ Route::prefix('result')->group(function () {
 });
 ///////////////////////////////
 
+////////////////////////////////////  Post Urls   ////////////////////////////////////////////
 Route::post('/deleteData', 'BaseController@deleteData')->name('request');
 Route::post('/mutiDeleteData', 'BaseController@mutiDeleteData')->name('request');
-
-Route::post('/login', 'AuthController@loginApi')->name('request');
 
 Route::post('/createUser', 'UserController@createUser')->name('request');
 Route::post('/updateUser', 'UserController@updateUser')->name('request');

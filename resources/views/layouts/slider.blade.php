@@ -1,9 +1,11 @@
 <div class="page-sidebar-wrapper">
     <div class="page-sidebar navbar-collapse collapse">
         <ul class="page-sidebar-menu" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
+            
             <li class="sidebar-toggler-wrapper" style="margin-bottom: 10px;">
                 <div class="sidebar-toggler"></div>
             </li>
+
             @if($sliderAction == "dashboard")
             <li class="active open">
             @else
@@ -15,6 +17,7 @@
                     <span class="selected"></span>
                 </a>
             </li>
+            
             @if($sliderAction == "manage")
             <li class="active open">
             @else
@@ -32,75 +35,75 @@
                     @else
                     <li>
                     @endif
-                        <a href="{{ asset('/ballot') }}">
-                        Ballot</a>
+                        <a href="{{ asset('/manage/ballot') }}">Ballot</a>
                     </li>
+                    
                     @if($subAction == "race")
                     <li class="active">
                     @else
-                    <li>
+                    <li>    
                     @endif
-                        <a href="{{ asset('/race') }}">
-                        Race</a>
+                        <a href="{{ asset('/manage/race') }}">Race</a>
                     </li>
+                    
                     @if($subAction == "candidate")
                     <li class="active">
                     @else
                     <li>
                     @endif
-                        <a href="{{ asset('/candidate') }}">
-                        Candidate</a>
+                        <a href="{{ asset('/manage/candidate') }}">Candidate</a>
                     </li>
+
                     @if($subAction == "proposition")
                     <li class="active">
                     @else
                     <li>
                     @endif
-                        <a href="{{ asset('/proposition') }}">
-                        Propositions</a>
+                        <a href="{{ asset('/manage/proposition') }}">Propositions</a>
                     </li>
+
                     @if($subAction == "mass_proposition")
                     <li class="active">
                     @else
                     <li>
                     @endif
-                        <a href="{{ asset('/mass_proposition') }}">
-                        Mass Propositions</a>
+                        <a href="{{ asset('/manage/mass_proposition') }}">Mass Propositions</a>
                     </li>
+
                     @if($subAction == "voter")
                     <li class="active">
                     @else
                     <li>
                     @endif
-                        <a href="{{ asset('/voter') }}">
-                        Voters</a>
+                        <a href="{{ asset('/manage/voter') }}">Voters</a>
                     </li>
+
                     @if($subAction == "party")
                     <li class="active">
                     @else
                     <li>
                     @endif
-                        <a href="{{ asset('/party') }}">
-                        Parties</a>
+                        <a href="{{ asset('/manage/party') }}">Parties</a>
                     </li>
+
                     @if($subAction == "county")
                     <li class="active">
                     @else
                     <li>
                     @endif
-                        <a href="{{ asset('/county') }}">
-                        Counties</a>
+                        <a href="{{ asset('/manage/county') }}">Counties</a>
                     </li>
+
                     @if($subAction == "language")
                     <li class="active">
                     @else
                     <li>
                     @endif
-                        <a href="{{ asset('/language') }}">
-                        Languages</a>
+                        <a href="{{ asset('/manage/language') }}">Languages</a>
                     </li>
                 </ul>
             </li>
+
             @if($sliderAction == "users")
             <li class="active open">
             @else
@@ -112,6 +115,7 @@
                     <span class="selected"></span>
                 </a>
             </li>
+
             @if($sliderAction == "result")
             <li class="active open">
             @else
