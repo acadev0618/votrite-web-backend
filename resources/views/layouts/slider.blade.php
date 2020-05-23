@@ -33,7 +33,7 @@
                     <li>
                     @endif
                         <a href="{{ asset('/ballot') }}">
-                        Ballote</a>
+                        Ballot</a>
                     </li>
                     @if($subAction == "race")
                     <li class="active">
