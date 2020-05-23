@@ -43,7 +43,7 @@
                     @else
                     <li>    
                     @endif
-                        <a href="{{ asset('/race') }}">Race</a>
+                        <a href="{{ asset('/manage/race') }}">Race</a>
                     </li>
                     
                     @if($subAction == "candidate")
@@ -51,7 +51,7 @@
                     @else
                     <li>
                     @endif
-                        <a href="{{ asset('/candidate') }}">Candidate</a>
+                        <a href="{{ asset('/manage/candidate') }}">Candidate</a>
                     </li>
 
                     @if($subAction == "proposition")
@@ -59,7 +59,7 @@
                     @else
                     <li>
                     @endif
-                        <a href="{{ asset('/proposition') }}">Propositions</a>
+                        <a href="{{ asset('/manage/proposition') }}">Propositions</a>
                     </li>
 
                     @if($subAction == "mass_proposition")
@@ -67,7 +67,7 @@
                     @else
                     <li>
                     @endif
-                        <a href="{{ asset('/mass_proposition') }}">Mass Propositions</a>
+                        <a href="{{ asset('/manage/mass_proposition') }}">Mass Propositions</a>
                     </li>
 
                     @if($subAction == "voter")
@@ -75,7 +75,7 @@
                     @else
                     <li>
                     @endif
-                        <a href="{{ asset('/voter') }}">Voters</a>
+                        <a href="{{ asset('/manage/voter') }}">Voters</a>
                     </li>
 
                     @if($subAction == "party")
@@ -83,7 +83,7 @@
                     @else
                     <li>
                     @endif
-                        <a href="{{ asset('/party') }}">Parties</a>
+                        <a href="{{ asset('/manage/party') }}">Parties</a>
                     </li>
 
                     @if($subAction == "county")
@@ -91,7 +91,7 @@
                     @else
                     <li>
                     @endif
-                        <a href="{{ asset('/county') }}">Counties</a>
+                        <a href="{{ asset('/manage/county') }}">Counties</a>
                     </li>
 
                     @if($subAction == "language")
@@ -99,7 +99,7 @@
                     @else
                     <li>
                     @endif
-                        <a href="{{ asset('/language') }}">Languages</a>
+                        <a href="{{ asset('/manage/language') }}">Languages</a>
                     </li>
                 </ul>
             </li>
