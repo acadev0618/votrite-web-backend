@@ -24,12 +24,12 @@
 <script>
     window.baseurl = document.head.querySelector("[name~=baseurl][content]").content;
     window.csrfToken = document.head.querySelector("[name~=csrf-token][content]").content;
-jQuery(document).ready(function() {
-    
-    Metronic.init();
-    Layout.init();
-    QuickSidebar.init();
-    Demo.init();
-    TableManaged.init();
-});
+    jQuery(document).ready(function() {
+        
+        Metronic.init();
+        Layout.init();
+        QuickSidebar.init();
+        Demo.init();
+        TableManaged.init();
+    });
 </script>

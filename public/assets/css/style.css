@@ -6,10 +6,10 @@
 }
 .fa-edit {
     margin-right: 5px;
+    margin-left: 5px;
 }
-.fa-eye {
-    margin-right: 5px;
-    margin-left: 12px;
+.action_th {
+    min-width: 80px !important;
 }
 .ballot-actions {
     float: right;

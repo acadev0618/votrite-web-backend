@@ -796,18 +796,20 @@ var TableManaged = function () {
                 "search": "Search:",
                 "zeroRecords": "No matching records found"
             },
-            "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
+
             
+            "bStateSave": true,
+
+
             "lengthMenu": [
                 [5, 15, 20, -1],
-                [5, 15, 20, "All"] // change per page values here
+                [5, 15, 20, "All"]
             ],
-            // set the initial value
             "pageLength": 5,
             "language": {
                 "lengthMenu": " _MENU_ records"
             },
-            "columnDefs": [{  // set default column settings
+            "columnDefs": [{
                 'orderable': false,
                 'targets': [0]
             }, {
@@ -816,7 +818,7 @@ var TableManaged = function () {
             }],
             "order": [
                 [1, "asc"]
-            ] // set first column as a default sort by asc
+            ]
         });
 
         table.find('.group-checkable').change(function () {
