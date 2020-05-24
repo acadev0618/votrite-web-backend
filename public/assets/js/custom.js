@@ -796,9 +796,8 @@ var TableManaged = function () {
                 "search": "Search:",
                 "zeroRecords": "No matching records found"
             },
-
-            
             "bStateSave": true,
+
 
 
             "lengthMenu": [
@@ -966,7 +965,6 @@ var TableManaged = function () {
 
         $('#cand_ballot_name').change(function(){
             var ballot_id = $(this).val();
-
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -977,34 +975,246 @@ var TableManaged = function () {
                     ballot_id : ballot_id
                 },
                 success:function(response){
-                    // res = JSON.parse(response);
-                    // console.log(res);
+                    $.ajax({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        url: base_url+'/getCandRaces',
+                        type: 'POST',
+                        data: {
+                            ballot_id : ballot_id
+                        },
+                        success: function(response){
+                            var response = JSON.parse(response);
+                            console.log(response);
+                            var races = response.races;
+                            var langs = response.langs;
 
-                    // $.ajax({
-                    //     headers: {
-                    //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    //     },
-                    //     url: base_url+'/getCandRaces',
-                    //     type: 'POST',
-                    //     data: {
-                    //         ballot_id : ballot_id
-                    //     },
-                    //     success: function(response){
-                    //         var response = JSON.parse(response);
-                    //         var race_option = '';
-                    //         race_option += '<select class="form-control" name="cand_race_name" id="cand_race_name">';
-                    //         // @if(empty($races->data))
-                    //         //     <option value="-1">No Race</opiton>
-                    //         // @else
-                    //         //     @foreach($races->data as $race)
-                    //         //     <option value="{{ $race->race_id }}">{{ $race->race_name }}</opiton>
-                    //         //     @endforeach
-                    //         // @endif
-                    //         // </select>
+                            if($.isEmptyObject(races)){
+                                var race_options = "<option value='-1'>No Race</opiton>";
+                            } else {
+                                for (var x in races.data) {
+                                    race_options += "<option value="+races.data[x]['race_id']+">"+races.data[x]['race_name']+"</opiton>";
+                                }
+                            }
 
-                    //         $('.race_option').html(race_option);
-                    //     }
-                    // });
+                            if($.isEmptyObject(langs)){
+                                var lang_options = "<option value='-1'>No Language</opiton>";
+                            } else {
+                                for (var x in langs.data) {
+                                    lang_options += "<option value="+langs.data[x]['lang_id']+">"+langs.data[x]['language_name']+"</opiton>";
+                                }
+                            }
+
+                            $('#cand_race_name').html(race_options);
+                            $('#cand_lang_name').html(lang_options);
+                        }
+                    });
+
+                    $('#addCandidateModal').remove();
+                    $('#deleteCandidatesModal').remove();
+                    $('#confirmModal').remove();
+                    $('#change_table').html(response);
+
+                    var table = $('#candidate_table');
+
+                    table.dataTable({
+                        "language": {
+                            "aria": {
+                                "sortAscending": ": activate to sort column ascending",
+                                "sortDescending": ": activate to sort column descending"
+                            },
+                            "emptyTable": "No data available in table",
+                            "info": "Showing _START_ to _END_ of _TOTAL_ entries",
+                            "infoEmpty": "No entries found",
+                            "infoFiltered": "(filtered1 from _MAX_ total entries)",
+                            "lengthMenu": "Show _MENU_ entries",
+                            "search": "Search:",
+                            "zeroRecords": "No matching records found"
+                        },
+                        "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
+                        
+                        "lengthMenu": [
+                            [5, 15, 20, -1],
+                            [5, 15, 20, "All"] // change per page values here
+                        ],
+                        // set the initial value
+                        "pageLength": 5,
+                        "language": {
+                            "lengthMenu": " _MENU_ records"
+                        },
+                        "columnDefs": [{  // set default column settings
+                            'orderable': false,
+                            'targets': [0]
+                        }, {
+                            "searchable": false,
+                            "targets": [0]
+                        }],
+                        "order": [
+                            [1, "asc"]
+                        ] // set first column as a default sort by asc
+                    });
+
+                    table.find('.group-checkable').change(function () {
+                        var set = jQuery(this).attr("data-set");
+                        var checked = jQuery(this).is(":checked");
+                        jQuery(set).each(function () {
+                            if (checked) {
+                                $(this).attr("checked", true);
+                            } else {
+                                $(this).attr("checked", false);
+                            }
+                        });
+                        jQuery.uniform.update(set);
+                    });
+
+                    table.find('.checkboxes').change(function(){
+                        var checked = $(this).is(":checked");
+                        if (checked) {
+                            $(this).attr("checked", true);
+                        } else {
+                            $(this).attr("checked", false);
+                        }
+                    });
+
+                    $('.addCandidateModal').click(function(){
+                        var ballot_id = $('#cand_ballot_name').val();
+                        var race_id = $('#cand_race_name').val();
+                        var lang_id = $('#cand_lang_name').val();
+                        var party_id = $('#add_cand_party').val();
+                        var confirmModal = $('#candConfirmModal');
+                        var addModal = $('#addCandidateModal');
+
+                        addModal.find('#ballot_id').val(ballot_id);
+                        addModal.find('#race_id').val(race_id);
+                        addModal.find('#lang_id').val(lang_id);
+                        
+                        if(ballot_id < 0) {
+                            confirmModal.find('.modal_content').text("There aren't any ballots. Please make the ballot, first.");
+                            confirmModal.modal('show');
+                        } else if(race_id < 0) {
+                            confirmModal.find('.modal_content').text("There aren't any races in this ballot. Please make the race, first.");
+                            confirmModal.modal('show');
+                        } else if(party_id < 0) {
+                            confirmModal.find('.modal_content').text("There aren't any parties in this ballot. Please make the party, first.");
+                            confirmModal.modal('show');
+                        } else {
+                            addModal.modal('show');
+                        }
+                    });
+
+                    $(document).on('click', '.deleteCandidatesModal', function(){
+                        var modal = $('#deleteCandidatesModal');
+                        var allVals = [];
+
+                        table.find(".checkboxes:checked").each(function() {  
+                            allVals.push($(this).attr('data-id'));
+                        });
+
+                        if(allVals.length <= 0) {
+                            var confrim = $('#candConfirmModal');
+                            confrim.modal('show');
+                        } else {
+                            modal.modal('show');
+                            var target_id = 'candidate_id';
+                            var ids = allVals.join(",");
+                            var api = api_url+'/candidate/delete';
+
+                            modal.find('.target_id').val(target_id);
+                            modal.find('.ids').val(ids);
+                            modal.find('.api').val(api);
+                        }
+                    });
+
+                    var confirmModal = $('#candConfirmModal');
+                    confirmModal.find('.modal_hide').click(function(){
+                        confirmModal.modal('hide');
+                        confirmModal.find('.modal_content').text('Please select porpositions.');
+                    });
+
+                    $('.previewCandidateModal').click(function(){
+                        var cand_id = $(this).data('id');
+                        var modal = $('#previewCandidateModal');
+
+                        $.ajax({
+                            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                            url: base_url+'/getOneCand',
+                            type: 'post',
+                            data: {
+                                candidate_id : cand_id
+                            },
+                            success: function(response) {
+                                var cand = JSON.parse(response);
+
+                                modal.find('#prev_candidate_name').val(cand.data[0].candidate_name);
+                                modal.find('#prev_cand_photo').attr("src", ""+cand.data[0].photo);
+                                modal.find('#prev_party_logo').attr("src", ""+cand.data[0].party_logo);
+                                modal.find('#email').val(cand.data[0].email);
+                                modal.find('#party_id').val(cand.data[0].party_id);
+                            }
+                        });
+
+                        modal.modal('show');
+                    });
+
+                    $('.editCandidateModal').click(function(){
+                        var cand_id = $(this).data('id');
+                        var lang_id = $('#cand_lang_name').val();
+                        var modal = $('#editCandidateModal');
+
+                        modal.find('#edit_cand_id').val(cand_id);
+                        modal.find('#edit_lang_id').val(lang_id);
+
+                        $.ajax({
+                            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                            url: base_url+'/getOneCand',
+                            type: 'post',
+                            data: {
+                                candidate_id : cand_id
+                            },
+                            success: function(response) {
+                                var cand = JSON.parse(response);
+
+                                modal.find('#edit_candidate_name').val(cand.data[0].candidate_name);
+                                modal.find('#edit_cand_photo').val(cand.data[0].photo);
+                                modal.find('#edit_email').val(cand.data[0].email);
+                                modal.find('#edit_party_id').val(cand.data[0].party_id);
+                            }
+                        });
+
+                        modal.modal('show');
+                    });
+
+                    $('.deleteCandidateModal').click(function(){
+                        var target_id= 'candidate_id';
+                        var id = $(this).data('id');
+                        var api = api_url+'/candidate/delete';
+
+                        var modal = $('#deleteCandidateModal');
+
+                        modal.find('.id').val(id);
+                        modal.find('.target_id').val(target_id);
+                        modal.find('.api').val(api);
+                        modal.modal('show');
+                    });
+                }
+            });
+        });
+
+        $('#cand_race_name').change(function(){
+            var ballot_id = $('#cand_ballot_name').val();
+            var race_id = $(this).val();
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: base_url+'/getChangedCand1',
+                type: 'POST',
+                data: {
+                    ballot_id : ballot_id,
+                    race_id : race_id
+                },
+                success:function(response){
 
                     $('#addCandidateModal').remove();
                     $('#deleteCandidatesModal').remove();

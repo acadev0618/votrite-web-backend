@@ -145,10 +145,50 @@ class CandidateController extends Controller {
         ]);
     }
 
+    public function getChangedCand1(Request $request) {
+        $BallotController = new BallotController;
+        $RaceController = new RaceController;
+        $PartyController = new PartyController;
+        $LanguageController = new LanguageController;
+
+        $ballots = $BallotController->getActiveBallot();
+        if(empty($ballots->data)) {
+            $races = trim(' ');
+            $parties = trim(' ');
+            $candidates = trim(' ');
+            $languages = trim(' ');
+        } else {
+            $ballot_id = $request->ballot_id;
+            $races = $RaceController->getRaceOfBallot($ballot_id);
+            $parties = $PartyController->getPartyOfBallot($ballot_id);
+            $languages = $LanguageController->getLangOfBallot($ballot_id);
+            if(empty($races->data)) {
+                $candidates = trim(' ');
+            } else {
+                $race_id = $request->race_id;
+                $candidates = $this->getCandidateOfRace($race_id);
+            }
+        }
+
+        return view('candidateTable')->with([
+            'ballots' => $ballots,
+            'races' => $races,
+            'languages' => $languages,
+            'candidates' => $candidates,
+            'parties' => $parties
+        ]);
+    }
+
     public function getCandRaces(Request $request) {
         $ballot_id = $request->ballot_id;
         $RaceController = new RaceController;
+        $LanguageController = new LanguageController;
         $races = $RaceController->getRaceOfBallot($ballot_id);
-        return json_encode($races);
+        $langs = $LanguageController->getLangOfBallot($ballot_id);
+        $response = array(
+            'races' => $races,
+            'langs' => $langs
+        );
+        return json_encode($response);
     }
 }

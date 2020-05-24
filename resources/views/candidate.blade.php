@@ -17,8 +17,8 @@
 					<div class="portlet-body">
 						<div class="table-toolbar">
 							<div class="row">
-								<div class="col-md-6 select_options">
-									<div class="col-md-4 form-group">
+								<div class="col-lg-7 col-md-12 col-sm-12 select_options">
+									<div class="col-md-4 col-sm-12 form-group">
 										<label class="col-sm-3 control-label select_name">Ballot:</label>
 										<div class="col-sm-9">
 											<select class="form-control" name="cand_ballot_name" id="cand_ballot_name">
@@ -32,9 +32,9 @@
 											</select>
 										</div>
 									</div>
-									<div class="col-md-4 form-group ">
+									<div class="col-md-4 col-sm-12 form-group ">
 										<label class="col-sm-3 control-label select_name">Race:</label>
-										<div class="col-sm-9 race_option">
+										<div class="col-sm-9">
 											<select class="form-control" name="cand_race_name" id="cand_race_name">
 											@if(empty($races->data))
 												<option value="-1">No Race</opiton>
@@ -46,8 +46,7 @@
 											</select>
 										</div>
 									</div>
-								
-									<div class="col-md-4 form-group">
+									<div class="col-md-4 col-sm-12 form-group">
 										<label class="col-sm-4 control-label select_name">Language:</label>
 										<div class="col-sm-8">
 											<select class="form-control" name="cand_lang_name" id="cand_lang_name">
@@ -62,7 +61,7 @@
 										</div>
 									</div>
 								</div>
-								<div class="col-md-3 col-md-offset-3">
+								<div class="col-lg-5 col-md-12 col-sm-12">
 									<div class="btn-group ballot-actions">
 										<button class="btn btn-primary addCandidateModal" data-toggle="modal"><i class="fa fa-plus-circle"></i> <span>  Add Candidate</span></button>
 										<button class="btn btn-danger deleteCandidatesModal" data-toggle="modal" style="margin-left: 10px;"><i class="fa fa-minus-circle"></i> <span>  Delete Candidates</span></button>
