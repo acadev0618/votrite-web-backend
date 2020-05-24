@@ -141,7 +141,7 @@
         <h4 class="modal-title">Edit The Party</h4>
     </div>
     <div class="modal-body">
-        <form class="form-horizontal" role="form" method="post" action="updateParty" enctype="multipart/form-data">
+        <form class="form-horizontal" role="form" method="post" action="{{asset('updateParty')}}" enctype="multipart/form-data">
         @csrf
 			<div class="form-group">
                 <label class="control-label col-sm-4" for="title">Party Name:</label>
