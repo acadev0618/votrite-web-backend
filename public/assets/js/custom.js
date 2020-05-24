@@ -2669,107 +2669,9 @@ var TableManaged = function () {
             }
         });
 
-        $('.addVoterModal').click(function(){
-            var modal = $('#addVoterModal');
+        $('.addPinCode').click(function(){
+            var modal = $('#addPinCode');
             modal.modal('show');
-        });
-
-        $('.editVoterModal').click(function(){
-            var voter_id = $(this).data('id');
-            var modal = $('#editVoterModal');
-            $.ajax({
-                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                url: base_url+'/getOneVoter',
-                type: 'post',
-                data: {
-                    voter_id : voter_id,
-                },
-                success: function(response) {
-                    var voter = JSON.parse(response);
-
-                    modal.find('#edit_voter_id').val(voter_id);
-                    modal.find('#edit_voter_email').val(voter.data[0].voter_email);
-                    modal.find('#edit_voter_phone').val(voter.data[0].voter_phone);
-                }
-            });
-            modal.modal('show');
-        });
-
-        $('.deleteVoterModal').click(function(){
-            var target_id= 'voter_id';
-            var id = $(this).data('id');
-            var api = api_url+'/voter/delete';
-
-            var modal = $('#deleteVoterModal');
-
-            modal.find('.id').val(id);
-            modal.find('.target_id').val(target_id);
-            modal.find('.api').val(api);
-            modal.modal('show');
-        });
-
-        $(document).on('click', '.deleteVotersModal', function(){
-            var modal = $('#deleteVotersModal');
-            var allVals = [];
-
-            table.find(".checkboxes:checked").each(function() {  
-                allVals.push($(this).attr('data-id'));
-            });
-
-            if(allVals.length <= 0) {
-                var confrim = $('#confirmModal');
-                confrim.modal('show');
-            } else {
-                modal.modal('show');
-                var target_id = 'voter_id';
-                var ids = allVals.join(",");
-                var api = api_url+'/voter/delete';
-
-                modal.find('.target_id').val(target_id);
-                modal.find('.ids').val(ids);
-                modal.find('.api').val(api);
-            }
-        });
-
-        $(".verify_checkbox").change(function() {
-            var checked = $(this).is(":checked");
-            var voter_id = $(this).data('id');
-            if (checked) {
-                $(this).attr("checked", true);
-                var veryfied = "true";
-            } else {
-                $(this).attr("checked", false);
-                var veryfied = "false";
-            }
-
-            $.ajax({
-                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                url: base_url+'/verifiyVoter',
-                type: 'post',
-                data: {
-                    registration_confirmed : veryfied,
-                    voter_id : voter_id
-                },
-                success: function(response) {
-                    var response = JSON.parse(response);
-                    if(response.state == 'success'){
-                        toastr[response.state]('Voter verification state is changed successfully.');
-                    } else {
-                        toastr['error']('Whoops! Something went wrong.');
-                    }
-                }
-            });
-        });
-
-        $(".verify_checkbox").bootstrapSwitch({
-            on:'Veryfied',
-            off:'No ',
-            onLabel:'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
-            offLabel:'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
-            same:false,
-            size:'md',
-            onClass:'primary',
-            offClass:'default'
         });
     }
 
@@ -2879,28 +2781,6 @@ var TableManaged = function () {
             modal.find('.target_id').val(target_id);
             modal.find('.api').val(api);
             modal.modal('show');
-
-            // modal.find('.delete').click(function() {
-            //     $.ajax({
-            //         headers : {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-            //         url : base_url+'/deleteUser',
-            //         data : {
-            //             user_id : id
-            //         },
-            //         type : 'post',
-            //         success : function(response){
-            //             response = JSON.parse(response);
-            //             if(response.state == 'success') {
-            //                 $this.parents('tr').fadeOut(function(){
-            //                     $this.remove();
-            //                 });
-            //                 toastr[response.state]('User deleted successfully.');
-            //             } else {
-            //                 toastr['error']('Whoops! Something went wrong.');
-            //             }
-            //         }
-            //     });
-            // });
         });
 
         table.find('.group-checkable').change(function () {

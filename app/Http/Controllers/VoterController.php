@@ -8,11 +8,20 @@ use Session;
 class VoterController extends Controller {
     public function index() {
         if(Session::get('display_name')) {
-            $voters = $this->getAllVoter();
+            $BallotController = new BallotController;
+            $ballots = $BallotController->getActiveBallot();
+
+            if(empty($ballots->data)) {
+                $voters = trim(' ');
+            } else {
+                $ballot_id = $ballots->data[0]->ballot_id;
+                $voters = $this->getPinsOfBallot($ballot_id);
+            }
 
             return view('voter')->with([
                 'sliderAction' => 'manage', 
                 'subAction' => 'voter',
+                'ballots' => $ballots,
                 'voters' => $voters
             ]);
         } else {
@@ -20,12 +29,12 @@ class VoterController extends Controller {
         }
     }
 
-    public function getAllVoter(){
-        $api_url = env('API').'/voter';
-
+    public function getPinsOfBallot($ballot_id) {
         $Api = new ApiController;
-        $response = $Api->getApi($api_url);
+        $api_url = env('API').'/pincode';
+        $param = 'ballot_id='.$ballot_id;
 
+        $response = $Api->getParamApi($api_url, $param);
         return $response;
     }
 

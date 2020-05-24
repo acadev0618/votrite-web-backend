@@ -17,11 +17,29 @@
 					<div class="portlet-body">
 						<div class="table-toolbar">
 							<div class="row">
-								
-								<div class="col-md-6 col-md-offset-6">
+								<div class="col-md-5">
+									<div class="row">
+										<div class="col-md-5 form-group">
+											<label class="col-sm-2 control-label select_name">Ballot:</label>
+											<div class="col-sm-10">
+												<select class="form-control select_ballot" name="pin_ballot" id="pin_ballot">
+                                                    @if(empty($ballots->data))
+                                                    <option value="-1">No Ballot</opiton>
+                                                    @else
+                                                        @foreach($ballots->data as $ballot)
+                                                        <option value="{{ $ballot->ballot_id }}">{{ $ballot->election }}</opiton>
+                                                        @endforeach
+                                                    @endif
+												</select>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-7">
 									<div class="btn-group ballot-actions">
-										<button class="btn btn-primary addVoterModal" data-toggle="modal" style="margin-left: 10px;"><i class="fa fa-plus-circle"></i> <span>  Add Voter</span></button>
-										<button class="btn btn-danger deleteVotersModal" data-toggle="modal" style="margin-left: 10px;"><i class="fa fa-minus-circle"></i> <span>  Delete Voters</span></button>
+										<button class="btn yellow importPinCode" data-toggle="modal"><i class="fa fa-level-down"></i> <span>  Import Excel</span></button>
+										<button class="btn yellow expertPinCode" data-toggle="modal" style="margin-left: 10px;"><i class="fa fa-print"></i> <span>  Export Excel</span></button>
+										<button class="btn btn-primary addPinCode" data-toggle="modal" style="margin-left: 10px;"><i class="fa fa-plus-circle"></i> <span>  Create PinCode</span></button>
 									</div>
 								</div>
 							</div>
@@ -37,13 +55,13 @@
 											No
 										</th>
 										<th>
-											Email
+											PinCode
 										</th>
 										<th>
-											Phone Number
+											Expiration time
 										</th>
 										<th style="width: 6%;">
-											Verificaiton
+											Active Status
 										</th>
                                         <th style="width: 4%;">
                                             Actions
@@ -56,27 +74,27 @@
                                     @foreach($voters->data as $voter) 
 										<tr class="odd gradeX">
 											<td>
-												<input type="checkbox" class="checkboxes" data-id="{{ $voter->voter_id }}"/>
+												<input type="checkbox" class="checkboxes" data-id="{{ $voter->pin }}"/>
 											</td>
 											<td>
 												{{ $loop->index+1 }}
 											</td>
 											<td>
-												{{ $voter->voter_email }}
+												{{ $voter->pin }}
 											</td>
 											<td>
-												{{ $voter->voter_phone }}
+												{{ $voter->expiration_time }}
 											</td>
 											<td>
-											@if($voter->registration_confirmed == 'true')
-												<input type="checkbox" checked="checked" name="verify_checkbox" class="verify_checkbox" data-id="{{ $voter->voter_id }}">
+											@if($voter->is_active == 'true')
+												<input type="checkbox" checked="checked" name="verify_checkbox" class="verify_checkbox" data-id="{{ $voter->pin }}">
 											@else
-												<input type="checkbox" name="verify_checkbox" class="verify_checkbox" data-id="{{ $voter->voter_id }}">
+												<input type="checkbox" name="verify_checkbox" class="verify_checkbox" data-id="{{ $voter->pin }}">
 											@endif
 											</td>
                                             <td>
-                                                <a class="editVoterModal" data-toggle="modal" data-id="{{ $voter->voter_id }}" style="margin-left: 14px;"><i class="fa fa-edit" data-toggle="tooltip" title="Edit"></i></a>
-                                                <a class="deleteVoterModal" data-toggle="modal" data-id="{{ $voter->voter_id }}"><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete"></i></a>
+                                                <a class="editVoterModal" data-toggle="modal" data-id="{{ $voter->pin }}" style="margin-left: 14px;"><i class="fa fa-edit" data-toggle="tooltip" title="Edit"></i></a>
+                                                <a class="deleteVoterModal" data-toggle="modal" data-id="{{ $voter->pin }}"><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete"></i></a>
                                             </td>
 										</tr>
                                     @endforeach
@@ -91,32 +109,38 @@
 	</div>
 </div>
 
-<div id="addVoterModal" class="modal fade" tabindex="-1" data-width="520">
+<div id="addPinCode" class="modal fade" tabindex="-1" data-width="420">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">×</button>
-        <h4 class="modal-title">Add New Voter</h4>
+        <h4 class="modal-title">Add Pincodes</h4>
     </div>
     <div class="modal-body">
-        <form class="form-horizontal" role="form" method="post" action="{{ asset('/createVoter') }}">
+        <form class="form-horizontal" role="form" method="post" action="{{ asset('/createPin') }}">
         @csrf
             <div class="form-group">
-                <label class="control-label col-sm-5" for="title">Voter Email:</label>
+                <label class="control-label col-sm-5" for="title">Length of Code:</label>
                 <div class="col-sm-7">
-                    <input type="email" class="form-control" name="voter_email" id="add_voter_email" required>
+                    <input type="number" class="form-control" name="pin_length" id="add_pin_length" required>
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-5" for="title">Vorer Phone Number:</label>
+                <label class="control-label col-sm-5" for="title">Expiration Time:</label>
                 <div class="col-sm-7">
-                    <input type="number" class="form-control" name="voter_phone" id="add_voter_phone" required></input>
+					<input type="datetime-local" class="form-control" name="expire_time" id="add_expire_time" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-5" for="title">Count of Code:</label>
+                <div class="col-sm-7">
+                    <input type="number" class="form-control" name="pin_count" id="add_pin_count" required>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="submit" class="btn btn-success addInvoice">
-                    <span id="" class='glyphicon glyphicon-check'></span> Add
+                    <span id="" class='glyphicon glyphicon-check'></span> Create
                 </button>
                 <button type="button" class="btn btn-warning" data-dismiss="modal">
-                    <span class='glyphicon glyphicon-remove'></span> Close
+                    <span class='glyphicon glyphicon-remove'></span> Cancel
                 </button>
             </div>
         </form>
