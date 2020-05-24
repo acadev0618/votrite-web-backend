@@ -221,7 +221,6 @@ var TableManaged = function () {
                 },
                 success: function(response) {
                     var response = JSON.parse(response);
-                    console.log(response);
                     if(response.state == 'success'){
                         toastr[response.state]('Ballot activation state is changed successfully.');
                     } else {
@@ -405,7 +404,6 @@ var TableManaged = function () {
                             },
                             success: function(response) {
                                 var response = JSON.parse(response);
-                                console.log(response);
                                 if(response.state == 'success'){
                                     toastr[response.state]('Ballot activation state is changed successfully.');
                                 } else {
@@ -986,7 +984,6 @@ var TableManaged = function () {
                         },
                         success: function(response){
                             var response = JSON.parse(response);
-                            console.log(response);
                             var races = response.races;
                             var langs = response.langs;
 
