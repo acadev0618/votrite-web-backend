@@ -68,6 +68,7 @@ Route::post('/createCandidate', 'CandidateController@createCandidate')->name('re
 Route::post('/getOneCand', 'CandidateController@getOneCand')->name('request');
 Route::post('/updateCandidate', 'CandidateController@updateCandidate')->name('request');
 Route::post('/getChangedCand', 'CandidateController@getChangedCand')->name('request');
+Route::post('/getChangedCand1', 'CandidateController@getChangedCand1')->name('request');
 Route::post('/getCandRaces', 'CandidateController@getCandRaces')->name('request');
 
 Route::post('/getOneParty', 'PartyController@getOneParty')->name('request');
