@@ -22,7 +22,8 @@
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/PapaParse/4.6.3/papaparse.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js" type="text/javascript" ></script>
 <script src="{{ asset('assets/datatables/plugins/bootstrap/dataTables.bootstrap.js') }}" type="text/javascript" ></script>
-<script src="https://editor.datatables.net/extensions/Editor/js/dataTables.editor.min.js"></script>
+<script src="{{ asset('assets/datatables/js/dataTables.editor.min.js') }}"></script>
+<script src="https://cdn.datatables.net/select/1.3.1/js/dataTables.select.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.6.2/js/dataTables.buttons.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.flash.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
@@ -40,33 +41,7 @@
         Layout.init();
         QuickSidebar.init();
         Demo.init();
-        // var uploadEditor;
-        // uploadEditor = new $.fn.dataTable.Editor( {
-        //     fields: [ {
-        //         label: 'CSV file:',
-        //         name: 'csv',
-        //         type: 'upload',
-        //         ajax: function ( files ) {
-        //             // Ajax override of the upload so we can handle the file locally. Here we use Papa
-        //             // to parse the CSV.
-        //             Papa.parse(files[0], {
-        //                 header: true,
-        //                 skipEmptyLines: true,
-        //                 complete: function (results) {
-        //                     if ( results.errors.length ) {
-        //                         console.log( results );
-        //                         uploadEditor.field('csv').error( 'CSV parsing error: '+ results.errors[0].message );
-        //                     }
-        //                     else {
-        //                         uploadEditor.close();
-        //                         selectColumns( editor, results.data, results.meta.fields );
-        //                     }
-        //                 }
-        //             });
-        //         }
-        //     } ]
-        // } );
-        
+                
         TableManaged.init();
     });
 </script>

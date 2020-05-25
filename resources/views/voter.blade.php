@@ -248,9 +248,107 @@
 		return  '<a class="editVoterModal" data-toggle="modal" data-id='+data+' data-checked='+type.is_active+' ><i class="fa fa-edit" data-toggle="tooltip" title="Edit"></i></a><a class="deleteVoterModal" data-toggle="modal" data-id='+data+' ><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete"></i></a>';
 	}
 
+	var editor;
+
+	function selectColumns ( editor, csv, header ) {
+		var selectEditor = new $.fn.dataTable.Editor();
+		var fields = editor.order();
+	
+		for ( var i=0 ; i<fields.length ; i++ ) {
+			var field = editor.field( fields[i] );
+	
+			selectEditor.add( {
+				label: field.label(),
+				name: field.name(),
+				type: 'select',
+				options: header,
+				def: header[i]
+			} );
+		}
+	
+		selectEditor.create({
+			title: 'Map CSV fields',
+			buttons: 'Import '+csv.length+' records',
+			message: 'Select the CSV column you want to use the data from for each field.'
+		});
+	
+		selectEditor.on('submitComplete', function (e, json, data, action) {
+			// Use the host Editor instance to show a multi-row create form allowing the user to submit the data.
+			editor.create( csv.length, {
+				title: 'Confirm import',
+				buttons: 'Submit',
+				message: 'Click the <i>Submit</i> button to confirm the import of '+csv.length+' rows of data. Optionally, override the value for a field to set a common value by clicking on the field below.'
+			} );
+	
+			for ( var i=0 ; i<fields.length ; i++ ) {
+				var field = editor.field( fields[i] );
+				var mapped = data[ field.name() ];
+	
+				for ( var j=0 ; j<csv.length ; j++ ) {
+					field.multiSet( j, csv[j][mapped] );
+				}
+			}
+		} );
+	}
+
 	var handleRecords = function (ballot_id) {
 
 		propurl = baseurl+'pincode?ballot_id='+ballot_id;
+
+		editor = new $.fn.dataTable.Editor( {
+			ajax: function (method, url, d, successCallback, errorCallback) {
+				$.ajax({
+				url: propurl,
+				type: 'GET',
+				dataType: 'json',
+				success:function(data){
+					successCallback(data);
+				}
+				});
+			},
+			table: "#voter_table",
+			fields: [ {
+					label: "Pin codes:",
+					name: "pin"
+				}, {
+					label: "Expire Time:",
+					name: "expire_time"
+				}, {
+					label: "Active Status:",
+					name: "is_active",
+				}, {
+					label: "Actions:",
+					name: "ballot_id"
+				}
+			]
+		} );
+		
+		var uploadEditor;
+        uploadEditor = new $.fn.dataTable.Editor( {
+			fields: [ {
+				label: 'CSV file:',
+				name: 'csv',
+				type: 'upload',
+				ajax: function ( files ) {
+					// Ajax override of the upload so we can handle the file locally. Here we use Papa
+					// to parse the CSV.
+					Papa.parse(files[0], {
+						header: true,
+						skipEmptyLines: true,
+						complete: function (results) {
+							if ( results.errors.length ) {
+								console.log( results );
+								uploadEditor.field('csv').error( 'CSV parsing error: '+ results.errors[0].message );
+							}
+							else {
+								uploadEditor.close();
+								selectColumns( editor, results.data, results.meta.fields );
+							}
+						}
+					});
+				}
+			} ]
+		});
 
 		var table = $('#voter_table');
 
@@ -436,9 +534,9 @@
 	$('#add_pin_btn').click(function(){
 		var order = {
 		"ballot_id": ballot_id,
-		"pincode_len": $('#add_pin_length').val(),
+		"pincode_len": parseInt($('#add_pin_length').val()),
 		"expiration_time": $('#add_expire_time').val(),
-		"pincode_count": $('#add_pin_count').val()
+		"pincode_count": parseInt($('#add_pin_count').val())
 		}
 		console.log(order);
 		$.ajax({
