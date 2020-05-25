@@ -157,12 +157,8 @@
 			] // set first column as a default sort by asc
 		});
 
-		table.destroy();
 
-	}
-
-
-	
+	}	
 
 	$.ajax({
 		type: 'GET',
