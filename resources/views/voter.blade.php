@@ -37,8 +37,8 @@
 								</div>
 								<div class="col-md-7">
 									<div class="btn-group ballot-actions">
-										<button class="btn yellow importPinCode" data-toggle="modal"><i class="fa fa-level-down"></i> <span>  Import Excel</span></button>
-										<button class="btn yellow expertPinCode" data-toggle="modal" style="margin-left: 10px;"><i class="fa fa-print"></i> <span>  Export Excel</span></button>
+										<!-- <button class="btn yellow importPinCode" data-toggle="modal"><i class="fa fa-level-down"></i> <span>  Import Excel</span></button>
+										<button class="btn yellow expertPinCode" data-toggle="modal" style="margin-left: 10px;"><i class="fa fa-print"></i> <span>  Export Excel</span></button> -->
 										<button class="btn btn-primary addPinCode" data-toggle="modal" style="margin-left: 10px;"><i class="fa fa-plus-circle"></i> <span>  Create PinCode</span></button>
 										<button class="btn btn-danger delPinCode" data-toggle="modal" style="margin-left: 10px;"><i class="fa fa-trash-o"></i> <span>  Delete PinCode</span></button>
 									</div>
@@ -46,9 +46,9 @@
 							</div>
 						</div>
 						<div id="change_tabel"></div>
-							<table class="table table-striped table-bordered table-hover" id="voter_table">
 								<thead>
 									<tr>
+							<table class="table table-striped table-bordered table-hover" id="voter_table">
 										<th class="table-checkbox">
 											<input type="checkbox" class="group-checkable" data-set="#voter_table .checkboxes"/>
 										</th>
@@ -227,12 +227,6 @@
 @section('script')
 
 <script>
-	@if(empty($ballots->data))
-	var ballot_id = '';
-	@else
-	var ballot_id = '{{ $ballots->data[0]->ballot_id }}';
-	@endif
-	
 	function getInput(data, type, full, meta) {
 		return '<div class="checker"><span><input type="checkbox" name="active_ballot_checkbox" class="checkboxes" data-id='+data+' /></span></div>';
 	}
@@ -418,17 +412,19 @@
 			], // set first column as a default sort by asc
 			dom: 'Bfrtip',
 			buttons: [
-				'copyHtml5',
-				'excelHtml5',
-				'csvHtml5',
-				'pdfHtml5',
+				{ 	
+					"extend": 'csvHtml5', 
+					"text":'Export EXCEL',
+					"className": 'btn yellow importPinCode' 
+				},
 				{
-					text: 'Import CSV',
+					text: 'Import EXCEL',
 					action: function () {
 						uploadEditor.create( {
 							title: 'CSV file import'
 						} );
-					}
+					},
+					"className": 'btn yellow expertPinCode'
 				},
 			]
 		});
@@ -460,6 +456,15 @@
 		});		
 
 	}
+
+	@if(empty($ballots->data))
+	var ballot_id = '';
+	@else
+	var ballot_id = '{{ $ballots->data[0]->ballot_id }}';
+	jQuery(document).ready(function() {
+		handleRecords(ballot_id);
+	});
+	@endif
 
 	$(document).on('click', '.editVoterModal', function(e){
 		$('#edit_voter_id').val($(this).data('id'));
