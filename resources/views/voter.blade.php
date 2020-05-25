@@ -46,9 +46,9 @@
 							</div>
 						</div>
 						<div id="change_tabel"></div>
+						<table class="table table-striped table-bordered table-hover" id="voter_table">
 								<thead>
 									<tr>
-							<table class="table table-striped table-bordered table-hover" id="voter_table">
 										<th class="table-checkbox">
 											<input type="checkbox" class="group-checkable" data-set="#voter_table .checkboxes"/>
 										</th>
@@ -69,38 +69,7 @@
                                         </th>
 									</tr>
 								</thead>
-								<tbody>
-								@if(empty($voters->data))
-                                @else
-                                    @foreach($voters->data as $voter) 
-										<tr class="odd gradeX">
-											<td>
-												<input type="checkbox" class="checkboxes" data-id="{{ $voter->pin }}" />
-											</td>
-											<td>
-												{{ $loop->index+1 }}
-											</td>
-											<td>
-												{{ $voter->pin }}
-											</td>
-											<td>
-												{{ $voter->expiration_time }}
-											</td>
-											<td>
-											@if($voter->is_active == 'true')
-												<input type="checkbox" checked="checked" name="verify_checkbox" class="verify_checkbox" data-id="{{ $voter->pin }}">
-											@else
-												<input type="checkbox" name="verify_checkbox" class="verify_checkbox" data-id="{{ $voter->pin }}">
-											@endif
-											</td>
-                                            <td>
-                                                <a class="editVoterModal" data-toggle="modal" data-id="{{ $voter->pin }}" data-checked="{{ $voter->is_active }}" style="margin-left: 14px;"><i class="fa fa-edit" data-toggle="tooltip" title="Edit"></i></a>
-                                                <a class="deleteVoterModal" data-toggle="modal" data-id="{{ $voter->pin }}"><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete"></i></a>
-                                            </td>
-										</tr>
-                                    @endforeach
-                                @endif
-								</tbody>
+								<tbody></tbody>
 							</table>
 						</div>
 					</div>
@@ -414,11 +383,11 @@
 			buttons: [
 				{ 	
 					"extend": 'csvHtml5', 
-					"text":'Export EXCEL',
+					"text":'<i class="fa fa-plus-circle"></i>Export EXCEL',
 					"className": 'btn yellow importPinCode' 
 				},
 				{
-					text: 'Import EXCEL',
+					text: '<i class="fa fa-plus-circle"></i>Import EXCEL',
 					action: function () {
 						uploadEditor.create( {
 							title: 'CSV file import'
