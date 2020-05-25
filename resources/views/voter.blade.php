@@ -196,6 +196,12 @@
 @section('script')
 
 <script>
+	@if(empty($ballots->data))
+	var ballot_id = '';
+	@else
+	var ballot_id = '{{ $ballots->data[0]->ballot_id }}';
+	@endif
+	
 	function getInput(data, type, full, meta) {
 		return '<div class="checker"><span><input type="checkbox" name="active_ballot_checkbox" class="checkboxes" data-id='+data+' /></span></div>';
 	}
@@ -384,7 +390,10 @@
 				{ 	
 					"extend": 'csvHtml5', 
 					"text":'<i class="fa fa-plus-circle"></i>Export EXCEL',
-					"className": 'btn yellow importPinCode' 
+					"className": 'btn yellow importPinCode' ,
+					customize: function (ballot_id) {
+						return "Ballot id \n"+ballot_id;
+					}
 				},
 				{
 					text: '<i class="fa fa-plus-circle"></i>Import EXCEL',
@@ -426,14 +435,9 @@
 
 	}
 
-	@if(empty($ballots->data))
-	var ballot_id = '';
-	@else
-	var ballot_id = '{{ $ballots->data[0]->ballot_id }}';
 	jQuery(document).ready(function() {
 		handleRecords(ballot_id);
 	});
-	@endif
 
 	$(document).on('click', '.editVoterModal', function(e){
 		$('#edit_voter_id').val($(this).data('id'));
