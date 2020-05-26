@@ -64,6 +64,39 @@ class BaseController extends Controller {
         return back()->with($notification);
     }
 
+    public function pinDeleteData(Request $request) {
+        $ballot_id = $request->ballot_id;
+        $target_id = $request->target_id;
+        $ids = $request->ids;
+        $ids = explode(',', $ids);
+
+        for($i = 0; $i < count($ids); $i ++) {
+            $data = array(
+                'ballot_id' => $ballot_id,
+                $target_id => $ids[$i]
+            );
+            
+            $json = json_encode($data);
+            $api_url = $request->api;
+            
+            $controller = new ApiController;
+            $response = $controller->postApi($json, $api_url);
+
+            if($response->state != 'success') {
+                $notification = array(
+                    'message' => 'Whoops! Something went wrong.', 
+                    'alert-type' => 'warning'
+                );
+            }
+        }
+
+        $notification = array(
+            'message' => 'Successfully deleted data.', 
+            'alert-type' => 'success'
+        );
+        return back()->with($notification);
+    }
+
     public function createData($request, $api_url) {
         $Api = new ApiController;
         $response = $Api->postApi($request, $api_url);

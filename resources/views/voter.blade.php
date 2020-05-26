@@ -39,7 +39,7 @@
 									<div class="btn-group ballot-actions">
 										<!-- <button class="btn yellow importPinCode" data-toggle="modal"><i class="fa fa-level-down"></i> <span>  Import Excel</span></button>
 										<button class="btn yellow expertPinCode" data-toggle="modal" style="margin-left: 10px;"><i class="fa fa-print"></i> <span>  Export Excel</span></button> -->
-										<button class="btn btn-primary addPinCode" data-toggle="modal" style="margin-left: 10px;"><i class="fa fa-plus-circle"></i> <span>  Create PinCode</span></button>
+										<button href="#addPinCode" class="btn btn-primary addPinCode" data-toggle="modal" style="margin-left: 10px;"><i class="fa fa-plus-circle"></i> <span>  Create PinCode</span></button>
 										<button class="btn btn-danger delPinCode" data-toggle="modal" style="margin-left: 10px;"><i class="fa fa-trash-o"></i> <span>  Delete PinCode</span></button>
 									</div>
 								</div>
@@ -129,7 +129,7 @@
 			<div class="form-group">
                 <label class="control-label col-sm-5" for="title">Is Active:</label>
                 <div class="col-sm-7">
-					<input type="checkbox" checked="checked" id="verify_checkbox" name="verify_checkbox" class="verify_checkbox" data-id="">
+					<input type="checkbox" checked="checked" id="verify_checkbox" name="verify_checkbox" class="verify_checkbox">
                 </div>
             </div>
             <div class="form-group">
@@ -178,6 +178,34 @@
     </div>
 </div>
 
+<div id="deleteGroupModal" class="modal fade" tabindex="-1" data-width="520">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h4 class="modal-title">Delete The Voters</h4>
+    </div>
+    <div class="modal-body">					
+        <p>Are you sure you want to delete this Voters?</p>
+        <p class="text-warning"><small>This action cannot be undone.</small></p>
+    </div>
+    <div class="modal-footer">
+        <form class="form-horizontal" role="form" method="post" action="{{ asset('/pinDeleteData') }}">
+        @csrf 
+			<input type="text" class="ballot_id" name="ballot_id" hidden />
+			<input type="text" class="target_id" name="target_id" hidden />
+			<input type="text" class="ids" name="ids" hidden />
+			<input type="text" class="api" name="api" hidden />
+			<input type="text" id="del_voter_id"  value="" hidden />
+
+			<button id="delete_group_btn" type="submit" class="btn btn-danger delete">
+				<i class="fa fa-trash-o"></i> Delete
+			</button>
+			<button type="button" class="btn btn-warning" data-dismiss="modal">
+				<span class='glyphicon glyphicon-remove'></span> Close
+			</button>
+		</form>
+    </div>
+</div>
+
 <div id="confirmModal" class="modal fade" tabindex="-1" data-width="320">
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal">×</button>
@@ -203,7 +231,7 @@
 	@endif
 	
 	function getInput(data, type, full, meta) {
-		return '<div class="checker"><span><input type="checkbox" name="active_ballot_checkbox" class="checkboxes" data-id='+data+' /></span></div>';
+		return '<div class="checker"><span><input type="checkbox" name="active_ballot_checkbox" class="checkboxes selcheck" data-id='+data+' /></span></div>';
 	}
 	function getChecked(data, type, full, meta) {
 		if(data){
@@ -213,111 +241,147 @@
 		}
 	}
 	function getAction(data, type, full, meta) {
-		console.log(data, type, full, meta);
-		return  '<a class="editVoterModal" data-toggle="modal" data-id='+data+' data-checked='+type.is_active+' ><i class="fa fa-edit" data-toggle="tooltip" title="Edit"></i></a><a class="deleteVoterModal" data-toggle="modal" data-id='+data+' ><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete"></i></a>';
-	}
-
-	var editor;
-
-	function selectColumns ( editor, csv, header ) {
-		var selectEditor = new $.fn.dataTable.Editor();
-		var fields = editor.order();
-	
-		for ( var i=0 ; i<fields.length ; i++ ) {
-			var field = editor.field( fields[i] );
-	
-			selectEditor.add( {
-				label: field.label(),
-				name: field.name(),
-				type: 'select',
-				options: header,
-				def: header[i]
-			} );
+		console.log(full);
+		if(full.is_active){
+			return  '<a class="editVoterModal" data-toggle="modal" data-id='+data+' data-checked="checked" ><i class="fa fa-edit" data-toggle="tooltip" title="Edit"></i></a><a class="deleteVoterModal" data-toggle="modal" data-id='+data+' ><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete"></i></a>';
+		}else{
+			return  '<a class="editVoterModal" data-toggle="modal" data-id='+data+' data-checked="null" ><i class="fa fa-edit" data-toggle="tooltip" title="Edit"></i></a><a class="deleteVoterModal" data-toggle="modal" data-id='+data+' ><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete"></i></a>';
 		}
+	}
 	
-		selectEditor.create({
-			title: 'Map CSV fields',
-			buttons: 'Import '+csv.length+' records',
-			message: 'Select the CSV column you want to use the data from for each field.'
-		});
-	
-		selectEditor.on('submitComplete', function (e, json, data, action) {
-			// Use the host Editor instance to show a multi-row create form allowing the user to submit the data.
-			editor.create( csv.length, {
-				title: 'Confirm import',
-				buttons: 'Submit',
-				message: 'Click the <i>Submit</i> button to confirm the import of '+csv.length+' rows of data. Optionally, override the value for a field to set a common value by clicking on the field below.'
-			} );
-	
-			for ( var i=0 ; i<fields.length ; i++ ) {
-				var field = editor.field( fields[i] );
-				var mapped = data[ field.name() ];
-	
-				for ( var j=0 ; j<csv.length ; j++ ) {
-					field.multiSet( j, csv[j][mapped] );
-				}
+	var uploadEditor;
+	uploadEditor = new $.fn.dataTable.Editor( {
+		fields: [ {
+			label: 'CSV file:',
+			name: 'csv',
+			type: 'upload',
+			ajax: function ( files ) {
+				// Ajax override of the upload so we can handle the file locally. Here we use Papa
+				// to parse the CSV.
+				Papa.parse(files[0], {
+					header: false,
+					skipEmptyLines: true,
+					complete: function (results) {							
+						uploadEditor.close();
+						results.data.shift();
+						results.data.shift();
+						results.data.map(function(val){
+							val.unshift('<div class="checker"><span><input type="checkbox" class="checkboxes" /></span></div>');
+							val.push('<div class="checker"><span class="checked" ><input type="checkbox" class="checkboxes" checked /></span></div>','<a class="editVoterModal" data-toggle="modal" data-checked="null" ><i class="fa fa-edit" data-toggle="tooltip" title="Edit"></i></a><a class="deleteVoterModal" data-toggle="modal"  ><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete"></i></a>');
+						});
+						handleRecords2(results.data);
+					}
+				});
 			}
-		} );
+		} ]
+	});
+
+	var handleRecords2 = function (dataset) {
+		console.log(dataset)
+		propurl = baseurl+'pincode?ballot_id='+ballot_id;
+
+		var table = $('#voter_table');
+
+		table.dataTable({
+
+			"language": {
+				"aria": {
+					"sortAscending": ": activate to sort column ascending",
+					"sortDescending": ": activate to sort column descending"
+				},
+				"emptyTable": "No data available in table",
+				"info": "Showing _START_ to _END_ of _TOTAL_ entries",
+				"infoEmpty": "No entries found",
+				"infoFiltered": "(filtered1 from _MAX_ total entries)",
+				"lengthMenu": "Show _MENU_ entries",
+				"search": "Search:",
+				"zeroRecords": "No matching records found"
+			},
+			destroy: true,
+			"bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
+			// "ajax":{
+			//     type: 'GET',
+			//     url: baseurl+'result/all',
+			//     crossDomain: true,
+			//     dataType: 'json',
+			// },
+			data: dataset,
+			"lengthMenu": [
+				[5, 15, 20, -1],
+				[5, 15, 20, "All"] // change per page values here
+			],
+			// set the initial value
+			"pageLength": 5,
+			"language": {
+				"lengthMenu": " _MENU_ records"
+			},
+			"columnDefs": [{  // set default column settings
+				'orderable': false,
+				'targets': [-1]
+			}, {
+				"searchable": false,
+				"targets": [0]
+			}],
+			"order": [
+				[0, "asc"]
+			], // set first column as a default sort by asc
+			dom: 'Bfrtip',
+			buttons: [
+				{ 	
+					"extend": 'csvHtml5', 
+					"text":'<i class="fa fa-plus-circle"></i>Export EXCEL',
+					"className": 'btn yellow importPinCode' ,
+					exportOptions: {
+						columns: [1,2,3]
+					},
+					customize: function (ballot_id) {
+						console.log(ballot_id);
+						return "     Ballot id : \n"+ballot_id;
+					}
+				},
+				{
+					text: '<i class="fa fa-plus-circle"></i>Import EXCEL',
+					action: function () {
+						uploadEditor.create( {
+							title: 'CSV file import'
+						} );
+					},
+					"className": 'btn btn-success'
+				},
+			]
+		});
+
+		table.find('.group-checkable').change(function () {
+			var set = jQuery(this).attr("data-set");
+			var checked = jQuery(this).is(":checked");
+			jQuery(set).each(function () {
+				if (checked) {
+					$(this).parent().addClass("checked");
+					$(this).attr("checked", true);
+				} else {
+					$(this).parent().removeClass("checked");
+					$(this).attr("checked", false);
+				}
+			});
+			jQuery.uniform.update(set);
+		});
+
+		$(document).on("change", '.checkboxes', function(event) { 
+			var checked = $(this).is(":checked");
+			if (checked) {
+				$(this).parent().addClass("checked");
+				$(this).attr("checked", true);
+			} else {
+				$(this).parent().removeClass("checked");
+				$(this).attr("checked", false);
+			}
+		});		
+
 	}
 
 	var handleRecords = function (ballot_id) {
 
 		propurl = baseurl+'pincode?ballot_id='+ballot_id;
-
-		editor = new $.fn.dataTable.Editor( {
-			ajax: function (method, url, d, successCallback, errorCallback) {
-				$.ajax({
-				url: propurl,
-				type: 'GET',
-				dataType: 'json',
-				success:function(data){
-					successCallback(data);
-				}
-				});
-			},
-			table: "#voter_table",
-			fields: [ {
-					label: "Pin codes:",
-					name: "pin"
-				}, {
-					label: "Expire Time:",
-					name: "expire_time"
-				}, {
-					label: "Active Status:",
-					name: "is_active",
-				}, {
-					label: "Actions:",
-					name: "ballot_id"
-				}
-			]
-		} );
-		
-		var uploadEditor;
-        uploadEditor = new $.fn.dataTable.Editor( {
-			fields: [ {
-				label: 'CSV file:',
-				name: 'csv',
-				type: 'upload',
-				ajax: function ( files ) {
-					// Ajax override of the upload so we can handle the file locally. Here we use Papa
-					// to parse the CSV.
-					Papa.parse(files[0], {
-						header: true,
-						skipEmptyLines: true,
-						complete: function (results) {
-							if ( results.errors.length ) {
-								console.log( results );
-								uploadEditor.field('csv').error( 'CSV parsing error: '+ results.errors[0].message );
-							}
-							else {
-								uploadEditor.close();
-								selectColumns( editor, results.data, results.meta.fields );
-							}
-						}
-					});
-				}
-			} ]
-		});
 
 		var table = $('#voter_table');
 
@@ -351,7 +415,11 @@
 				dataType: 'json',
 				success:function(data){
 					console.log(data);
-					callback(data);
+					if(data.data != undefined){
+						callback(data);
+					}else{
+						callback({data:[]});
+					}
 				}
 				});
 			},
@@ -393,7 +461,7 @@
 					"text":'<i class="fa fa-plus-circle"></i>Export EXCEL',
 					"className": 'btn yellow importPinCode' ,
 					exportOptions: {
-						columns: ":not(:first-child)"
+						columns: [1,2,3]
 					},
 					customize: function (ballot_id) {
 						console.log(ballot_id);
@@ -454,7 +522,7 @@
 	
 	$(document).on('click', '.deleteVoterModal', function(e){
 		$('#del_voter_id').val($(this).data('id'));
-		console.log($('#edit_voter_id').val());
+		console.log($('#del_voter_id').val());
 		var modal = $('#deleteVoterModal');
 		modal.modal('show');
 	}); 
@@ -469,7 +537,7 @@
 	$('#update_pin_btn').click(function(){
 		var pin = $('#edit_voter_id').val();
 		var order = {
-			"is_active": $('#verify_checkbox').val(),
+			"is_active": $('#verify_checkbox').is(":checked") ? true : false,
 			"expiration_time": $("#edit_expire_time").val(),
 			"keys": {
 				"pin": pin
@@ -484,6 +552,9 @@
 			dataType: 'json',
 			success: function(responseData, textStatus, jqXHR) {
 				toastr.success("Pin codes Changed");
+				handleRecords(ballot_id);
+				var modal = $('#editVoterModal');
+				modal.modal('hide');
 			},
 			error: function (responseData, textStatus, errorThrown) {
 				alert('POST failed.');
@@ -491,28 +562,31 @@
 		});		
 	});
 
-	$('#delete_pin_btn').click(function(){
-		var pin = $('#edit_voter_id').val();
-		var order = {
-			"ballot_id":ballot_id,
-			"pin":pin
+
+	$(document).on('click', '.delPinCode', function(){
+		var modal = $('#deleteGroupModal');
+		var allVals = [];
+		var table = $('#voter_table');
+		table.find(".selcheck:checked").each(function() {  
+			allVals.push($(this).data('id'));
+		});
+
+		if(allVals.length <= 0) {
+			var confrim = $('#confirmModal');
+			confrim.modal('show');
+		} else {
+			modal.modal('show');
+			var target_id = 'pin';
+			console.log(allVals);
+			var ids = allVals.join(",");
+			var api = baseurl+'pincode/delete';
+
+			modal.find('.ballot_id').val(ballot_id);
+			modal.find('.target_id').val(target_id);
+			modal.find('.ids').val(ids);
+			modal.find('.api').val(api);
 		}
-		console.log(order);
-		$.ajax({
-			type: 'POST',
-			url: baseurl+'pincode/delete',
-			crossDomain: true,
-			data: JSON.stringify(order),
-			dataType: 'json',
-			success: function(responseData, textStatus, jqXHR) {
-				toastr.success("Pin deleted");
-			},
-			error: function (responseData, textStatus, errorThrown) {
-				alert('POST failed.');
-			}
-		});		
 	});
-
 	
 	$('#add_pin_btn').click(function(){
 		var order = {
@@ -521,18 +595,17 @@
 		"expiration_time": $('#add_expire_time').val(),
 		"pincode_count": parseInt($('#add_pin_count').val())
 		}
-		console.log(order);
 		$.ajax({
 			type: 'POST',
 			url: baseurl+'pincode/multicreate',
 			crossDomain: true,
 			data: JSON.stringify(order),
 			dataType: 'json',
-			success: function(responseData, textStatus, jqXHR) {
+			error: function(responseData, textStatus, jqXHR) {
 				toastr.success("Pin codes added");
-			},
-			error: function (responseData, textStatus, errorThrown) {
-				alert('POST failed.');
+				handleRecords(ballot_id);
+				var modal = $('#addPinCode');
+				modal.modal('hide');
 			}
 		});		
 	});

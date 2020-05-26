@@ -41,6 +41,7 @@ Route::prefix('result')->group(function () {
 ////////////////////////////////////  Post Urls   ////////////////////////////////////////////
 Route::post('/deleteData', 'BaseController@deleteData')->name('request');
 Route::post('/mutiDeleteData', 'BaseController@mutiDeleteData')->name('request');
+Route::post('/pinDeleteData', 'BaseController@pinDeleteData')->name('request');
 
 Route::post('/createUser', 'UserController@createUser')->name('request');
 Route::post('/updateUser', 'UserController@updateUser')->name('request');
