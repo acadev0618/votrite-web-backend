@@ -357,7 +357,8 @@
 			},
 			"columns": [
 				{ "data": "pin", render: getInput },
-				{ render: function (data, type, row, meta) {
+				{ 
+					render: function (data, type, row, meta) {
 						return meta.row + meta.settings._iDisplayStart + 1;
 					}
 				},
@@ -391,8 +392,12 @@
 					"extend": 'csvHtml5', 
 					"text":'<i class="fa fa-plus-circle"></i>Export EXCEL',
 					"className": 'btn yellow importPinCode' ,
+					exportOptions: {
+						columns: ":not(:first-child)"
+					},
 					customize: function (ballot_id) {
-						return "Ballot id \n"+ballot_id;
+						console.log(ballot_id);
+						return "     Ballot id : \n"+ballot_id;
 					}
 				},
 				{
@@ -402,7 +407,7 @@
 							title: 'CSV file import'
 						} );
 					},
-					"className": 'btn yellow expertPinCode'
+					"className": 'btn btn-success'
 				},
 			]
 		});
