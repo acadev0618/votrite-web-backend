@@ -18,3 +18,5 @@
 
 <link id="favicon" rel="shortcut icon" href="{{asset('assets/img/favicon_dark.png')}}" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.dataTables.min.css">
+<link href="{{ asset('assets/datatables/css/editor.dataTables.css') }}" rel="stylesheet" type="text/css"/>

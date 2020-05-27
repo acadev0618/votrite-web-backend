@@ -87,7 +87,8 @@ var TableAjax = function () {
                 "infoFiltered": "(filtered1 from _MAX_ total entries)",
                 "lengthMenu": "Show _MENU_ entries",
                 "search": "Search:",
-                "zeroRecords": "No matching records found"
+                "zeroRecords": "No matching records found",
+                "processing": "No Result"
             },
             "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
             // "ajax":{

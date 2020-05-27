@@ -93,7 +93,8 @@
 				"infoFiltered": "(filtered1 from _MAX_ total entries)",
 				"lengthMenu": "Show _MENU_ entries",
 				"search": "Search:",
-				"zeroRecords": "No matching records found"
+				"zeroRecords": "No matching records found",
+                "processing": "No Result"
 			},
 			destroy: true,
 			"bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
@@ -110,7 +111,11 @@
 				dataType: 'json',
 				success:function(data){
 					console.log(data);
-					callback(data);
+					if(data.data != undefined){
+						callback(data);
+					}else{
+						callback({data:[]});
+					}
 				}
 				});
 			},
@@ -139,8 +144,6 @@
 				[0, "asc"]
 			] // set first column as a default sort by asc
 		});
-
-		table.destroy();
 
 	}
 
