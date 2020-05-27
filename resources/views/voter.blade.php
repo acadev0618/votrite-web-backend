@@ -225,8 +225,10 @@
 <script>
 	@if(empty($ballots->data))
 	var ballot_id = '';
+	var ballot_name = '';
 	@else
 	var ballot_id = '{{ $ballots->data[0]->ballot_id }}';
+	var ballot_name = '{{ $ballots->data[0]->election }}';
 	@endif
 	
 	function getInput(data, type, full, meta) {
@@ -385,7 +387,7 @@
 					},
 					customize: function (xlsx) {
 						console.log(xlsx);
-						return " Ballot id : "+window.ballot_id+" \n"+xlsx;
+						return " Ballot Name : "+window.ballot_name+" \n"+xlsx;
 					}
 				},
 				{
@@ -455,6 +457,7 @@
 		
 	$('#pin_ballot').change(function(){
 		ballot_id = $(this).val();
+		ballot_name = $(this).text();
 		if(ballot_id != '' || ballot_id != -1){
 			handleRecords(ballot_id);
 		}
@@ -487,7 +490,28 @@
 			}
 		});		
 	});
-
+	$('#delete_pin_btn').click(function(){
+		var pin = $('#del_voter_id').val();
+		var order = {	
+			"ballot_id":window.ballot_id,		
+			"pin": pin
+		}
+		// console.log(order);
+		$.ajax({
+			type: 'POST',
+			url: baseurl+'pincode/delete',
+			crossDomain: true,
+			data: JSON.stringify(order),
+			dataType: 'json',
+			success: function(responseData, textStatus, jqXHR) {
+				toastr.success("Pin codes Changed");
+				handleRecords(window.ballot_id);
+			},
+			error: function (responseData, textStatus, errorThrown) {
+				alert('POST failed.');
+			}
+		});		
+	});
 
 	$(document).on('click', '.delPinCode', function(){
 		var modal = $('#deleteGroupModal');
