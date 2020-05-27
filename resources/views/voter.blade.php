@@ -45,8 +45,8 @@
 								</div>
 							</div>
 						</div>
-						<div id="change_tabel"></div>
-						<table class="table table-striped table-bordered table-hover" id="voter_table">
+						<div id="change_table">
+							<table class="table table-striped table-bordered table-hover" id="voter_table" style='width:100%'>
 								<thead>
 									<tr>
 										<th class="table-checkbox">
@@ -64,7 +64,7 @@
 										<th style="width: 6%;">
 											Active Status
 										</th>
-                                        <th style="width: 4%;">
+                                        <th >
                                             Actions
                                         </th>
 									</tr>
@@ -135,7 +135,7 @@
             <div class="form-group">
                 <label class="control-label col-sm-5" for="title">Expire Date:</label>
                 <div class="col-sm-7">
-                    <input type="date" class="form-control" name="voter_phone" id="edit_expire_time"></input>
+                    <input type="date" class="form-control" name="voter_expire_time" id="edit_expire_time"></input>
                 </div>
             </div>
             <div class="modal-footer">
@@ -225,8 +225,10 @@
 <script>
 	@if(empty($ballots->data))
 	var ballot_id = '';
+	var ballot_name = '';
 	@else
 	var ballot_id = '{{ $ballots->data[0]->ballot_id }}';
+	var ballot_name = '{{ $ballots->data[0]->election }}';
 	@endif
 	
 	function getInput(data, type, full, meta) {
@@ -234,9 +236,9 @@
 	}
 	function getChecked(data, type, full, meta) {
 		if(data){
-			return '<div class="checker"><span class="checked"><input type="checkbox" class="checkboxes" value="'+data+'" checked="checked" /></span><span class="hidden">'+data+'</span></div>';
+			return '<div class="checker"><span class="checked"><input type="checkbox" class="checkboxes" value="'+data+'" checked="checked" disabled /></span></div><span class="hidden">'+data+'</span>';
 		}else{
-			return '<div class="checker"><span><input type="checkbox" class="checkboxes" value="'+data+'" /><span class="hidden">'+data+'</span></span></div>';
+			return '<div class="checker"><span><input type="checkbox" class="checkboxes" value="'+data+'" disabled/></span></div><span class="hidden">'+data+'</span>';
 		}
 	}
 	function getAction(data, type, full, meta) {
@@ -262,133 +264,42 @@
 					skipEmptyLines: true,
 					complete: function (results) {							
 						uploadEditor.close();
+						// console.log(parseInt(results.data.shift()[0].split(':')[1]));
 						results.data.shift();
 						results.data.shift();
 						results.data.map(function(val){
-							val.unshift('<div class="checker"><span><input type="checkbox" class="checkboxes" /></span></div>');
-							if(val[4]){
-								val[4]='<div class="checker"><span class="checked" ><input type="checkbox" class="checkboxes" checked /></span></div>';
-							}else{
-								val[4]='<div class="checker"><span ><input type="checkbox" class="checkboxes" /></span></div>';
+							console.log(window.ballot_id);
+							// val.unshift('<div class="checker"><span><input type="checkbox" class="checkboxes" /></span></div>');
+							// if(val[4]){
+							// 	val[4]='<div class="checker"><span class="checked" ><input type="checkbox" class="checkboxes" checked /></span></div>';
+							// }else{
+							// 	val[4]='<div class="checker"><span ><input type="checkbox" class="checkboxes" /></span></div>';
+							// }
+							// val.push('<a class="editVoterModal" data-toggle="modal" data-checked="null" ><i class="fa fa-edit" data-toggle="tooltip" title="Edit"></i></a><a class="deleteVoterModal" data-toggle="modal"  ><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete"></i></a>');
+							var order = {
+								"ballot_id": window.ballot_id,
+								"is_active": val[3],
+								"expiration_time": val[2],
+								"pin": val[1]
 							}
-							val.push('<a class="editVoterModal" data-toggle="modal" data-checked="null" ><i class="fa fa-edit" data-toggle="tooltip" title="Edit"></i></a><a class="deleteVoterModal" data-toggle="modal"  ><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete"></i></a>');
+							$.ajax({
+								type: 'POST',
+								url: baseurl+'pincode/create',
+								crossDomain: true,
+								data: JSON.stringify(order),
+								dataType: 'json',
+								error: function(responseData, textStatus, jqXHR) {
+									
+								}
+							});	
 						});
-						handleRecords2(results.data);
+						toastr.success("Pin codes added");
+						handleRecords(window.ballot_id);
 					}
 				});
 			}
 		} ]
 	});
-
-	var handleRecords2 = function (dataset) {
-		// console.log(dataset)
-		propurl = baseurl+'pincode?ballot_id='+ballot_id;
-
-		var table = $('#voter_table');
-
-		table.dataTable({
-
-			"language": {
-				"aria": {
-					"sortAscending": ": activate to sort column ascending",
-					"sortDescending": ": activate to sort column descending"
-				},
-				"emptyTable": "No data available in table",
-				"info": "Showing _START_ to _END_ of _TOTAL_ entries",
-				"infoEmpty": "No entries found",
-				"infoFiltered": "(filtered1 from _MAX_ total entries)",
-				"lengthMenu": "Show _MENU_ entries",
-				"search": "Search:",
-				"zeroRecords": "No matching records found"
-			},
-			destroy: true,
-			"bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
-			// "ajax":{
-			//     type: 'GET',
-			//     url: baseurl+'result/all',
-			//     crossDomain: true,
-			//     dataType: 'json',
-			// },
-			data: dataset,
-			"lengthMenu": [
-				[5, 15, 20, -1],
-				[5, 15, 20, "All"] // change per page values here
-			],
-			// set the initial value
-			"pageLength": 5,
-			"language": {
-				"lengthMenu": " _MENU_ records"
-			},
-			"columnDefs": [{  // set default column settings
-				'orderable': false,
-				'targets': [-1]
-			}, {
-				"searchable": false,
-				"targets": [0]
-			}],
-			"order": [
-				[0, "asc"]
-			], // set first column as a default sort by asc
-			dom: 'Bfrtip',
-			buttons: [
-				{ 	
-					"extend": 'csvHtml5', 
-					"text":'<i class="fa fa-plus-circle"></i>Export EXCEL',
-					"className": 'hidden' ,
-					exportOptions: {
-						columns: [1,2,3]
-					},
-					customize: function (xlsx) {
-						console.log(xlsx);
-						return " Ballot id : "+window.ballot_id+" \n"+xlsx;
-					}
-				},
-				{
-					text: '<i class="fa fa-plus-circle"></i>Import EXCEL',
-					action: function () {
-						uploadEditor.create( {
-							title: 'CSV file import'
-						} );
-					},
-					"className": 'hidden importcsv'
-				},
-			]
-		});
-
-		table.find('.group-checkable').change(function () {
-			var set = jQuery(this).attr("data-set");
-			var checked = jQuery(this).is(":checked");
-			jQuery(set).each(function () {
-				if (checked) {
-					$(this).parent().addClass("checked");
-					$(this).attr("checked", true);
-				} else {
-					$(this).parent().removeClass("checked");
-					$(this).attr("checked", false);
-				}
-			});
-			jQuery.uniform.update(set);
-		});
-
-		$(document).on("change", '.checkboxes', function(event) { 
-			var checked = $(this).is(":checked");
-			if (checked) {
-				$(this).parent().addClass("checked");
-				$(this).attr("checked", true);
-			} else {
-				$(this).parent().removeClass("checked");
-				$(this).attr("checked", false);
-			}
-		});
-				
-		$(".expertPinCode").on("click", function() {
-			$('.buttons-csv').trigger('click');
-		});
-		$(".importPinCode").on("click", function() {
-			$('.importcsv').trigger('click');
-		});
-
-	}
 
 	var handleRecords = function (ballot_id) {
 
@@ -465,7 +376,7 @@
 			"order": [
 				[0, "asc"]
 			], // set first column as a default sort by asc
-			dom: 'Bfrtip',
+			dom: 'lBfrtip',
 			buttons: [
 				{ 	
 					"extend": 'csvHtml5', 
@@ -476,7 +387,7 @@
 					},
 					customize: function (xlsx) {
 						console.log(xlsx);
-						return " Ballot id : "+window.ballot_id+" \n"+xlsx;
+						return " Ballot Name : "+window.ballot_name+" \n"+xlsx;
 					}
 				},
 				{
@@ -531,6 +442,7 @@
 
 	$(document).on('click', '.editVoterModal', function(e){
 		$('#edit_voter_id').val($(this).data('id'));
+		$('#edit_expire_time').val($(this).parents('tr').find('td:nth(3)').text().split('T')[0]);
 		$('#verify_checkbox').val($(this).data('checked'));
 		$('#verify_checkbox').attr("checked", $(this).data('checked'));
 		var modal = $('#editVoterModal');
@@ -546,6 +458,7 @@
 		
 	$('#pin_ballot').change(function(){
 		ballot_id = $(this).val();
+		ballot_name = $(this).text();
 		if(ballot_id != '' || ballot_id != -1){
 			handleRecords(ballot_id);
 		}
@@ -578,7 +491,29 @@
 			}
 		});		
 	});
-
+	$('#delete_pin_btn').click(function(){
+		var pin = $('#del_voter_id').val();
+		var order = {	
+			"ballot_id":window.ballot_id,		
+			"pin": pin
+		}
+		// console.log(order);
+		$.ajax({
+			type: 'POST',
+			url: baseurl+'pincode/delete',
+			crossDomain: true,
+			data: JSON.stringify(order),
+			dataType: 'json',
+			success: function(responseData, textStatus, jqXHR) {
+				toastr.success("Pin codes Changed");
+				handleRecords(window.ballot_id);
+				$('#deleteVoterModal').modal('hide');;
+			},
+			error: function (responseData, textStatus, errorThrown) {
+				alert('POST failed.');
+			}
+		});		
+	});
 
 	$(document).on('click', '.delPinCode', function(){
 		var modal = $('#deleteGroupModal');

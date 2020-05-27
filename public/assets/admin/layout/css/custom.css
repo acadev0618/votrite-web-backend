@@ -58,8 +58,6 @@ Change Quick Sidebar Width
   margin-left: -370px;
 }
 */
-#voter_table_wrapper .dt-buttons {
-  position: absolute;
-  left: 55%;
-  top: 53px;
+#voter_table tr td:nth-child(5) {
+  text-align: center;
 }
