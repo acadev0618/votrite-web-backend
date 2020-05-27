@@ -105,7 +105,7 @@
             <div class="form-group">
                 <label class="control-label col-sm-5" for="title">Maximum number of votes:</label>
                 <div class="col-sm-7">
-                    <select class="form-control" name="max_num_of_votes" id="add_max_num_of_votes">
+                    <select class="form-control max_cand" name="max_num_of_votes" id="add_max_num_of_votes">
                         <option value="1">1</opiton>
                         <option value="2">2</opiton>
                         <option value="3">3</opiton>
@@ -130,13 +130,8 @@
             <div class="form-group">
                 <label class="control-label col-sm-5" for="title">Maximum number of Write-Ins:</label>
                 <div class="col-sm-7">
-                    <select class="form-control" name="max_num_of_write_ins" id="add_max_num_of_write_ins">
-                        <option value="1">0</opiton>
-                        <option value="2">1</opiton>
-                        <option value="3">2</opiton>
-                        <option value="4">3</opiton>
-                        <option value="5">4</opiton>
-                        <option value="6">5</opiton>
+                    <select class="form-control max_w_cand" name="max_num_of_write_ins" id="add_max_num_of_write_ins">
+                        <option value="0">1</opiton>
                     </select>
                 </div>
             </div>
@@ -354,7 +349,7 @@
             <div class="form-group">
                 <label class="control-label col-sm-5" for="title">Maximum number of votes:</label>
                 <div class="col-sm-7">
-                    <select class="form-control" name="max_num_of_votes" id="edit_max_num_of_votes">
+                    <select class="form-control max_cand" name="max_num_of_votes" id="edit_max_num_of_votes">
                         <option>1</opiton>
                         <option>2</opiton>
                         <option>3</opiton>
@@ -379,11 +374,8 @@
             <div class="form-group">
                 <label class="control-label col-sm-5" for="title">Maximum number of Write-Ins:</label>
                 <div class="col-sm-7">
-                    <select class="form-control" name="max_num_of_write_ins" id="edit_max_num_of_write_ins">
-                        <option>0</opiton>
-                        <option>1</opiton>
-                        <option>2</opiton>
-                        <option>3</opiton>
+                    <select class="form-control max_w_cand" name="max_num_of_write_ins" id="edit_max_num_of_write_ins">
+
                     </select>
                 </div>
             </div>

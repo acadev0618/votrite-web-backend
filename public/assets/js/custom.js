@@ -481,6 +481,15 @@ var TableManaged = function () {
             }
         });
 
+        $('.max_cand').on('change', function(){
+            var max_cand = $(this).val();
+            var option = '';
+            for(i = 1; i <= max_cand; i ++) {
+                option += "<option value='"+i+"'>"+i+"</opiton>"
+            }
+            $('.max_w_cand').html(option);
+        });
+
         $(document).on('click', '.deleteRacesModal', function(){
             var modal = $('#deleteRacesModal');
             var allVals = [];
@@ -559,6 +568,13 @@ var TableManaged = function () {
                 },
                 success: function(response) {
                     var race = JSON.parse(response);
+
+                    var max_cand = race.data[0].max_num_of_votes;
+                    var option = '';
+                    for(i = 1; i <= max_cand; i ++) {
+                        option += "<option value='"+i+"'>"+i+"</opiton>"
+                    }
+                    modal.find('.max_w_cand').html(option);
 
                     modal.find('#edit_race_id').val(race_id);
                     modal.find('#edit_race_name').val(race.data[0].race_name);
@@ -665,6 +681,15 @@ var TableManaged = function () {
                         }
                     });
 
+                    $('.max_cand').on('change', function(){
+                        var max_cand = $(this).val();
+                        var option = '';
+                        for(i = 1; i <= max_cand; i ++) {
+                            option += "<option value='"+i+"'>"+i+"</opiton>"
+                        }
+                        $('.max_w_cand').html(option);
+                    });
+
                     $(document).on('click', '.deleteRacesModal', function(){
                         var modal = $('#deleteRacesModal');
                         var allVals = [];
@@ -743,6 +768,13 @@ var TableManaged = function () {
                             },
                             success: function(response) {
                                 var race = JSON.parse(response);
+
+                                var max_cand = race.data[0].max_num_of_votes;
+                                var option = '';
+                                for(i = 1; i <= max_cand; i ++) {
+                                    option += "<option value='"+i+"'>"+i+"</opiton>"
+                                }
+                                modal.find('.max_w_cand').html(option);
 
                                 modal.find('#edit_race_id').val(race_id);
                                 modal.find('#edit_race_name').val(race.data[0].race_name);
