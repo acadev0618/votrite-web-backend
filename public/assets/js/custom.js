@@ -1010,7 +1010,7 @@ var TableManaged = function () {
 
                     $('#addCandidateModal').remove();
                     $('#deleteCandidatesModal').remove();
-                    $('#confirmModal').remove();
+                    $('#candConfirmModal').remove();
                     $('#change_table').html(response);
 
                     var table = $('#candidate_table');
@@ -1215,7 +1215,7 @@ var TableManaged = function () {
 
                     $('#addCandidateModal').remove();
                     $('#deleteCandidatesModal').remove();
-                    $('#confirmModal').remove();
+                    $('#candConfirmModal').remove();
                     $('#change_table').html(response);
 
                     var table = $('#candidate_table');
