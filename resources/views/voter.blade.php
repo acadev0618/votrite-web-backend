@@ -61,7 +61,7 @@
 										<th>
 											Expiration time
 										</th>
-										<th >
+										<th style="width: 6%;">
 											Active Status
 										</th>
                                         <th >
@@ -135,7 +135,7 @@
             <div class="form-group">
                 <label class="control-label col-sm-5" for="title">Expire Date:</label>
                 <div class="col-sm-7">
-                    <input type="date" class="form-control" name="voter_phone" id="edit_expire_time"></input>
+                    <input type="date" class="form-control" name="voter_expire_time" id="edit_expire_time"></input>
                 </div>
             </div>
             <div class="modal-footer">
@@ -442,6 +442,7 @@
 
 	$(document).on('click', '.editVoterModal', function(e){
 		$('#edit_voter_id').val($(this).data('id'));
+		$('#edit_expire_time').val($(this).parents('tr').find('td:nth(3)').text().split('T')[0]);
 		$('#verify_checkbox').val($(this).data('checked'));
 		$('#verify_checkbox').attr("checked", $(this).data('checked'));
 		var modal = $('#editVoterModal');
