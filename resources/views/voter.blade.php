@@ -45,8 +45,8 @@
 								</div>
 							</div>
 						</div>
-						<div id="change_tabel"></div>
-						<table class="table table-striped table-bordered table-hover" id="voter_table">
+						<div id="change_table">
+							<table class="table table-striped table-bordered table-hover" id="voter_table" style='width:100%'>
 								<thead>
 									<tr>
 										<th class="table-checkbox">
@@ -61,10 +61,10 @@
 										<th>
 											Expiration time
 										</th>
-										<th style="width: 6%;">
+										<th >
 											Active Status
 										</th>
-                                        <th style="width: 4%;">
+                                        <th >
                                             Actions
                                         </th>
 									</tr>
@@ -262,133 +262,42 @@
 					skipEmptyLines: true,
 					complete: function (results) {							
 						uploadEditor.close();
+						// console.log(parseInt(results.data.shift()[0].split(':')[1]));
 						results.data.shift();
 						results.data.shift();
 						results.data.map(function(val){
-							val.unshift('<div class="checker"><span><input type="checkbox" class="checkboxes" /></span></div>');
-							if(val[4]){
-								val[4]='<div class="checker"><span class="checked" ><input type="checkbox" class="checkboxes" checked /></span></div>';
-							}else{
-								val[4]='<div class="checker"><span ><input type="checkbox" class="checkboxes" /></span></div>';
+							console.log(window.ballot_id);
+							// val.unshift('<div class="checker"><span><input type="checkbox" class="checkboxes" /></span></div>');
+							// if(val[4]){
+							// 	val[4]='<div class="checker"><span class="checked" ><input type="checkbox" class="checkboxes" checked /></span></div>';
+							// }else{
+							// 	val[4]='<div class="checker"><span ><input type="checkbox" class="checkboxes" /></span></div>';
+							// }
+							// val.push('<a class="editVoterModal" data-toggle="modal" data-checked="null" ><i class="fa fa-edit" data-toggle="tooltip" title="Edit"></i></a><a class="deleteVoterModal" data-toggle="modal"  ><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete"></i></a>');
+							var order = {
+								"ballot_id": window.ballot_id,
+								"is_active": val[3],
+								"expiration_time": val[2],
+								"pin": val[1]
 							}
-							val.push('<a class="editVoterModal" data-toggle="modal" data-checked="null" ><i class="fa fa-edit" data-toggle="tooltip" title="Edit"></i></a><a class="deleteVoterModal" data-toggle="modal"  ><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete"></i></a>');
+							$.ajax({
+								type: 'POST',
+								url: baseurl+'pincode/create',
+								crossDomain: true,
+								data: JSON.stringify(order),
+								dataType: 'json',
+								error: function(responseData, textStatus, jqXHR) {
+									
+								}
+							});	
 						});
-						handleRecords2(results.data);
+						toastr.success("Pin codes added");
+						handleRecords(window.ballot_id);
 					}
 				});
 			}
 		} ]
 	});
-
-	var handleRecords2 = function (dataset) {
-		// console.log(dataset)
-		propurl = baseurl+'pincode?ballot_id='+ballot_id;
-
-		var table = $('#voter_table');
-
-		table.dataTable({
-
-			"language": {
-				"aria": {
-					"sortAscending": ": activate to sort column ascending",
-					"sortDescending": ": activate to sort column descending"
-				},
-				"emptyTable": "No data available in table",
-				"info": "Showing _START_ to _END_ of _TOTAL_ entries",
-				"infoEmpty": "No entries found",
-				"infoFiltered": "(filtered1 from _MAX_ total entries)",
-				"lengthMenu": "Show _MENU_ entries",
-				"search": "Search:",
-				"zeroRecords": "No matching records found"
-			},
-			destroy: true,
-			"bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
-			// "ajax":{
-			//     type: 'GET',
-			//     url: baseurl+'result/all',
-			//     crossDomain: true,
-			//     dataType: 'json',
-			// },
-			data: dataset,
-			"lengthMenu": [
-				[5, 15, 20, -1],
-				[5, 15, 20, "All"] // change per page values here
-			],
-			// set the initial value
-			"pageLength": 5,
-			"language": {
-				"lengthMenu": " _MENU_ records"
-			},
-			"columnDefs": [{  // set default column settings
-				'orderable': false,
-				'targets': [-1]
-			}, {
-				"searchable": false,
-				"targets": [0]
-			}],
-			"order": [
-				[0, "asc"]
-			], // set first column as a default sort by asc
-			dom: 'Bfrtip',
-			buttons: [
-				{ 	
-					"extend": 'csvHtml5', 
-					"text":'<i class="fa fa-plus-circle"></i>Export EXCEL',
-					"className": 'hidden' ,
-					exportOptions: {
-						columns: [1,2,3]
-					},
-					customize: function (xlsx) {
-						console.log(xlsx);
-						return " Ballot id : "+window.ballot_id+" \n"+xlsx;
-					}
-				},
-				{
-					text: '<i class="fa fa-plus-circle"></i>Import EXCEL',
-					action: function () {
-						uploadEditor.create( {
-							title: 'CSV file import'
-						} );
-					},
-					"className": 'hidden importcsv'
-				},
-			]
-		});
-
-		table.find('.group-checkable').change(function () {
-			var set = jQuery(this).attr("data-set");
-			var checked = jQuery(this).is(":checked");
-			jQuery(set).each(function () {
-				if (checked) {
-					$(this).parent().addClass("checked");
-					$(this).attr("checked", true);
-				} else {
-					$(this).parent().removeClass("checked");
-					$(this).attr("checked", false);
-				}
-			});
-			jQuery.uniform.update(set);
-		});
-
-		$(document).on("change", '.checkboxes', function(event) { 
-			var checked = $(this).is(":checked");
-			if (checked) {
-				$(this).parent().addClass("checked");
-				$(this).attr("checked", true);
-			} else {
-				$(this).parent().removeClass("checked");
-				$(this).attr("checked", false);
-			}
-		});
-				
-		$(".expertPinCode").on("click", function() {
-			$('.buttons-csv').trigger('click');
-		});
-		$(".importPinCode").on("click", function() {
-			$('.importcsv').trigger('click');
-		});
-
-	}
 
 	var handleRecords = function (ballot_id) {
 
@@ -465,7 +374,7 @@
 			"order": [
 				[0, "asc"]
 			], // set first column as a default sort by asc
-			dom: 'Bfrtip',
+			dom: 'lBfrtip',
 			buttons: [
 				{ 	
 					"extend": 'csvHtml5', 
