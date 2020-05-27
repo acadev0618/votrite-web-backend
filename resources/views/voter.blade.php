@@ -37,8 +37,8 @@
 								</div>
 								<div class="col-md-7">
 									<div class="btn-group ballot-actions">
-										<!-- <button class="btn yellow importPinCode" data-toggle="modal"><i class="fa fa-level-down"></i> <span>  Import Excel</span></button>
-										<button class="btn yellow expertPinCode" data-toggle="modal" style="margin-left: 10px;"><i class="fa fa-print"></i> <span>  Export Excel</span></button> -->
+										<button class="btn yellow importPinCode" data-toggle="modal"><i class="fa fa-level-down"></i> <span>  Import Excel</span></button>
+										<button class="btn yellow expertPinCode" data-toggle="modal" style="margin-left: 10px;"><i class="fa fa-print"></i> <span>  Export Excel</span></button>
 										<button href="#addPinCode" class="btn btn-primary addPinCode" data-toggle="modal" style="margin-left: 10px;"><i class="fa fa-plus-circle"></i> <span>  Create PinCode</span></button>
 										<button class="btn btn-danger delPinCode" data-toggle="modal" style="margin-left: 10px;"><i class="fa fa-trash-o"></i> <span>  Delete PinCode</span></button>
 									</div>
@@ -194,7 +194,6 @@
 			<input type="text" class="target_id" name="target_id" hidden />
 			<input type="text" class="ids" name="ids" hidden />
 			<input type="text" class="api" name="api" hidden />
-			<input type="text" id="del_voter_id"  value="" hidden />
 
 			<button id="delete_group_btn" type="submit" class="btn btn-danger delete">
 				<i class="fa fa-trash-o"></i> Delete
@@ -235,13 +234,13 @@
 	}
 	function getChecked(data, type, full, meta) {
 		if(data){
-			return '<div class="checker"><span class="checked"><input type="checkbox" class="checkboxes" checked="checked" /></span></div>';
+			return '<div class="checker"><span class="checked"><input type="checkbox" class="checkboxes" value="'+data+'" checked="checked" /></span><span class="hidden">'+data+'</span></div>';
 		}else{
-			return '<div class="checker"><span><input type="checkbox" class="checkboxes" /></span></div>';
+			return '<div class="checker"><span><input type="checkbox" class="checkboxes" value="'+data+'" /><span class="hidden">'+data+'</span></span></div>';
 		}
 	}
 	function getAction(data, type, full, meta) {
-		console.log(full);
+		// console.log(full);
 		if(full.is_active){
 			return  '<a class="editVoterModal" data-toggle="modal" data-id='+data+' data-checked="checked" ><i class="fa fa-edit" data-toggle="tooltip" title="Edit"></i></a><a class="deleteVoterModal" data-toggle="modal" data-id='+data+' ><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete"></i></a>';
 		}else{
@@ -267,7 +266,12 @@
 						results.data.shift();
 						results.data.map(function(val){
 							val.unshift('<div class="checker"><span><input type="checkbox" class="checkboxes" /></span></div>');
-							val.push('<div class="checker"><span class="checked" ><input type="checkbox" class="checkboxes" checked /></span></div>','<a class="editVoterModal" data-toggle="modal" data-checked="null" ><i class="fa fa-edit" data-toggle="tooltip" title="Edit"></i></a><a class="deleteVoterModal" data-toggle="modal"  ><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete"></i></a>');
+							if(val[4]){
+								val[4]='<div class="checker"><span class="checked" ><input type="checkbox" class="checkboxes" checked /></span></div>';
+							}else{
+								val[4]='<div class="checker"><span ><input type="checkbox" class="checkboxes" /></span></div>';
+							}
+							val.push('<a class="editVoterModal" data-toggle="modal" data-checked="null" ><i class="fa fa-edit" data-toggle="tooltip" title="Edit"></i></a><a class="deleteVoterModal" data-toggle="modal"  ><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete"></i></a>');
 						});
 						handleRecords2(results.data);
 					}
@@ -277,7 +281,7 @@
 	});
 
 	var handleRecords2 = function (dataset) {
-		console.log(dataset)
+		// console.log(dataset)
 		propurl = baseurl+'pincode?ballot_id='+ballot_id;
 
 		var table = $('#voter_table');
@@ -330,13 +334,13 @@
 				{ 	
 					"extend": 'csvHtml5', 
 					"text":'<i class="fa fa-plus-circle"></i>Export EXCEL',
-					"className": 'btn yellow importPinCode' ,
+					"className": 'hidden' ,
 					exportOptions: {
 						columns: [1,2,3]
 					},
-					customize: function (ballot_id) {
-						console.log(ballot_id);
-						return "     Ballot id : \n"+ballot_id;
+					customize: function (xlsx) {
+						console.log(xlsx);
+						return " Ballot id : "+window.ballot_id+" \n"+xlsx;
 					}
 				},
 				{
@@ -346,7 +350,7 @@
 							title: 'CSV file import'
 						} );
 					},
-					"className": 'btn btn-success'
+					"className": 'hidden importcsv'
 				},
 			]
 		});
@@ -375,7 +379,14 @@
 				$(this).parent().removeClass("checked");
 				$(this).attr("checked", false);
 			}
-		});		
+		});
+				
+		$(".expertPinCode").on("click", function() {
+			$('.buttons-csv').trigger('click');
+		});
+		$(".importPinCode").on("click", function() {
+			$('.importcsv').trigger('click');
+		});
 
 	}
 
@@ -414,7 +425,7 @@
 				type: 'GET',
 				dataType: 'json',
 				success:function(data){
-					console.log(data);
+					// console.log(data);
 					if(data.data != undefined){
 						callback(data);
 					}else{
@@ -459,13 +470,13 @@
 				{ 	
 					"extend": 'csvHtml5', 
 					"text":'<i class="fa fa-plus-circle"></i>Export EXCEL',
-					"className": 'btn yellow importPinCode' ,
+					"className": 'hidden' ,
 					exportOptions: {
-						columns: [1,2,3]
+						columns: [1,2,3,4]
 					},
-					customize: function (ballot_id) {
-						console.log(ballot_id);
-						return "     Ballot id : \n"+ballot_id;
+					customize: function (xlsx) {
+						console.log(xlsx);
+						return " Ballot id : "+window.ballot_id+" \n"+xlsx;
 					}
 				},
 				{
@@ -475,7 +486,7 @@
 							title: 'CSV file import'
 						} );
 					},
-					"className": 'btn btn-success'
+					"className": 'hidden importcsv'
 				},
 			]
 		});
@@ -506,6 +517,12 @@
             }
 		});		
 
+		$(".expertPinCode").on("click", function() {
+			$('.buttons-csv').trigger('click');
+		});
+		$(".importPinCode").on("click", function() {
+			$('.importcsv').trigger('click');
+		});
 	}
 
 	jQuery(document).ready(function() {
@@ -522,7 +539,7 @@
 	
 	$(document).on('click', '.deleteVoterModal', function(e){
 		$('#del_voter_id').val($(this).data('id'));
-		console.log($('#del_voter_id').val());
+		// console.log($('#del_voter_id').val());
 		var modal = $('#deleteVoterModal');
 		modal.modal('show');
 	}); 
@@ -543,7 +560,7 @@
 				"pin": pin
 			}
 		}
-		console.log(order);
+		// console.log(order);
 		$.ajax({
 			type: 'POST',
 			url: baseurl+'pincode/update',
@@ -577,7 +594,7 @@
 		} else {
 			modal.modal('show');
 			var target_id = 'pin';
-			console.log(allVals);
+			// console.log(allVals);
 			var ids = allVals.join(",");
 			var api = baseurl+'pincode/delete';
 
