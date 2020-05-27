@@ -236,9 +236,9 @@
 	}
 	function getChecked(data, type, full, meta) {
 		if(data){
-			return '<div class="checker"><span class="checked"><input type="checkbox" class="checkboxes" value="'+data+'" checked="checked" /></span><span class="hidden">'+data+'</span></div>';
+			return '<div class="checker"><span class="checked"><input type="checkbox" class="checkboxes" value="'+data+'" checked="checked" disabled /></span></div><span class="hidden">'+data+'</span>';
 		}else{
-			return '<div class="checker"><span><input type="checkbox" class="checkboxes" value="'+data+'" /><span class="hidden">'+data+'</span></span></div>';
+			return '<div class="checker"><span><input type="checkbox" class="checkboxes" value="'+data+'" disabled/></span></div><span class="hidden">'+data+'</span>';
 		}
 	}
 	function getAction(data, type, full, meta) {
@@ -506,6 +506,7 @@
 			success: function(responseData, textStatus, jqXHR) {
 				toastr.success("Pin codes Changed");
 				handleRecords(window.ballot_id);
+				$('#deleteVoterModal').modal('hide');;
 			},
 			error: function (responseData, textStatus, errorThrown) {
 				alert('POST failed.');

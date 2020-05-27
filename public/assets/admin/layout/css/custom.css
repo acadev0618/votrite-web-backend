@@ -58,3 +58,6 @@ Change Quick Sidebar Width
   margin-left: -370px;
 }
 */
+#voter_table tr td:nth-child(5) {
+  text-align: center;
+}
