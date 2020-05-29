@@ -134,26 +134,26 @@
                     <li>
                     @endif
                         <a href="{{ asset('/result/candidate') }}">
-                        Candidate</a>
+                        Ballot Result</a>
                     </li>
 
-                    @if($subAction == "proposition")
+                    <!-- @if($subAction == "proposition")
                     <li class="active">
                     @else
                     <li>
                     @endif
                         <a href="{{ asset('/result/proposition') }}">
                         Proposition</a>
-                    </li>
+                    </li> -->
 
-                    @if($subAction == "ballot")
+                    <!-- @if($subAction == "ballot")
                     <li class="active">
                     @else
                     <li>
                     @endif
                         <a href="{{ asset('/result/ballot') }}">
                         Ballot Result</a>
-                    </li>
+                    </li> -->
                 </ul>
             </li>
         </ul>

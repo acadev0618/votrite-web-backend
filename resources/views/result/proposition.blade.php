@@ -156,7 +156,7 @@
 		crossDomain: true,
 		dataType: 'json',
 		success: function(responseData, textStatus, jqXHR) {
-			var text = "<option value='-1'>No Ballot</opiton>";
+			var text = "";
 			var x;
 			for (x in responseData.data) {
 				text += "<option value="+responseData.data[x]['ballot_id']+">"+responseData.data[x]['election']+"</opiton>";
@@ -177,7 +177,7 @@
 			crossDomain: true,
 			dataType: 'json',
 			success: function(responseData, textStatus, jqXHR) {
-				var text = "<option value='-1'>No Race</opiton>";
+				var text = "";
 				var x;
 				for (x in responseData.data) {
 					text += "<option value="+responseData.data[x]['race_id']+">"+responseData.data[x]['race_name']+"</opiton>";
