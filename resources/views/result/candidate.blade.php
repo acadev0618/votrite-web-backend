@@ -200,21 +200,21 @@
 			success: function(responseData, textStatus, jqXHR) {
 				var text = "";
 				var x;
-				if(responseData.data != null){
+				console.log(responseData.data);
+				if(responseData.data != undefined){
 					race_id = responseData.data[0]['race_id']
 				}
 				for (x in responseData.data) {
 					text += "<option value="+responseData.data[x]['race_id']+">"+responseData.data[x]['race_name']+"</opiton>";
 				}
 				$('#result_cand_race_name').html(text);
+				handleRecords(ballot_id, race_id);
 			},
 			error: function (responseData, textStatus, errorThrown) {
 				alert('POST failed.');
 			}
-		});
-		if(ballot_id != '' || ballot_id != -1){
-			handleRecords(ballot_id, race_id);
-		}
+		});			
+		
 	});
 
 	$('#result_cand_race_name').change(function(){
