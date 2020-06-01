@@ -47,11 +47,15 @@
                         {{ $race->race_voted_position }}
                     </td>
                     <td>
-                    @if($race->race_type == "P")
-                        Primary
-                    @else
-                        Rank Voting
-                    @endif
+                        @if($race->race_type == "P")
+                            Primary
+                        @endif
+                        @if($race->race_type == "R")
+                            Rank Voting
+                        @endif
+                        @if($race->race_type == "C")
+                            Complex
+                        @endif
                     </td>
                     <td>
                         <a class="preview previewRaceModal" data-toggle="modal" data-id="{{ $race->race_id }}" data-ballotId="{{ $race->ballot_id }}" data-raceName="{{ $race->race_name }}" data-maxNum="{{ $race->max_num_of_votes }}" data-minNum="{{ $race->min_num_of_votes }}" data-lang="{{ $race->race_lang_id }}" data-county="{{ $race->race_location_id }}" data-raceTitle="{{ $race->race_title }}" data-votedPosition="{{ $race->race_voted_position }}"><i class="fa fa-eye" data-toggle="tooltip" title="Preview"></i></a>

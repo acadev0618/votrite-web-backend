@@ -98,8 +98,6 @@
                                                 @endif
                                                 @if($race->race_type == "R")
                                                     Rank Voting
-                                                @else
-                                                    Complex
                                                 @endif
                                                 @if($race->race_type == "C")
                                                     Complex
