@@ -370,7 +370,7 @@
     <div id="editRaceModal" class="modal fade" tabindex="-1" data-width="620">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">×</button>
-            <h4 class="modal-title text-center">Edit The Race</h4>
+            <h4 class="modal-title text-center">Add The Race</h4>
         </div>
         <div class="modal-body">
             <form class="form-horizontal" role="form" method="post" action="{{ asset('/updateRace') }}">
