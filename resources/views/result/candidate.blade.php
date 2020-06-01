@@ -4,14 +4,14 @@
 <div class="page-content-wrapper">
 	<div class="page-content">
 		<h3 class="page-title">
-		Candidates
+		Result
 		</h3>
 		<div class="row">
 			<div class="col-md-12">
 				<div class="portlet box blue">
 					<div class="portlet-title">
 						<div class="caption">
-							Candidate Table
+						Ballot Result Table
 						</div>
 					</div>
 					<div class="portlet-body">
@@ -56,15 +56,15 @@
 										<th>
 											Candidate Name
 										</th>
-										<th>
-											Candidate Count
+										<th style="width: 6%;">
+											Total Votes
 										</th>
-										<th>
+										<!-- <th>
 											Candidate Value
 										</th>
 										<th style="width: 6%;">
 											Candidate Photo
-										</th>
+										</th> -->
 									</tr>
 								</thead>
 								<tbody>
@@ -83,16 +83,25 @@
 	function getImg(data, type, full, meta) {
 		return '<img src='+data+' />';
 	}
+	@if(empty($ballots->data))
 	var ballot_id = '';
 	var race_id = '';
+	@else
+	var ballot_id = '{{ $ballots->data[0]->ballot_id }}';
+	var race_id = '{{ $races->data[0]->race_id }}';
+	@endif
+
+	jQuery(document).ready(function() {
+		handleRecords(ballot_id, race_id);
+	});
 
 	var handleRecords = function (ballot_id, race_id) {
 
-		if(race_id == '' || race_id == -1){
-			propurl = baseurl+'result/candidate?ballot_id='+ballot_id;
-		}else{
+		// if(race_id == '' || race_id == -1){
+		// 	propurl = baseurl+'result/candidate?ballot_id='+ballot_id;
+		// }else{
 			propurl = baseurl+'result/candidate?ballot_id='+ballot_id+'&race_id='+race_id;
-		}
+		// }
 
 		var table = $('#result_candidate_table');
 
@@ -138,8 +147,8 @@
 			"columns": [
 				{ "data": "candidate_name" },
 				{ "data": "cast_counter" },
-				{ "data": "cast_value" },
-				{ "data": "photo", render: getImg },
+				// { "data": "cast_value" },
+				// { "data": "photo", render: getImg },
 			],
 			"lengthMenu": [
 				[5, 15, 20, -1],
@@ -152,14 +161,11 @@
 			},
 			"columnDefs": [{  // set default column settings
 				'orderable': false,
-				'targets': [-1]
-			}, {
-				"searchable": false,
-				"targets": [0]
-			}],
-			"order": [
-				[0, "asc"]
-			] // set first column as a default sort by asc
+				'targets': [0]
+			},{  // set default column settings
+				'orderable': 'desc',
+				'targets': [1]
+			}]
 		});
 
 	}	
@@ -170,7 +176,7 @@
 		crossDomain: true,
 		dataType: 'json',
 		success: function(responseData, textStatus, jqXHR) {
-			var text = "<option value='-1'>No Ballot</opiton>";
+			var text = "";
 			var x;
 			for (x in responseData.data) {
 				text += "<option value="+responseData.data[x]['ballot_id']+">"+responseData.data[x]['election']+"</opiton>";
@@ -191,8 +197,11 @@
 			crossDomain: true,
 			dataType: 'json',
 			success: function(responseData, textStatus, jqXHR) {
-				var text = "<option value='-1'>No Race</opiton>";
+				var text = "";
 				var x;
+				if(responseData.data != null){
+					race_id = responseData.data[0]['race_id']
+				}
 				for (x in responseData.data) {
 					text += "<option value="+responseData.data[x]['race_id']+">"+responseData.data[x]['race_name']+"</opiton>";
 				}
