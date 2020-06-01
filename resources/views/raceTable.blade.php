@@ -65,372 +65,375 @@
     </tbody>
 </table>
 
-<div id="addRaceModal" class="modal fade" tabindex="-1" data-width="620">
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">×</button>
-        <h4 class="modal-title text-center">Edit The Race</h4>
-    </div>
-    <div class="modal-body">
-        <form class="form-horizontal" role="form" method="post" action="{{ asset('/createRace') }}">
-        @csrf
-            <div class="form-group">
-                <label class="control-label col-sm-5" for="title">International Race Name:</label>
-                <div class="col-sm-7">
-                    <input type="text" class="form-control" id="add_race_name" name="race_name" required placeholder="Example: BOD">
+    <div id="addRaceModal" class="modal fade" tabindex="-1" data-width="620">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">×</button>
+            <h4 class="modal-title text-center">Edit The Race</h4>
+        </div>
+        <div class="modal-body">
+            <form class="form-horizontal" role="form" method="post" action="{{ asset('/createRace') }}">
+            @csrf
+                <div class="form-group">
+                    <label class="control-label col-sm-5" for="title">International Race Name:</label>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control" id="add_race_name" name="race_name" required placeholder="Example: BOD">
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label class="control-label col-sm-5" for="title">Race Type:</label>
-                <div class="col-sm-7">
-                    <select class="form-control" name="race_type" id="add_race_type">
-                        <option value="P">Primary</option>
-                        <option value="R">Rank Voting</option>
-                    </select>
+                <div class="form-group">
+                    <label class="control-label col-sm-5" for="title">Race Type:</label>
+                    <div class="col-sm-7">
+                        <select class="form-control" name="race_type" id="add_race_type">
+                            <option value="P">Primary</option>
+                            <option value="R">Rank Voting</option>
+                            <option value="C">Complex</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label class="control-label col-sm-5" for="title">Mimimum number of votes:</label>
-                <div class="col-sm-7">
-                    <select class="form-control" name="min_num_of_votes" id="add_min_num_of_votes">
-                        <option value="1">0</opiton>
-                        <option value="2">1</opiton>
-                        <option value="3">2</opiton>
-                        <option value="4">3</opiton>
-                        <option value="5">4</opiton>
-                        <option value="6">5</opiton>
-                        <option value="7">6</opiton>
-                    </select>
+                <div class="form-group">
+                    <label class="control-label col-sm-5" for="title">Mimimum number of votes:</label>
+                    <div class="col-sm-7">
+                        <select class="form-control" name="min_num_of_votes" id="add_min_num_of_votes">
+                            <option value="1">0</opiton>
+                            <option value="2">1</opiton>
+                            <option value="3">2</opiton>
+                            <option value="4">3</opiton>
+                            <option value="5">4</opiton>
+                            <option value="6">5</opiton>
+                            <option value="7">6</opiton>
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label class="control-label col-sm-5" for="title">Maximum number of votes:</label>
-                <div class="col-sm-7">
-                    <select class="form-control max_cand" name="max_num_of_votes" id="add_max_num_of_votes">
-                        <option value="1">1</opiton>
-                        <option value="2">2</opiton>
-                        <option value="3">3</opiton>
-                        <option value="4">4</opiton>
-                        <option value="5">5</opiton>
-                        <option value="6">6</opiton>
-                        <option value="7">7</opiton>
-                        <option value="8">8</opiton>
-                        <option value="9">9</opiton>
-                        <option value="10">10</opiton>
-                        <option value="11">11</opiton>
-                        <option value="12">12</opiton>
-                        <option value="13">13</opiton>
-                        <option value="14">14</opiton>
-                        <option value="15">15</opiton>
-                        <option value="16">16</opiton>
-                        <option value="17">17</opiton>
-                        <option value="18">18</opiton>
-                    </select>
+                <div class="form-group">
+                    <label class="control-label col-sm-5" for="title">Maximum number of votes:</label>
+                    <div class="col-sm-7">
+                        <select class="form-control max_cand" name="max_num_of_votes" id="add_max_num_of_votes">
+                            <option value="1">1</opiton>
+                            <option value="2">2</opiton>
+                            <option value="3">3</opiton>
+                            <option value="4">4</opiton>
+                            <option value="5">5</opiton>
+                            <option value="6">6</opiton>
+                            <option value="7">7</opiton>
+                            <option value="8">8</opiton>
+                            <option value="9">9</opiton>
+                            <option value="10">10</opiton>
+                            <option value="11">11</opiton>
+                            <option value="12">12</opiton>
+                            <option value="13">13</opiton>
+                            <option value="14">14</opiton>
+                            <option value="15">15</opiton>
+                            <option value="16">16</opiton>
+                            <option value="17">17</opiton>
+                            <option value="18">18</opiton>
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label class="control-label col-sm-5" for="title">Maximum number of Write-Ins:</label>
-                <div class="col-sm-7">
-                    <select class="form-control max_w_cand" name="max_num_of_write_ins" id="add_max_num_of_write_ins">
-                        <option value="0">1</opiton>
-                    </select>
+                <div class="form-group">
+                    <label class="control-label col-sm-5" for="title">Maximum number of Write-Ins:</label>
+                    <div class="col-sm-7">
+                        <select class="form-control max_w_cand" name="max_num_of_write_ins" id="add_max_num_of_write_ins">
+                            <option value="0">1</opiton>
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label class="control-label col-sm-5" for="title">Choose Language:</label>
-                <div class="col-sm-7">
-                    <select class="form-control" name="race_lang_id" id="add_race_lang_id">
-                        @if(empty($languages->data))
-                        <option value="0">No Language</option>
+                <div class="form-group">
+                    <label class="control-label col-sm-5" for="title">Choose Language:</label>
+                    <div class="col-sm-7">
+                        <select class="form-control" name="race_lang_id" id="add_race_lang_id">
+                            @if(empty($languages->data))
+                            <option value="0">No Language</option>
+                            @else
+                                @foreach($languages->data as $lang)
+                                <option value="{{ $lang->lang_id }}">{{ $lang->language_name }}</option>
+                                @endforeach
+                            @endif
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-5" for="title">Choose County:</label>
+                    <div class="col-sm-7">
+                        <select class="form-control" name="race_location_id" id="add_race_location_id">
+                        @if(empty($counties->data))
+                        <option value="0" value="0">No Counties</option>
                         @else
-                            @foreach($languages->data as $lang)
-                            <option value="{{ $lang->lang_id }}">{{ $lang->language_name }}</option>
+                            @foreach($counties->data as $county)
+                            <option value="{{ $county->county_id }}">{{ $county->county_name }}</option>
                             @endforeach
                         @endif
-                    </select>
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label class="control-label col-sm-5" for="title">Choose County:</label>
-                <div class="col-sm-7">
-                    <select class="form-control" name="race_location_id" id="add_race_location_id">
-                    @if(empty($counties->data))
-                    <option value="0" value="0">No Counties</option>
-                    @else
-                        @foreach($counties->data as $county)
-                        <option value="{{ $county->county_id }}">{{ $county->county_name }}</option>
-                        @endforeach
-                    @endif
-                    </select>
+                <div class="form-group">
+                    <label class="control-label col-sm-5" for="title">Race title:</label>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control" id="add_race_title" name="race_title" required placeholder="Example: Election of Board of Directors">
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label class="control-label col-sm-5" for="title">Race title:</label>
-                <div class="col-sm-7">
-                    <input type="text" class="form-control" id="add_race_title" name="race_title" required placeholder="Example: Election of Board of Directors">
+                <div class="form-group">
+                    <label class="control-label col-sm-5" for="title">Voted Position:</label>
+                    <div class="col-sm-7">
+                        <textarea type="text" class="form-control" id="add_race_voted_position" name="race_voted_position" required placeholder="Candidates for: Director"></textarea>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label class="control-label col-sm-5" for="title">Voted Position:</label>
-                <div class="col-sm-7">
-                    <textarea type="text" class="form-control" id="add_race_voted_position" name="race_voted_position" required placeholder="Candidates for: Director"></textarea>
+                <div class="modal-footer">
+                    <input type="text" id="ballot_id" name="ballot_id" hidden />
+                    <button type="submit" class="btn btn-success add">
+                        <span id="" class='glyphicon glyphicon-check'></span> Add
+                    </button>
+                    <button type="button" class="btn btn-warning" data-dismiss="modal">
+                        <span class='glyphicon glyphicon-remove'></span> Close
+                    </button>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <input type="text" id="ballot_id" name="ballot_id" hidden />
-                <button type="submit" class="btn btn-success add">
-                    <span id="" class='glyphicon glyphicon-check'></span> Add
-                </button>
-                <button type="button" class="btn btn-warning" data-dismiss="modal">
-                    <span class='glyphicon glyphicon-remove'></span> Close
-                </button>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
-</div>
 
-<div id="previewRaceModal" class="modal fade" tabindex="-1" data-width="620">
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">×</button>
-        <h4 class="modal-title text-center">Preview The Race</h4>
-    </div>
-    <div class="modal-body">
-        <form class="form-horizontal">
-            <div class="form-group">
-                <label class="control-label col-sm-5" for="title">International Race Name:</label>
-                <div class="col-sm-7">
-                    <input type="text" class="form-control" id="race_name" name="race_name" readonly>
+    <div id="previewRaceModal" class="modal fade" tabindex="-1" data-width="620">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">×</button>
+            <h4 class="modal-title text-center">Preview The Race</h4>
+        </div>
+        <div class="modal-body">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="control-label col-sm-5" for="title">International Race Name:</label>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control" id="race_name" name="race_name" readonly>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label class="control-label col-sm-5" for="title">Race Type:</label>
-                <div class="col-sm-7">
-                    <select class="form-control" name="race_type" id="race_type" readonly>
-                        <option disabled value="P">Primary</option>
-                        <option disabled value="R">Rank Voting</option>
-                    </select>
+                <div class="form-group">
+                    <label class="control-label col-sm-5" for="title">Race Type:</label>
+                    <div class="col-sm-7">
+                        <select class="form-control" name="race_type" id="race_type" readonly>
+                            <option disabled value="P">Primary</option>
+                            <option disabled value="R">Rank Voting</option>
+                            <option disabled value="C">Complex</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label class="control-label col-sm-5" for="title">Mimimum number of votes:</label>
-                <div class="col-sm-7">
-                    <select class="form-control" name="min_num_of_votes" id="min_num_of_votes" readonly>
-                        <option value="0" disabled>0</opiton>
-                        <option value="1" disabled>1</opiton>
-                        <option value="2" disabled>2</opiton>
-                        <option value="3" disabled>3</opiton>
-                        <option value="4" disabled>4</opiton>
-                        <option value="5" disabled>5</opiton>
-                        <option value="6" disabled>6</opiton>
-                    </select>
+                <div class="form-group">
+                    <label class="control-label col-sm-5" for="title">Mimimum number of votes:</label>
+                    <div class="col-sm-7">
+                        <select class="form-control" name="min_num_of_votes" id="min_num_of_votes" readonly>
+                            <option value="0" disabled>0</opiton>
+                            <option value="1" disabled>1</opiton>
+                            <option value="2" disabled>2</opiton>
+                            <option value="3" disabled>3</opiton>
+                            <option value="4" disabled>4</opiton>
+                            <option value="5" disabled>5</opiton>
+                            <option value="6" disabled>6</opiton>
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label class="control-label col-sm-5" for="title">Maximum number of votes:</label>
-                <div class="col-sm-7">
-                    <select class="form-control" name="max_num_of_votes" id="max_num_of_votes" readonly>
-                        <option disabled>1</opiton>
-                        <option disabled>2</opiton>
-                        <option disabled>3</opiton>
-                        <option disabled>4</opiton>
-                        <option disabled>5</opiton>
-                        <option disabled>6</opiton>
-                        <option disabled>7</opiton>
-                        <option disabled>8</opiton>
-                        <option disabled>9</opiton>
-                        <option disabled>10</opiton>
-                        <option disabled>11</opiton>
-                        <option disabled>12</opiton>
-                        <option disabled>13</opiton>
-                        <option disabled>14</opiton>
-                        <option disabled>15</opiton>
-                        <option disabled>16</opiton>
-                        <option disabled>17</opiton>
-                        <option disabled>18</opiton>
-                    </select>
+                <div class="form-group">
+                    <label class="control-label col-sm-5" for="title">Maximum number of votes:</label>
+                    <div class="col-sm-7">
+                        <select class="form-control" name="max_num_of_votes" id="max_num_of_votes" readonly>
+                            <option disabled>1</opiton>
+                            <option disabled>2</opiton>
+                            <option disabled>3</opiton>
+                            <option disabled>4</opiton>
+                            <option disabled>5</opiton>
+                            <option disabled>6</opiton>
+                            <option disabled>7</opiton>
+                            <option disabled>8</opiton>
+                            <option disabled>9</opiton>
+                            <option disabled>10</opiton>
+                            <option disabled>11</opiton>
+                            <option disabled>12</opiton>
+                            <option disabled>13</opiton>
+                            <option disabled>14</opiton>
+                            <option disabled>15</opiton>
+                            <option disabled>16</opiton>
+                            <option disabled>17</opiton>
+                            <option disabled>18</opiton>
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label class="control-label col-sm-5" for="title">Maximum number of Write-Ins:</label>
-                <div class="col-sm-7">
-                    <select class="form-control" name="max_num_of_write_ins" id="max_num_of_write_ins" readonly>
-                        <option disabled>0</opiton>
-                        <option disabled>1</opiton>
-                        <option disabled>2</opiton>
-                        <option disabled>3</opiton>
-                    </select>
+                <div class="form-group">
+                    <label class="control-label col-sm-5" for="title">Maximum number of Write-Ins:</label>
+                    <div class="col-sm-7">
+                        <select class="form-control" name="max_num_of_write_ins" id="max_num_of_write_ins" readonly>
+                            <option disabled>0</opiton>
+                            <option disabled>1</opiton>
+                            <option disabled>2</opiton>
+                            <option disabled>3</opiton>
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label class="control-label col-sm-5" for="title">Language:</label>
-                <div class="col-sm-7">
-                    <select class="form-control" name="race_lang_id" id="race_lang_id" readonly>
-                        @if(empty($languages->data))
-                        <option value="0">No Language</option>
+                <div class="form-group">
+                    <label class="control-label col-sm-5" for="title">Language:</label>
+                    <div class="col-sm-7">
+                        <select class="form-control" name="race_lang_id" id="race_lang_id" readonly>
+                            @if(empty($languages->data))
+                            <option value="0">No Language</option>
+                            @else
+                                @foreach($languages->data as $lang)
+                                <option disabled value="{{ $lang->lang_id }}">{{ $lang->language_name }}</option>
+                                @endforeach
+                            @endif
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-5" for="title">County:</label>
+                    <div class="col-sm-7">
+                        <select class="form-control" name="race_location_id" id="race_location_id" readonly>
+                        @if(empty($counties->data))
+                        <option value="0">No Counties</option>
                         @else
-                            @foreach($languages->data as $lang)
-                            <option disabled value="{{ $lang->lang_id }}">{{ $lang->language_name }}</option>
+                            @foreach($counties->data as $county)
+                            <option disabled value="{{ $county->county_id }}">{{ $county->county_name }}</option>
                             @endforeach
                         @endif
-                    </select>
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label class="control-label col-sm-5" for="title">County:</label>
-                <div class="col-sm-7">
-                    <select class="form-control" name="race_location_id" id="race_location_id" readonly>
-                    @if(empty($counties->data))
-                    <option value="0">No Counties</option>
-                    @else
-                        @foreach($counties->data as $county)
-                        <option disabled value="{{ $county->county_id }}">{{ $county->county_name }}</option>
-                        @endforeach
-                    @endif
-                    </select>
+                <div class="form-group">
+                    <label class="control-label col-sm-5" for="title">Race title:</label>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control" id="race_title" name="race_title" readonly>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label class="control-label col-sm-5" for="title">Race title:</label>
-                <div class="col-sm-7">
-                    <input type="text" class="form-control" id="race_title" name="race_title" readonly>
+                <div class="form-group">
+                    <label class="control-label col-sm-5" for="title">Voted Position:</label>
+                    <div class="col-sm-7">
+                        <textarea type="text" class="form-control" id="race_voted_position" name="race_voted_position" readonly></textarea>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label class="control-label col-sm-5" for="title">Voted Position:</label>
-                <div class="col-sm-7">
-                    <textarea type="text" class="form-control" id="race_voted_position" name="race_voted_position" readonly></textarea>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-warning" data-dismiss="modal">
+                        <span class='glyphicon glyphicon-remove'></span> Close
+                    </button>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-warning" data-dismiss="modal">
-                    <span class='glyphicon glyphicon-remove'></span> Close
-                </button>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
-</div>
 
-<div id="editRaceModal" class="modal fade" tabindex="-1" data-width="620">
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">×</button>
-        <h4 class="modal-title text-center">Edit The Race</h4>
-    </div>
-    <div class="modal-body">
-        <form class="form-horizontal" role="form" method="post" action="{{ asset('/updateRace') }}">
-        @csrf
-            <div class="form-group">
-                <label class="control-label col-sm-5" for="title">International Race Name:</label>
-                <div class="col-sm-7">
-                    <input type="text" class="form-control" id="edit_race_name" name="race_name">
+    <div id="editRaceModal" class="modal fade" tabindex="-1" data-width="620">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">×</button>
+            <h4 class="modal-title text-center">Edit The Race</h4>
+        </div>
+        <div class="modal-body">
+            <form class="form-horizontal" role="form" method="post" action="{{ asset('/updateRace') }}">
+            @csrf
+                <div class="form-group">
+                    <label class="control-label col-sm-5" for="title">International Race Name:</label>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control" id="edit_race_name" name="race_name">
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label class="control-label col-sm-5" for="title">Race Type:</label>
-                <div class="col-sm-7">
-                    <select class="form-control" name="race_type" id="edit_race_type">
-                        <option value="P">Primary</option>
-                        <option value="R">Rank Voting</option>
-                    </select>
+                <div class="form-group">
+                    <label class="control-label col-sm-5" for="title">Race Type:</label>
+                    <div class="col-sm-7">
+                        <select class="form-control" name="race_type" id="edit_race_type">
+                            <option value="P">Primary</option>
+                            <option value="R">Rank Voting</option>
+                            <option value="C">Complex</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label class="control-label col-sm-5" for="title">Mimimum number of votes:</label>
-                <div class="col-sm-7">
-                    <select class="form-control" name="min_num_of_votes" id="edit_min_num_of_votes">
-                        <option value="0">0</opiton>
-                        <option value="1">1</opiton>
-                        <option value="2">2</opiton>
-                        <option value="3">3</opiton>
-                        <option value="4">4</opiton>
-                        <option value="5">5</opiton>
-                        <option value="6">6</opiton>
-                    </select>
+                <div class="form-group">
+                    <label class="control-label col-sm-5" for="title">Mimimum number of votes:</label>
+                    <div class="col-sm-7">
+                        <select class="form-control" name="min_num_of_votes" id="edit_min_num_of_votes">
+                            <option value="0">0</opiton>
+                            <option value="1">1</opiton>
+                            <option value="2">2</opiton>
+                            <option value="3">3</opiton>
+                            <option value="4">4</opiton>
+                            <option value="5">5</opiton>
+                            <option value="6">6</opiton>
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label class="control-label col-sm-5" for="title">Maximum number of votes:</label>
-                <div class="col-sm-7">
-                    <select class="form-control max_cand" name="max_num_of_votes" id="edit_max_num_of_votes">
-                        <option>1</opiton>
-                        <option>2</opiton>
-                        <option>3</opiton>
-                        <option>4</opiton>
-                        <option>5</opiton>
-                        <option>6</opiton>
-                        <option>7</opiton>
-                        <option>8</opiton>
-                        <option>9</opiton>
-                        <option>10</opiton>
-                        <option>11</opiton>
-                        <option>12</opiton>
-                        <option>13</opiton>
-                        <option>14</opiton>
-                        <option>15</opiton>
-                        <option>16</opiton>
-                        <option>17</opiton>
-                        <option>18</opiton>
-                    </select>
+                <div class="form-group">
+                    <label class="control-label col-sm-5" for="title">Maximum number of votes:</label>
+                    <div class="col-sm-7">
+                        <select class="form-control max_cand" name="max_num_of_votes" id="edit_max_num_of_votes">
+                            <option>1</opiton>
+                            <option>2</opiton>
+                            <option>3</opiton>
+                            <option>4</opiton>
+                            <option>5</opiton>
+                            <option>6</opiton>
+                            <option>7</opiton>
+                            <option>8</opiton>
+                            <option>9</opiton>
+                            <option>10</opiton>
+                            <option>11</opiton>
+                            <option>12</opiton>
+                            <option>13</opiton>
+                            <option>14</opiton>
+                            <option>15</opiton>
+                            <option>16</opiton>
+                            <option>17</opiton>
+                            <option>18</opiton>
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label class="control-label col-sm-5" for="title">Maximum number of Write-Ins:</label>
-                <div class="col-sm-7">
-                    <select class="form-control max_w_cand" name="max_num_of_write_ins" id="edit_max_num_of_write_ins">
+                <div class="form-group">
+                    <label class="control-label col-sm-5" for="title">Maximum number of Write-Ins:</label>
+                    <div class="col-sm-7">
+                        <select class="form-control max_w_cand" name="max_num_of_write_ins" id="edit_max_num_of_write_ins">
 
-                    </select>
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label class="control-label col-sm-5" for="title">Choose Language:</label>
-                <div class="col-sm-7">
-                    <select class="form-control" name="race_lang_id" id="edit_race_lang_id">
-                        @if(empty($languages->data))
-                        <option value="0">No Language</option>
+                <div class="form-group">
+                    <label class="control-label col-sm-5" for="title">Choose Language:</label>
+                    <div class="col-sm-7">
+                        <select class="form-control" name="race_lang_id" id="edit_race_lang_id">
+                            @if(empty($languages->data))
+                            <option value="0">No Language</option>
+                            @else
+                                @foreach($languages->data as $lang)
+                                <option value="{{ $lang->lang_id }}">{{ $lang->language_name }}</option>
+                                @endforeach
+                            @endif
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-5" for="title">Choose County:</label>
+                    <div class="col-sm-7">
+                        <select class="form-control" name="race_location_id" id="edit_race_location_id">
+                        @if(empty($counties->data))
+                        <option value="0">No Counties</option>
                         @else
-                            @foreach($languages->data as $lang)
-                            <option value="{{ $lang->lang_id }}">{{ $lang->language_name }}</option>
+                            @foreach($counties->data as $county)
+                            <option value="{{ $county->county_id }}">{{ $county->county_name }}</option>
                             @endforeach
                         @endif
-                    </select>
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label class="control-label col-sm-5" for="title">Choose County:</label>
-                <div class="col-sm-7">
-                    <select class="form-control" name="race_location_id" id="edit_race_location_id">
-                    @if(empty($counties->data))
-                    <option value="0">No Counties</option>
-                    @else
-                        @foreach($counties->data as $county)
-                        <option value="{{ $county->county_id }}">{{ $county->county_name }}</option>
-                        @endforeach
-                    @endif
-                    </select>
+                <div class="form-group">
+                    <label class="control-label col-sm-5" for="title">Race title:</label>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control" id="edit_race_title" name="race_title">
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label class="control-label col-sm-5" for="title">Race title:</label>
-                <div class="col-sm-7">
-                    <input type="text" class="form-control" id="edit_race_title" name="race_title">
+                <div class="form-group">
+                    <label class="control-label col-sm-5" for="title">Voted Position:</label>
+                    <div class="col-sm-7">
+                        <textarea type="text" class="form-control" id="edit_race_voted_position" name="race_voted_position"></textarea>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label class="control-label col-sm-5" for="title">Voted Position:</label>
-                <div class="col-sm-7">
-                    <textarea type="text" class="form-control" id="edit_race_voted_position" name="race_voted_position"></textarea>
+                <div class="modal-footer">
+                    <input type="text" id="edit_race_id" name="race_id" hidden>
+                    <button type="submit" class="btn btn-success addInvoice">
+                        <span id="" class='glyphicon glyphicon-check'></span> Save
+                    </button>
+                    <button type="button" class="btn btn-warning" data-dismiss="modal">
+                        <span class='glyphicon glyphicon-remove'></span> Close
+                    </button>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <input type="text" id="edit_race_id" name="race_id" hidden>
-                <button type="submit" class="btn btn-success addInvoice">
-                    <span id="" class='glyphicon glyphicon-check'></span> Save
-                </button>
-                <button type="button" class="btn btn-warning" data-dismiss="modal">
-                    <span class='glyphicon glyphicon-remove'></span> Close
-                </button>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
-</div>
 
 <div id="deleteRacesModal" class="modal fade" tabindex="-1" data-width="420">
     <div class="modal-header">

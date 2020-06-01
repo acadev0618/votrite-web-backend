@@ -95,8 +95,12 @@
                                                 <td>
                                                 @if($race->race_type == "P")
                                                     Primary
-                                                @else
+                                                @endif
+                                                @if($race->race_type == "R")
                                                     Rank Voting
+                                                @endif
+                                                @if($race->race_type == "C")
+                                                    Complex
                                                 @endif
                                                 </td>
                                                 <td>
@@ -137,6 +141,7 @@
                         <select class="form-control" name="race_type" id="add_race_type">
                             <option value="P">Primary</option>
                             <option value="R">Rank Voting</option>
+                            <option value="C">Complex</option>
                         </select>
                     </div>
                 </div>
@@ -259,6 +264,7 @@
                         <select class="form-control" name="race_type" id="race_type" readonly>
                             <option disabled value="P">Primary</option>
                             <option disabled value="R">Rank Voting</option>
+                            <option disabled value="C">Complex</option>
                         </select>
                     </div>
                 </div>
@@ -381,6 +387,7 @@
                         <select class="form-control" name="race_type" id="edit_race_type">
                             <option value="P">Primary</option>
                             <option value="R">Rank Voting</option>
+                            <option value="C">Complex</option>
                         </select>
                     </div>
                 </div>
