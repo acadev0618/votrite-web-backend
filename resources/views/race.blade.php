@@ -264,11 +264,7 @@
                         <select class="form-control" name="race_type" id="race_type" readonly>
                             <option disabled value="P">Primary</option>
                             <option disabled value="R">Rank Voting</option>
-<<<<<<< HEAD
                             <option disabled value="C">Complex</option>
-=======
-                            <option value="C">Complex</option>
->>>>>>> 713a18341244663d69aa7078028013af6e551504
                         </select>
                     </div>
                 </div>
