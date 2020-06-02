@@ -50,8 +50,14 @@
                                         <td>
                                             <?php
                                                 $start_date = $ballot->start_date;
+                                                
                                                 $date = substr($start_date, 0, 10);
+                                                $date = strtotime($date);
+                                                $date = date('d F, Y', $date);  
+
                                                 $time = substr($start_date, 11, 8);
+                                                $time = strtotime($time);
+                                                $time = date('h:i:s A', $time);  
 
                                                 $start = $date." at ".$time;
                                             ?>
@@ -59,9 +65,15 @@
                                         </td>
                                         <td>
                                             <?php
-                                                $start_date = $ballot->end_date;
-                                                $date = substr($start_date, 0, 10);
-                                                $time = substr($start_date, 11, 8);
+                                                $end_date = $ballot->end_date;
+                                                
+                                                $date = substr($end_date, 0, 10);
+                                                $date = strtotime($date);
+                                                $date = date('d F, Y', $date);  
+
+                                                $time = substr($end_date, 11, 8);
+                                                $time = strtotime($time);
+                                                $time = date('h:i:s A', $time);  
 
                                                 $end = $date." at ".$time;
                                             ?>
