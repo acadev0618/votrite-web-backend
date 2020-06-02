@@ -13,7 +13,11 @@ class DashboardController extends Controller {
             $BallotController = new BallotController;
             $response = $BallotController->getActiveBallot();
 
-            return view('dashboard')->with(['ballots' => $response, 'sliderAction' => 'dashboard', 'subAction' => '']);
+            return view('dashboard')->with(
+            	['ballots' => $response, 
+            	'sliderAction' => 'dashboard', 
+            	'subAction' => '']
+            );
         } else {
             return redirect('/');
         }

@@ -48,10 +48,24 @@
                                         {{ $ballot->election }}
                                         </td>
                                         <td>
-                                        {{ $ballot->start_date }}
+                                            <?php
+                                                $start_date = $ballot->start_date;
+                                                $date = substr($start_date, 0, 10);
+                                                $time = substr($start_date, 11, 8);
+
+                                                $start = $date." at ".$time;
+                                            ?>
+                                        {{ $start }}
                                         </td>
                                         <td>
-                                        {{ $ballot->end_date }}
+                                            <?php
+                                                $start_date = $ballot->end_date;
+                                                $date = substr($start_date, 0, 10);
+                                                $time = substr($start_date, 11, 8);
+
+                                                $end = $date." at ".$time;
+                                            ?>
+                                        {{ $end }}
                                         </td>
                                     </tr>
                                     @endforeach
