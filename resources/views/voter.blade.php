@@ -45,7 +45,6 @@
 								</div>
 							</div>
 						</div>
-						<div id="change_table">
 							<table class="table table-striped table-bordered table-hover" id="voter_table" style='width:100%'>
 								<thead>
 									<tr>
@@ -73,7 +72,6 @@
 								
 								</tbody>
 							</table>
-						</div>
 					</div>
 				</div>
 			</div>
@@ -223,7 +221,7 @@
 </div>
 @endsection
 @section('script')
-
+<script src="{{ asset('assets/date.format.js') }}"></script>
 <script>
 	@if(empty($ballots->data))
 	var ballot_id = '';
@@ -233,6 +231,10 @@
 	var ballot_name = '{{ $ballots->data[0]->election }}';
 	@endif
 	
+	function getTime(data, type, full, meta) {
+		var d = new Date(data);
+		return dateFormat(d, "dd, mmmm, yyyy 'at' h:MM:ss TT");
+	}
 	function getInput(data, type, full, meta) {
 		return '<div class="checker"><span><input type="checkbox" name="active_ballot_checkbox" class="checkboxes selcheck" data-id='+data+' /></span></div>';
 	}
@@ -355,7 +357,7 @@
 					}
 				},
 				{ "data": "pin" },
-				{ "data": "expiration_time" },
+				{ "data": "expiration_time" ,render: getTime },
 				{ "data": "is_active" ,render: getChecked },
 				{ "data": "pin", render: getAction },
 			],
@@ -444,7 +446,8 @@
 
 	$(document).on('click', '.editVoterModal', function(e){
 		$('#edit_voter_id').val($(this).data('id'));
-		$('#edit_expire_time').val($(this).parents('tr').find('td:nth(3)').text().split('T')[0]);
+		var dd = new Date($(this).parents('tr').find('td:nth(3)').text().split('at')[0]);
+		$('#edit_expire_time').val(dateFormat(dd, "yyyy-mm-dd").toString());
 		$('#verify_checkbox').val($(this).data('checked'));
 		$('#verify_checkbox').attr("checked", $(this).data('checked'));
 		var modal = $('#editVoterModal');
