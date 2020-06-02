@@ -61,15 +61,27 @@ class CandidateController extends Controller {
         $photo = $request->file('photo');
         $photo_link = $BaseController->fileUpload($photo, $directory);
 
-        $data = array(
-            "ballot_id" => $request->ballot_id,
-            "race_id" => $request->race_id,
-            "candidate_name" => $request->candidate_name,
-            "email" => $request->email,
-            "photo" => $photo_link,
-            "party_id" => $request->party_id,
-            "lang_id" => $request->lang_id
-        );
+        if($request->lang_id == -1) {
+            $data = array(
+                "ballot_id" => $request->ballot_id,
+                "race_id" => $request->race_id,
+                "candidate_name" => $request->candidate_name,
+                "email" => $request->email,
+                "photo" => $photo_link,
+                "party_id" => $request->party_id
+            );
+        } else {
+            $data = array(
+                "ballot_id" => $request->ballot_id,
+                "race_id" => $request->race_id,
+                "candidate_name" => $request->candidate_name,
+                "email" => $request->email,
+                "photo" => $photo_link,
+                "party_id" => $request->party_id,
+                "lang_id" => $request->lang_id
+            );
+        }
+        // var_dump($data);die();
         $data = json_encode($data);
         $api = env('API').'/candidate/create';
         
@@ -96,14 +108,24 @@ class CandidateController extends Controller {
         $photo_link = $BaseController->fileUpload($photo, $directory);
 
         $cand_id = array('candidate_id' => $request->edit_cand_id);
-        $data = array(
-            "candidate_name" => $request->edit_candidate_name,
-            "email" => $request->edit_email,
-            "photo" => $photo_link,
-            "party_id" => $request->edit_party_id,
-            "lang_id" => $request->edit_lang_id,
-            'keys' => $cand_id
-        );
+        if($request->edit_lang_id == -1) {
+            $data = array(
+                "candidate_name" => $request->edit_candidate_name,
+                "email" => $request->edit_email,
+                "photo" => $photo_link,
+                "party_id" => $request->edit_party_id,
+                'keys' => $cand_id
+            );
+        } else {
+            $data = array(
+                "candidate_name" => $request->edit_candidate_name,
+                "email" => $request->edit_email,
+                "photo" => $photo_link,
+                "party_id" => $request->edit_party_id,
+                "lang_id" => $request->edit_lang_id,
+                'keys' => $cand_id
+            );
+        }
         $data = json_encode($data);
         $api = env('API').'/candidate/update';
 

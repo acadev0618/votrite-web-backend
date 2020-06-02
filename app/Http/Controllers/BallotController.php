@@ -46,11 +46,15 @@ class BallotController extends Controller {
     }
 
     public function getActiveBallot() {
-        $data = "is_delete=false";
-        $api_url = env('API').'/ballot';
-
-        $Api = new ApiController;
-        $response = $Api->getParamApi($api_url, $data);
+        $data = array(
+            'election' => "%%"
+        );
+        
+        $json = json_encode($data);
+        $api_url = env('API').'/ballot/active';
+        
+        $controller = new ApiController;
+        $response = $controller->postApi($json, $api_url);
 
         return $response;
     }

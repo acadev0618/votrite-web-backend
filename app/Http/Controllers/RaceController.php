@@ -96,18 +96,31 @@ class RaceController extends Controller {
     }
 
     public function createRace(Request $request) {
-        $data = array(
-            "ballot_id" => $request->ballot_id,
-            "race_title" => $request->race_title,
-            "race_voted_position" => $request->race_voted_position,
-            "race_name" => $request->race_name,
-            "min_num_of_votes" => $request->min_num_of_votes,
-            "max_num_of_votes" => $request->max_num_of_votes,
-            "max_num_of_write_ins" => $request->max_num_of_write_ins,
-            "race_type" => $request->race_type,
-            "race_lang_id" => $request->race_lang_id,
-            "race_location_id" => $request->race_location_id
-        );
+        if(($request->race_lang_id == 0) || ($request->race_location_id == 0)) {
+            $data = array(
+                "ballot_id" => $request->ballot_id,
+                "race_title" => $request->race_title,
+                "race_voted_position" => $request->race_voted_position,
+                "race_name" => $request->race_name,
+                "min_num_of_votes" => $request->min_num_of_votes,
+                "max_num_of_votes" => $request->max_num_of_votes,
+                "max_num_of_write_ins" => $request->max_num_of_write_ins,
+                "race_type" => $request->race_type
+            );
+        } else {
+            $data = array(
+                "ballot_id" => $request->ballot_id,
+                "race_title" => $request->race_title,
+                "race_voted_position" => $request->race_voted_position,
+                "race_name" => $request->race_name,
+                "min_num_of_votes" => $request->min_num_of_votes,
+                "max_num_of_votes" => $request->max_num_of_votes,
+                "max_num_of_write_ins" => $request->max_num_of_write_ins,
+                "race_type" => $request->race_type,
+                "race_lang_id" => $request->race_lang_id,
+                "race_location_id" => $request->race_location_id
+            );
+        }
         
         $data = json_encode($data);
         $api = env('API').'/race/create';
@@ -118,18 +131,31 @@ class RaceController extends Controller {
 
     public function updateRace(Request $request) {
         $race_id = array('race_id' => $request->race_id);
-        $data = array(
-            'race_title' => $request->race_title,
-            'race_voted_position' => $request->race_voted_position,
-            'race_name' => $request->race_name,
-            'min_num_of_votes' => $request->min_num_of_votes,
-            'max_num_of_votes' => $request->max_num_of_votes,
-            'max_num_of_write_ins' => $request->max_num_of_write_ins,
-            'race_type' => $request->race_type,
-            'race_lang_id' => $request->race_lang_id,
-            'race_location_id' => $request->race_location_id,
-            'keys' => $race_id
-        );
+        if(($request->race_lang_id == 0) || ($request->race_location_id == 0)) {
+            $data = array(
+                'race_title' => $request->race_title,
+                'race_voted_position' => $request->race_voted_position,
+                'race_name' => $request->race_name,
+                'min_num_of_votes' => $request->min_num_of_votes,
+                'max_num_of_votes' => $request->max_num_of_votes,
+                'max_num_of_write_ins' => $request->max_num_of_write_ins,
+                'race_type' => $request->race_type,
+                'keys' => $race_id
+            );
+        } else {
+            $data = array(
+                'race_title' => $request->race_title,
+                'race_voted_position' => $request->race_voted_position,
+                'race_name' => $request->race_name,
+                'min_num_of_votes' => $request->min_num_of_votes,
+                'max_num_of_votes' => $request->max_num_of_votes,
+                'max_num_of_write_ins' => $request->max_num_of_write_ins,
+                'race_type' => $request->race_type,
+                'race_lang_id' => $request->race_lang_id,
+                'race_location_id' => $request->race_location_id,
+                'keys' => $race_id
+            );
+        }
         $data = json_encode($data);
         $api = env('API').'/race/update';
 
