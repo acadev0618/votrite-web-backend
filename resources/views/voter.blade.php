@@ -456,9 +456,9 @@
 		modal.modal('show');
 	}); 
 		
-	$('#pin_ballot').change(function(){
+	$('#pin_ballot').change(function(e){
 		ballot_id = $(this).val();
-		ballot_name = $(this).text();
+		ballot_name = this.options[this.selectedIndex].text
 		if(ballot_id != '' || ballot_id != -1){
 			handleRecords(ballot_id);
 		}
