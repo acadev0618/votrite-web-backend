@@ -254,7 +254,7 @@
             </div>
             <div class="modal-footer">
                 <input type="text" id="edit_prop_id" name="prop_id" hidden>
-                <input type="text" name="prop_type" value="M" hidden>
+                <input type="text" name="prop_type" value="P" hidden>
                 <button type="submit" class="btn btn-success addInvoice">
                     <span id="" class='glyphicon glyphicon-check'></span> Save
                 </button>

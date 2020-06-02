@@ -101,6 +101,8 @@ class BaseController extends Controller {
         $Api = new ApiController;
         $response = $Api->postApi($request, $api_url);
 
+        // var_dump($response);die();
+
         if($response->state == "success") {
             $notification = array(
                 'message' => 'Successfully added data.', 
