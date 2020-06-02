@@ -53,13 +53,13 @@
                                                 
                                                 $date = substr($start_date, 0, 10);
                                                 $date = strtotime($date);
-                                                $date = date('d F, Y', $date);  
+                                                $date = date('F d, Y', $date);  
 
                                                 $time = substr($start_date, 11, 8);
                                                 $time = strtotime($time);
-                                                $time = date('h:i:s A', $time);  
+                                                $time = date('h:i A', $time);  
 
-                                                $start = $date." at ".$time;
+                                                $start = $date." ".$time;
                                             ?>
                                         {{ $start }}
                                         </td>
@@ -69,13 +69,13 @@
                                                 
                                                 $date = substr($end_date, 0, 10);
                                                 $date = strtotime($date);
-                                                $date = date('d F, Y', $date);  
+                                                $date = date('F d, Y', $date);  
 
                                                 $time = substr($end_date, 11, 8);
                                                 $time = strtotime($time);
-                                                $time = date('h:i:s A', $time);  
+                                                $time = date('h:i A', $time);  
 
-                                                $end = $date." at ".$time;
+                                                $end = $date." ".$time;
                                             ?>
                                         {{ $end }}
                                         </td>
