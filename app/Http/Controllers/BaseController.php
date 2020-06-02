@@ -137,7 +137,7 @@ class BaseController extends Controller {
     public function fileUpload($photo, $directory) {
         $photo_name = $photo->getClientOriginalName();
         $photo->move(public_path('/uploads/'.$directory), $photo_name);
-        $photo_link = (env('app_url').'/uploads/'.$directory).$photo_name;
+        $photo_link = (env('APP_URL').'/uploads/'.$directory).$photo_name;
 
         return $photo_link;
     }
