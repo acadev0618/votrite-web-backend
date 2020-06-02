@@ -545,8 +545,16 @@ var TableManaged = function () {
                     modal.find('#min_num_of_votes').val(race.data[0].min_num_of_votes);
                     modal.find('#max_num_of_votes').val(race.data[0].max_num_of_votes);
                     modal.find('#max_num_of_write_ins').val(race.data[0].max_num_of_write_ins);
-                    modal.find('#race_lang_id').val(race.data[0].race_lang_id);
-                    modal.find('#race_location_id').val(race.data[0].race_location_id);
+                    if(race.data[0].race_lang_id == null) {
+                        modal.find('#race_lang_id').val(0);
+                    } else {
+                        modal.find('#race_lang_id').val(race.data[0].race_lang_id);
+                    }
+                    if(race.data[0].race_location_id == null) {
+                        modal.find('#race_location_id').val(0);
+                    } else {
+                        modal.find('#race_location_id').val(race.data[0].race_location_id);
+                    }
                     modal.find('#race_title').val(race.data[0].race_title);
                     modal.find('#race_voted_position').val(race.data[0].race_voted_position);
                 }
@@ -582,8 +590,16 @@ var TableManaged = function () {
                     modal.find('#edit_min_num_of_votes').val(race.data[0].min_num_of_votes);
                     modal.find('#edit_max_num_of_votes').val(race.data[0].max_num_of_votes);
                     modal.find('#edit_max_num_of_write_ins').val(race.data[0].max_num_of_write_ins);
-                    modal.find('#edit_race_lang_id').val(race.data[0].race_lang_id);
-                    modal.find('#edit_race_location_id').val(race.data[0].race_location_id);
+                    if(race.data[0].race_lang_id == null) {
+                        modal.find('#race_lang_id').val(0);
+                    } else {
+                        modal.find('#race_lang_id').val(race.data[0].race_lang_id);
+                    }
+                    if(race.data[0].race_location_id == null) {
+                        modal.find('#race_location_id').val(0);
+                    } else {
+                        modal.find('#race_location_id').val(race.data[0].race_location_id);
+                    }
                     modal.find('#edit_race_title').val(race.data[0].race_title);
                     modal.find('#edit_race_voted_position').val(race.data[0].race_voted_position);
                 }
@@ -729,7 +745,7 @@ var TableManaged = function () {
                     $('.previewRaceModal').click(function(){
                         var race_id = $(this).data('id');
                         var modal = $('#previewRaceModal');
-
+            
                         $.ajax({
                             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                             url: base_url+'/getOneRace',
@@ -739,26 +755,34 @@ var TableManaged = function () {
                             },
                             success: function(response) {
                                 var race = JSON.parse(response);
-
+            
                                 modal.find('#race_name').val(race.data[0].race_name);
                                 modal.find('#race_type').val(race.data[0].race_type);
                                 modal.find('#min_num_of_votes').val(race.data[0].min_num_of_votes);
                                 modal.find('#max_num_of_votes').val(race.data[0].max_num_of_votes);
                                 modal.find('#max_num_of_write_ins').val(race.data[0].max_num_of_write_ins);
-                                modal.find('#race_lang_id').val(race.data[0].race_lang_id);
-                                modal.find('#race_location_id').val(race.data[0].race_location_id);
+                                if(race.data[0].race_lang_id == null) {
+                                    modal.find('#race_lang_id').val(0);
+                                } else {
+                                    modal.find('#race_lang_id').val(race.data[0].race_lang_id);
+                                }
+                                if(race.data[0].race_location_id == null) {
+                                    modal.find('#race_location_id').val(0);
+                                } else {
+                                    modal.find('#race_location_id').val(race.data[0].race_location_id);
+                                }
                                 modal.find('#race_title').val(race.data[0].race_title);
                                 modal.find('#race_voted_position').val(race.data[0].race_voted_position);
                             }
                         });
-
+            
                         modal.modal('show');
                     });
-
+            
                     $('.editRaceModal').click(function(){
                         var race_id = $(this).data('id');
                         var modal = $('#editRaceModal');
-
+            
                         $.ajax({
                             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                             url: base_url+'/getOneRace',
@@ -768,27 +792,35 @@ var TableManaged = function () {
                             },
                             success: function(response) {
                                 var race = JSON.parse(response);
-
+            
                                 var max_cand = race.data[0].max_num_of_votes;
                                 var option = '';
                                 for(i = 1; i <= max_cand; i ++) {
                                     option += "<option value='"+i+"'>"+i+"</opiton>"
                                 }
                                 modal.find('.max_w_cand').html(option);
-
+            
                                 modal.find('#edit_race_id').val(race_id);
                                 modal.find('#edit_race_name').val(race.data[0].race_name);
                                 modal.find('#edit_race_type').val(race.data[0].race_type);
                                 modal.find('#edit_min_num_of_votes').val(race.data[0].min_num_of_votes);
                                 modal.find('#edit_max_num_of_votes').val(race.data[0].max_num_of_votes);
                                 modal.find('#edit_max_num_of_write_ins').val(race.data[0].max_num_of_write_ins);
-                                modal.find('#edit_race_lang_id').val(race.data[0].race_lang_id);
-                                modal.find('#edit_race_location_id').val(race.data[0].race_location_id);
+                                if(race.data[0].race_lang_id == null) {
+                                    modal.find('#race_lang_id').val(0);
+                                } else {
+                                    modal.find('#race_lang_id').val(race.data[0].race_lang_id);
+                                }
+                                if(race.data[0].race_location_id == null) {
+                                    modal.find('#race_location_id').val(0);
+                                } else {
+                                    modal.find('#race_location_id').val(race.data[0].race_location_id);
+                                }
                                 modal.find('#edit_race_title').val(race.data[0].race_title);
                                 modal.find('#edit_race_voted_position').val(race.data[0].race_voted_position);
                             }
                         });
-
+            
                         modal.modal('show');
                     });
 
@@ -1020,7 +1052,8 @@ var TableManaged = function () {
                             var langs = response.langs;
 
                             if($.isEmptyObject(races)){
-                                var race_options = "<option value='-1'>No Race</opiton>";
+                                // var race_options = "<option value='-1'>No Race</opiton>";
+                                var race_options = "";
                             } else {
                                 for (var x in races.data) {
                                     race_options += "<option value="+races.data[x]['race_id']+">"+races.data[x]['race_name']+"</opiton>";
@@ -1028,7 +1061,8 @@ var TableManaged = function () {
                             }
 
                             if($.isEmptyObject(langs)){
-                                var lang_options = "<option value='-1'>No Language</opiton>";
+                                // var lang_options = "<option value='-1'>No Language</opiton>";
+                                var lang_options = "";
                             } else {
                                 for (var x in langs.data) {
                                     lang_options += "<option value="+langs.data[x]['lang_id']+">"+langs.data[x]['language_name']+"</opiton>";
@@ -1042,7 +1076,7 @@ var TableManaged = function () {
 
                     $('#addCandidateModal').remove();
                     $('#deleteCandidatesModal').remove();
-                    $('#candConfirmModal').remove();
+                    // $('#candConfirmModal').remove();
                     $('#change_table').html(response);
 
                     var table = $('#candidate_table');
@@ -1113,7 +1147,7 @@ var TableManaged = function () {
                         var party_id = $('#add_cand_party').val();
                         var confirmModal = $('#candConfirmModal');
                         var addModal = $('#addCandidateModal');
-
+            
                         addModal.find('#ballot_id').val(ballot_id);
                         addModal.find('#race_id').val(race_id);
                         addModal.find('#lang_id').val(lang_id);

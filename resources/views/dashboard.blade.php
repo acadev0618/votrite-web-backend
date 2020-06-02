@@ -50,20 +50,32 @@
                                         <td>
                                             <?php
                                                 $start_date = $ballot->start_date;
+                                                
                                                 $date = substr($start_date, 0, 10);
-                                                $time = substr($start_date, 11, 8);
+                                                $date = strtotime($date);
+                                                $date = date('F d, Y', $date);  
 
-                                                $start = $date." at ".$time;
+                                                $time = substr($start_date, 11, 8);
+                                                $time = strtotime($time);
+                                                $time = date('h:i A', $time);  
+
+                                                $start = $date." ".$time;
                                             ?>
                                         {{ $start }}
                                         </td>
                                         <td>
                                             <?php
-                                                $start_date = $ballot->end_date;
-                                                $date = substr($start_date, 0, 10);
-                                                $time = substr($start_date, 11, 8);
+                                                $end_date = $ballot->end_date;
+                                                
+                                                $date = substr($end_date, 0, 10);
+                                                $date = strtotime($date);
+                                                $date = date('F d, Y', $date);  
 
-                                                $end = $date." at ".$time;
+                                                $time = substr($end_date, 11, 8);
+                                                $time = strtotime($time);
+                                                $time = date('h:i A', $time);  
+
+                                                $end = $date." ".$time;
                                             ?>
                                         {{ $end }}
                                         </td>

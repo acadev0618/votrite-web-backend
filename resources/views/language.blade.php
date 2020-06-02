@@ -24,7 +24,7 @@
 											<div class="col-sm-10">
 												<select class="form-control select_ballot" name="ballot_lang_option" id="ballot_lang_option">
                                                     @if(empty($ballots->data))
-                                                    <option value="-1">No Ballot</opiton>
+                                                    <!-- <option value="-1">No Ballot</opiton> -->
                                                     @else
                                                         @foreach($ballots->data as $ballot)
                                                         <option value="{{ $ballot->ballot_id }}">{{ $ballot->election }}</opiton>

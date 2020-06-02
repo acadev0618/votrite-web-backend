@@ -23,7 +23,7 @@
 										<div class="col-sm-10">
 											<select class="form-control" name="county_ballot_option" id="county_ballot_option">
 											@if(empty($ballots->data))
-												<option value="-1">No Ballot</opiton>
+												<!-- <option value="-1">No Ballot</opiton> -->
 											@else
 												@foreach($ballots->data as $ballot)
 												<option value="{{ $ballot->ballot_id }}">{{ $ballot->election }}</opiton>
@@ -37,7 +37,7 @@
 										<div class="col-sm-5">
 											<select class="form-control" name="county_state_option" id="county_state_option">
 											@if(empty($states->data))
-												<option value="-1">No states</opiton>
+												<!-- <option value="-1">No states</opiton> -->
 											@else
 												@foreach($states->data as $state)
 												<option value="{{ $state->state_id }}">{{ $state->state_code }}</opiton>
