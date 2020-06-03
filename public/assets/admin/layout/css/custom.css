@@ -61,3 +61,23 @@ Change Quick Sidebar Width
 #voter_table tr td:nth-child(5) {
   text-align: center;
 }
+#result_candidate_table tr td:nth-child(3), #result_candidate_table tr td:nth-child(4) {
+  display: none;
+}
+#voter_table_paginate{
+  float: right;
+  margin-top: -30px;
+}
+.props{
+  padding: 0;
+}
+.props > li{
+  list-style-type: none;
+  margin-top: 25px;
+  font-weight: 400;
+  font-size: 14px;
+  display: inline-block;
+  padding: 0;
+  margin-left: 30px;
+  max-width: 200px;
+}
