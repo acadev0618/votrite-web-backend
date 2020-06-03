@@ -343,8 +343,10 @@
 				success:function(data){
 					// console.log(data);
 					if(data.data != undefined){
+						$('.expertPinCode').show();
 						callback(data);
 					}else{
+						$('.expertPinCode').hide();
 						callback({data:[]});
 					}
 				}
@@ -391,7 +393,6 @@
 						columns: [1,2,3,4]
 					},
 					customize: function (xlsx) {
-						console.log(xlsx);
 						return " Ballot Name : "+window.ballot_name+" \n"+xlsx;
 					}
 				},
