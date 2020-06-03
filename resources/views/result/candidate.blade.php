@@ -77,6 +77,117 @@
 		</div>
 	</div>
 </div>
+
+<div id="detailModal" class="modal fade" tabindex="-1" data-width="820">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+    </div>
+    <div class="modal-body">
+		<div class="row">
+			<div class="col-md-6">
+				<h4 class="modal-title text-center">Ballot</h4>
+				<div class="form-group form-md-line-input">
+					<label class="col-md-3 control-label" for="form_control_1">Election : </label>
+					<div class="col-md-9">
+						<input type="text" class="form-control" id="form_election" disabled >
+						<div class="form-control-focus">
+						</div>
+					</div>
+				</div>
+				<div class="form-group form-md-line-input">
+					<label class="col-md-3 control-label" for="form_control_1">Address : </label>
+					<div class="col-md-9">
+						<input type="text" class="form-control" id="form_address" disabled >
+						<div class="form-control-focus">
+						</div>
+					</div>
+				</div>
+				<div class="form-group form-md-line-input">
+					<label class="col-md-3 control-label" for="form_control_1">Client : </label>
+					<div class="col-md-9">
+						<input type="text" class="form-control" id="form_client" disabled >
+						<div class="form-control-focus">
+						</div>
+					</div>
+				</div>
+				<div class="form-group form-md-line-input">
+					<label class="col-md-3 control-label" for="form_control_1">Board : </label>
+					<div class="col-md-9">
+						<input type="text" class="form-control" id="form_board" disabled >
+						<div class="form-control-focus">
+						</div>
+					</div>
+				</div>
+
+				<h4 class="modal-title text-center">Race</h4>
+				<div class="form-group form-md-line-input">
+					<label class="col-md-3 control-label" for="form_control_1">Title : </label>
+					<div class="col-md-9">
+						<input type="text" class="form-control" id="form_title" disabled >
+						<div class="form-control-focus">
+						</div>
+					</div>
+				</div>
+				<div class="form-group form-md-line-input">
+					<label class="col-md-3 control-label" for="form_control_1">Name : </label>
+					<div class="col-md-9">
+						<input type="text" class="form-control" id="form_name" disabled >
+						<div class="form-control-focus">
+						</div>
+					</div>
+				</div>
+				<div class="form-group form-md-line-input">
+					<label class="col-md-3 control-label" for="form_control_1">Position : </label>
+					<div class="col-md-9">
+						<input type="text" class="form-control" id="form_position" disabled >
+						<div class="form-control-focus">
+						</div>
+					</div>
+				</div>
+				<div class="form-group form-md-line-input">
+					<label class="col-md-3 control-label" for="form_control_1">Type : </label>
+					<div class="col-md-9">
+						<input type="text" class="form-control" id="form_type" disabled >
+						<div class="form-control-focus">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<h4 class="modal-title text-center">Proposition</h4>
+				<li style="list-style-type: none;">
+					Prob1
+					<ul>
+						<li>
+							Yes
+						</li>
+						<li>
+							No
+						</li>
+					</ul>
+				</li>
+				<h4 class="modal-title text-center">Mass Proposition</h4>
+				<li style="list-style-type: none;">
+					Prob1
+					<ul>
+						<li>
+							Yes
+						</li>
+						<li>
+							No
+						</li>
+					</ul>
+				</li>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-warning" data-dismiss="modal">
+				<span class='glyphicon glyphicon-remove'></span> Close
+			</button>
+		</div>
+    </div>
+</div>
+
 @endsection
 @section('script')
 <script>
@@ -169,24 +280,31 @@
 		});
 
 	}	
-
-	$.ajax({
-		type: 'GET',
-		url: baseurl+'ballot',
-		crossDomain: true,
-		dataType: 'json',
-		success: function(responseData, textStatus, jqXHR) {
-			var text = "";
-			var x;
-			for (x in responseData.data) {
-				text += "<option value="+responseData.data[x]['ballot_id']+">"+responseData.data[x]['election']+"</opiton>";
+	jQuery(document).ready(function() {		
+		$.ajax({
+			type: 'GET',
+			url: baseurl+'ballot',
+			crossDomain: true,
+			dataType: 'json',
+			success: function(responseData, textStatus, jqXHR) {
+				var text = "";
+				var x;
+				for (x in responseData.data) {
+					var selected = responseData.data[x]['ballot_id'] == ballot_id ? " selected" : " ";
+					text += "<option value="+responseData.data[x]['ballot_id']+selected+">"+responseData.data[x]['election']+"</opiton>";
+				}
+				$('#result_cand_ballot_name').html(text);
+			},
+			error: function (responseData, textStatus, errorThrown) {
+				alert('POST failed.');
 			}
-			$('#result_cand_ballot_name').html(text);
-		},
-		error: function (responseData, textStatus, errorThrown) {
-			alert('POST failed.');
-		}
+		});				
 	});
+
+	$(document).on('click', '#result_candidate_table tr', function(e){
+		var modal = $('#detailModal');
+		modal.modal('show');
+	}); 
 
 	$('#result_cand_ballot_name').change(function(){
 		ballot_id = $(this).val();
