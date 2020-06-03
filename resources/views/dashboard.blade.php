@@ -53,11 +53,11 @@
                                                 
                                                 $date = substr($start_date, 0, 10);
                                                 $date = strtotime($date);
-                                                $date = date('F d, Y', $date);  
+                                                $date = date('d F, Y', $date);  
 
                                                 $time = substr($start_date, 11, 8);
                                                 $time = strtotime($time);
-                                                $time = date('h:i A', $time);  
+                                                $time = date('h:i:s A', $time);  
 
                                                 $start = $date." ".$time;
                                             ?>
