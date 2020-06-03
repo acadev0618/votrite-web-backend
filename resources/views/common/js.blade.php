@@ -17,6 +17,7 @@
 <script src="{{ asset('assets/bootstrap-modal/js/bootstrap-modal.js') }}" type="text/javascript"></script>
 <script src="{{ asset('assets/bootstrap-switch.js') }}" type="text/javascript"></script>
 <script src="{{ asset('assets/js/custom.js') }}" type="text/javascript"></script>
+<script src="{{ asset('assets/date.format.js') }}" type="text/javascript"></script>
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/PapaParse/4.6.3/papaparse.min.js"></script>

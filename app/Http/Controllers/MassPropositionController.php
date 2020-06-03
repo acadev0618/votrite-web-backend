@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Session;
 
 class MassPropositionController extends Controller {
-    public function index() {
+    public function index(Request $request) {
         if(Session::get('display_name')) {
             $BallotController = new BallotController;
             $LanguageController = new LanguageController;
@@ -19,7 +19,7 @@ class MassPropositionController extends Controller {
                 $counties = trim(' ');
                 $propositions = trim(' ');
             } else {
-                $ballot_id = $ballots->data[0]->ballot_id;
+                $ballot_id = $request->old('ballot_id')==null?$ballots->data[0]->ballot_id:$request->old('ballot_id');
                 $prop_type = 'M';
                 $languages = $LanguageController->getLangOfBallot($ballot_id);
                 $counties = $CountyController->getCountyOfBallot($ballot_id);
