@@ -19,6 +19,7 @@ class AuthController extends Controller {
     }
 
     public function loginApi(Request $request) {
+        // dd($request->all());
         $data = array(
             'user_email' => $request->user_email,
             'user_password' =>  $request->user_password

@@ -59,12 +59,12 @@
 										<th style="width: 6%;">
 											Total Votes
 										</th>
-										<!-- <th>
-											Candidate Value
+										<th class="hidden">
+											Candidate id
 										</th>
-										<th style="width: 6%;">
-											Candidate Photo
-										</th> -->
+										<th class="hidden">
+											Candidate val
+										</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -78,108 +78,119 @@
 	</div>
 </div>
 
-<div id="detailModal" class="modal fade" tabindex="-1" data-width="820">
+<div id="detailModal" class="modal fade" tabindex="-1" data-width="1020">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">×</button>
     </div>
     <div class="modal-body">
-		<div class="row">
-			<div class="col-md-6">
-				<h4 class="modal-title text-center">Ballot</h4>
-				<div class="form-group form-md-line-input">
-					<label class="col-md-3 control-label" for="form_control_1">Election : </label>
-					<div class="col-md-9">
-						<input type="text" class="form-control" id="form_election" disabled >
-						<div class="form-control-focus">
+		<!-- <div class="scroller" style="height:600px" data-always-visible="1" data-rail-visible1="1"> -->
+			<div class="row">
+				<div class="col-md-6" style="border-right: 1px dashed;">
+					<h4 class="modal-title text-center">Ballot</h4>
+					<div class="form-group form-md-line-input">
+						<label class="col-md-3 control-label" for="form_control_1">Election : </label>
+						<div class="col-md-9">
+							<input type="text" class="form-control" id="form_election" disabled >
+							<div class="form-control-focus">
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="form-group form-md-line-input">
-					<label class="col-md-3 control-label" for="form_control_1">Address : </label>
-					<div class="col-md-9">
-						<input type="text" class="form-control" id="form_address" disabled >
-						<div class="form-control-focus">
+					<div class="form-group form-md-line-input">
+						<label class="col-md-3 control-label" for="form_control_1">Address : </label>
+						<div class="col-md-9">
+							<input type="text" class="form-control" id="form_address" disabled >
+							<div class="form-control-focus">
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="form-group form-md-line-input">
-					<label class="col-md-3 control-label" for="form_control_1">Client : </label>
-					<div class="col-md-9">
-						<input type="text" class="form-control" id="form_client" disabled >
-						<div class="form-control-focus">
+					<div class="form-group form-md-line-input">
+						<label class="col-md-3 control-label" for="form_control_1">Client : </label>
+						<div class="col-md-9">
+							<input type="text" class="form-control" id="form_client" disabled >
+							<div class="form-control-focus">
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="form-group form-md-line-input">
-					<label class="col-md-3 control-label" for="form_control_1">Board : </label>
-					<div class="col-md-9">
-						<input type="text" class="form-control" id="form_board" disabled >
-						<div class="form-control-focus">
+					<div class="form-group form-md-line-input">
+						<label class="col-md-3 control-label" for="form_control_1">Board : </label>
+						<div class="col-md-9">
+							<input type="text" class="form-control" id="form_board" disabled >
+							<div class="form-control-focus">
+							</div>
 						</div>
 					</div>
-				</div>
 
-				<h4 class="modal-title text-center">Race</h4>
-				<div class="form-group form-md-line-input">
-					<label class="col-md-3 control-label" for="form_control_1">Title : </label>
-					<div class="col-md-9">
-						<input type="text" class="form-control" id="form_title" disabled >
-						<div class="form-control-focus">
+					<h4 class="modal-title text-center">Race</h4>
+					<div class="form-group form-md-line-input">
+						<label class="col-md-3 control-label" for="form_control_1">Title : </label>
+						<div class="col-md-9">
+							<input type="text" class="form-control" id="form_title" disabled >
+							<div class="form-control-focus">
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="form-group form-md-line-input">
-					<label class="col-md-3 control-label" for="form_control_1">Name : </label>
-					<div class="col-md-9">
-						<input type="text" class="form-control" id="form_name" disabled >
-						<div class="form-control-focus">
+					<div class="form-group form-md-line-input">
+						<label class="col-md-3 control-label" for="form_control_1">Name : </label>
+						<div class="col-md-9">
+							<input type="text" class="form-control" id="form_name" disabled >
+							<div class="form-control-focus">
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="form-group form-md-line-input">
-					<label class="col-md-3 control-label" for="form_control_1">Position : </label>
-					<div class="col-md-9">
-						<input type="text" class="form-control" id="form_position" disabled >
-						<div class="form-control-focus">
+					<div class="form-group form-md-line-input">
+						<label class="col-md-3 control-label" for="form_control_1">Position : </label>
+						<div class="col-md-9">
+							<input type="text" class="form-control" id="form_position" disabled >
+							<div class="form-control-focus">
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="form-group form-md-line-input">
-					<label class="col-md-3 control-label" for="form_control_1">Type : </label>
-					<div class="col-md-9">
-						<input type="text" class="form-control" id="form_type" disabled >
-						<div class="form-control-focus">
+					<div class="form-group form-md-line-input">
+						<label class="col-md-3 control-label" for="form_control_1">Type : </label>
+						<div class="col-md-9">
+							<input type="text" class="form-control" id="form_type" disabled >
+							<div class="form-control-focus">
+							</div>
 						</div>
 					</div>
+					
 				</div>
-			</div>
-			<div class="col-md-6">
-				<h4 class="modal-title text-center">Proposition</h4>
-				<li style="list-style-type: none;">
-					Prob1
-					<ul>
-						<li>
-							Yes
-						</li>
-						<li>
-							No
-						</li>
-					</ul>
-				</li>
-				<h4 class="modal-title text-center">Mass Proposition</h4>
-				<li style="list-style-type: none;">
-					Prob1
-					<ul>
-						<li>
-							Yes
-						</li>
-						<li>
-							No
+				<div class="col-md-6" style="border-left: 1px dashed;">
+					<h4 class="modal-title text-center">Proposition</h4>
+					<ul id="form_prop" class="props">
+						<li >
+							Prob1
+							<ul>
+								<li>
+									Yes
+								</li>
+								<li>
+									No
+								</li>
+							</ul>
 						</li>
 					</ul>
-				</li>
+					<h4 class="modal-title text-center">Mass Proposition</h4>
+					<ul id="form_massprop" class="props">
+						<li >
+							Prob1
+							<ul>
+								<li>
+									Yes
+								</li>
+								<li>
+									No
+								</li>
+							</ul>
+						</li>
+					</ul>
+					<h4 class="modal-title text-center">Candidate</h4>
+					<div class='col-md-4' id="cand_name"></div>
+					<div class='col-md-4' id="cand_cnt"></div>
+					<div class='col-md-4' id="cand_val"></div>
+				</div>
 			</div>
-		</div>
+		<!-- </div> -->
 		<div class="modal-footer">
 			<button type="button" class="btn btn-warning" data-dismiss="modal">
 				<span class='glyphicon glyphicon-remove'></span> Close
@@ -258,8 +269,8 @@
 			"columns": [
 				{ "data": "candidate_name" },
 				{ "data": "cast_counter" },
-				// { "data": "cast_value" },
-				// { "data": "photo", render: getImg },
+				{ "data": "candidate_id" },
+				{ "data": "cast_value" },
 			],
 			"lengthMenu": [
 				[5, 15, 20, -1],
@@ -301,9 +312,83 @@
 		});				
 	});
 
-	$(document).on('click', '#result_candidate_table tr', function(e){
-		var modal = $('#detailModal');
-		modal.modal('show');
+	$(document).on('click', '#result_candidate_table tbody tr', function(e){
+		var candidate_id = $(this).find('td:nth-child(3)').text();
+		$('#cand_name').text($(this).find('td:nth-child(1)').text());
+		$('#cand_cnt').text($(this).find('td:nth-child(2)').text());
+		$('#cand_val').text($(this).find('td:nth-child(4)').text());
+		if($(this).text() != 'No data available in table'){
+			$.ajax({
+				type: 'GET',
+				url: baseurl+'ballot?ballot_id='+ballot_id,
+				crossDomain: true,
+				dataType: 'json',
+				success: function(responseData, textStatus, jqXHR) {
+					// console.log(responseData);
+					$('#form_election').val(responseData.data[0]['election']);
+					$('#form_address').val(responseData.data[0]['address']);
+					$('#form_client').val(responseData.data[0]['client']);
+					$('#form_board').val(responseData.data[0]['board']);
+				},
+				error: function (responseData, textStatus, errorThrown) {
+					alert('POST failed.');
+				}
+			});
+			$.ajax({
+				type: 'GET',
+				url: baseurl+'race?race_id='+race_id,
+				crossDomain: true,
+				dataType: 'json',
+				success: function(responseData, textStatus, jqXHR) {
+					// console.log(responseData);
+					$('#form_title').val(responseData.data[0]['race_title']);
+					$('#form_name').val(responseData.data[0]['race_name']);
+					$('#form_position').val(responseData.data[0]['race_voted_position']);
+					$('#form_type').val(responseData.data[0]['race_type']);
+				},
+				error: function (responseData, textStatus, errorThrown) {
+					alert('POST failed.');
+				}
+			});
+			$.ajax({
+				type: 'GET',
+				url: baseurl+'result/proposition?ballot_id='+ballot_id+'&prop_type=P'+'&race_id='+race_id,
+				crossDomain: true,
+				dataType: 'json',
+				success: function(responseData, textStatus, jqXHR) {
+					// console.log(responseData);
+					var text = "";
+					var x;
+					for (x in responseData.data) {
+						text += "<li >"+responseData.data[x]['prop_name']+"<ul ><li > Yes : "+responseData.data[x]['cast_yes']+"</li><li > No : "+responseData.data[x]['cast_no']+"</li></ul></li>";
+					}
+					$('#form_prop').html(text);
+				},
+				error: function (responseData, textStatus, errorThrown) {
+					alert('POST failed.');
+				}
+			});
+			$.ajax({
+				type: 'GET',
+				url: baseurl+'result/proposition?ballot_id='+ballot_id+'&prop_type=M'+'&race_id='+race_id,
+				crossDomain: true,
+				dataType: 'json',
+				success: function(responseData, textStatus, jqXHR) {
+					console.log(responseData);
+					var text = "";
+					var x;
+					for (x in responseData.data) {
+						text += "<li >"+responseData.data[x]['prop_name']+"<ul ><li > Yes : "+responseData.data[x]['cast_yes']+"</li><li > No : "+responseData.data[x]['cast_no']+"</li></ul></li>";
+					}
+					$('#form_massprop').html(text);
+				},
+				error: function (responseData, textStatus, errorThrown) {
+					alert('POST failed.');
+				}
+			});
+			var modal = $('#detailModal');
+			modal.modal('show');
+		}
 	}); 
 
 	$('#result_cand_ballot_name').change(function(){
