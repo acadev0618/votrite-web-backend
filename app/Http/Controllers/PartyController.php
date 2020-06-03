@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Session;
 
 class PartyController extends Controller {
-    public function index() {
+    public function index(Request $request) {
         if(Session::get('display_name')) {
             $BallotController = new BallotController;
             $ballots = $BallotController->getActiveBallot();
@@ -14,7 +14,7 @@ class PartyController extends Controller {
             if(empty($ballots->data)) {
                 $parties = trim(' ');
             } else {
-                $ballot_id = $ballots->data[0]->ballot_id;
+                $ballot_id = $request->old('ballot_id')==null?$ballots->data[0]->ballot_id:$request->old('ballot_id');
                 $parties = $this->getPartyOfBallot($ballot_id);
             }
 

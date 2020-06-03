@@ -7,7 +7,7 @@ use Session;
 
 class LanguageController extends Controller {
 
-    public function index() {
+    public function index(Request $request) {
         if(Session::get('display_name')) {
             $BallotController = new BallotController;
             $ballots = $BallotController->getActiveBallot();
@@ -20,7 +20,7 @@ class LanguageController extends Controller {
                 if(empty($languages)) {
                     $ballot_languages = trim(' ');
                 } else {
-                    $ballot_id = $ballots->data[0]->ballot_id;
+                    $ballot_id = $request->old('ballot_id')==null?$ballots->data[0]->ballot_id:$request->old('ballot_id');
                     $ballot_languages = $this->getLangOfBallot($ballot_id);
                 }
             }

@@ -7,7 +7,7 @@ use Session;
 
 class PropositionController extends Controller {
     
-    public function index() {
+    public function index(Request $request) {
         if(Session::get('display_name')) {
             $BallotController = new BallotController;
             $LanguageController = new LanguageController;
@@ -20,7 +20,7 @@ class PropositionController extends Controller {
                 $counties = trim(' ');
                 $propositions = trim(' ');
             } else {
-                $ballot_id = $ballots->data[0]->ballot_id;
+                $ballot_id = $request->old('ballot_id')==null?$ballots->data[0]->ballot_id:$request->old('ballot_id');
                 $prop_type = 'P';
                 $languages = $LanguageController->getLangOfBallot($ballot_id);
                 $counties = $CountyController->getCountyOfBallot($ballot_id);

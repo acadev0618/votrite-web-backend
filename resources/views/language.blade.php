@@ -27,7 +27,11 @@
                                                     <!-- <option value="-1">No Ballot</opiton> -->
                                                     @else
                                                         @foreach($ballots->data as $ballot)
-                                                        <option value="{{ $ballot->ballot_id }}">{{ $ballot->election }}</opiton>
+                                                        @if($ballot->ballot_id == old('ballot_id'))
+														<option value="{{ $ballot->ballot_id }}" selected>{{ $ballot->election }}</opiton>
+														@else
+														<option value="{{ $ballot->ballot_id }}">{{ $ballot->election }}</opiton>
+														@endif
                                                         @endforeach
                                                     @endif
 												</select>

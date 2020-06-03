@@ -7,7 +7,7 @@ use Session;
 
 class CountyController extends Controller {
 
-    public function index() {
+    public function index(Request $request) {
         if(Session::get('display_name')) {
             $BallotController = new BallotController;
             $ballots = $BallotController->getActiveBallot();
@@ -19,7 +19,7 @@ class CountyController extends Controller {
             } else {
                 $state_id = $states->data[0]->state_id;
                 $counties = $this->getCountiesOfState($state_id);
-                $ballot_id = $ballots->data[0]->ballot_id;
+                $ballot_id = $request->old('ballot_id')==null?$ballots->data[0]->ballot_id:$request->old('ballot_id');
                 $ballot_counties = $this->getCounties($ballot_id , $state_id);
             }
 

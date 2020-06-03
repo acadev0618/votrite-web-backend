@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Session;
 
 class CandidateController extends Controller {
-    public function index() {
+    public function index(Request $request) {
         if(Session::get('display_name')) {
             $BallotController = new BallotController;
             $RaceController = new RaceController;
@@ -20,7 +20,7 @@ class CandidateController extends Controller {
                 $candidates = trim(' ');
                 $languages = trim(' ');
             } else {
-                $ballot_id = $ballots->data[0]->ballot_id;
+                $ballot_id = $request->old('ballot_id')==null?$ballots->data[0]->ballot_id:$request->old('ballot_id');
                 $races = $RaceController->getRaceOfBallot($ballot_id);
                 $parties = $PartyController->getPartyOfBallot($ballot_id);
                 $languages = $LanguageController->getLangOfBallot($ballot_id);
