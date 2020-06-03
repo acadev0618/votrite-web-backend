@@ -305,6 +305,7 @@
 		} ]
 	});
 
+	var pending;
 	var handleRecords = function (ballot_id) {
 
 		propurl = baseurl+'pincode?ballot_id='+ballot_id;
@@ -420,26 +421,27 @@
             });
             jQuery.uniform.update(set);
         });
-
-		$(document).on("change", '.checkboxes', function(event) { 
-			var checked = $(this).is(":checked");
-            if (checked) {
-				$(this).parent().addClass("checked");
-                $(this).attr("checked", true);
-            } else {
-				$(this).parent().removeClass("checked");
-                $(this).attr("checked", false);
-            }
-		});		
-
-		$(".expertPinCode").on("click", function() {
-			$('.buttons-csv').trigger('click');
-		});
-		$(".importPinCode").on("click", function() {
-			$('.importcsv').trigger('click');
-		});
 	}
 
+	
+	$(document).on("change", '.checkboxes', function(event) { 
+		var checked = $(this).is(":checked");
+		if (checked) {
+			$(this).parent().addClass("checked");
+			$(this).attr("checked", true);
+		} else {
+			$(this).parent().removeClass("checked");
+			$(this).attr("checked", false);
+		}
+	});		
+
+	$(".expertPinCode").on("click", function() {
+		$('.buttons-csv').trigger('click');
+	});
+	$(".importPinCode").on("click", function() {
+		$('.importcsv').trigger('click');
+	});
+	
 	jQuery(document).ready(function() {
 		handleRecords(ballot_id);
 	});
@@ -460,8 +462,9 @@
 		var modal = $('#deleteVoterModal');
 		modal.modal('show');
 	}); 
-		
-	$('#pin_ballot').change(function(e){
+
+	$('#pin_ballot').unbind().bind('change',function(e){
+		e.preventDefault();
 		ballot_id = $(this).val();
 		ballot_name = this.options[this.selectedIndex].text
 		if(ballot_id != '' || ballot_id != -1){
