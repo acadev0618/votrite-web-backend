@@ -7,7 +7,8 @@ use Session;
 
 class RaceController extends Controller {
     
-    public function index() {
+    public function index(Request $request) {
+        // dd($request->old());
         if(Session::get('display_name')) {
             $BallotController = new BallotController;
             $LanguageController = new LanguageController;
@@ -19,7 +20,7 @@ class RaceController extends Controller {
                 $counties = trim(' ');
                 $races = trim(' ');
             } else {
-                $ballot_id = $ballots->data[0]->ballot_id;
+                $ballot_id = $request->old('ballot_id')==null?$ballots->data[0]->ballot_id:$request->old('ballot_id');
                 $languages = $LanguageController->getLangOfBallot($ballot_id);
                 $counties = $CountyController->getCountyOfBallot($ballot_id);
                 $races = $this->getRaceOfBallot($ballot_id);
@@ -126,6 +127,7 @@ class RaceController extends Controller {
         $api = env('API').'/race/create';
 
         $BaseController = new BaseController;
+                
         return $BaseController->createData($data, $api);
     }
 

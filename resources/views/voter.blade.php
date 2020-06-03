@@ -45,7 +45,6 @@
 								</div>
 							</div>
 						</div>
-						<div id="change_table">
 							<table class="table table-striped table-bordered table-hover" id="voter_table" style='width:100%'>
 								<thead>
 									<tr>
@@ -73,7 +72,6 @@
 								
 								</tbody>
 							</table>
-						</div>
 					</div>
 				</div>
 			</div>
@@ -223,7 +221,7 @@
 </div>
 @endsection
 @section('script')
-
+<script src="{{ asset('assets/date.format.js') }}"></script>
 <script>
 	@if(empty($ballots->data))
 	var ballot_id = '';
@@ -233,6 +231,10 @@
 	var ballot_name = '{{ $ballots->data[0]->election }}';
 	@endif
 	
+	function getTime(data, type, full, meta) {
+		var d = new Date(data);
+		return dateFormat(d, "dd, mmmm, yyyy 'at' h:MM:ss TT");
+	}
 	function getInput(data, type, full, meta) {
 		return '<div class="checker"><span><input type="checkbox" name="active_ballot_checkbox" class="checkboxes selcheck" data-id='+data+' /></span></div>';
 	}
@@ -303,6 +305,7 @@
 		} ]
 	});
 
+	var pending;
 	var handleRecords = function (ballot_id) {
 
 		propurl = baseurl+'pincode?ballot_id='+ballot_id;
@@ -340,8 +343,10 @@
 				success:function(data){
 					// console.log(data);
 					if(data.data != undefined){
+						$('.expertPinCode').show();
 						callback(data);
 					}else{
+						$('.expertPinCode').hide();
 						callback({data:[]});
 					}
 				}
@@ -355,7 +360,7 @@
 					}
 				},
 				{ "data": "pin" },
-				{ "data": "expiration_time" },
+				{ "data": "expiration_time" ,render: getTime },
 				{ "data": "is_active" ,render: getChecked },
 				{ "data": "pin", render: getAction },
 			],
@@ -388,7 +393,6 @@
 						columns: [1,2,3,4]
 					},
 					customize: function (xlsx) {
-						console.log(xlsx);
 						return " Ballot Name : "+window.ballot_name+" \n"+xlsx;
 					}
 				},
@@ -418,33 +422,35 @@
             });
             jQuery.uniform.update(set);
         });
-
-		$(document).on("change", '.checkboxes', function(event) { 
-			var checked = $(this).is(":checked");
-            if (checked) {
-				$(this).parent().addClass("checked");
-                $(this).attr("checked", true);
-            } else {
-				$(this).parent().removeClass("checked");
-                $(this).attr("checked", false);
-            }
-		});		
-
-		$(".expertPinCode").on("click", function() {
-			$('.buttons-csv').trigger('click');
-		});
-		$(".importPinCode").on("click", function() {
-			$('.importcsv').trigger('click');
-		});
 	}
 
+	
+	$(document).on("change", '.checkboxes', function(event) { 
+		var checked = $(this).is(":checked");
+		if (checked) {
+			$(this).parent().addClass("checked");
+			$(this).attr("checked", true);
+		} else {
+			$(this).parent().removeClass("checked");
+			$(this).attr("checked", false);
+		}
+	});		
+
+	$(".expertPinCode").on("click", function() {
+		$('.buttons-csv').trigger('click');
+	});
+	$(".importPinCode").on("click", function() {
+		$('.importcsv').trigger('click');
+	});
+	
 	jQuery(document).ready(function() {
 		handleRecords(ballot_id);
 	});
 
 	$(document).on('click', '.editVoterModal', function(e){
 		$('#edit_voter_id').val($(this).data('id'));
-		$('#edit_expire_time').val($(this).parents('tr').find('td:nth(3)').text().split('T')[0]);
+		var dd = new Date($(this).parents('tr').find('td:nth(3)').text().split('at')[0]);
+		$('#edit_expire_time').val(dateFormat(dd, "yyyy-mm-dd").toString());
 		$('#verify_checkbox').val($(this).data('checked'));
 		$('#verify_checkbox').attr("checked", $(this).data('checked'));
 		var modal = $('#editVoterModal');
@@ -457,8 +463,9 @@
 		var modal = $('#deleteVoterModal');
 		modal.modal('show');
 	}); 
-		
-	$('#pin_ballot').change(function(e){
+
+	$('#pin_ballot').unbind().bind('change',function(e){
+		e.preventDefault();
 		ballot_id = $(this).val();
 		ballot_name = this.options[this.selectedIndex].text
 		if(ballot_id != '' || ballot_id != -1){

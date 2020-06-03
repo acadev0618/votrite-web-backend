@@ -100,21 +100,29 @@ class BaseController extends Controller {
     public function createData($request, $api_url) {
         $Api = new ApiController;
         $response = $Api->postApi($request, $api_url);
+        $ballotid = null;
+        $request = json_decode($request, true);
+        // dd($request);
+        if(isset($request['ballot_id'])){
+            $ballotid = $request['ballot_id'];
+        }
 
         // var_dump($response);die();
 
         if($response->state == "success") {
             $notification = array(
                 'message' => 'Successfully added data.', 
-                'alert-type' => 'success'
+                'alert-type' => 'success',
+                'ballot_id' => $ballotid
             );
         } else {
             $notification = array(
                 'message' => 'Something went wrong! Try again.', 
-                'alert-type' => 'error'
+                'alert-type' => 'error',
+                'ballot_id' => $ballotid
             );
         }
-        return back()->with($notification);
+        return back()->withInput($notification);
     }
 
     public function updateData($request, $api_url) {
