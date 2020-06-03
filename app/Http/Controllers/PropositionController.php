@@ -51,16 +51,27 @@ class PropositionController extends Controller {
 
     public function createProposition(Request $request){
         $ballot_id = $request->ballot_id;
-        $data = array(
-            "ballot_id" => $request->ballot_id,
-            "prop_name" => $request->prop_name,
-            "prop_title" => $request->prop_title,
-            "prop_text" => $request->prop_text,
-            "prop_answer_type" => $request->prop_answer_type,
-            "prop_location_id" => $request->prop_location_id,
-            "prop_lang_id" => $request->prop_lang_id,
-            "prop_type" => $request->prop_type
-        );
+        if($request->prop_location_id == 0 || $request->prop_lang_id == 0) {
+            $data = array(
+                "ballot_id" => $request->ballot_id,
+                "prop_name" => $request->prop_name,
+                "prop_title" => $request->prop_title,
+                "prop_text" => $request->prop_text,
+                "prop_answer_type" => $request->prop_answer_type,
+                "prop_type" => $request->prop_type
+            );
+        } else {
+            $data = array(
+                "ballot_id" => $request->ballot_id,
+                "prop_name" => $request->prop_name,
+                "prop_title" => $request->prop_title,
+                "prop_text" => $request->prop_text,
+                "prop_answer_type" => $request->prop_answer_type,
+                "prop_location_id" => $request->prop_location_id,
+                "prop_lang_id" => $request->prop_lang_id,
+                "prop_type" => $request->prop_type
+            );
+        }
         $data = json_encode($data);
         $api = env('API').'/proposition/create';
 
@@ -82,16 +93,27 @@ class PropositionController extends Controller {
 
     public function updateProposition(Request $request) {
         $prop_id = array('proposition_id' => $request->prop_id);
-        $data = array(
-            "prop_name" => $request->prop_name,
-            "prop_title" => $request->prop_title,
-            "prop_text" => $request->prop_text,
-            "prop_answer_type" => $request->prop_answer_type,
-            "prop_location_id" => $request->prop_location_id,
-            "prop_lang_id" => $request->prop_lang_id,
-            "prop_type" => $request->prop_type,
-            'keys' => $prop_id
-        );
+        if($request->prop_location_id == 0 || $request->prop_lang_id == 0) {
+            $data = array(
+                "prop_name" => $request->prop_name,
+                "prop_title" => $request->prop_title,
+                "prop_text" => $request->prop_text,
+                "prop_answer_type" => $request->prop_answer_type,
+                "prop_type" => $request->prop_type,
+                'keys' => $prop_id
+            );
+        } else {
+            $data = array(
+                "prop_name" => $request->prop_name,
+                "prop_title" => $request->prop_title,
+                "prop_text" => $request->prop_text,
+                "prop_answer_type" => $request->prop_answer_type,
+                "prop_location_id" => $request->prop_location_id,
+                "prop_lang_id" => $request->prop_lang_id,
+                "prop_type" => $request->prop_type,
+                'keys' => $prop_id
+            );
+        }
         $data = json_encode($data);
         $api = env('API').'/proposition/update';
 
