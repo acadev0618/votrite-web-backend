@@ -46,6 +46,12 @@
 											</select>
 										</div>
 									</div>
+									<div class="col-md-4 form-group ">
+										<button class="btn yellow showDetail" data-toggle="modal"><i class="fa fa-eye"></i> <span>  Detail</span></button>
+									</div>
+								</div>
+								<div class="col-md-6">
+									
 								</div>
 							</div>
 						</div>
@@ -83,7 +89,7 @@
         <button type="button" class="close" data-dismiss="modal">×</button>
     </div>
     <div class="modal-body">
-		<!-- <div class="scroller" style="height:600px" data-always-visible="1" data-rail-visible1="1"> -->
+		<div class="scroller" style="height:600px" data-always-visible="1" data-rail-visible1="1">
 			<div class="row">
 				<div class="col-md-6" style="border-right: 1px dashed;">
 					<h4 class="modal-title text-center">Ballot</h4>
@@ -185,12 +191,10 @@
 						</li>
 					</ul>
 					<h4 class="modal-title text-center">Candidate</h4>
-					<div class='col-md-4' id="cand_name"></div>
-					<div class='col-md-4' id="cand_cnt"></div>
-					<div class='col-md-4' id="cand_val"></div>
+					<div class="row" id='cand_detail'></div>
 				</div>
 			</div>
-		<!-- </div> -->
+		</div>
 		<div class="modal-footer">
 			<button type="button" class="btn btn-warning" data-dismiss="modal">
 				<span class='glyphicon glyphicon-remove'></span> Close
@@ -253,17 +257,17 @@
 			// },
 			ajax: function (data, callback, settings) {
 				$.ajax({
-				url: propurl,
-				type: 'GET',
-				dataType: 'json',
-				success:function(data){
-					console.log(data);
-					if(data.data != undefined){
-						callback(data);
-					}else{
-						callback({data:[]});
+					url: propurl,
+					type: 'GET',
+					dataType: 'json',
+					success:function(data){
+						console.log(data);
+						if(data.data != undefined){
+							callback(data);
+						}else{
+							callback({data:[]});
+						}
 					}
-				}
 				});
 			},
 			"columns": [
@@ -312,12 +316,12 @@
 		});				
 	});
 
-	$(document).on('click', '#result_candidate_table tbody tr', function(e){
-		var candidate_id = $(this).find('td:nth-child(3)').text();
-		$('#cand_name').text($(this).find('td:nth-child(1)').text());
-		$('#cand_cnt').text($(this).find('td:nth-child(2)').text());
-		$('#cand_val').text($(this).find('td:nth-child(4)').text());
-		if($(this).text() != 'No data available in table'){
+	$(document).on('click', '.showDetail', function(e){
+		// var candidate_id = $(this).find('td:nth-child(3)').text();
+		// $('#cand_name').text($(this).find('td:nth-child(1)').text());
+		// $('#cand_cnt').text($(this).find('td:nth-child(2)').text());
+		// $('#cand_val').text($(this).find('td:nth-child(4)').text());
+		if($('#result_candidate_table tbody tr').text() != 'No data available in table'){
 			$.ajax({
 				type: 'GET',
 				url: baseurl+'ballot?ballot_id='+ballot_id,
@@ -384,6 +388,20 @@
 				},
 				error: function (responseData, textStatus, errorThrown) {
 					alert('POST failed.');
+				}
+			});
+			$.ajax({
+				url: baseurl+'result/candidate?ballot_id='+ballot_id+'&race_id='+race_id,
+				type: 'GET',
+				dataType: 'json',
+				success:function(responseData, textStatus, jqXHR){
+					console.log(responseData);
+					var text = "";
+					var x;
+					for (x in responseData.data) {
+						text += "<div class='col-md-4' >"+responseData.data[x]['candidate_name']+"</div ><div class='col-md-4' > "+responseData.data[x]['cast_counter']+"</div><div class='col-md-4' > "+responseData.data[x]['cast_value']+"</div>";
+					}
+					$('#cand_detail').html(text);
 				}
 			});
 			var modal = $('#detailModal');

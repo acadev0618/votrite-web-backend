@@ -45,6 +45,7 @@
 								</div>
 							</div>
 						</div>
+						<div id='change_table'>
 							<table class="table table-striped table-bordered table-hover" id="voter_table" style='width:100%'>
 								<thead>
 									<tr>
@@ -72,6 +73,7 @@
 								
 								</tbody>
 							</table>
+						</div>
 					</div>
 				</div>
 			</div>
