@@ -40,7 +40,7 @@
 												<option value="-1">No Race</opiton>
 											@else
 												@foreach($races->data as $race)
-												<option value="{{ $race->race_id }}">{{ $race->race_name }}</opiton>
+												<option value="{{ $race->race_id }}" data-type="{{ $race->race_type }}" >{{ $race->race_name }}</opiton>
 												@endforeach
 											@endif
 											</select>
@@ -503,11 +503,15 @@
 				crossDomain: true,
 				dataType: 'json',
 				success: function(responseData, textStatus, jqXHR) {
-					// console.log(responseData);
+					console.log(responseData);
 					var text = "";
 					var x;
 					for (x in responseData.data) {
-						text += "<li >"+responseData.data[x]['prop_name']+"<ul ><li > Yes : "+responseData.data[x]['cast_yes']+"</li><li > No : "+responseData.data[x]['cast_no']+"</li></ul></li>";
+						if(responseData.data[x]['prop_answer_type'] == "1"){
+							text += "<li >"+responseData.data[x]['prop_name']+"<ul ><li > Yes : "+responseData.data[x]['cast_yes']+"</li><li > No : "+responseData.data[x]['cast_no']+"</li></ul></li>";
+						}else{
+							text += "<li >"+responseData.data[x]['prop_name']+"<ul ><li > For : "+responseData.data[x]['cast_yes']+"</li><li > Against : "+responseData.data[x]['cast_no']+"</li></ul></li>";
+						}
 					}
 					$('#form_prop').html(text);
 				},
@@ -525,7 +529,11 @@
 					var text = "";
 					var x;
 					for (x in responseData.data) {
-						text += "<li >"+responseData.data[x]['prop_name']+"<ul ><li > Yes : "+responseData.data[x]['cast_yes']+"</li><li > No : "+responseData.data[x]['cast_no']+"</li></ul></li>";
+						if(responseData.data[x]['prop_answer_type'] == "1"){
+							text += "<li >"+responseData.data[x]['prop_name']+"<ul ><li > Yes : "+responseData.data[x]['cast_yes']+"</li><li > No : "+responseData.data[x]['cast_no']+"</li></ul></li>";
+						}else{
+							text += "<li >"+responseData.data[x]['prop_name']+"<ul ><li > For : "+responseData.data[x]['cast_yes']+"</li><li > Against : "+responseData.data[x]['cast_no']+"</li></ul></li>";
+						}
 					}
 					$('#form_massprop').html(text);
 				},
@@ -694,7 +702,7 @@
 		}
 	});
 
-	$('#result_cand_race_name').change(function(){
+	$(document).on('change','#result_cand_race_name',function(){
 		race_id = $(this).val();
 		race_type = $(this[this.selectedIndex]).data('type');
 		console.log(race_type);

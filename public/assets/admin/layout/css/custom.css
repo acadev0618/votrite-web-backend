@@ -64,6 +64,9 @@ Change Quick Sidebar Width
 #result_candidate_table tr td:nth-child(3), #result_candidate_table tr td:nth-child(4) {
   display: none;
 }
+#result_party_table tr td:nth-child(3), #result_party_table tr td:nth-child(4) {
+  display: none;
+}
 #voter_table_paginate{
   float: right;
   margin-top: -30px;
