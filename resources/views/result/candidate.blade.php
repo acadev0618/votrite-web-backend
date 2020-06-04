@@ -63,7 +63,7 @@
 										<th>
 											Candidate Name
 										</th>
-										<th style="width: 6%;">
+										<th style="width: 50%;">
 											Total Votes
 										</th>
 										<th class="hidden">
@@ -86,7 +86,7 @@
 										<th>
 											Party Name
 										</th>
-										<th style="width: 6%;">
+										<th style="width: 50%;">
 											Total Votes
 										</th>
 										<th class="hidden">
@@ -384,7 +384,7 @@
 		// handleRecords(ballot_id, race_id, 'party');
 		$.ajax({
 			type: 'GET',
-			url: baseurl+'ballot',
+			url: baseurl+'ballot/active',
 			crossDomain: true,
 			dataType: 'json',
 			success: function(responseData, textStatus, jqXHR) {
