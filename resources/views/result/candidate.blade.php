@@ -690,7 +690,8 @@
 				var text = "";
 				var x;
 				if(responseData.data != null){
-					race_id = responseData.data[0]['race_id']
+					race_id = responseData.data[0]['race_id'];
+					race_type = responseData.data[0]['race_type'];
 				}
 				for (x in responseData.data) {
 					text += "<option value="+responseData.data[x]['race_id']+" data-type="+responseData.data[x]['race_type']+">"+responseData.data[x]['race_name']+"</opiton>";
