@@ -383,7 +383,7 @@
 		// handleRecords(ballot_id, race_id, typerpc);
 		// handleRecords(ballot_id, race_id, 'party');
 		$.ajax({
-			type: 'GET',
+			type: 'POST',
 			url: baseurl+'ballot/active',
 			crossDomain: true,
 			dataType: 'json',
