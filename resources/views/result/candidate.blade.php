@@ -382,11 +382,15 @@
 	jQuery(document).ready(function() {		
 		// handleRecords(ballot_id, race_id, typerpc);
 		// handleRecords(ballot_id, race_id, 'party');
+		var order = {
+			"election" : "%%"
+		};
 		$.ajax({
 			type: 'POST',
 			url: baseurl+'ballot/active',
 			crossDomain: true,
 			dataType: 'json',
+			data: JSON.stringify(order),
 			success: function(responseData, textStatus, jqXHR) {
 				var text = "";
 				var x;
