@@ -696,14 +696,15 @@
 					text += "<option value="+responseData.data[x]['race_id']+" data-type="+responseData.data[x]['race_type']+">"+responseData.data[x]['race_name']+"</opiton>";
 				}
 				$('#result_cand_race_name').html(text);
+				
+				if(ballot_id != '' || ballot_id != -1){
+					handleRecords(ballot_id, race_id, typerpc);
+				}
 			},
 			error: function (responseData, textStatus, errorThrown) {
 				alert('POST failed.');
 			}
 		});
-		if(ballot_id != '' || ballot_id != -1){
-			handleRecords(ballot_id, race_id, typerpc);
-		}
 	});
 
 	$(document).on('change','#result_cand_race_name',function(){
