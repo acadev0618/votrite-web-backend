@@ -76,7 +76,7 @@ Change Quick Sidebar Width
   margin-top: 25px;
   font-weight: 400;
   font-size: 14px;
-  display: inline-block;
+  /* display: inline-block; */
   padding: 0;
   margin-left: 30px;
   max-width: 200px;
