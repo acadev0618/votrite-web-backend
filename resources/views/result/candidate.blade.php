@@ -698,7 +698,32 @@
 				$('#result_cand_race_name').html(text);
 				
 				if(ballot_id != '' || ballot_id != -1){
-					handleRecords(ballot_id, race_id, typerpc);
+					switch(race_type) {
+						case 'R':
+							typerpc = 'candidate';
+							console.log(typerpc);
+							handleRecords(ballot_id, race_id, typerpc);
+							$('#change_table_candidate').show();
+							$('#change_table_party').hide();
+							break;
+						case 'P':
+							typerpc = 'party';
+							console.log(typerpc);
+							handleRecords(ballot_id, race_id, typerpc);
+							$('#change_table_candidate').hide();
+							$('#change_table_party').show();
+							break;
+						case 'C':
+							typerpc = 'candidate';
+							console.log(typerpc);
+							handleRecords(ballot_id, race_id, typerpc);
+							typerpc = 'party';
+							console.log(typerpc);
+							handleRecords(ballot_id, race_id, typerpc);
+							$('#change_table_candidate').show();
+							$('#change_table_party').show();
+							break;
+					}
 				}
 			},
 			error: function (responseData, textStatus, errorThrown) {
