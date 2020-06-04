@@ -9,3 +9,4 @@
 <meta content="" name="author"/>
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <meta name="baseurl" content="http://ec2-3-90-78-113.compute-1.amazonaws.com:9191/api/">
+
