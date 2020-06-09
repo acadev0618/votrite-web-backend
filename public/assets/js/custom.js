@@ -481,14 +481,14 @@ var TableManaged = function () {
             }
         });
 
-        $('.max_cand').on('change', function(){
-            var max_cand = $(this).val();
-            var option = '';
-            for(i = 1; i <= max_cand; i ++) {
-                option += "<option value='"+i+"'>"+i+"</opiton>"
-            }
-            $('.max_w_cand').html(option);
-        });
+        // $('.max_cand').on('change', function(){
+        //     var max_cand = $(this).val();
+        //     var option = '';
+        //     for(i = 1; i <= max_cand; i ++) {
+        //         option += "<option value='"+i+"'>"+i+"</opiton>"
+        //     }
+        //     $('.max_w_cand').html(option);
+        // });
 
         $(document).on('click', '.deleteRacesModal', function(){
             var modal = $('#deleteRacesModal');
@@ -577,12 +577,12 @@ var TableManaged = function () {
                 success: function(response) {
                     var race = JSON.parse(response);
 
-                    var max_cand = race.data[0].max_num_of_votes;
-                    var option = '';
-                    for(i = 1; i <= max_cand; i ++) {
-                        option += "<option value='"+i+"'>"+i+"</opiton>"
-                    }
-                    modal.find('.max_w_cand').html(option);
+                    // var max_cand = race.data[0].max_num_of_votes;
+                    // var option = '';
+                    // for(i = 1; i <= max_cand; i ++) {
+                    //     option += "<option value='"+i+"'>"+i+"</opiton>"
+                    // }
+                    // modal.find('.max_w_cand').html(option);
 
                     modal.find('#edit_race_id').val(race_id);
                     modal.find('#edit_race_name').val(race.data[0].race_name);
@@ -637,6 +637,8 @@ var TableManaged = function () {
                     $('#change_table').html(response);
                     
                     var table = $('#change_table #race_table');
+                    var table = $('#change_table #race_table');
+
                     table.dataTable({
 
                         "language": {
@@ -697,14 +699,14 @@ var TableManaged = function () {
                         }
                     });
 
-                    $('.max_cand').on('change', function(){
-                        var max_cand = $(this).val();
-                        var option = '';
-                        for(i = 1; i <= max_cand; i ++) {
-                            option += "<option value='"+i+"'>"+i+"</opiton>"
-                        }
-                        $('.max_w_cand').html(option);
-                    });
+                    // $('.max_cand').on('change', function(){
+                    //     var max_cand = $(this).val();
+                    //     var option = '';
+                    //     for(i = 1; i <= max_cand; i ++) {
+                    //         option += "<option value='"+i+"'>"+i+"</opiton>"
+                    //     }
+                    //     $('.max_w_cand').html(option);
+                    // });
 
                     $(document).on('click', '.deleteRacesModal', function(){
                         var modal = $('#deleteRacesModal');
@@ -745,7 +747,7 @@ var TableManaged = function () {
                     $('.previewRaceModal').click(function(){
                         var race_id = $(this).data('id');
                         var modal = $('#previewRaceModal');
-            
+
                         $.ajax({
                             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                             url: base_url+'/getOneRace',
@@ -755,7 +757,7 @@ var TableManaged = function () {
                             },
                             success: function(response) {
                                 var race = JSON.parse(response);
-            
+
                                 modal.find('#race_name').val(race.data[0].race_name);
                                 modal.find('#race_type').val(race.data[0].race_type);
                                 modal.find('#min_num_of_votes').val(race.data[0].min_num_of_votes);
@@ -775,14 +777,14 @@ var TableManaged = function () {
                                 modal.find('#race_voted_position').val(race.data[0].race_voted_position);
                             }
                         });
-            
+
                         modal.modal('show');
                     });
-            
+
                     $('.editRaceModal').click(function(){
                         var race_id = $(this).data('id');
                         var modal = $('#editRaceModal');
-            
+
                         $.ajax({
                             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                             url: base_url+'/getOneRace',
@@ -792,14 +794,14 @@ var TableManaged = function () {
                             },
                             success: function(response) {
                                 var race = JSON.parse(response);
-            
-                                var max_cand = race.data[0].max_num_of_votes;
-                                var option = '';
-                                for(i = 1; i <= max_cand; i ++) {
-                                    option += "<option value='"+i+"'>"+i+"</opiton>"
-                                }
-                                modal.find('.max_w_cand').html(option);
-            
+
+                                // var max_cand = race.data[0].max_num_of_votes;
+                                // var option = '';
+                                // for(i = 1; i <= max_cand; i ++) {
+                                //     option += "<option value='"+i+"'>"+i+"</opiton>"
+                                // }
+                                // modal.find('.max_w_cand').html(option);
+
                                 modal.find('#edit_race_id').val(race_id);
                                 modal.find('#edit_race_name').val(race.data[0].race_name);
                                 modal.find('#edit_race_type').val(race.data[0].race_type);
@@ -820,7 +822,7 @@ var TableManaged = function () {
                                 modal.find('#edit_race_voted_position').val(race.data[0].race_voted_position);
                             }
                         });
-            
+
                         modal.modal('show');
                     });
 
