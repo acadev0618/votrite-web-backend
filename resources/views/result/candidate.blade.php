@@ -211,7 +211,7 @@
 							</ul>
 						</li>
 					</ul>
-					<h4 class="modal-title text-center">Candidate</h4>
+					<h4 class="modal-title text-center" id="cand_title"></h4>
 					<div class="row" id='cand_detail'></div>
 				</div>
 			</div>
@@ -244,11 +244,8 @@
 
 	var handleRecords = function (ballot_id, race_id, typerpc) {
 
-		// if(race_id == '' || race_id == -1){
-			// propurl = baseurl+'result/'+typerpc+'?ballot_id='+ballot_id;
-		// }else{
-			propurl = baseurl+'result/'+typerpc+'?ballot_id='+ballot_id+'&race_id='+race_id;
-		// }
+		propurl = baseurl+'result/'+typerpc+'?ballot_id='+ballot_id+'&race_id='+race_id;
+
 		var tablename = '#result_'+typerpc+'_table';
 		var table = $(tablename);
 		if(typerpc == 'candidate'){
@@ -270,12 +267,6 @@
 				},
 				destroy: true,
 				"bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
-				// "ajax":{
-				//     type: 'GET',
-				//     url: baseurl+'result/all',
-				//     crossDomain: true,
-				//     dataType: 'json',
-				// },
 				ajax: function (data, callback, settings) {
 					$.ajax({
 						url: propurl,
@@ -378,7 +369,8 @@
 			});
 		}
 
-	}	
+	}
+
 	jQuery(document).ready(function() {		
 		// handleRecords(ballot_id, race_id, typerpc);
 		// handleRecords(ballot_id, race_id, 'party');
@@ -402,7 +394,7 @@
 				
 			},
 			error: function (responseData, textStatus, errorThrown) {
-				alert('POST failed.');
+				console.log('POST failed.');
 			}
 		});			
 		// $.ajax({
@@ -419,7 +411,7 @@
 		// 		}
 		// 	},
 		// 	error: function (responseData, textStatus, errorThrown) {
-		// 		alert('POST failed.');
+		// 		console.log('POST failed.');
 		// 	}
 		// });
 		if(ballot_id != '' || ballot_id != -1){
@@ -431,14 +423,17 @@
 					$('#change_table_candidate').show();
 					$('#change_table_party').hide();
 					break;
-				case 'P':
-					typerpc = 'party';
+				case 'S':
+					// typerpc = 'party';
+					typerpc = 'candidate';
 					console.log(typerpc);
 					handleRecords(ballot_id, race_id, typerpc);
-					$('#change_table_candidate').hide();
-					$('#change_table_party').show();
+					// $('#change_table_candidate').hide();
+					// $('#change_table_party').show();
+					$('#change_table_candidate').show();
+					$('#change_table_party').hide();
 					break;
-				case 'C':
+				case 'P':
 					typerpc = 'candidate';
 					console.log(typerpc);
 					handleRecords(ballot_id, race_id, typerpc);
@@ -458,7 +453,7 @@
 		// $('#cand_cnt').text($(this).find('td:nth-child(2)').text());
 		// $('#cand_val').text($(this).find('td:nth-child(4)').text());
 		console.log(race_type);
-		if($('#result_'+typerpc+'_table tbody tr').text() != 'No data available in table' && race_type != 'C'){
+		if($('#result_'+typerpc+'_table tbody tr').text() != 'No data available in table' && race_type != 'P'){
 			$.ajax({
 				type: 'GET',
 				url: baseurl+'ballot?ballot_id='+ballot_id,
@@ -472,7 +467,7 @@
 					$('#form_board').val(responseData.data[0]['board']);
 				},
 				error: function (responseData, textStatus, errorThrown) {
-					alert('POST failed.');
+					console.log('POST failed.');
 				}
 			});
 			$.ajax({
@@ -492,13 +487,13 @@
 						case 'P':
 							$('#form_type').val('Primary');
 							break;
-						case 'C':
-							$('#form_type').val('Complex');
+						case 'S':
+							$('#form_type').val('Standard');
 							break;
 					}
 				},
 				error: function (responseData, textStatus, errorThrown) {
-					alert('POST failed.');
+					console.log('POST failed.');
 				}
 			});
 			$.ajax({
@@ -520,7 +515,7 @@
 					$('#form_prop').html(text);
 				},
 				error: function (responseData, textStatus, errorThrown) {
-					alert('POST failed.');
+					console.log('POST failed.');
 				}
 			});
 			$.ajax({
@@ -542,7 +537,7 @@
 					$('#form_massprop').html(text);
 				},
 				error: function (responseData, textStatus, errorThrown) {
-					alert('POST failed.');
+					console.log('POST failed.');
 				}
 			});
 			$.ajax({
@@ -560,6 +555,7 @@
 							text += "<div class='col-md-6' >"+responseData.data[x]['party_name']+"</div ><div class='col-md-6' > "+responseData.data[x]['cast_counter']+"</div>";
 						}
 					}
+					$('#cand_title').text('Candidate');
 					$('#cand_detail').html(text);
 				}
 			});
@@ -580,7 +576,7 @@
 						$('#form_board').val(responseData.data[0]['board']);
 					},
 					error: function (responseData, textStatus, errorThrown) {
-						alert('POST failed.');
+						console.log('POST failed.');
 					}
 				});
 				$.ajax({
@@ -600,13 +596,13 @@
 							case 'P':
 								$('#form_type').val('Primary');
 								break;
-							case 'C':
-								$('#form_type').val('Complex');
+							case 'S':
+								$('#form_type').val('Standard');
 								break;
 						}
 					},
 					error: function (responseData, textStatus, errorThrown) {
-						alert('POST failed.');
+						console.log('POST failed.');
 					}
 				});
 				$.ajax({
@@ -624,7 +620,7 @@
 						$('#form_prop').html(text);
 					},
 					error: function (responseData, textStatus, errorThrown) {
-						alert('POST failed.');
+						console.log('POST failed.');
 					}
 				});
 				$.ajax({
@@ -642,7 +638,7 @@
 						$('#form_massprop').html(text);
 					},
 					error: function (responseData, textStatus, errorThrown) {
-						alert('POST failed.');
+						console.log('POST failed.');
 					}
 				});
 				var text = '';
@@ -656,6 +652,7 @@
 						for (x in responseData.data) {
 							text += "<div class='col-md-4' >"+responseData.data[x]['candidate_name']+"</div ><div class='col-md-4' > "+responseData.data[x]['cast_counter']+"</div><div class='col-md-4' > "+responseData.data[x]['cast_value']+"</div>";
 						}
+						$('#cand_title').text('Party / Candidate');
 						$('#cand_detail').html(text);
 					}
 				});
@@ -669,6 +666,7 @@
 						for (x in responseData.data) {
 							text += "<div class='col-md-6' >"+responseData.data[x]['party_name']+"</div ><div class='col-md-6' > "+responseData.data[x]['cast_counter']+"</div>";
 						}
+						$('#cand_title').text('Party / Candidate');
 						$('#cand_detail').html(text);
 					}
 				});
@@ -707,14 +705,17 @@
 							$('#change_table_candidate').show();
 							$('#change_table_party').hide();
 							break;
-						case 'P':
-							typerpc = 'party';
+						case 'S':
+							// typerpc = 'party';
+							typerpc = 'candidate';
 							console.log(typerpc);
 							handleRecords(ballot_id, race_id, typerpc);
-							$('#change_table_candidate').hide();
-							$('#change_table_party').show();
+							// $('#change_table_candidate').hide();
+							// $('#change_table_party').show();
+							$('#change_table_candidate').show();
+							$('#change_table_party').hide();
 							break;
-						case 'C':
+						case 'P':
 							typerpc = 'candidate';
 							console.log(typerpc);
 							handleRecords(ballot_id, race_id, typerpc);
@@ -728,7 +729,7 @@
 				}
 			},
 			error: function (responseData, textStatus, errorThrown) {
-				alert('POST failed.');
+				console.log('POST failed.');
 			}
 		});
 	});
@@ -747,14 +748,17 @@
 					$('#change_table_candidate').show();
 					$('#change_table_party').hide();
 					break;
-				case 'P':
-					typerpc = 'party';
+				case 'S':
+					// typerpc = 'party';
+					typerpc = 'candidate';
 					console.log(typerpc);
 					handleRecords(ballot_id, race_id, typerpc);
-					$('#change_table_candidate').hide();
-					$('#change_table_party').show();
+					// $('#change_table_candidate').hide();
+					// $('#change_table_party').show();
+					$('#change_table_candidate').show();
+					$('#change_table_party').hide();
 					break;
-				case 'C':
+				case 'P':
 					typerpc = 'candidate';
 					console.log(typerpc);
 					handleRecords(ballot_id, race_id, typerpc);
