@@ -256,6 +256,28 @@
 		}
 	}
 	
+	$('#add_pin_btn').click(function(){
+		var order = {
+		"ballot_id": ballot_id,
+		"pincode_len": parseInt($('#add_pin_length').val()),
+		"expiration_time": $('#add_expire_time').val(),
+		"pincode_count": parseInt($('#add_pin_count').val())
+		}
+		$.ajax({
+			type: 'POST',
+			url: baseurl+'pincode/multicreate',
+			crossDomain: true,
+			data: JSON.stringify(order),
+			dataType: 'json',
+			error: function(responseData, textStatus, jqXHR) {
+				toastr.success("Pin codes added");
+				handleRecords(ballot_id);
+				var modal = $('#addPinCode');
+				modal.modal('hide');
+			}
+		});		
+	});
+	
 	var uploadEditor;
 	uploadEditor = new $.fn.dataTable.Editor( {
 		fields: [ {
@@ -549,28 +571,7 @@
 			modal.find('.ids').val(ids);
 			modal.find('.api').val(api);
 		}
-	});
+	});	
 	
-	$('#add_pin_btn').click(function(){
-		var order = {
-		"ballot_id": ballot_id,
-		"pincode_len": parseInt($('#add_pin_length').val()),
-		"expiration_time": $('#add_expire_time').val(),
-		"pincode_count": parseInt($('#add_pin_count').val())
-		}
-		$.ajax({
-			type: 'POST',
-			url: baseurl+'pincode/multicreate',
-			crossDomain: true,
-			data: JSON.stringify(order),
-			dataType: 'json',
-			error: function(responseData, textStatus, jqXHR) {
-				toastr.success("Pin codes added");
-				handleRecords(ballot_id);
-				var modal = $('#addPinCode');
-				modal.modal('hide');
-			}
-		});		
-	});
 </script>
 @endsection
