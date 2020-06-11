@@ -538,8 +538,9 @@
 						if(typerpc == 'candidate'){
 							if(race_type == 'R') {
 								if(oldname != responseData.data[x]['candidate_name']){
-									if(responseData.data[x]['candidate_name'].length > 24) {
-										name = responseData.data[x]['candidate_name'].slice(0, 24);
+									if(responseData.data[x]['candidate_name'].length > 20) {
+										name = responseData.data[x]['candidate_name'].slice(0, 20);
+										name += ' ...';
 										text += "<div class='col-md-offset-1 col-md-5'>"+name;
 									} else {
 										text += "<div class='col-md-offset-1 col-md-5'>"+responseData.data[x]['candidate_name'];
