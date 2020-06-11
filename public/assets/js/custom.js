@@ -917,15 +917,18 @@ var TableManaged = function () {
             addModal.find('#ballot_id').val(ballot_id);
             addModal.find('#race_id').val(race_id);
             addModal.find('#lang_id').val(lang_id);
-            
-            if(ballot_id < 0) {
+
+            if(ballot_id == null) {
                 confirmModal.find('.modal_content').text("There aren't any ballots. Please make the ballot, first.");
                 confirmModal.modal('show');
-            } else if(race_id < 0) {
+            } else if(race_id == null) {
                 confirmModal.find('.modal_content').text("There aren't any races in this ballot. Please make the race, first.");
                 confirmModal.modal('show');
-            } else if(party_id < 0) {
+            } else if(party_id == null) {
                 confirmModal.find('.modal_content').text("There aren't any parties in this ballot. Please make the party, first.");
+                confirmModal.modal('show');
+            } else if(lang_id == null) {
+                confirmModal.find('.modal_content').text("There aren't any languages in this ballot. Please make the language, first.");
                 confirmModal.modal('show');
             } else {
                 addModal.modal('show');
