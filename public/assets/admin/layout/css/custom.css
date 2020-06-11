@@ -61,7 +61,10 @@ Change Quick Sidebar Width
 #voter_table tr td:nth-child(5) {
   text-align: center;
 }
-#result_candidate_table tr td:nth-child(3), #result_candidate_table tr td:nth-child(4) {
+#result_candidate_table_r tr td:nth-child(4) {
+  display: none;
+}
+#result_candidate_table tr td:nth-child(2), #result_candidate_table tr td:nth-child(4) {
   display: none;
 }
 #result_party_table tr td:nth-child(3), #result_party_table tr td:nth-child(4) {
