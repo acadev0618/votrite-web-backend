@@ -235,7 +235,7 @@
 						</li>
 					</ul>
 					<h4 class="modal-title text-center" id="cand_title"></h4>
-					<div class="row" id='cand_detail' style="margin-top: 25px;"></div>
+					<div class="row" id='cand_detail' style="margin-top: 25px; margin-bottom: 25px;"></div>
 				</div>
 			</div>
 		</div>
