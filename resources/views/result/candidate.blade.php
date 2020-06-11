@@ -538,14 +538,14 @@
 						if(typerpc == 'candidate'){
 							if(race_type == 'R') {
 								if(oldname != responseData.data[x]['candidate_name']){
-									text += "<div class='col-md-offset-1 col-md-6'>Name: "+responseData.data[x]['candidate_name'];
+									text += "<div class='col-md-offset-1 col-md-5'>Name: "+responseData.data[x]['candidate_name'];
 								}else{
-									text += "<div class='col-md-offset-1 col-md-6'>";
+									text += "<div class='col-md-offset-1 col-md-5'>";
 								}
 								text +="</div><div class='col-md-2'> Rank: "+responseData.data[x]['cast_value']+"</div><div class='col-md-3'>Total Votes: "+responseData.data[x]['cast_counter']+"</div>";
 								oldname = responseData.data[x]['candidate_name'];
 							} else if(race_type == 'S') {
-								text += "<div class='col-md-offset-1 col-md-6'>Name: "+responseData.data[x]['candidate_name']+"</div><div class='col-md-offset-1 col-md-5'>Total Votes: "+responseData.data[x]['cast_counter']+"</div>";
+								text += "<div class='col-md-offset-1 col-md-5'>Name: "+responseData.data[x]['candidate_name']+"</div><div class='col-md-offset-1 col-md-5'>Total Votes: "+responseData.data[x]['cast_counter']+"</div>";
 							}
 						}
 					}
