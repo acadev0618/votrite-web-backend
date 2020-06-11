@@ -538,14 +538,19 @@
 						if(typerpc == 'candidate'){
 							if(race_type == 'R') {
 								if(oldname != responseData.data[x]['candidate_name']){
-									text += "<div class='col-md-offset-1 col-md-5'>Name: "+responseData.data[x]['candidate_name'];
+									if(responseData.data[x]['candidate_name'].length > 24) {
+										name = responseData.data[x]['candidate_name'].slice(0, 24);
+										text += "<div class='col-md-offset-1 col-md-5'>"+name;
+									} else {
+										text += "<div class='col-md-offset-1 col-md-5'>"+responseData.data[x]['candidate_name'];
+									}
 								}else{
 									text += "<div class='col-md-offset-1 col-md-5'>";
 								}
 								text +="</div><div class='col-md-2'> Rank: "+responseData.data[x]['cast_value']+"</div><div class='col-md-3'>Total Votes: "+responseData.data[x]['cast_counter']+"</div>";
 								oldname = responseData.data[x]['candidate_name'];
 							} else if(race_type == 'S') {
-								text += "<div class='col-md-offset-1 col-md-5'>Name: "+responseData.data[x]['candidate_name']+"</div><div class='col-md-offset-1 col-md-5'>Total Votes: "+responseData.data[x]['cast_counter']+"</div>";
+								text += "<div class='col-md-offset-1 col-md-7'>"+responseData.data[x]['candidate_name']+"</div><div class='col-md-offset-1 col-md-3'>Total Votes: "+responseData.data[x]['cast_counter']+"</div>";
 							}
 						}
 					}
@@ -636,7 +641,7 @@
 						var x;
 						for (x in responseData.data) {
 							text += "<div class='col-md-12'>";
-							text += "<div class='col-md-offset-1 col-md-5'>Candidate Name: "+responseData.data[x]['candidate_name']+"</div ><div class='col-md-offset-1 col-md-5'>Total Votes: "+responseData.data[x]['cast_counter']+"</div>";
+							text += "<div class='col-md-offset-1 col-md-7'>"+responseData.data[x]['candidate_name']+"</div ><div class='col-md-offset-1 col-md-3'>Total Votes: "+responseData.data[x]['cast_counter']+"</div>";
 							text += "</div>";
 						}
 						$('#cand_title').text('Party / Candidate');
@@ -651,7 +656,7 @@
 						var x;
 						for (x in responseData.data) {
 							text += "<div class='col-md-12'>";
-							text += "<div class='col-md-offset-1 col-md-5'>Party Name: "+responseData.data[x]['party_name']+"</div ><div class='col-md-offset-1 col-md-5'>Total Votes: "+responseData.data[x]['cast_counter']+"</div>";
+							text += "<div class='col-md-offset-1 col-md-7'>"+responseData.data[x]['party_name']+"</div ><div class='col-md-offset-1 col-md-3'>Total Votes: "+responseData.data[x]['cast_counter']+"</div>";
 							text += "</div>";
 						}
 						text += "<div class='col-md-12' style='margin-bottom: 10px;'> </div>"
