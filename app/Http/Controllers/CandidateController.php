@@ -59,7 +59,11 @@ class CandidateController extends Controller {
         $BaseController = new BaseController;
         $directory = "candidate/";
         $photo = $request->file('photo');
-        $photo_link = $BaseController->fileUpload($photo, $directory);
+        if(empty($photo)) {
+            $photo_link = "";
+        } else {
+            $photo_link = $BaseController->fileUpload($photo, $directory);
+        }
 
         if($request->lang_id == -1) {
             $data = array(
@@ -105,7 +109,11 @@ class CandidateController extends Controller {
         $BaseController = new BaseController;
         $directory = "candidate/";
         $photo = $request->file('edit_photo');
-        $photo_link = $BaseController->fileUpload($photo, $directory);
+        if(empty($photo)) {
+            $photo_link = "";
+        } else {
+            $photo_link = $BaseController->fileUpload($photo, $directory);
+        }
 
         $cand_id = array('candidate_id' => $request->edit_cand_id);
         if($request->edit_lang_id == -1) {
