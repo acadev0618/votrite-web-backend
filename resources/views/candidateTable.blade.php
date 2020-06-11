@@ -81,13 +81,13 @@
             <div class="form-group">
                 <label class="control-label col-sm-4" for="title">Candidate Photo:</label>
                 <div class="col-sm-8">
-                    <input type="file" class="form-control" name="photo" accept="image/png, image/jpeg" required></input>
+                    <input type="file" class="form-control" name="photo" accept="image/png, image/jpeg"></input>
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label col-sm-4" for="title">Email:</label>
                 <div class="col-sm-8">
-                    <input type="email" class="form-control" name="email" required>
+                    <input type="email" class="form-control" name="email">
                 </div>
             </div>
             <div class="form-group">
@@ -137,7 +137,7 @@
             <div class="form-group">
 				<label class="control-label col-sm-4" for="title">Candidate Photo:</label>
 				<div class="col-sm-8">
-					<input type="file" class="form-control" name="edit_photo" id="edit_photo" value="sdfsfd.txt" accept="image/png, image/jpeg" required></input>
+					<input type="file" class="form-control" name="edit_photo" id="edit_photo" value="sdfsfd.txt" accept="image/png, image/jpeg"></input>
 				</div>
             </div>
             <div class="form-group">
