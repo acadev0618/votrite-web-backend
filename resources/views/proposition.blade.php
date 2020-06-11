@@ -176,7 +176,7 @@
             <div class="form-group">
                 <label class="control-label col-sm-5" for="title">Proposition Text:</label>
                 <div class="col-sm-7">
-                    <textarea type="text" class="form-control" name="prop_text" id="prop_text" required></textarea>
+                    <textarea type="text" class="form-control" name="prop_text" id="prop_text"></textarea>
                 </div>
             </div>
             <div class="modal-footer">

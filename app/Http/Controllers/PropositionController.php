@@ -51,21 +51,33 @@ class PropositionController extends Controller {
 
     public function createProposition(Request $request){
         $ballot_id = $request->ballot_id;
+
+        if(empty($request->prop_name)) {
+            $prop_name = "";
+        } else {
+            $prop_name = $request->prop_name;
+        }
+        if(empty($request->prop_text)) {
+            $prop_text = "";
+        } else {
+            $prop_text = $request->prop_text;
+        }
+
         if($request->prop_location_id == 0 || $request->prop_lang_id == 0) {
             $data = array(
                 "ballot_id" => $request->ballot_id,
-                "prop_name" => $request->prop_name,
+                "prop_name" => $prop_name,
                 "prop_title" => $request->prop_title,
-                "prop_text" => $request->prop_text,
+                "prop_text" => $prop_text,
                 "prop_answer_type" => $request->prop_answer_type,
                 "prop_type" => $request->prop_type
             );
         } else {
             $data = array(
                 "ballot_id" => $request->ballot_id,
-                "prop_name" => $request->prop_name,
+                "prop_name" => $prop_name,
                 "prop_title" => $request->prop_title,
-                "prop_text" => $request->prop_text,
+                "prop_text" => $prop_text,
                 "prop_answer_type" => $request->prop_answer_type,
                 "prop_location_id" => $request->prop_location_id,
                 "prop_lang_id" => $request->prop_lang_id,
@@ -93,20 +105,32 @@ class PropositionController extends Controller {
 
     public function updateProposition(Request $request) {
         $prop_id = array('proposition_id' => $request->prop_id);
+
+        if(empty($request->prop_name)) {
+            $prop_name = "";
+        } else {
+            $prop_name = $request->prop_name;
+        }
+        if(empty($request->prop_text)) {
+            $prop_text = "";
+        } else {
+            $prop_text = $request->prop_text;
+        }
+
         if($request->prop_location_id == 0 || $request->prop_lang_id == 0) {
             $data = array(
-                "prop_name" => $request->prop_name,
+                "prop_name" => $prop_name,
                 "prop_title" => $request->prop_title,
-                "prop_text" => $request->prop_text,
+                "prop_text" => $prop_text,
                 "prop_answer_type" => $request->prop_answer_type,
                 "prop_type" => $request->prop_type,
                 'keys' => $prop_id
             );
         } else {
             $data = array(
-                "prop_name" => $request->prop_name,
+                "prop_name" => $prop_name,
                 "prop_title" => $request->prop_title,
-                "prop_text" => $request->prop_text,
+                "prop_text" => $prop_text,
                 "prop_answer_type" => $request->prop_answer_type,
                 "prop_location_id" => $request->prop_location_id,
                 "prop_lang_id" => $request->prop_lang_id,
