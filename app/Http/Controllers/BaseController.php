@@ -102,12 +102,10 @@ class BaseController extends Controller {
         $response = $Api->postApi($request, $api_url);
         $ballotid = null;
         $request = json_decode($request, true);
-        // dd($request);
+
         if(isset($request['ballot_id'])){
             $ballotid = $request['ballot_id'];
         }
-
-        // var_dump($response);die();
 
         if($response->state == "success") {
             $notification = array(

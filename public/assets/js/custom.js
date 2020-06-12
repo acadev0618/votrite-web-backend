@@ -979,8 +979,19 @@ var TableManaged = function () {
                     var cand = JSON.parse(response);
 
                     modal.find('#prev_candidate_name').val(cand.data[0].candidate_name);
-                    modal.find('#prev_cand_photo').attr("src", ""+cand.data[0].photo);
-                    modal.find('#prev_party_logo').attr("src", ""+cand.data[0].party_logo);
+
+                    if(cand.data[0].photo == null) {
+                        modal.find('#prev_cand_photo').text("");
+                    } else {
+                        modal.find('#prev_cand_photo').attr("src", ""+cand.data[0].photo);
+                    }
+
+                    if(cand.data[0].party_logo == null) {
+                        modal.find('#prev_party_logo').text("");
+                    } else {
+                        modal.find('#prev_party_logo').attr("src", ""+cand.data[0].party_logo);
+                    }
+
                     modal.find('#email').val(cand.data[0].email);
                     modal.find('#party_id').val(cand.data[0].party_id);
                 }

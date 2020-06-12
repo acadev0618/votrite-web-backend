@@ -59,33 +59,23 @@ class CandidateController extends Controller {
         $BaseController = new BaseController;
         $directory = "candidate/";
         $photo = $request->file('photo');
+
         if(empty($photo)) {
             $photo_link = "";
         } else {
             $photo_link = $BaseController->fileUpload($photo, $directory);
         }
 
-        if($request->lang_id == -1) {
-            $data = array(
-                "ballot_id" => $request->ballot_id,
-                "race_id" => $request->race_id,
-                "candidate_name" => $request->candidate_name,
-                "email" => $request->email,
-                "photo" => $photo_link,
-                "party_id" => $request->party_id
-            );
-        } else {
-            $data = array(
-                "ballot_id" => $request->ballot_id,
-                "race_id" => $request->race_id,
-                "candidate_name" => $request->candidate_name,
-                "email" => $request->email,
-                "photo" => $photo_link,
-                "party_id" => $request->party_id,
-                "lang_id" => $request->lang_id
-            );
-        }
-        // var_dump($data);die();
+        $data = array(
+            "ballot_id" => $request->ballot_id,
+            "race_id" => $request->race_id,
+            "candidate_name" => $request->candidate_name,
+            "email" => $request->email,
+            "photo" => $photo_link,
+            "party_id" => $request->party_id,
+            "lang_id" => $request->lang_id
+        );
+
         $data = json_encode($data);
         $api = env('API').'/candidate/create';
         
