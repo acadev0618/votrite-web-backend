@@ -2756,7 +2756,11 @@ var TableManaged = function () {
                     $('#preview_user_name').val(user.data[0].user_name);
                     $('#preview_display_name').val(user.data[0].display_name);
                     $('#preview_user_email').val(user.data[0].user_email);
-                    $('#preview_user_avatar').attr("src", ""+user.data[0].user_avatar)
+                    if(user.data[0].user_avatar == null){
+                        $('#preview_user_avatar').text('');
+                    } else{
+                        $('#preview_user_avatar').attr("src", ""+user.data[0].user_avatar);
+                    }
                 }
             });
 

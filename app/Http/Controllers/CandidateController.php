@@ -96,34 +96,6 @@ class CandidateController extends Controller {
     }
 
     public function updateCandidate(Request $request) {
-        // $BaseController = new BaseController;
-        // $directory = "candidate/";
-        // $photo = $request->file('edit_photo');
-        // if(empty($photo)) {
-        //     $photo_link = "";
-        // } else {
-        //     $photo_link = $BaseController->fileUpload($photo, $directory);
-        // }
-
-        // $cand_id = array('candidate_id' => $request->edit_cand_id);
-        // if($request->edit_lang_id == -1) {
-        //     $data = array(
-        //         "candidate_name" => $request->edit_candidate_name,
-        //         "email" => $request->edit_email,
-        //         "photo" => $photo_link,
-        //         "party_id" => $request->edit_party_id,
-        //         'keys' => $cand_id
-        //     );
-        // } else {
-        //     $data = array(
-        //         "candidate_name" => $request->edit_candidate_name,
-        //         "email" => $request->edit_email,
-        //         "photo" => $photo_link,
-        //         "party_id" => $request->edit_party_id,
-        //         "lang_id" => $request->edit_lang_id,
-        //         'keys' => $cand_id
-        //     );
-        // }
         $cand_id = array('candidate_id' => $request->edit_cand_id);
         $data = array(
             "candidate_name" => $request->edit_candidate_name,

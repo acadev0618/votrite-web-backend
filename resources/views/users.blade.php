@@ -120,7 +120,7 @@
             <div class="form-group">
                 <label class="control-label col-sm-4" for="title">Avatar:</label>
                 <div class="col-sm-8">
-                    <input type="file" class="form-control" name="user_avatar" id="add_user_avatar" required>
+                    <input type="file" class="form-control" name="user_avatar" id="add_user_avatar">
                 </div>
             </div>
             <div class="modal-footer">
@@ -164,7 +164,7 @@
             <div class="form-group">
                 <label class="control-label col-sm-4" for="title">Avatar:</label>
                 <div class="col-sm-8">
-                    <input type="file" class="form-control" name="user_avatar" id="edit_user_avatar" accept="image/png, image/jpeg" required></input>
+                    <input type="file" class="form-control" name="user_avatar" id="edit_user_avatar" accept="image/png, image/jpeg"></input>
                 </div>
             </div>
             <div class="modal-footer">
