@@ -248,7 +248,6 @@
 		}
 	}
 	function getAction(data, type, full, meta) {
-		// console.log(full);
 		if(full.is_active){
 			return  '<a class="editVoterModal" data-toggle="modal" data-id='+data+' data-checked="checked" ><i class="fa fa-edit" data-toggle="tooltip" title="Edit"></i></a><a class="deleteVoterModal" data-toggle="modal" data-id='+data+' ><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete"></i></a>';
 		}else{
@@ -448,7 +447,6 @@
         });
 	}
 
-	
 	$(document).on("change", '.checkboxes', function(event) { 
 		var checked = $(this).is(":checked");
 		if (checked) {
