@@ -22,14 +22,14 @@ var TableManaged = function () {
                 "search": "Search:",
                 "zeroRecords": "No matching records found"
             },
-            "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
+            "bStateSave": false, // save datatable state(pagination, sort, etc) in cookie.
             
             "lengthMenu": [
-                [5, 15, 20, -1],
-                [5, 15, 20, "All"] // change per page values here
+                [-1, 5, 15, 20],
+                ["All", 5, 15, 20] // change per page values here
             ],
             // set the initial value
-            "pageLength": 5,
+            // "pageLength": 5,
             "language": {
                 "lengthMenu": " _MENU_ records"
             },
@@ -78,14 +78,14 @@ var TableManaged = function () {
                 "search": "Search:",
                 "zeroRecords": "No matching records found"
             },
-            "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
+            "bStateSave": false, // save datatable state(pagination, sort, etc) in cookie.
             
             "lengthMenu": [
-                [5, 15, 20, -1],
-                [5, 15, 20, "All"] // change per page values here
+                [-1, 5, 15, 20],
+                ["All", 5, 15, 20] // change per page values here
             ],
             // set the initial value
-            "pageLength": 5,
+            // "pageLength": 5,
             "language": {
                 "lengthMenu": " _MENU_ records"
             },
@@ -261,14 +261,14 @@ var TableManaged = function () {
                             "search": "Search:",
                             "zeroRecords": "No matching records found"
                         },
-                        "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
+                        "bStateSave": false, // save datatable state(pagination, sort, etc) in cookie.
                         
                         "lengthMenu": [
-                            [5, 15, 20, -1],
-                            [5, 15, 20, "All"] // change per page values here
+                            [-1, 5, 15, 20],
+                            ["All", 5, 15, 20] // change per page values here
                         ],
                         // set the initial value
-                        "pageLength": 5,
+                        // "pageLength": 5,
                         "language": {
                             "lengthMenu": " _MENU_ records"
                         },
@@ -436,14 +436,14 @@ var TableManaged = function () {
                 "search": "Search:",
                 "zeroRecords": "No matching records found"
             },
-            "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
+            "bStateSave": false, // save datatable state(pagination, sort, etc) in cookie.
             
             "lengthMenu": [
-                [5, 15, 20, -1],
-                [5, 15, 20, "All"] // change per page values here
+                [-1, 5, 15, 20],
+                ["All", 5, 15, 20] // change per page values here
             ],
             // set the initial value
-            "pageLength": 5,
+            // "pageLength": 5,
             "language": {
                 "lengthMenu": " _MENU_ records"
             },
@@ -654,14 +654,14 @@ var TableManaged = function () {
                             "search": "Search:",
                             "zeroRecords": "No matching records found"
                         },
-                        "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
+                        "bStateSave": false, // save datatable state(pagination, sort, etc) in cookie.
                         
                         "lengthMenu": [
-                            [5, 15, 20, -1],
-                            [5, 15, 20, "All"] // change per page values here
+                            [-1, 5, 15, 20],
+                            ["All", 5, 15, 20] // change per page values here
                         ],
                         // set the initial value
-                        "pageLength": 5,
+                        // "pageLength": 5,
                         "language": {
                             "lengthMenu": " _MENU_ records"
                         },
@@ -860,15 +860,15 @@ var TableManaged = function () {
                 "search": "Search:",
                 "zeroRecords": "No matching records found"
             },
-            "bStateSave": true,
+            "bStateSave": false,
 
 
 
             "lengthMenu": [
-                [5, 15, 20, -1],
-                [5, 15, 20, "All"]
+                [-1, 5, 15, 20],
+                ["All", 5, 15, 20]
             ],
-            "pageLength": 5,
+            // "pageLength": 5,
             "language": {
                 "lengthMenu": " _MENU_ records"
             },
@@ -1111,14 +1111,14 @@ var TableManaged = function () {
                             "search": "Search:",
                             "zeroRecords": "No matching records found"
                         },
-                        "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
+                        "bStateSave": false, // save datatable state(pagination, sort, etc) in cookie.
                         
                         "lengthMenu": [
-                            [5, 15, 20, -1],
-                            [5, 15, 20, "All"] // change per page values here
+                            [-1, 5, 15, 20],
+                            ["All", 5, 15, 20] // change per page values here
                         ],
                         // set the initial value
-                        "pageLength": 5,
+                        // "pageLength": 5,
                         "language": {
                             "lengthMenu": " _MENU_ records"
                         },
@@ -1319,14 +1319,14 @@ var TableManaged = function () {
                             "search": "Search:",
                             "zeroRecords": "No matching records found"
                         },
-                        "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
+                        "bStateSave": false, // save datatable state(pagination, sort, etc) in cookie.
                         
                         "lengthMenu": [
-                            [5, 15, 20, -1],
-                            [5, 15, 20, "All"] // change per page values here
+                            [-1, 5, 15, 20],
+                            ["All", 5, 15, 20] // change per page values here
                         ],
                         // set the initial value
-                        "pageLength": 5,
+                        // "pageLength": 5,
                         "language": {
                             "lengthMenu": " _MENU_ records"
                         },
@@ -2011,14 +2011,14 @@ var TableManaged = function () {
                 "search": "Search:",
                 "zeroRecords": "No matching records found"
             },
-            "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
+            "bStateSave": false, // save datatable state(pagination, sort, etc) in cookie.
             
             "lengthMenu": [
-                [5, 15, 20, -1],
-                [5, 15, 20, "All"] // change per page values here
+                [-1, 5, 15, 20],
+                ["All", 5, 15, 20] // change per page values here
             ],
             // set the initial value
-            "pageLength": 5,
+            // "pageLength": 5,
             "language": {
                 "lengthMenu": " _MENU_ records"
             },
@@ -2193,14 +2193,14 @@ var TableManaged = function () {
                             "search": "Search:",
                             "zeroRecords": "No matching records found"
                         },
-                        "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
+                        "bStateSave": false, // save datatable state(pagination, sort, etc) in cookie.
                         
                         "lengthMenu": [
-                            [5, 15, 20, -1],
-                            [5, 15, 20, "All"] // change per page values here
+                            [-1, 5, 15, 20],
+                            ["All", 5, 15, 20] // change per page values here
                         ],
                         // set the initial value
-                        "pageLength": 5,
+                        // "pageLength": 5,
                         "language": {
                             "lengthMenu": " _MENU_ records"
                         },
@@ -2361,14 +2361,14 @@ var TableManaged = function () {
                 "search": "Search:",
                 "zeroRecords": "No matching records found"
             },
-            "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
+            "bStateSave": false, // save datatable state(pagination, sort, etc) in cookie.
             
             "lengthMenu": [
-                [5, 15, 20, -1],
-                [5, 15, 20, "All"] // change per page values here
+                [-1, 5, 15, 20],
+                ["All", 5, 15, 20] // change per page values here
             ],
             // set the initial value
-            "pageLength": 5,
+            // "pageLength": 5,
             "language": {
                 "lengthMenu": " _MENU_ records"
             },
@@ -2541,14 +2541,14 @@ var TableManaged = function () {
                             "search": "Search:",
                             "zeroRecords": "No matching records found"
                         },
-                        "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
+                        "bStateSave": false, // save datatable state(pagination, sort, etc) in cookie.
                         
                         "lengthMenu": [
-                            [5, 15, 20, -1],
-                            [5, 15, 20, "All"] // change per page values here
+                            [-1, 5, 15, 20],
+                            ["All", 5, 15, 20] // change per page values here
                         ],
                         // set the initial value
-                        "pageLength": 5,
+                        // "pageLength": 5,
                         "language": {
                             "lengthMenu": " _MENU_ records"
                         },
@@ -2711,14 +2711,14 @@ var TableManaged = function () {
                 "search": "Search:",
                 "zeroRecords": "No matching records found"
             },
-            "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
+            "bStateSave": false, // save datatable state(pagination, sort, etc) in cookie.
             
             "lengthMenu": [
-                [5, 15, 20, -1],
-                [5, 15, 20, "All"] // change per page values here
+                [-1, 5, 15, 20],
+                ["All", 5, 15, 20] // change per page values here
             ],
             // set the initial value
-            "pageLength": 5,
+            // "pageLength": 5,
             "language": {
                 "lengthMenu": " _MENU_ records"
             },
@@ -2895,14 +2895,14 @@ var TableManaged = function () {
                 "search": "Search:",
                 "zeroRecords": "No matching records found"
             },
-            "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
+            "bStateSave": false, // save datatable state(pagination, sort, etc) in cookie.
             
             "lengthMenu": [
-                [5, 15, 20, -1],
-                [5, 15, 20, "All"] // change per page values here
+                [-1, 5, 15, 20],
+                ["All", 5, 15, 20] // change per page values here
             ],
             // set the initial value
-            "pageLength": 5,
+            // "pageLength": 5,
             "language": {
                 "lengthMenu": " _MENU_ records"
             },
@@ -3070,14 +3070,14 @@ var TableManaged = function () {
                             "search": "Search:",
                             "zeroRecords": "No matching records found"
                         },
-                        "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
+                        "bStateSave": false, // save datatable state(pagination, sort, etc) in cookie.
                         
                         "lengthMenu": [
-                            [5, 15, 20, -1],
-                            [5, 15, 20, "All"] // change per page values here
+                            [-1, 5, 15, 20],
+                            ["All", 5, 15, 20] // change per page values here
                         ],
                         // set the initial value
-                        "pageLength": 5,
+                        // "pageLength": 5,
                         "language": {
                             "lengthMenu": " _MENU_ records"
                         },
