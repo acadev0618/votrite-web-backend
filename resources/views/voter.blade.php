@@ -351,7 +351,7 @@
 				"zeroRecords": "No matching records found"
 			},
 			destroy: true,
-			"bStateSave": false, // save datatable state(pagination, sort, etc) in cookie.
+			"bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
 			// "ajax":{
 			//     type: 'GET',
 			//     url: baseurl+'result/all',
@@ -388,11 +388,11 @@
 				{ "data": "pin", render: getAction },
 			],
 			"lengthMenu": [
-				[-1, 5, 15, 20],
-				["All", 5, 15, 20] // change per page values here
+				[5, 15, 20, -1],
+				[5, 15, 20, "All"] // change per page values here
 			],
 			// set the initial value
-			// "pageLength": 5,
+			"pageLength": 5,
 			"language": {
 				"lengthMenu": " _MENU_ records"
 			},

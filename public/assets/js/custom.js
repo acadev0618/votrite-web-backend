@@ -22,14 +22,14 @@ var TableManaged = function () {
                 "search": "Search:",
                 "zeroRecords": "No matching records found"
             },
-            "bStateSave": false, // save datatable state(pagination, sort, etc) in cookie.
+            "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
             
             "lengthMenu": [
-                [-1, 5, 15, 20],
-                ["All", 5, 15, 20] // change per page values here
+                [5, 15, 20, -1],
+                [5, 15, 20, "All"] // change per page values here
             ],
             // set the initial value
-            // "pageLength": 5,
+            "pageLength": 5,
             "language": {
                 "lengthMenu": " _MENU_ records"
             },
@@ -78,14 +78,14 @@ var TableManaged = function () {
                 "search": "Search:",
                 "zeroRecords": "No matching records found"
             },
-            "bStateSave": false, // save datatable state(pagination, sort, etc) in cookie.
+            "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
             
             "lengthMenu": [
-                [-1, 5, 15, 20],
-                ["All", 5, 15, 20] // change per page values here
+                [5, 15, 20, -1],
+                [5, 15, 20, "All"] // change per page values here
             ],
             // set the initial value
-            // "pageLength": 5,
+            "pageLength": 5,
             "language": {
                 "lengthMenu": " _MENU_ records"
             },
@@ -261,14 +261,14 @@ var TableManaged = function () {
                             "search": "Search:",
                             "zeroRecords": "No matching records found"
                         },
-                        "bStateSave": false, // save datatable state(pagination, sort, etc) in cookie.
+                        "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
                         
                         "lengthMenu": [
-                            [-1, 5, 15, 20],
-                            ["All", 5, 15, 20] // change per page values here
+                            [5, 15, 20, -1],
+                            [5, 15, 20, "All"] // change per page values here
                         ],
                         // set the initial value
-                        // "pageLength": 5,
+                        "pageLength": 5,
                         "language": {
                             "lengthMenu": " _MENU_ records"
                         },
@@ -436,14 +436,14 @@ var TableManaged = function () {
                 "search": "Search:",
                 "zeroRecords": "No matching records found"
             },
-            "bStateSave": false, // save datatable state(pagination, sort, etc) in cookie.
+            "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
             
             "lengthMenu": [
-                [-1, 5, 15, 20],
-                ["All", 5, 15, 20] // change per page values here
+                [5, 15, 20, -1],
+                [5, 15, 20, "All"] // change per page values here
             ],
             // set the initial value
-            // "pageLength": 5,
+            "pageLength": 5,
             "language": {
                 "lengthMenu": " _MENU_ records"
             },
@@ -481,15 +481,6 @@ var TableManaged = function () {
             }
         });
 
-        // $('.max_cand').on('change', function(){
-        //     var max_cand = $(this).val();
-        //     var option = '';
-        //     for(i = 1; i <= max_cand; i ++) {
-        //         option += "<option value='"+i+"'>"+i+"</opiton>"
-        //     }
-        //     $('.max_w_cand').html(option);
-        // });
-
         $(document).on('click', '.deleteRacesModal', function(){
             var modal = $('#deleteRacesModal');
             var allVals = [];
@@ -526,7 +517,7 @@ var TableManaged = function () {
             }
         });
 
-        $('.previewRaceModal').click(function(){
+        table.on('click', '.previewRaceModal', function(){
             var race_id = $(this).data('id');
             var modal = $('#previewRaceModal');
 
@@ -563,7 +554,7 @@ var TableManaged = function () {
             modal.modal('show');
         });
 
-        $('.editRaceModal').click(function(){
+        table.$('.editRaceModal').click(function(){
             var race_id = $(this).data('id');
             var modal = $('#editRaceModal');
 
@@ -608,7 +599,7 @@ var TableManaged = function () {
             modal.modal('show');
         });
 
-        $('.deleteRaceModal').click(function(){
+        table.$('.deleteRaceModal').click(function(){
             var target_id= 'race_id';
             var id= $(this).data('id');
             var api = api_url+'/race/delete';
@@ -654,14 +645,14 @@ var TableManaged = function () {
                             "search": "Search:",
                             "zeroRecords": "No matching records found"
                         },
-                        "bStateSave": false, // save datatable state(pagination, sort, etc) in cookie.
+                        "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
                         
                         "lengthMenu": [
-                            [-1, 5, 15, 20],
-                            ["All", 5, 15, 20] // change per page values here
+                            [5, 15, 20, -1],
+                            [5, 15, 20, "All"] // change per page values here
                         ],
                         // set the initial value
-                        // "pageLength": 5,
+                        "pageLength": 5,
                         "language": {
                             "lengthMenu": " _MENU_ records"
                         },
@@ -699,15 +690,6 @@ var TableManaged = function () {
                         }
                     });
 
-                    // $('.max_cand').on('change', function(){
-                    //     var max_cand = $(this).val();
-                    //     var option = '';
-                    //     for(i = 1; i <= max_cand; i ++) {
-                    //         option += "<option value='"+i+"'>"+i+"</opiton>"
-                    //     }
-                    //     $('.max_w_cand').html(option);
-                    // });
-
                     $(document).on('click', '.deleteRacesModal', function(){
                         var modal = $('#deleteRacesModal');
                         var allVals = [];
@@ -744,7 +726,7 @@ var TableManaged = function () {
                         }
                     });
 
-                    $('.previewRaceModal').click(function(){
+                    table.$('.previewRaceModal').click(function(){
                         var race_id = $(this).data('id');
                         var modal = $('#previewRaceModal');
 
@@ -781,7 +763,7 @@ var TableManaged = function () {
                         modal.modal('show');
                     });
 
-                    $('.editRaceModal').click(function(){
+                    table.$('.editRaceModal').click(function(){
                         var race_id = $(this).data('id');
                         var modal = $('#editRaceModal');
 
@@ -860,15 +842,15 @@ var TableManaged = function () {
                 "search": "Search:",
                 "zeroRecords": "No matching records found"
             },
-            "bStateSave": false,
+            "bStateSave": true,
 
 
 
             "lengthMenu": [
-                [-1, 5, 15, 20],
-                ["All", 5, 15, 20]
+                [5, 15, 20, -1],
+                [5, 15, 20, "All"]
             ],
-            // "pageLength": 5,
+            "pageLength": 5,
             "language": {
                 "lengthMenu": " _MENU_ records"
             },
@@ -964,7 +946,7 @@ var TableManaged = function () {
             confirmModal.find('.modal_content').text('Please select porpositions.');
         });
 
-        $('.previewCandidateModal').click(function(){
+        table.$('.previewCandidateModal').click(function(){
             var cand_id = $(this).data('id');
             var modal = $('#previewCandidateModal');
 
@@ -1000,7 +982,7 @@ var TableManaged = function () {
             modal.modal('show');
         });
 
-        $('.editCandidateModal').click(function(){
+        table.$('.editCandidateModal').click(function(){
             var cand_id = $(this).data('id');
             var lang_id = $('#cand_lang_name').val();
             var modal = $('#editCandidateModal');
@@ -1028,7 +1010,7 @@ var TableManaged = function () {
             modal.modal('show');
         });
 
-        $('.deleteCandidateModal').click(function(){
+        table.$('.deleteCandidateModal').click(function(){
             var target_id= 'candidate_id';
             var id = $(this).data('id');
             var api = api_url+'/candidate/delete';
@@ -1111,14 +1093,14 @@ var TableManaged = function () {
                             "search": "Search:",
                             "zeroRecords": "No matching records found"
                         },
-                        "bStateSave": false, // save datatable state(pagination, sort, etc) in cookie.
+                        "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
                         
                         "lengthMenu": [
-                            [-1, 5, 15, 20],
-                            ["All", 5, 15, 20] // change per page values here
+                            [5, 15, 20, -1],
+                            [5, 15, 20, "All"] // change per page values here
                         ],
                         // set the initial value
-                        // "pageLength": 5,
+                        "pageLength": 5,
                         "language": {
                             "lengthMenu": " _MENU_ records"
                         },
@@ -1214,7 +1196,7 @@ var TableManaged = function () {
                         confirmModal.find('.modal_content').text('Please select porpositions.');
                     });
 
-                    $('.previewCandidateModal').click(function(){
+                    table.$('.previewCandidateModal').click(function(){
                         var cand_id = $(this).data('id');
                         var modal = $('#previewCandidateModal');
 
@@ -1239,7 +1221,7 @@ var TableManaged = function () {
                         modal.modal('show');
                     });
 
-                    $('.editCandidateModal').click(function(){
+                    table.$('.editCandidateModal').click(function(){
                         var cand_id = $(this).data('id');
                         var lang_id = $('#cand_lang_name').val();
                         var modal = $('#editCandidateModal');
@@ -1267,7 +1249,7 @@ var TableManaged = function () {
                         modal.modal('show');
                     });
 
-                    $('.deleteCandidateModal').click(function(){
+                    table.$('.deleteCandidateModal').click(function(){
                         var target_id= 'candidate_id';
                         var id = $(this).data('id');
                         var api = api_url+'/candidate/delete';
@@ -1319,14 +1301,14 @@ var TableManaged = function () {
                             "search": "Search:",
                             "zeroRecords": "No matching records found"
                         },
-                        "bStateSave": false, // save datatable state(pagination, sort, etc) in cookie.
+                        "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
                         
                         "lengthMenu": [
-                            [-1, 5, 15, 20],
-                            ["All", 5, 15, 20] // change per page values here
+                            [5, 15, 20, -1],
+                            [5, 15, 20, "All"] // change per page values here
                         ],
                         // set the initial value
-                        // "pageLength": 5,
+                        "pageLength": 5,
                         "language": {
                             "lengthMenu": " _MENU_ records"
                         },
@@ -1419,7 +1401,7 @@ var TableManaged = function () {
                         confirmModal.find('.modal_content').text('Please select porpositions.');
                     });
 
-                    $('.previewCandidateModal').click(function(){
+                    table.$('.previewCandidateModal').click(function(){
                         var cand_id = $(this).data('id');
                         var modal = $('#previewCandidateModal');
 
@@ -1444,7 +1426,7 @@ var TableManaged = function () {
                         modal.modal('show');
                     });
 
-                    $('.editCandidateModal').click(function(){
+                    table.$('.editCandidateModal').click(function(){
                         var cand_id = $(this).data('id');
                         var lang_id = $('#cand_lang_name').val();
                         var modal = $('#editCandidateModal');
@@ -1472,7 +1454,7 @@ var TableManaged = function () {
                         modal.modal('show');
                     });
 
-                    $('.deleteCandidateModal').click(function(){
+                    table.$('.deleteCandidateModal').click(function(){
                         var target_id= 'candidate_id';
                         var id = $(this).data('id');
                         var api = api_url+'/candidate/delete';
@@ -2011,14 +1993,14 @@ var TableManaged = function () {
                 "search": "Search:",
                 "zeroRecords": "No matching records found"
             },
-            "bStateSave": false, // save datatable state(pagination, sort, etc) in cookie.
+            "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
             
             "lengthMenu": [
-                [-1, 5, 15, 20],
-                ["All", 5, 15, 20] // change per page values here
+                [5, 15, 20, -1],
+                [5, 15, 20, "All"] // change per page values here
             ],
             // set the initial value
-            // "pageLength": 5,
+            "pageLength": 5,
             "language": {
                 "lengthMenu": " _MENU_ records"
             },
@@ -2070,7 +2052,7 @@ var TableManaged = function () {
             }
         });
 
-        $('.previewPropositionModal').click(function(){
+        table.$('.previewPropositionModal').click(function(){
             var prop_id = $(this).data('id');
             var modal = $('#previewPropositionModal');
 
@@ -2096,7 +2078,7 @@ var TableManaged = function () {
             modal.modal('show');
         });
 
-        $('.editPropositionModal').click(function(){
+        table.$('.editPropositionModal').click(function(){
             var prop_id = $(this).data('id');
             var modal = $('#editPropositionModal');
 
@@ -2123,7 +2105,7 @@ var TableManaged = function () {
             modal.modal('show');
         });
 
-        $('.deletePropositionModal').click(function(){
+        table.$('.deletePropositionModal').click(function(){
             var target_id= 'proposition_id';
             var id = $(this).data('id');
             var api = api_url+'/proposition/delete';
@@ -2193,14 +2175,14 @@ var TableManaged = function () {
                             "search": "Search:",
                             "zeroRecords": "No matching records found"
                         },
-                        "bStateSave": false, // save datatable state(pagination, sort, etc) in cookie.
+                        "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
                         
                         "lengthMenu": [
-                            [-1, 5, 15, 20],
-                            ["All", 5, 15, 20] // change per page values here
+                            [5, 15, 20, -1],
+                            [5, 15, 20, "All"] // change per page values here
                         ],
                         // set the initial value
-                        // "pageLength": 5,
+                        "pageLength": 5,
                         "language": {
                             "lengthMenu": " _MENU_ records"
                         },
@@ -2252,7 +2234,7 @@ var TableManaged = function () {
                         }
                     });
 
-                    $('.previewPropositionModal').click(function(){
+                    table.$('.previewPropositionModal').click(function(){
                         var prop_id = $(this).data('id');
                         var modal = $('#previewPropositionModal');
 
@@ -2278,7 +2260,7 @@ var TableManaged = function () {
                         modal.modal('show');
                     });
 
-                    $('.editPropositionModal').click(function(){
+                    table.$('.editPropositionModal').click(function(){
                         var prop_id = $(this).data('id');
                         var modal = $('#editPropositionModal');
 
@@ -2305,7 +2287,7 @@ var TableManaged = function () {
                         modal.modal('show');
                     });
 
-                    $('.deletePropositionModal').click(function(){
+                    table.$('.deletePropositionModal').click(function(){
                         var target_id= 'proposition_id';
                         var id = $(this).data('id');
                         var api = api_url+'/proposition/delete';
@@ -2361,14 +2343,14 @@ var TableManaged = function () {
                 "search": "Search:",
                 "zeroRecords": "No matching records found"
             },
-            "bStateSave": false, // save datatable state(pagination, sort, etc) in cookie.
+            "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
             
             "lengthMenu": [
-                [-1, 5, 15, 20],
-                ["All", 5, 15, 20] // change per page values here
+                [5, 15, 20, -1],
+                [5, 15, 20, "All"] // change per page values here
             ],
             // set the initial value
-            // "pageLength": 5,
+            "pageLength": 5,
             "language": {
                 "lengthMenu": " _MENU_ records"
             },
@@ -2420,7 +2402,7 @@ var TableManaged = function () {
             }
         });
 
-        $('.previewMassPropositionModal').click(function(){
+        table.$('.previewMassPropositionModal').click(function(){
             var prop_id = $(this).data('id');
             var modal = $('#previewMassPropositionModal');
 
@@ -2446,7 +2428,7 @@ var TableManaged = function () {
             modal.modal('show');
         });
 
-        $('.editMassPropositionModal').click(function(){
+        table.$('.editMassPropositionModal').click(function(){
             var prop_id = $(this).data('id');
             var modal = $('#editMassPropositionModal');
 
@@ -2473,7 +2455,7 @@ var TableManaged = function () {
             modal.modal('show');
         });
 
-        $('.deleteMassPropositionModal').click(function(){
+        table.$('.deleteMassPropositionModal').click(function(){
             var target_id= 'proposition_id';
             var id = $(this).data('id');
             var api = api_url+'/proposition/delete';
@@ -2541,14 +2523,14 @@ var TableManaged = function () {
                             "search": "Search:",
                             "zeroRecords": "No matching records found"
                         },
-                        "bStateSave": false, // save datatable state(pagination, sort, etc) in cookie.
+                        "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
                         
                         "lengthMenu": [
-                            [-1, 5, 15, 20],
-                            ["All", 5, 15, 20] // change per page values here
+                            [5, 15, 20, -1],
+                            [5, 15, 20, "All"] // change per page values here
                         ],
                         // set the initial value
-                        // "pageLength": 5,
+                        "pageLength": 5,
                         "language": {
                             "lengthMenu": " _MENU_ records"
                         },
@@ -2600,7 +2582,7 @@ var TableManaged = function () {
                         }
                     });
 
-                    $('.previewMassPropositionModal').click(function(){
+                    table.$('.previewMassPropositionModal').click(function(){
                         var prop_id = $(this).data('id');
                         var modal = $('#previewMassPropositionModal');
 
@@ -2626,7 +2608,7 @@ var TableManaged = function () {
                         modal.modal('show');
                     });
 
-                    $('.editMassPropositionModal').click(function(){
+                    table.$('.editMassPropositionModal').click(function(){
                         var prop_id = $(this).data('id');
                         var modal = $('#editMassPropositionModal');
 
@@ -2653,7 +2635,7 @@ var TableManaged = function () {
                         modal.modal('show');
                     });
 
-                    $('.deleteMassPropositionModal').click(function(){
+                    table.$('.deleteMassPropositionModal').click(function(){
                         var target_id= 'proposition_id';
                         var id = $(this).data('id');
                         var api = api_url+'/proposition/delete';
@@ -2711,14 +2693,14 @@ var TableManaged = function () {
                 "search": "Search:",
                 "zeroRecords": "No matching records found"
             },
-            "bStateSave": false, // save datatable state(pagination, sort, etc) in cookie.
+            "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
             
             "lengthMenu": [
-                [-1, 5, 15, 20],
-                ["All", 5, 15, 20] // change per page values here
+                [5, 15, 20, -1],
+                [5, 15, 20, "All"] // change per page values here
             ],
             // set the initial value
-            // "pageLength": 5,
+            "pageLength": 5,
             "language": {
                 "lengthMenu": " _MENU_ records"
             },
@@ -2895,14 +2877,14 @@ var TableManaged = function () {
                 "search": "Search:",
                 "zeroRecords": "No matching records found"
             },
-            "bStateSave": false, // save datatable state(pagination, sort, etc) in cookie.
+            "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
             
             "lengthMenu": [
-                [-1, 5, 15, 20],
-                ["All", 5, 15, 20] // change per page values here
+                [5, 15, 20, -1],
+                [5, 15, 20, "All"] // change per page values here
             ],
             // set the initial value
-            // "pageLength": 5,
+            "pageLength": 5,
             "language": {
                 "lengthMenu": " _MENU_ records"
             },
@@ -2940,7 +2922,7 @@ var TableManaged = function () {
             }
         });
 
-        $('.previewPartyModal').click(function(){
+        table.$('.previewPartyModal').click(function(){
             var party_id = $(this).data('id');
             var modal = $('#previewPartyModal');
 
@@ -2976,7 +2958,7 @@ var TableManaged = function () {
             }
         });
 
-        $('.editPartyModal').click(function(){
+        table.$('.editPartyModal').click(function(){
             var ballot_id = $('#party_ballot_name').val();
             var party_id = $(this).data('id');
             var modal = $('#editPartyModal');
@@ -3001,7 +2983,7 @@ var TableManaged = function () {
             modal.modal('show');
         });
 
-        $('.deletePartyModal').click(function(){
+        table.$('.deletePartyModal').click(function(){
             var target_id= 'party_id';
             var id = $(this).data('id');
             var api = api_url+'/ballot/party/delete';
@@ -3070,14 +3052,14 @@ var TableManaged = function () {
                             "search": "Search:",
                             "zeroRecords": "No matching records found"
                         },
-                        "bStateSave": false, // save datatable state(pagination, sort, etc) in cookie.
+                        "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
                         
                         "lengthMenu": [
-                            [-1, 5, 15, 20],
-                            ["All", 5, 15, 20] // change per page values here
+                            [5, 15, 20, -1],
+                            [5, 15, 20, "All"] // change per page values here
                         ],
                         // set the initial value
-                        // "pageLength": 5,
+                        "pageLength": 5,
                         "language": {
                             "lengthMenu": " _MENU_ records"
                         },
@@ -3115,7 +3097,7 @@ var TableManaged = function () {
                         }
                     });
 
-                    $('.previewPartyModal').click(function(){
+                    table.$('.previewPartyModal').click(function(){
                         var party_id = $(this).data('id');
                         var modal = $('#previewPartyModal');
 
@@ -3151,7 +3133,7 @@ var TableManaged = function () {
                         }
                     });
 
-                    $('.editPartyModal').click(function(){
+                    table.$('.editPartyModal').click(function(){
                         var ballot_id = $('#party_ballot_name').val();
                         var party_id = $(this).data('id');
                         var modal = $('#editPartyModal');
@@ -3176,7 +3158,7 @@ var TableManaged = function () {
                         modal.modal('show');
                     });
 
-                    $('.deletePartyModal').click(function(){
+                    table.$('.deletePartyModal').click(function(){
                         var target_id= 'party_id';
                         var id = $(this).data('id');
                         var api = api_url+'/ballot/party/delete';
