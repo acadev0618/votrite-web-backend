@@ -22,18 +22,21 @@ class UserController extends Controller {
     }
 
     public function createUser(Request $request) {
-        $BaseController = new BaseController;
-        $directory = "user/";
-        $photo = $request->file('user_avatar');
-        $photo_link = $BaseController->fileUpload($photo, $directory);
-
         $data = array(
             'user_name' => $request->user_name,
             'display_name' => $request->display_name,
             'user_email' => $request->user_email,
             'user_password' => $request->user_password,
-            "user_avatar" => $photo_link
         );
+
+        $BaseController = new BaseController;
+        $directory = "user/";
+        $photo = $request->file('user_avatar');
+        if($photo) {
+            $photo_link = $BaseController->fileUpload($photo, $directory);
+            $data += [ "user_avatar" => $photo_link ];
+        }
+        
         $data = json_encode($data);
         $api = env('API').'/user/create';
 
@@ -42,19 +45,22 @@ class UserController extends Controller {
     }
 
     public function updateUser(Request $request) {
-        $BaseController = new BaseController;
-        $directory = "user/";
-        $photo = $request->file('user_avatar');
-        $photo_link = $BaseController->fileUpload($photo, $directory);
-
         $user_id = array('user_id' => $request->user_id);
         $data = array(
             'user_name' => $request->user_name,
             'display_name' => $request->display_name,
             'user_email' => $request->user_email,
-            'user_avatar' => $photo_link,
             'keys' => $user_id
         );
+
+        $BaseController = new BaseController;
+        $directory = "user/";
+        $photo = $request->file('user_avatar');
+        if($photo) {
+            $photo_link = $BaseController->fileUpload($photo, $directory);
+            $data += [ "user_avatar" => $photo_link ];
+        }
+        
         $data = json_encode($data);
         $api = env('API').'/user/update';
 

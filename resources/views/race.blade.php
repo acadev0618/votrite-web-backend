@@ -101,10 +101,10 @@
                                                     Primary
                                                 @endif
                                                 @if($race->race_type == "R")
-                                                    Rank Voting
+                                                    Ranking
                                                 @endif
-                                                @if($race->race_type == "C")
-                                                    Complex
+                                                @if($race->race_type == "S")
+                                                    Standard
                                                 @endif
                                                 </td>
                                                 <td>
@@ -144,29 +144,29 @@
                     <div class="col-sm-7">
                         <select class="form-control" name="race_type" id="add_race_type">
                             <option value="P">Primary</option>
-                            <option value="R">Rank Voting</option>
-                            <option value="C">Complex</option>
+                            <option value="R">Ranking</option>
+                            <option value="S">Standard</option>
                         </select>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-sm-5" for="title">Mimimum number of votes:</label>
+                    <label class="control-label col-sm-5" for="title">Minimum number of vote:</label>
                     <div class="col-sm-7">
-                        <select class="form-control" name="min_num_of_votes" id="add_min_num_of_votes">
-                            <option value="1">0</opiton>
-                            <option value="2">1</opiton>
-                            <option value="3">2</opiton>
-                            <option value="4">3</opiton>
-                            <option value="5">4</opiton>
-                            <option value="6">5</opiton>
-                            <option value="7">6</opiton>
+                        <select class="form-control min_cand" name="min_num_of_vote" id="add_min_num_of_vote">
+                            <option value="0">0</opiton>
+                            <option value="1">1</opiton>
+                            <option value="2">2</opiton>
+                            <option value="3">3</opiton>
+                            <option value="4">4</opiton>
+                            <option value="5">5</opiton>
                         </select>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-sm-5" for="title">Maximum number of votes:</label>
+                    <label class="control-label col-sm-5" for="title">Maximum number of vote:</label>
                     <div class="col-sm-7">
-                        <select class="form-control max_cand" name="max_num_of_votes" id="add_max_num_of_votes">
+                        <select class="form-control max_cand" name="max_num_of_vote" id="add_max_num_of_vote">
+                            <option value="0">0</opiton>
                             <option value="1">1</opiton>
                             <option value="2">2</opiton>
                             <option value="3">3</opiton>
@@ -177,14 +177,6 @@
                             <option value="8">8</opiton>
                             <option value="9">9</opiton>
                             <option value="10">10</opiton>
-                            <option value="11">11</opiton>
-                            <option value="12">12</opiton>
-                            <option value="13">13</opiton>
-                            <option value="14">14</opiton>
-                            <option value="15">15</opiton>
-                            <option value="16">16</opiton>
-                            <option value="17">17</opiton>
-                            <option value="18">18</opiton>
                         </select>
                     </div>
                 </div>
@@ -192,7 +184,7 @@
                     <label class="control-label col-sm-5" for="title">Maximum number of Write-Ins:</label>
                     <div class="col-sm-7">
                         <select class="form-control max_w_cand" name="max_num_of_write_ins" id="add_max_num_of_write_ins">
-                            <option value="0">1</opiton>
+                            <option value="0">0</opiton>
                         </select>
                     </div>
                 </div>
@@ -267,58 +259,46 @@
                     <div class="col-sm-7">
                         <select class="form-control" name="race_type" id="race_type" readonly>
                             <option disabled value="P">Primary</option>
-                            <option disabled value="R">Rank Voting</option>
-                            <option disabled value="C">Complex</option>
+                            <option disabled value="R">Ranking</option>
+                            <option disabled value="S">Standard</option>
                         </select>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-sm-5" for="title">Mimimum number of votes:</label>
+                    <label class="control-label col-sm-5" for="title">Minimum number of vote:</label>
                     <div class="col-sm-7">
-                        <select class="form-control" name="min_num_of_votes" id="min_num_of_votes" readonly>
-                            <option value="0" disabled>0</opiton>
-                            <option value="1" disabled>1</opiton>
-                            <option value="2" disabled>2</opiton>
-                            <option value="3" disabled>3</opiton>
-                            <option value="4" disabled>4</opiton>
-                            <option value="5" disabled>5</opiton>
-                            <option value="6" disabled>6</opiton>
+                        <select class="form-control min_cand" name="min_num_of_votes" id="min_num_of_votes" readonly>
+                            <option disabled value="0">0</opiton>
+                            <option disabled value="1">1</opiton>
+                            <option disabled value="2">2</opiton>
+                            <option disabled value="3">3</opiton>
+                            <option disabled value="4">4</opiton>
+                            <option disabled value="5">5</opiton>
                         </select>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-sm-5" for="title">Maximum number of votes:</label>
+                    <label class="control-label col-sm-5" for="title">Maximum number of vote:</label>
                     <div class="col-sm-7">
-                        <select class="form-control" name="max_num_of_votes" id="max_num_of_votes" readonly>
-                            <option disabled>1</opiton>
-                            <option disabled>2</opiton>
-                            <option disabled>3</opiton>
-                            <option disabled>4</opiton>
-                            <option disabled>5</opiton>
-                            <option disabled>6</opiton>
-                            <option disabled>7</opiton>
-                            <option disabled>8</opiton>
-                            <option disabled>9</opiton>
-                            <option disabled>10</opiton>
-                            <option disabled>11</opiton>
-                            <option disabled>12</opiton>
-                            <option disabled>13</opiton>
-                            <option disabled>14</opiton>
-                            <option disabled>15</opiton>
-                            <option disabled>16</opiton>
-                            <option disabled>17</opiton>
-                            <option disabled>18</opiton>
+                        <select class="form-control max_cand" name="max_num_of_votes" id="max_num_of_votes" readonly>
+                            <option disabled value="0">0</opiton>
+                            <option disabled value="1">1</opiton>
+                            <option disabled value="2">2</opiton>
+                            <option disabled value="3">3</opiton>
+                            <option disabled value="4">4</opiton>
+                            <option disabled value="5">5</opiton>
+                            <option disabled value="6">6</opiton>
+                            <option disabled value="7">7</opiton>
+                            <option disabled value="8">8</opiton>
+                            <option disabled value="9">9</opiton>
+                            <option disabled value="10">10</opiton>
                         </select>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label col-sm-5" for="title">Maximum number of Write-Ins:</label>
                     <div class="col-sm-7">
-                        <select class="form-control" name="max_num_of_write_ins" id="max_num_of_write_ins" readonly>
-                            <option disabled>0</opiton>
-                            <option disabled>1</opiton>
-                            <option disabled>2</opiton>
-                            <option disabled>3</opiton>
+                        <select class="form-control max_w_cand" name="max_num_of_write_ins" id="max_num_of_write_ins" readonly>
                         </select>
                     </div>
                 </div>
@@ -390,15 +370,28 @@
                     <div class="col-sm-7">
                         <select class="form-control" name="race_type" id="edit_race_type">
                             <option value="P">Primary</option>
-                            <option value="R">Rank Voting</option>
-                            <option value="C">Complex</option>
+                            <option value="R">Ranking</option>
+                            <option value="S">Standard</option>
                         </select>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-sm-5" for="title">Mimimum number of votes:</label>
+                    <label class="control-label col-sm-5" for="title">Minimum number of vote:</label>
                     <div class="col-sm-7">
-                        <select class="form-control" name="min_num_of_votes" id="edit_min_num_of_votes">
+                        <select class="form-control min_cand" name="min_num_of_votes" id="edit_min_num_of_votes">
+                            <option value="0">0</opiton>
+                            <option value="1">1</opiton>
+                            <option value="2">2</opiton>
+                            <option value="3">3</opiton>
+                            <option value="4">4</opiton>
+                            <option value="5">5</opiton>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-5" for="title">Maximum number of vote:</label>
+                    <div class="col-sm-7">
+                        <select class="form-control max_cand" name="max_num_of_votes" id="edit_max_num_of_votes">
                             <option value="0">0</opiton>
                             <option value="1">1</opiton>
                             <option value="2">2</opiton>
@@ -406,31 +399,10 @@
                             <option value="4">4</opiton>
                             <option value="5">5</opiton>
                             <option value="6">6</opiton>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="control-label col-sm-5" for="title">Maximum number of votes:</label>
-                    <div class="col-sm-7">
-                        <select class="form-control max_cand" name="max_num_of_votes" id="edit_max_num_of_votes">
-                            <option>1</opiton>
-                            <option>2</opiton>
-                            <option>3</opiton>
-                            <option>4</opiton>
-                            <option>5</opiton>
-                            <option>6</opiton>
-                            <option>7</opiton>
-                            <option>8</opiton>
-                            <option>9</opiton>
-                            <option>10</opiton>
-                            <option>11</opiton>
-                            <option>12</opiton>
-                            <option>13</opiton>
-                            <option>14</opiton>
-                            <option>15</opiton>
-                            <option>16</opiton>
-                            <option>17</opiton>
-                            <option>18</opiton>
+                            <option value="7">7</opiton>
+                            <option value="8">8</opiton>
+                            <option value="9">9</opiton>
+                            <option value="10">10</opiton>
                         </select>
                     </div>
                 </div>
@@ -438,7 +410,6 @@
                     <label class="control-label col-sm-5" for="title">Maximum number of Write-Ins:</label>
                     <div class="col-sm-7">
                         <select class="form-control max_w_cand" name="max_num_of_write_ins" id="edit_max_num_of_write_ins">
-
                         </select>
                     </div>
                 </div>

@@ -59,29 +59,23 @@ class CandidateController extends Controller {
         $BaseController = new BaseController;
         $directory = "candidate/";
         $photo = $request->file('photo');
-        $photo_link = $BaseController->fileUpload($photo, $directory);
 
-        if($request->lang_id == -1) {
-            $data = array(
-                "ballot_id" => $request->ballot_id,
-                "race_id" => $request->race_id,
-                "candidate_name" => $request->candidate_name,
-                "email" => $request->email,
-                "photo" => $photo_link,
-                "party_id" => $request->party_id
-            );
+        if(empty($photo)) {
+            $photo_link = "";
         } else {
-            $data = array(
-                "ballot_id" => $request->ballot_id,
-                "race_id" => $request->race_id,
-                "candidate_name" => $request->candidate_name,
-                "email" => $request->email,
-                "photo" => $photo_link,
-                "party_id" => $request->party_id,
-                "lang_id" => $request->lang_id
-            );
+            $photo_link = $BaseController->fileUpload($photo, $directory);
         }
-        // var_dump($data);die();
+
+        $data = array(
+            "ballot_id" => $request->ballot_id,
+            "race_id" => $request->race_id,
+            "candidate_name" => $request->candidate_name,
+            "email" => $request->email,
+            "photo" => $photo_link,
+            "party_id" => $request->party_id,
+            "lang_id" => $request->lang_id
+        );
+
         $data = json_encode($data);
         $api = env('API').'/candidate/create';
         
@@ -102,29 +96,24 @@ class CandidateController extends Controller {
     }
 
     public function updateCandidate(Request $request) {
+        $cand_id = array('candidate_id' => $request->edit_cand_id);
+        $data = array(
+            "candidate_name" => $request->edit_candidate_name,
+            "email" => $request->edit_email,
+            "party_id" => $request->edit_party_id,
+            'keys' => $cand_id
+        );
+
         $BaseController = new BaseController;
         $directory = "candidate/";
         $photo = $request->file('edit_photo');
-        $photo_link = $BaseController->fileUpload($photo, $directory);
+        if($photo) {
+            $photo_link = $BaseController->fileUpload($photo, $directory);
+            $data += [ "photo" => $photo_link ];
+        }
 
-        $cand_id = array('candidate_id' => $request->edit_cand_id);
-        if($request->edit_lang_id == -1) {
-            $data = array(
-                "candidate_name" => $request->edit_candidate_name,
-                "email" => $request->edit_email,
-                "photo" => $photo_link,
-                "party_id" => $request->edit_party_id,
-                'keys' => $cand_id
-            );
-        } else {
-            $data = array(
-                "candidate_name" => $request->edit_candidate_name,
-                "email" => $request->edit_email,
-                "photo" => $photo_link,
-                "party_id" => $request->edit_party_id,
-                "lang_id" => $request->edit_lang_id,
-                'keys' => $cand_id
-            );
+        if($request->edit_lang_id != -1) {
+            $data += [ "lang_id" => $request->edit_lang_id ];
         }
         $data = json_encode($data);
         $api = env('API').'/candidate/update';

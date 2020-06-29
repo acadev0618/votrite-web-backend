@@ -43,13 +43,19 @@
 						{{ $candidate->candidate_name }}
 					</td>
 					<td class="text-center">
+						@if(empty($candidate->photo))
+						@else
 						<img src="{{ $candidate->photo }}" width="60" height="60">
+						@endif
 					</td>
 					<td>
 						{{ $candidate->party_name }}
 					</td>
 					<td class="text-center">
+						@if(empty($candidate->party_logo))
+						@else
 						<img src="{{ $candidate->party_logo }}" width="60" height="60">
+						@endif
 					</td>
 					<td>
 						<a class="previewCandidateModal" data-toggle="modal" data-id="{{ $candidate->candidate_id }}"><i class="fa fa-eye" data-toggle="tooltip" title="Preview"></i></a>
@@ -81,13 +87,13 @@
             <div class="form-group">
                 <label class="control-label col-sm-4" for="title">Candidate Photo:</label>
                 <div class="col-sm-8">
-                    <input type="file" class="form-control" name="photo" accept="image/png, image/jpeg" required></input>
+                    <input type="file" class="form-control" name="photo" accept="image/png, image/jpeg"></input>
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label col-sm-4" for="title">Email:</label>
                 <div class="col-sm-8">
-                    <input type="email" class="form-control" name="email" required>
+                    <input type="email" class="form-control" name="email">
                 </div>
             </div>
             <div class="form-group">
@@ -97,6 +103,7 @@
 					@if(empty($parties->data))
 						<option value="-1">No Party</opiton>
 					@else
+					<option value="0"></opiton>
 						@foreach($parties->data as $party)
 							<option value="{{ $party->party_id }}">{{ $party->party_name }}</opiton>
 						@endforeach
@@ -137,7 +144,7 @@
             <div class="form-group">
 				<label class="control-label col-sm-4" for="title">Candidate Photo:</label>
 				<div class="col-sm-8">
-					<input type="file" class="form-control" name="edit_photo" id="edit_photo" value="sdfsfd.txt" accept="image/png, image/jpeg" required></input>
+					<input type="file" class="form-control" name="edit_photo" id="edit_photo" value="sdfsfd.txt" accept="image/png, image/jpeg"></input>
 				</div>
             </div>
             <div class="form-group">
@@ -153,6 +160,7 @@
 					@if(empty($parties->data))
 						<option value="-1">No Party</opiton>
 					@else
+					<option value="0"></opiton>
 						@foreach($parties->data as $party)
 							<option value="{{ $party->party_id }}">{{ $party->party_name }}</opiton>
 						@endforeach
@@ -213,11 +221,12 @@
 					<div class="col-sm-9">
 						<select class="form-control" id="party_id" readonly>
 					@if(empty($parties->data))
-						<option value="-1">No Party</opiton>
+						<option value="-1" disabled="disabled">No Party</opiton>
 					@else
-						@foreach($parties->data as $party)
-							<option value="{{ $party->party_id }}">{{ $party->party_name }}</opiton>
-						@endforeach
+					<option value="0" disabled="disabled"></opiton>
+					@foreach($parties->data as $party)
+						<option value="{{ $party->party_id }}" disabled="disabled">{{ $party->party_name }}</opiton>
+					@endforeach
 					@endif
 						</select>
 					</div>
