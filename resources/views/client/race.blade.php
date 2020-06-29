@@ -38,13 +38,21 @@
                     <h4>You have <strong id="maxvotes">{{$races[0]->max_num_of_votes ?? 0}}</strong> choice remaining.</h4>
                 </div>
                 <div class="guide-desc-body">
+                    @if($races[0]->race_type != "R")
                     <h4>To vote, touch a name. A check mark will appear to confirm your selection. To unselect the name, touch it again. When you are done, touch the "Next" button to continue to next screen.</h4>
+                    @else
+                    <h4>To vote, touch a plus or minus button. A changing value will appear to confirm your selection. Please input other value for each candidate. When you are done, touch the "Next" button to continue to next screen.</h4>
+                    @endif
                 </div>
             </div>
             <div class="col-md-8">
                 <div class="guide-desc-header">
                     <h2>Candidates for : {{$races[0]->race_title}}</h2>
+                    @if($races[0]->min_num_of_votes == null || $races[0]->min_num_of_votes == 0)
                     <h4>Vote for No more than {{$races[0]->max_num_of_votes ?? 0}}</h4>
+                    @else
+                    <h4>Vote for No less than {{$races[0]->min_num_of_votes}}, Vote for No more than {{$races[0]->max_num_of_votes ?? 0}}</h4>
+                    @endif
                 </div>
                 <button type="button" class="btn-voter-else">Someone Else</button>
                 <div class="form-group form-md-line-input has-info pull-right">
@@ -169,14 +177,27 @@
     
     @if(count(get_object_vars($candidates)) != 0)
         var max_num_of_write_ins = 0;
+        var max = {{$races[0]->max_num_of_votes ?? 0}};
+        var min = {{$races[0]->min_num_of_votes ?? 0}};
+        jQuery(document).ready(function() {   
+            if(min){
+                $('.btn-voter').hide();
+            }else{
+                $('.btn-voter').show();
+            }
+        });
 
         @if($races[0]->race_type != "R")
-            @foreach($candidates->data as $key=>$candidate)
-            var max = {{$races[0]->max_num_of_votes ?? 0}};
+            @foreach($candidates->data as $key=>$candidate)            
             $('.md-check').change(function(e){
                 e.preventDefault();
                 // $('.md-check').attr('checked', false);
                 // $(this).attr('checked', true);
+                if($('.md-check:checked').length >= min){
+                    $('.btn-voter').show();
+                }else{
+                    $('.btn-voter').hide();
+                }
                 if($('.md-check:checked').length > max){
                     $(this).attr('checked',false);
                 }else{

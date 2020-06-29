@@ -47,7 +47,7 @@
                     <h2>{{$ballots->data[0]->board}}</h2>
                 </div>
                 
-                <form class="guide-desc-body race-voter scroller" method="post" action="{{ url('client/cast') }}" style="height: 600px;">
+                <form class="guide-desc-body race-voter scroller" method="post" action="{{ url('client/cast') }}" style="height: 500px;">
                     @csrf
                     <div class="form-group" style="margin-left:25px;">
                     @if(count($totalrace) != 0)
@@ -63,10 +63,6 @@
                                     <span class="check"></span>
                                     <span class="box"></span>
                                     {{$candidate}}</label>
-                                </div>
-                                <div class="x col-md-9" style="margin-top: 15px;">
-                                    <img alt="" class="img-circle" width="30" src="/assets/img/favicon_dark.png">
-                                    <img alt="" class="img-circle" width="30" src="/assets/img/favicon_dark.png">
                                 </div>
                             </div>
                             @endforeach
@@ -166,7 +162,7 @@
             // if(duplicate){
             var divContents = $(".race-voter").html();
             var printWindow = window.open('', '', 'height=400,width=800');
-            printWindow.document.write('<html><head><title>DIV Contents</title>');
+            printWindow.document.write('<html><head><title>Vote Result</title>');
             printWindow.document.write('</head><body >');
             printWindow.document.write(divContents);
             printWindow.document.write('</body></html>');

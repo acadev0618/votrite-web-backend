@@ -38,7 +38,7 @@
                     <h4>You have  choice remaining.</h4>
                 </div>
                 <div class="guide-desc-body">
-                    <h4>To vote, touch a name. A check mark will appear to confirm your selection. To unselect the name, touch it again. When you are done, touch the "Next" button to continue to next screen.</h4>
+                <h4>To vote, touch a YES/NO or FOR/AGAINST button. To unselect the answer, touch it again. When you are done, touch the "Next" button to continue to next screen.</h4>
                 </div>
             </div>
             <div class="col-md-8">
