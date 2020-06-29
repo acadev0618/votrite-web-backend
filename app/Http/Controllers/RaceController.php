@@ -8,7 +8,6 @@ use Session;
 class RaceController extends Controller {
     
     public function index(Request $request) {
-        // dd($request->old());
         if(Session::get('display_name')) {
             $BallotController = new BallotController;
             $LanguageController = new LanguageController;
@@ -103,8 +102,8 @@ class RaceController extends Controller {
                 "race_title" => $request->race_title,
                 "race_voted_position" => $request->race_voted_position,
                 "race_name" => $request->race_name,
-                "min_num_of_votes" => $request->min_num_of_votes,
-                "max_num_of_votes" => $request->max_num_of_votes,
+                "min_num_of_votes" => $request->min_num_of_vote,
+                "max_num_of_votes" => $request->max_num_of_vote,
                 "max_num_of_write_ins" => $request->max_num_of_write_ins,
                 "race_type" => $request->race_type
             );
@@ -114,15 +113,15 @@ class RaceController extends Controller {
                 "race_title" => $request->race_title,
                 "race_voted_position" => $request->race_voted_position,
                 "race_name" => $request->race_name,
-                "min_num_of_votes" => $request->min_num_of_votes,
-                "max_num_of_votes" => $request->max_num_of_votes,
+                "min_num_of_votes" => $request->min_num_of_vote,
+                "max_num_of_votes" => $request->max_num_of_vote,
                 "max_num_of_write_ins" => $request->max_num_of_write_ins,
                 "race_type" => $request->race_type,
                 "race_lang_id" => $request->race_lang_id,
                 "race_location_id" => $request->race_location_id
             );
         }
-        
+
         $data = json_encode($data);
         $api = env('API').'/race/create';
 
@@ -158,6 +157,7 @@ class RaceController extends Controller {
                 'keys' => $race_id
             );
         }
+
         $data = json_encode($data);
         $api = env('API').'/race/update';
 

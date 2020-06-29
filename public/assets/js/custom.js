@@ -1,5 +1,8 @@
-var api_url = "ec2-3-90-78-113.compute-1.amazonaws.com:9191/api";
-var base_url="";
+// var api_url = "ec2-3-90-78-113.compute-1.amazonaws.com:9191/api";
+// var base_url="";
+
+var api_url = "http://10.10.10.143:9191/api";
+var base_url="http://dev.voterite.com";
 
 var TableManaged = function () {
 
@@ -481,6 +484,19 @@ var TableManaged = function () {
             }
         });
 
+        $('.max_cand').on('change', function(){
+            var max_cand = $(this).val();
+            var option = '';
+            if(max_cand == 0) {
+                option += "<option value='0'>0</opiton>"
+            } else {
+                for(i = 1; i <= max_cand; i ++) {
+                    option += "<option value='"+i+"'>"+i+"</opiton>"
+                }
+            }
+            $('.max_w_cand').html(option);
+        });
+
         $(document).on('click', '.deleteRacesModal', function(){
             var modal = $('#deleteRacesModal');
             var allVals = [];
@@ -531,6 +547,13 @@ var TableManaged = function () {
                 success: function(response) {
                     var race = JSON.parse(response);
 
+                    var max_cand = race.data[0].max_num_of_votes;
+                    var option = '';
+                    for(i = 1; i <= max_cand; i ++) {
+                        option += "<option disabled value='"+i+"'>"+i+"</opiton>"
+                    }
+                    modal.find('.max_w_cand').html(option);
+
                     modal.find('#race_name').val(race.data[0].race_name);
                     modal.find('#race_type').val(race.data[0].race_type);
                     modal.find('#min_num_of_votes').val(race.data[0].min_num_of_votes);
@@ -568,12 +591,12 @@ var TableManaged = function () {
                 success: function(response) {
                     var race = JSON.parse(response);
 
-                    // var max_cand = race.data[0].max_num_of_votes;
-                    // var option = '';
-                    // for(i = 1; i <= max_cand; i ++) {
-                    //     option += "<option value='"+i+"'>"+i+"</opiton>"
-                    // }
-                    // modal.find('.max_w_cand').html(option);
+                    var max_cand = race.data[0].max_num_of_votes;
+                    var option = '';
+                    for(i = 1; i <= max_cand; i ++) {
+                        option += "<option value='"+i+"'>"+i+"</opiton>"
+                    }
+                    modal.find('.max_w_cand').html(option);
 
                     modal.find('#edit_race_id').val(race_id);
                     modal.find('#edit_race_name').val(race.data[0].race_name);
@@ -625,13 +648,12 @@ var TableManaged = function () {
                     $('#addRaceModal').remove();
                     $('#deleteRacesModal').remove();
                     $('#confirmModal').remove();
-                    $('#change_table').html(response);
+                    $('#change_table').html(response);        
                     
-                    var table = $('#change_table #race_table');
                     var table = $('#change_table #race_table');
 
                     table.dataTable({
-
+            
                         "language": {
                             "aria": {
                                 "sortAscending": ": activate to sort column ascending",
@@ -667,7 +689,7 @@ var TableManaged = function () {
                             [1, "asc"]
                         ] // set first column as a default sort by asc
                     });
-
+            
                     table.find('.group-checkable').change(function () {
                         var set = jQuery(this).attr("data-set");
                         var checked = jQuery(this).is(":checked");
@@ -680,7 +702,7 @@ var TableManaged = function () {
                         });
                         jQuery.uniform.update(set);
                     });
-
+            
                     table.find('.checkboxes').change(function(){
                         var checked = $(this).is(":checked");
                         if (checked) {
@@ -689,15 +711,28 @@ var TableManaged = function () {
                             $(this).attr("checked", false);
                         }
                     });
-
+            
+                    $('.max_cand').on('change', function(){
+                        var max_cand = $(this).val();
+                        var option = '';
+                        if(max_cand == 0) {
+                            option += "<option value='0'>0</opiton>"
+                        } else {
+                            for(i = 1; i <= max_cand; i ++) {
+                                option += "<option value='"+i+"'>"+i+"</opiton>"
+                            }
+                        }
+                        $('.max_w_cand').html(option);
+                    });
+            
                     $(document).on('click', '.deleteRacesModal', function(){
                         var modal = $('#deleteRacesModal');
                         var allVals = [];
-
+            
                         table.find(".checkboxes:checked").each(function() {  
                             allVals.push($(this).attr('data-id'));
                         });
-
+            
                         if(allVals.length <= 0) {
                             var confrim = $('#confirmModal');
                             confrim.modal('show');
@@ -706,13 +741,13 @@ var TableManaged = function () {
                             var target_id = 'race_id';
                             var ids = allVals.join(",");
                             var api = api_url+'/race/delete';
-
+            
                             modal.find('.target_id').val(target_id);
                             modal.find('.ids').val(ids);
                             modal.find('.api').val(api);
                         }
                     });
-
+            
                     $('.addRaceModal').click(function(){
                         var ballot_id = $('#select_ballot_name').val();
                         if(ballot_id == -1) {
@@ -725,11 +760,11 @@ var TableManaged = function () {
                             modal.modal('show');
                         }
                     });
-
-                    table.$('.previewRaceModal').click(function(){
+            
+                    table.on('click', '.previewRaceModal', function(){
                         var race_id = $(this).data('id');
                         var modal = $('#previewRaceModal');
-
+            
                         $.ajax({
                             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                             url: base_url+'/getOneRace',
@@ -739,7 +774,14 @@ var TableManaged = function () {
                             },
                             success: function(response) {
                                 var race = JSON.parse(response);
-
+            
+                                var max_cand = race.data[0].max_num_of_votes;
+                                var option = '';
+                                for(i = 1; i <= max_cand; i ++) {
+                                    option += "<option disabled value='"+i+"'>"+i+"</opiton>"
+                                }
+                                modal.find('.max_w_cand').html(option);
+            
                                 modal.find('#race_name').val(race.data[0].race_name);
                                 modal.find('#race_type').val(race.data[0].race_type);
                                 modal.find('#min_num_of_votes').val(race.data[0].min_num_of_votes);
@@ -759,14 +801,14 @@ var TableManaged = function () {
                                 modal.find('#race_voted_position').val(race.data[0].race_voted_position);
                             }
                         });
-
+            
                         modal.modal('show');
                     });
-
+            
                     table.$('.editRaceModal').click(function(){
                         var race_id = $(this).data('id');
                         var modal = $('#editRaceModal');
-
+            
                         $.ajax({
                             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                             url: base_url+'/getOneRace',
@@ -776,14 +818,14 @@ var TableManaged = function () {
                             },
                             success: function(response) {
                                 var race = JSON.parse(response);
-
-                                // var max_cand = race.data[0].max_num_of_votes;
-                                // var option = '';
-                                // for(i = 1; i <= max_cand; i ++) {
-                                //     option += "<option value='"+i+"'>"+i+"</opiton>"
-                                // }
-                                // modal.find('.max_w_cand').html(option);
-
+            
+                                var max_cand = race.data[0].max_num_of_votes;
+                                var option = '';
+                                for(i = 1; i <= max_cand; i ++) {
+                                    option += "<option value='"+i+"'>"+i+"</opiton>"
+                                }
+                                modal.find('.max_w_cand').html(option);
+            
                                 modal.find('#edit_race_id').val(race_id);
                                 modal.find('#edit_race_name').val(race.data[0].race_name);
                                 modal.find('#edit_race_type').val(race.data[0].race_type);
@@ -804,16 +846,16 @@ var TableManaged = function () {
                                 modal.find('#edit_race_voted_position').val(race.data[0].race_voted_position);
                             }
                         });
-
+            
                         modal.modal('show');
                     });
-
-                    $('.deleteRaceModal').click(function(){
+            
+                    table.$('.deleteRaceModal').click(function(){
                         var target_id= 'race_id';
                         var id= $(this).data('id');
                         var api = api_url+'/race/delete';
                         var modal = $('#deleteRaceModal');
-
+            
                         modal.find('.id').val(id);
                         modal.find('.target_id').val(target_id);
                         modal.find('.api').val(api);

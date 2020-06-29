@@ -69,6 +69,8 @@
     </tbody>
 </table>
 
+
+
 <div id="addRaceModal" class="modal fade" tabindex="-1" data-width="620">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">×</button>
@@ -94,14 +96,41 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-sm-5" for="title">Maximum number of Write-Ins:</label>
+                    <label class="control-label col-sm-5" for="title">Minimum number of vote:</label>
                     <div class="col-sm-7">
-                        <select class="form-control max_w_cand" name="max_num_of_write_ins" id="add_max_num_of_write_ins">
+                        <select class="form-control min_cand" name="min_num_of_vote" id="add_min_num_of_vote">
+                            <option value="0">0</opiton>
                             <option value="1">1</opiton>
                             <option value="2">2</opiton>
                             <option value="3">3</opiton>
                             <option value="4">4</opiton>
                             <option value="5">5</opiton>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-5" for="title">Maximum number of vote:</label>
+                    <div class="col-sm-7">
+                        <select class="form-control max_cand" name="max_num_of_vote" id="add_max_num_of_vote">
+                            <option value="0">0</opiton>
+                            <option value="1">1</opiton>
+                            <option value="2">2</opiton>
+                            <option value="3">3</opiton>
+                            <option value="4">4</opiton>
+                            <option value="5">5</opiton>
+                            <option value="6">6</opiton>
+                            <option value="7">7</opiton>
+                            <option value="8">8</opiton>
+                            <option value="9">9</opiton>
+                            <option value="10">10</opiton>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-5" for="title">Maximum number of Write-Ins:</label>
+                    <div class="col-sm-7">
+                        <select class="form-control max_w_cand" name="max_num_of_write_ins" id="add_max_num_of_write_ins">
+                            <option value="0">0</opiton>
                         </select>
                     </div>
                 </div>
@@ -182,14 +211,41 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label class="control-label col-sm-5" for="title">Minimum number of vote:</label>
+                    <div class="col-sm-7">
+                        <select class="form-control min_cand" name="min_num_of_votes" id="min_num_of_votes" readonly>
+                            <option disabled value="0">0</opiton>
+                            <option disabled value="1">1</opiton>
+                            <option disabled value="2">2</opiton>
+                            <option disabled value="3">3</opiton>
+                            <option disabled value="4">4</opiton>
+                            <option disabled value="5">5</opiton>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-5" for="title">Maximum number of vote:</label>
+                    <div class="col-sm-7">
+                        <select class="form-control max_cand" name="max_num_of_votes" id="max_num_of_votes" readonly>
+                            <option disabled value="0">0</opiton>
+                            <option disabled value="1">1</opiton>
+                            <option disabled value="2">2</opiton>
+                            <option disabled value="3">3</opiton>
+                            <option disabled value="4">4</opiton>
+                            <option disabled value="5">5</opiton>
+                            <option disabled value="6">6</opiton>
+                            <option disabled value="7">7</opiton>
+                            <option disabled value="8">8</opiton>
+                            <option disabled value="9">9</opiton>
+                            <option disabled value="10">10</opiton>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label class="control-label col-sm-5" for="title">Maximum number of Write-Ins:</label>
                     <div class="col-sm-7">
-                        <select class="form-control" name="max_num_of_write_ins" id="max_num_of_write_ins" readonly>
-                            <option disabled>1</opiton>
-                            <option disabled>2</opiton>
-                            <option disabled>3</opiton>
-                            <option disabled>4</opiton>
-                            <option disabled>5</opiton>
+                        <select class="form-control max_w_cand" name="max_num_of_write_ins" id="max_num_of_write_ins" readonly>
+                            <option disabled value="0">0</opiton>
                         </select>
                     </div>
                 </div>
@@ -267,14 +323,41 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-sm-5" for="title">Maximum number of Write-Ins:</label>
+                    <label class="control-label col-sm-5" for="title">Minimum number of vote:</label>
                     <div class="col-sm-7">
-                        <select class="form-control max_w_cand" name="max_num_of_write_ins" id="edit_max_num_of_write_ins">
+                        <select class="form-control min_cand" name="min_num_of_votes" id="edit_min_num_of_votes">
+                            <option value="0">0</opiton>
                             <option value="1">1</opiton>
                             <option value="2">2</opiton>
                             <option value="3">3</opiton>
                             <option value="4">4</opiton>
                             <option value="5">5</opiton>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-5" for="title">Maximum number of vote:</label>
+                    <div class="col-sm-7">
+                        <select class="form-control max_cand" name="max_num_of_votes" id="edit_max_num_of_votes">
+                            <option value="0">0</opiton>
+                            <option value="1">1</opiton>
+                            <option value="2">2</opiton>
+                            <option value="3">3</opiton>
+                            <option value="4">4</opiton>
+                            <option value="5">5</opiton>
+                            <option value="6">6</opiton>
+                            <option value="7">7</opiton>
+                            <option value="8">8</opiton>
+                            <option value="9">9</opiton>
+                            <option value="10">10</opiton>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-5" for="title">Maximum number of Write-Ins:</label>
+                    <div class="col-sm-7">
+                        <select class="form-control max_w_cand" name="max_num_of_write_ins" id="edit_max_num_of_write_ins">
+                            <option value="0">0</opiton>
                         </select>
                     </div>
                 </div>
@@ -331,54 +414,54 @@
         </div>
     </div>
 
-    <div id="deleteRacesModal" class="modal fade" tabindex="-1" data-width="420">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">×</button>
-            <h4 class="modal-title text-center">Delete Races</h4>
-        </div>
-        <div class="modal-body">					
-            <p>Are you sure you want to delete these Races?</p>
-            <p class="text-warning"><small>This action cannot be undone.</small></p>
-        </div>
-        <div class="modal-footer">
-            <form class="form-horizontal" role="form" method="post" action="{{ asset('/mutiDeleteData') }}">
-            @csrf            
-                <input type="text" class="ids" name="ids" hidden />
-                <input type="text" class="target_id" name="target_id" hidden />
-                <input type="text" class="api" name="api" hidden />
-
-                <button type="submit" class="btn btn-danger delete">
-                    <i class="fa fa-trash-o"></i> Delete
-                </button>
-                <button type="button" class="btn btn-warning" data-dismiss="modal">
-                    <span class='glyphicon glyphicon-remove'></span> Close
-                </button>
-            </form>
-        </div>
+<div id="deleteRacesModal" class="modal fade" tabindex="-1" data-width="420">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h4 class="modal-title text-center">Delete Races</h4>
     </div>
-
-    <div id="deleteRaceModal" class="modal fade" tabindex="-1" data-width="420">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">×</button>
-            <h4 class="modal-title text-center">Delete The Race</h4>
-        </div>
-        <div class="modal-body">					
-            <p>Are you sure you want to delete this Race?</p>
-            <p class="text-warning"><small>This action cannot be undone.</small></p>
-        </div>
-        <div class="modal-footer">
-            <form class="form-horizontal" role="form" method="post" action="{{ asset('/deleteData') }}">
-            @csrf
-                <input type="text" class="target_id" name="target_id" hidden />
-                <input type="text" class="id" name="id" hidden />
-                <input type="text" class="api" name="api" hidden />
-                
-                <button type="submit" class="btn btn-danger delete">
-                    <i class="fa fa-trash-o"></i> Delete
-                </button>
-                <button type="button" class="btn btn-warning" data-dismiss="modal">
-                    <span class='glyphicon glyphicon-remove'></span> Close
-                </button>
-            </form>
-        </div>
+    <div class="modal-body">					
+        <p>Are you sure you want to delete these Races?</p>
+        <p class="text-warning"><small>This action cannot be undone.</small></p>
     </div>
+    <div class="modal-footer">
+        <form class="form-horizontal" role="form" method="post" action="{{ asset('/mutiDeleteData') }}">
+        @csrf            
+            <input type="text" class="ids" name="ids" hidden />
+            <input type="text" class="target_id" name="target_id" hidden />
+            <input type="text" class="api" name="api" hidden />
+
+            <button type="submit" class="btn btn-danger delete">
+                <i class="fa fa-trash-o"></i> Delete
+            </button>
+            <button type="button" class="btn btn-warning" data-dismiss="modal">
+                <span class='glyphicon glyphicon-remove'></span> Close
+            </button>
+        </form>
+    </div>
+</div>
+
+<div id="deleteRaceModal" class="modal fade" tabindex="-1" data-width="420">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h4 class="modal-title text-center">Delete The Race</h4>
+    </div>
+    <div class="modal-body">					
+        <p>Are you sure you want to delete this Race?</p>
+        <p class="text-warning"><small>This action cannot be undone.</small></p>
+    </div>
+    <div class="modal-footer">
+        <form class="form-horizontal" role="form" method="post" action="{{ asset('/deleteData') }}">
+        @csrf
+            <input type="text" class="target_id" name="target_id" hidden />
+            <input type="text" class="id" name="id" hidden />
+            <input type="text" class="api" name="api" hidden />
+            
+            <button type="submit" class="btn btn-danger delete">
+                <i class="fa fa-trash-o"></i> Delete
+            </button>
+            <button type="button" class="btn btn-warning" data-dismiss="modal">
+                <span class='glyphicon glyphicon-remove'></span> Close
+            </button>
+        </form>
+    </div>
+</div>
