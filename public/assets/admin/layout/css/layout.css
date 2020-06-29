@@ -187,6 +187,8 @@ Page Header
 }
 .page-header-voter.navbar .top-menu {
   margin-top: -95px;
+  margin-right: 25px;
+  text-align: center;
   padding: 0;
   float: right;
   color: white;

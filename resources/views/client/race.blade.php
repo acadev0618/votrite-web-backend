@@ -35,7 +35,7 @@
             <div class="col-md-4">
                 <div class="guide-desc-header">
                     <h2>{{$ballots->data[0]->board}}</h2>
-                    <h4>You have {{$races[0]->max_num_of_votes ?? 0}} choice remaining.</h4>
+                    <h4>You have <strong id="maxvotes">{{$races[0]->max_num_of_votes ?? 0}}</strong> choice remaining.</h4>
                 </div>
                 <div class="guide-desc-body">
                     <h4>To vote, touch a name. A check mark will appear to confirm your selection. To unselect the name, touch it again. When you are done, touch the "Next" button to continue to next screen.</h4>
@@ -69,8 +69,16 @@
                                         {{$candidate->candidate_name}}</label>
                                     </div>
                                     <div class="x col-md-9" style="margin-top: 15px;">
+                                        @if($candidate->party_logo == null)
                                         <img alt="" class="img-circle" width="30" src="/assets/img/favicon_dark.png">
+                                        @else
+                                        <img alt="" class="img-circle" width="30" src="{{$candidate->party_logo}}">
+                                        @endif
+                                        @if($candidate->photo == null)
                                         <img alt="" class="img-circle" width="30" src="/assets/img/favicon_dark.png">
+                                        @else
+                                        <img alt="" class="img-circle" width="30" src="{{$candidate->photo}}">
+                                        @endif
                                     </div>
                                 </div>
                                 @endforeach
@@ -169,8 +177,10 @@
                 e.preventDefault();
                 // $('.md-check').attr('checked', false);
                 // $(this).attr('checked', true);
-                if($('.md-check:checked').length > 10){
+                if($('.md-check:checked').length > max){
                     $(this).attr('checked',false);
+                }else{
+                    $('strong').text(max-$('.md-check:checked').length);
                 }
             });
             @endforeach
@@ -191,19 +201,19 @@
                         success: function(responseData, textStatus, jqXHR) {
                             console.log(responseData.message);
                             $("form.race-voter > div").append('<div class="form-group row" style="margin-left: 25px;">\
-                                                <div class="md-checkbox col-md-3">\
-                                                    <input type="checkbox" id="checkbox" name="'+responseData.message+'" value="'+$('#form_control_1').val()+'" class="md-check">\
-                                                    <label for="checkbox">\
-                                                    <span></span>\
-                                                    <span class="check"></span>\
-                                                    <span class="box"></span>\
-                                                    '+$('#form_control_1').val()+'</label>\
-                                                </div>\
-                                                <div class="x col-md-9" style="margin-top: 15px;">\
-                                                    <img alt="" class="img-circle" width="30" src="/assets/img/favicon_dark.png">\
-                                                    <img alt="" class="img-circle" width="30" src="/assets/img/favicon_dark.png">\
-                                                </div>\
-                                            </div>');
+                                    <div class="md-checkbox col-md-3">\
+                                        <input type="checkbox" id="checkbox" name="'+responseData.message+'" value="'+$('#form_control_1').val()+'" class="md-check">\
+                                        <label for="checkbox">\
+                                        <span></span>\
+                                        <span class="check"></span>\
+                                        <span class="box"></span>\
+                                        '+$('#form_control_1').val()+'</label>\
+                                    </div>\
+                                    <div class="x col-md-9" style="margin-top: 15px;">\
+                                        <img alt="" class="img-circle" width="30" src="/assets/img/favicon_dark.png">\
+                                        <img alt="" class="img-circle" width="30" src="/assets/img/favicon_dark.png">\
+                                    </div>\
+                                </div>');
                         }
                     });	
                     max_num_of_write_ins++;
@@ -229,7 +239,7 @@
                         data: JSON.stringify(order),
                         dataType: 'json',
                         success: function(responseData, textStatus, jqXHR) {
-                                                $("form.race-voter > div").append('<div class="form-group row">\
+                            $("form.race-voter > div").append('<div class="form-group row">\
                                 <label class="control-label col-md-3">'+$('#form_control_1')+'</label>\
                                 <div class="spinner col-md-9">\
                                     <div class="input-group" style="width:150px;">\
