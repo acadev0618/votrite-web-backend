@@ -564,7 +564,7 @@
 			crossDomain: true,
 			data: JSON.stringify(order),
 			dataType: 'json',
-			error: function(responseData, textStatus, jqXHR) {
+			success: function(responseData, textStatus, jqXHR) {
 				toastr.success("Pin codes added");
 				handleRecords(ballot_id);
 				var modal = $('#addPinCode');

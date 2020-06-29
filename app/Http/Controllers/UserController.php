@@ -17,7 +17,7 @@ class UserController extends Controller {
 
             return view('users')->with(['users' => $response, 'sliderAction' => 'users', 'subAction' => '']);
         } else {
-            return redirect('/');
+            return redirect('admin/');
         }
     }
 

@@ -25,7 +25,7 @@ class VoterController extends Controller {
                 'voters' => $voters
             ]);
         } else {
-            return redirect('/');
+            return redirect('admin/');
         }
     }
 

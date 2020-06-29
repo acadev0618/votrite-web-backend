@@ -42,7 +42,7 @@ class CandidateController extends Controller {
                 'parties' => $parties
             ]);
         } else {
-            return redirect('/');
+            return redirect('admin/');
         }
     }
 

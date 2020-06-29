@@ -32,7 +32,7 @@ class CountyController extends Controller {
                 'counties' => $counties
             ]);
         } else {
-            return redirect('/');
+            return redirect('admin/');
         }
     }
 

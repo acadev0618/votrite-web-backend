@@ -1,7 +1,28 @@
 <?php
 
 ////////////////////////////////////  Authentication Urls   //////////////////////////////////////
-Route::get('/', 'AuthController@login')->name('request');
+
+// Route::get('/', function(){
+//     dd(123);
+// });
+Route::get('/', 'Client\ClientController@ballot')->name('client.ballot');
+Route::get('client/', 'Client\ClientController@index')->name('client.index');
+Route::post('client/sendpincode', 'Client\ClientController@sendpincode')->name('client.sendpincode');
+
+Route::group(['middleware' => 'client', 'prefix'=>'client', 'namespace'=>'Client'], function () {
+    Route::get('/viewcand', 'ClientController@viewcand')->name('client.viewcand');
+    Route::get('/lang', 'ClientController@lang')->name('client.lang');
+    Route::get('/race', 'ClientController@race')->name('client.race');
+    Route::get('/prop', 'ClientController@prop')->name('client.prop');
+    Route::post('/propcount', 'ClientController@propcount')->name('client.propcount');
+    Route::get('/mass', 'ClientController@mass')->name('client.mass');
+    Route::post('/masscount', 'ClientController@masscount')->name('client.masscount');
+    Route::get('/review', 'ClientController@review')->name('client.review');
+    Route::post('/racecount', 'ClientController@racecount')->name('client.racecount');
+    Route::post('/racedecount', 'ClientController@racedecount')->name('client.racedecount');
+    Route::post('/cast', 'ClientController@cast')->name('client.cast');
+});
+Route::get('admin/', 'AuthController@login')->name('request');
 
 Route::get('/forgotPassword', 'AuthController@forgotPassword')->name('request');
 Route::get('/logout', 'AuthController@logout')->name('request');

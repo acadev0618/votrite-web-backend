@@ -42,7 +42,7 @@ class ResultController extends Controller
                 'parties' => $parties
             ]);
         } else {
-            return redirect('/');
+            return redirect('admin/');
         }
     }
 
@@ -76,7 +76,7 @@ class ResultController extends Controller
                 'propositions' => $propositions
             ]);
         } else {
-            return redirect('/');
+            return redirect('admin/');
         }
     }
 
@@ -91,7 +91,7 @@ class ResultController extends Controller
                 'subAction' => 'ballot'
             ]);
         } else {
-            return redirect('/');
+            return redirect('admin/');
         }
     }
     

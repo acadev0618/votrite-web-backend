@@ -167,8 +167,8 @@ body {
 }
 .form-group.form-md-line-input {
   position: relative;
-  margin: 0 0 35px 0;
-  padding-top: 20px;
+  margin: -20px 0 0 0;
+  padding-top: 0;
 }
 .form-horizontal .form-group.form-md-line-input {
   padding-top: 10px;
@@ -535,6 +535,7 @@ body {
 }
 
 .md-checkbox {
+  margin-top: 20px;
   position: relative;
   /* handling click events */
   /* when checkbox is checked */
@@ -749,6 +750,7 @@ body {
 }
 .md-radio {
   position: relative;
+  margin: 30px;
   /* handling click events */
   /* when radio is checked */
 }

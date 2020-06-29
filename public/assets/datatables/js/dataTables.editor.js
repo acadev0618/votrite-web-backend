@@ -11,7 +11,7 @@
  // Notification for when the trial has expired
  // The script following this will throw an error if the trial has expired
 window.expiredWarning = function () {
-	alert(
+	console.log(
 		'Thank you for trying DataTables Editor\n\n'+
 		'Your trial has now expired. To purchase a license '+
 		'for Editor, please see https://editor.datatables.net/purchase'

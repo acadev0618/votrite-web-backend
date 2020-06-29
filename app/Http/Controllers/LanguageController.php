@@ -33,7 +33,7 @@ class LanguageController extends Controller {
                 'ballot_languages' => $ballot_languages
             ]);
         } else {
-            return redirect('/');
+            return redirect('admin/');
         }
     }
 

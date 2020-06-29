@@ -35,7 +35,7 @@ class MassPropositionController extends Controller {
                 'propositions' => $propositions
             ]);
         } else {
-            return redirect('/');
+            return redirect('admin/');
         }
     }
 

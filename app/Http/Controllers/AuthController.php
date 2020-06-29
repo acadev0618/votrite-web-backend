@@ -35,9 +35,11 @@ class AuthController extends Controller {
                 CURLOPT_POST => true,
                 CURLOPT_POSTFIELDS => $json,
                 CURLOPT_RETURNTRANSFER => true,
+                // CURLOPT_TIMEOUT => '60L'
             )
         );
         $output = curl_exec($handle);
+        // dd($output);
         curl_close($handle);
 
         $response = json_decode($output);
@@ -65,7 +67,7 @@ class AuthController extends Controller {
     public function logout() {
         session()->forget('display_name', 'avatar', 'user_id');
         session()->flush();
-        return redirect('/');
+        return redirect('admin/');
     }
 
     public function profile(Request $request, $id){

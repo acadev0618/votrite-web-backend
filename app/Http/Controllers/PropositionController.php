@@ -36,7 +36,7 @@ class PropositionController extends Controller {
                 'propositions' => $propositions
             ]);
         } else {
-            return redirect('/');
+            return redirect('admin/');
         }
     }
 

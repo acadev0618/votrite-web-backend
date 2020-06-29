@@ -25,7 +25,7 @@ class PartyController extends Controller {
                 'parties' => $parties
             ]);
         } else {
-            return redirect('/');
+            return redirect('admin/');
         }
     }
 

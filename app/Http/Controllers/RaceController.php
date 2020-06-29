@@ -37,7 +37,7 @@ class RaceController extends Controller {
                 ]
             );
         } else {
-            return redirect('/');
+            return redirect('admin/');
         }
     }
     

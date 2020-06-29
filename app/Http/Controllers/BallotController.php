@@ -17,7 +17,7 @@ class BallotController extends Controller {
                 'subAction' => 'ballot'
             ]);
         } else {
-            return redirect('/');
+            return redirect('admin/');
         }
     }
 
@@ -38,7 +38,6 @@ class BallotController extends Controller {
         );
         $data = json_encode($data);
         $api = env('API').'/ballot/update';
-
         $Api = new ApiController;
         $response = $Api->postApi($data, $api);
 
@@ -55,6 +54,7 @@ class BallotController extends Controller {
         
         $controller = new ApiController;
         $response = $controller->postApi($json, $api_url);
+        // dd($response);
 
         return $response;
     }

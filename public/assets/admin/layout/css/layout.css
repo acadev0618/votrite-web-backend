@@ -63,6 +63,18 @@ Page Header
   /* Menu Toggler */
   /* Top menu */
 }
+.page-header-voter.navbar {
+  width: 100%;
+  padding: 0 20px 0 20px;
+  margin: 0;
+  border: 0px;
+  padding: 0px;
+  box-shadow: none;
+  height: 100px;
+  min-height: 100px;
+  filter: none;
+  background-image: linear-gradient(#673AB7, #624ee5);
+}
 .page-header.navbar.navbar-fixed-top {
   z-index: 9995;
 }
@@ -172,6 +184,48 @@ Page Header
   margin: 0;
   padding: 0;
   float: right;
+}
+.page-header-voter.navbar .top-menu {
+  margin-top: -95px;
+  padding: 0;
+  float: right;
+  color: white;
+}
+.voter-title{
+  position: absolute;
+  left: 200px;
+  top: 10px;
+  color: white;
+}
+.btn-voter{
+  width: 200px;
+  height: 50px;
+  border-radius: 25px !important;
+  color: #20084a;
+  background-color: white;
+}
+.btn-review{
+  width: 200px;
+  height: 50px;
+  border-radius: 25px !important;
+  color: #20084a;
+  background-color: white;
+}
+.btn-voter-back{
+  width: 200px;
+  height: 50px;
+  border-radius: 25px !important;
+  color: #20084a;
+  background-color: white;
+}
+.btn-voter-else{
+  margin-top: -35px;
+  float: right;
+  width: 200px;
+  height: 50px;
+  border-radius: 25px !important;
+  color: white;
+  background-color: #624ee5;
 }
 .page-header.navbar .top-menu .navbar-nav {
   padding: 0;
@@ -866,7 +920,7 @@ Page container
   clear: both;
 }
 .page-header-fixed .page-container {
-  margin-top: 46px;
+  margin-top: 35px;
 }
 .page-footer-fixed.page-footer-fixed-mobile .page-container {
   margin-bottom: 20px !important;
@@ -2212,6 +2266,12 @@ Page content
   margin-left: 0px !important;
 }
 
+.page-content-wrapper .page-content-fullwidth {
+  margin-top: 70px;
+  height: 750px;
+  padding: 25px 20px 10px 20px;
+}
+
 @media (min-width: 992px) {
   /* 992px */
   /* Page content */
@@ -2225,6 +2285,7 @@ Page content
     min-height: 600px;
     padding: 25px 20px 10px 20px;
   }
+  
   .page-content-wrapper .page-content.no-min-height {
     min-height: auto;
   }
@@ -2316,6 +2377,12 @@ Page footer
   padding: 8px 20px 5px 20px;
   font-size: 12px;
   height: 33px;
+}
+.page-footer-voter {
+  padding: 8px 20px 5px 20px;
+  font-size: 12px;
+  height: 100px;
+  background-image: linear-gradient(#624ee5, #7b6be2);
 }
 .page-footer:before, .page-footer:after {
   content: " ";

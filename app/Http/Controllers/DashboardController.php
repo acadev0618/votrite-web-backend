@@ -19,7 +19,7 @@ class DashboardController extends Controller {
             	'subAction' => '']
             );
         } else {
-            return redirect('/');
+            return redirect('admin/');
         }
     }
 }
