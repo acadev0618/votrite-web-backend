@@ -243,8 +243,22 @@
                 }
             });
         @else
+            $('.spinner').spinner({value:0, min: 0, max: {{count($candidates->data)}}});
+            $('.spinner-buttons').click(function(){
+                var spin = 0;
+                $('.spinner-input').each(function(){
+                    if($(this).val() != 0){
+                        spin ++;
+                    }
+                });
+                if(spin<min){
+                    $('.btn-voter').hide();
+                }else{
+                    $('.btn-voter').show();
+                }
+            });
             @foreach($candidates->data as $key=>$candidate)
-                $('.spinner').spinner({value:0, min: 0, max: {{count($candidates->data)}}});
+                
                 $('.btn-voter-else').click(function(){
                     if(max_num_of_write_ins < {{$races[0]->max_num_of_write_ins}}){
                         var order = {

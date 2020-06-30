@@ -245,6 +245,7 @@ class ClientController extends Controller
 
     public function cast(Request $request) {
         // dd($request->session()->all());
+        $result = [];
         $data = null;
         $ballot_id = session('ballots')->data[0]->ballot_id;
         if(count(session('raceresult')) != 0){
@@ -272,6 +273,7 @@ class ClientController extends Controller
                         $api = env('API').'/counter/candidate/create';
                         $Api = new ApiController;
                         $response = $Api->postApi($data, $api);
+                        array_push($result, $response);
                     }
                 }          
             }
@@ -297,6 +299,7 @@ class ClientController extends Controller
                 $api = env('API').'/counter/proposition/create';
                 $Api = new ApiController;
                 $response = $Api->postApi($data, $api);
+                array_push($result, $response);
             }               
         }
         if(count(session('massresult')) != 0){
@@ -320,8 +323,10 @@ class ClientController extends Controller
                 $api = env('API').'/counter/proposition/create';
                 $Api = new ApiController;
                 $response = $Api->postApi($data, $api);
+                array_push($result, $response);
             }               
         }
-        return view('client.cast')->with(['ballots' => session('ballots')]);
+        // dd($result);
+        return view('client.cast')->with(['ballots' => session('ballots'), 'result'=>$result]);
     }
 }
