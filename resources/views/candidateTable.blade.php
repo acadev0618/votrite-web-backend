@@ -127,7 +127,7 @@
     </div>
 </div>
 
-<div id="editCandidateModal" class="modal fade" tabindex="-1" data-width="620">
+<div id="editCandidateModal" class="modal fade" tabindex="-1" data-width="520">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">×</button>
         <h4 class="modal-title">Edit The Candidate</h4>
