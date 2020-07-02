@@ -137,14 +137,14 @@
                         Ballot Result</a>
                     </li>
 
-                    <!-- @if($subAction == "proposition")
+                    @if($subAction == "voter")
                     <li class="active">
                     @else
                     <li>
                     @endif
-                        <a href="{{ asset('/result/proposition') }}">
-                        Proposition</a>
-                    </li> -->
+                        <a href="{{ asset('/result/voter') }}">
+                        Voter Result</a>
+                    </li>
 
                     <!-- @if($subAction == "ballot")
                     <li class="active">

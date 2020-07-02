@@ -94,5 +94,51 @@ class ResultController extends Controller
             return redirect('admin/');
         }
     }
+    public function voter() {
+        if(Session::get('display_name')) {
+            $BallotController = new BallotController;
+            $ballots = $BallotController->getActiveBallot();
+            $Api = new ApiController;
+            $api_url = env('API').'/pincode';
+            $param = 'ballot_id='.$ballots->data[0]->ballot_id;
+
+            $response = $Api->getParamApi($api_url, $param);
+
+            $data = array(
+                "ballot_id" => $ballots->data[0]->ballot_id,
+                "pincode" => $response->data[0]->pin
+            );
+            $data = json_encode($data);
+            $api = env('API').'/counter/candidate/pincode';
+            $Api = new ApiController;
+            $candidate = $Api->postApi($data, $api);
+
+            return view('result.voter')->with([
+                'ballots' => $ballots, 
+                'response' => $response, 
+                'candidate' => $candidate, 
+                'sliderAction' => 'result', 
+                'subAction' => 'ballot'
+            ]);
+        } else {
+            return redirect('admin/');
+        }
+    }
+    public function votercal(Request $request) {
+        // dd($request->all());
+        $Api = new ApiController;
+        $data = array(
+            "ballot_id" => $request->ballot_id,
+            "pincode" => $request->pincode
+        );
+        $data = json_encode($data);
+        $api = env('API').'/counter/candidate/pincode';
+        $Api = new ApiController;
+        $candidate = $Api->postApi($data, $api);
+        // dd($response);
+        return response()->json([
+            'candidate' => $candidate->data
+        ]);
+    }
     
 }

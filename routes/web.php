@@ -56,6 +56,8 @@ Route::prefix('result')->group(function () {
     Route::get('candidate', 'ResultController@candidate');
     Route::get('proposition', 'ResultController@proposition');
     Route::get('ballot', 'ResultController@ballot');
+    Route::get('voter', 'ResultController@voter');
+    Route::get('votercal', 'ResultController@votercal');
 });
 ///////////////////////////////
 
