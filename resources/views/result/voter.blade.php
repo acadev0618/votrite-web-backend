@@ -98,9 +98,11 @@
 @section('script')
 <script>
 	$(function(){
-        $('.slimScrollDiv').css({ height: $(window).innerHeight()-210 });
+        $('.slimScrollDiv').css({ height: $(window).innerHeight()-310 });
+        $('.scroller').css({ height: $(window).innerHeight()-320 });
         $(window).resize(function(){
-            $('.scroller').css({ height: $(window).innerHeight()-210 });
+            $('.slimScrollDiv').css({ height: $(window).innerHeight()-310 });
+            $('.scroller').css({ height: $(window).innerHeight()-320 });
         });
     });
 	@if(empty($ballots->data))
