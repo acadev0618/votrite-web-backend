@@ -110,15 +110,31 @@ class ResultController extends Controller
             );
             $data = json_encode($data);
             $api = env('API').'/counter/candidate/pincode';
-            $Api = new ApiController;
-            $candidate = $Api->postApi($data, $api);
+            // $Api = new ApiController;
+            // $candidate = $Api->postApi($data, $api);
+            // dd($candidate);
+            $handle = curl_init($api);
 
+            curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($handle, CURLINFO_HEADER_OUT, true);
+            curl_setopt($handle, CURLOPT_POST, true);
+            curl_setopt($handle, CURLOPT_POSTFIELDS, $data);
+            curl_setopt($handle, CURLOPT_HTTPHEADER, array(
+                'Content-Type: application/json',
+                'Content-Length: ' . strlen($data))
+            );
+
+            $output = curl_exec($handle);
+            curl_close($handle);
+            
+            $candidate = json_decode($output);
+            // dd($api, $data, $candidate);
             return view('result.voter')->with([
                 'ballots' => $ballots, 
                 'response' => $response, 
                 'candidate' => $candidate, 
                 'sliderAction' => 'result', 
-                'subAction' => 'ballot'
+                'subAction' => 'voter'
             ]);
         } else {
             return redirect('admin/');
@@ -133,9 +149,26 @@ class ResultController extends Controller
         );
         $data = json_encode($data);
         $api = env('API').'/counter/candidate/pincode';
-        $Api = new ApiController;
-        $candidate = $Api->postApi($data, $api);
-        // dd($response);
+        // $Api = new ApiController;
+        // $candidate = $Api->postApi($data, $api);
+        // dd($candidate);
+        $handle = curl_init($api);
+
+        curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($handle, CURLINFO_HEADER_OUT, true);
+        curl_setopt($handle, CURLOPT_POST, true);
+        curl_setopt($handle, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($handle, CURLOPT_HTTPHEADER, array(
+            'Content-Type: application/json',
+            'Content-Length: ' . strlen($data))
+        );
+
+        $output = curl_exec($handle);
+        // dd($api, $output);
+        curl_close($handle);
+
+        $candidate = json_decode($output);
+        // dd($candidate);
         return response()->json([
             'candidate' => $candidate->data
         ]);

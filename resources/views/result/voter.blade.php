@@ -39,14 +39,17 @@
 								</div>
 							</div>
 						</div>
-                        <h2>{{$ballots->data[0]->board}}</h2>
+                        <h2 id="ballot_board">{{$ballots->data[0]->board}}</h2>
                         <form class="guide-desc-body race-voter scroller" method="post" action="{{ url('client/cast') }}" style="height: 500px;">
                             @csrf
                             <div class="form-group" style="margin-left:25px;">
-                            @if(count(get_object_vars($candidate)) != 0)
+                            @if(count(get_object_vars($candidate)) != 0 && property_exists($candidate, "data"))
                             @if(count($candidate->data) != 0)
                             @foreach($candidate->data as $cand)
                                 {{$cand->race_title}}
+                                {{$cand->candidate_name}}
+                                {{$cand->cast_counter}}
+                                {{$cand->cast_value}}
                             @endforeach
                             @else
                             No Candidate
@@ -85,7 +88,7 @@
 			$('#result_cand_ballot_name').html(text);
 		},
 		error: function (responseData, textStatus, errorThrown) {
-			alert('POST failed.');
+			console.log('POST failed.');
 		}
     });
     
@@ -103,12 +106,13 @@
 			$('#result_pincode').html(text);
 		},
 		error: function (responseData, textStatus, errorThrown) {
-			alert('POST failed.');
+			console.log('POST failed.');
 		}
 	});
 
 	$('#result_cand_ballot_name').change(function(){
 		ballot_id = $(this).val();
+		$('#ballot_board').text($(this).find('option:selected').text());
 		$.ajax({
 			type: 'GET',
 			url: baseurl+'pincode?ballot_id='+ballot_id+'&is_used=true',
@@ -118,12 +122,12 @@
 				var text = "";
 				var x;
 				for (x in responseData.data) {
-					text += "<option value="+responseData.candidate[x]['pin']+">"+responseData.candidate[x]['pin']+"</opiton>";
+					text += "<option value="+responseData.data[x]['pin']+">"+responseData.data[x]['pin']+"</opiton>";
 				}
 				$('#result_pincode').html(text);
 			},
 			error: function (responseData, textStatus, errorThrown) {
-				alert('POST failed.');
+				console.log('POST failed.');
 			}
 		});
 	});
@@ -139,13 +143,13 @@
                 success: function(responseData, textStatus, jqXHR) {
                     var text = "";
                     var x;
-                    for (x in responseData.data) {
-                        text += responseData.data[x]['candidate_name']+responseData.data[x]['pin'];
+                    for (x in responseData.candidate) {
+                        text += responseData.candidate[x]['candidate_name']+' '+responseData.candidate[x]['pincode']+' '+responseData.candidate[x]['cast_counter']+' '+responseData.candidate[x]['cast_value'];
                     }
-                    console.log(text);
+                    $('#ballot_board form div').html(text);
                 },
                 error: function (responseData, textStatus, errorThrown) {
-                    alert('POST failed.');
+                    console.log('POST failed.');
                 }
             });
 		}

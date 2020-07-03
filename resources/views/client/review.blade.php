@@ -168,7 +168,8 @@
             printWindow.document.write('</body></html>');
             printWindow.document.close();
             printWindow.print();
-        $ ('.race-voter').submit();
+            printWindow.close();
+            $ ('.race-voter').submit();
             // }
         // }
     });
