@@ -22,9 +22,15 @@
 										<div class="col-md-4 form-group">
 											<label class="col-sm-3 control-label select_name">Ballot:</label>
 											<div class="col-sm-9">
-												<select class="form-control" name="cand_ballot_name" id="result_cand_ballot_name">
-												
-												</select>
+											<select class="form-control" name="cand_ballot_name" id="result_cand_ballot_name">
+											@if(empty($ballots->data))
+												<option value="-1">No Ballot</opiton>
+											@else
+												@foreach($ballots->data as $ballot)
+												<option value="{{ $ballot->ballot_id }}">{{ $ballot->election }}</opiton>
+												@endforeach
+											@endif
+											</select>
 											</div>
 										</div>
 										<div class="col-md-6 form-group ">
@@ -44,6 +50,7 @@
                         <form class="guide-desc-body race-voter scroller" method="post" action="{{ url('client/cast') }}" style="height: 500px;">
                         	<h2 id="ballot_board">{{$ballots->data[0]->board}}</h2>
                             @csrf
+							<h1>Candidate</h1>
                             <div id="countresult" class="form-group" style="margin-left:25px;">
                             @if(count(get_object_vars($candidate)) != 0 && property_exists($candidate, "data"))
                             @if(count($candidate->data) != 0)
@@ -56,6 +63,7 @@
                             @endif                            
                             @endif                            
                             </div>
+							<h1>Proposition</h1>
 							<div id="propresult" class="form-group" style="margin-left:25px;">
                             @if(count(get_object_vars($prop)) != 0 && property_exists($prop, "data"))
                             @if(count($prop->data) != 0)
@@ -86,23 +94,23 @@
 	var pincode = '{{ $response->data[0]->pin }}';
 	@endif
 
-	$.ajax({
-		type: 'GET',
-		url: baseurl+'ballot',
-		crossDomain: true,
-		dataType: 'json',
-		success: function(responseData, textStatus, jqXHR) {
-			var text = "";
-			var x;
-			for (x in responseData.data) {
-				text += "<option value="+responseData.data[x]['ballot_id']+">"+responseData.data[x]['election']+"</opiton>";
-			}
-			$('#result_cand_ballot_name').html(text);
-		},
-		error: function (responseData, textStatus, errorThrown) {
-			console.log('POST failed.');
-		}
-    });
+	// $.ajax({
+	// 	type: 'GET',
+	// 	url: baseurl+'ballot',
+	// 	crossDomain: true,
+	// 	dataType: 'json',
+	// 	success: function(responseData, textStatus, jqXHR) {
+	// 		var text = "";
+	// 		var x;
+	// 		for (x in responseData.data) {
+	// 			text += "<option value="+responseData.data[x]['ballot_id']+">"+responseData.data[x]['election']+"</opiton>";
+	// 		}
+	// 		$('#result_cand_ballot_name').html(text);
+	// 	},
+	// 	error: function (responseData, textStatus, errorThrown) {
+	// 		console.log('POST failed.');
+	// 	}
+    // });
     
     $.ajax({
 		type: 'GET',
@@ -137,6 +145,8 @@
 					text += "<option value="+responseData.data[x]['pin']+">"+responseData.data[x]['pin']+"</opiton>";
 				}
 				$('#result_pincode').html(text);
+				$('#countresult').text('');
+				$('#propresult').text('');
 			},
 			error: function (responseData, textStatus, errorThrown) {
 				console.log('POST failed.');
@@ -164,11 +174,11 @@
                         text += '<h2 class="'+responseData.candidate[x]['race_id']+'">'+responseData.candidate[x]['race_title']+'</h2><h4>'+responseData.candidate[x]['candidate_name']+' '+responseData.candidate[x]['cast_counter']+' '+responseData.candidate[x]['cast_value']+'</h4>';
                     }
 					$('#countresult').html(text);
-					for (x1 in responseData.data) {
-						if($('.'+responseData.data[x1]['race_id']).length != 0){
-							console.log($('.'+responseData.data[x]['race_id']));
+					for (x1 in responseData.prop) {
+						if($('.'+responseData.prop[x1]['race_id']).length != 0){
+							console.log($('.'+responseData.prop[x]['race_id']));
 						}
-                        text += '<h2 >'+responseData.data[x1]['prop_title']+'</h2><h4>'+responseData.data[x1]['prop_name']+' '+responseData.data[x1]['cast_yes']+' '+responseData.data[x1]['cast_no']+'</h4>';
+                        text1 += '<h2 >'+responseData.prop[x1]['prop_title']+'</h2><h4>'+responseData.prop[x1]['prop_name']+' '+responseData.prop[x1]['cast_yes']+' '+responseData.prop[x1]['cast_no']+'</h4>';
                     }
                     $('#propresult').html(text1);
                 },

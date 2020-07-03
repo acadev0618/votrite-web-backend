@@ -214,12 +214,15 @@ class ResultController extends Controller
 
         $prop = json_decode($output1);
         // dd($prop);
+        if(count(get_object_vars($candidate)) != 0 && property_exists($candidate, "data")){
+            $candrlt = $candidate->data;
+        }
         if(count(get_object_vars($prop)) != 0 && property_exists($prop, "data")){
-
+            $proprlt = $prop->data;
         }
         return response()->json([
-            'candidate' => $candidate->data,
-            'prop' => $prop->data
+            'candidate' => $candrlt,
+            'prop' => $proprlt
         ]);
     }
     
