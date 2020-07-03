@@ -43,11 +43,13 @@
 										</div>
 									</div>
 								</div>
+								<div class="col-md-2"></div>
+								<div class="col-md-2"><button id="print" class="btn btn-primary pull-right" style=""><i class="fa fa-print"></i> <span>  Print</span></button></div>
+								
 							</div>
 						</div>
-						<button id="print" class="btn btn-primary pull-right" style=""><i class="fa fa-print"></i> <span>  Print</span></button>
 
-                        <form class="guide-desc-body race-voter scroller" method="post" action="{{ url('client/cast') }}" style="height: 500px;">
+                        <form class="guide-desc-body race-voter scroller" method="post" action="{{ url('client/cast') }}" style="height: 100%;">
                         	<h2 id="ballot_board">{{$ballots->data[0]->board}}</h2>
 							<br>
                         	<h2 >{{$ballots->data[0]->client}}</h2>
@@ -95,6 +97,12 @@
 @endsection
 @section('script')
 <script>
+	$(function(){
+        $('.scroller').css({ height: $(window).innerHeight()-210 });
+        $(window).resize(function(){
+            $('.scroller').css({ height: $(window).innerHeight()-210 });
+        });
+    });
 	@if(empty($ballots->data))
 	var ballot_id = '';
 	var pincode = '';
