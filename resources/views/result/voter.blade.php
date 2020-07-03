@@ -67,7 +67,7 @@
 								@if($cval['race_type'] != 'R' )
                                 <h4>{{$key+1}}. {{$cval['candidate_name']}}</h4>
                             	@else
-                                <h4>{{$key+1}}. {{$cval['candidate_name']}} {{$cval['cast_value']}}</h4>
+                                <h4>{{$cval['candidate_name']}} : {{$cval['cast_value']}}</h4>
 								@endif
 								@endforeach
                             @endforeach
@@ -196,7 +196,7 @@
                     for (x in responseData.candidate) {
 						text += '<h3 class="'+responseData.candidate[x][0]['race_id']+'">Candidates For: '+responseData.candidate[x][0]['race_title']+'</h3>'
                     	for (y in responseData.candidate[x]) {
-							text += '<h4>'+(parseInt(y)+1)+'. '+responseData.candidate[x][y]['candidate_name']+(responseData.candidate[x][y]['race_type'] == 'R' ? responseData.candidate[x][y]['cast_value'] : '')+'</h4>';
+							text += '<h4>'+(parseInt(y)+1)+'. '+responseData.candidate[x][y]['candidate_name']+(responseData.candidate[x][y]['race_type'] == 'R' ? ' : '+responseData.candidate[x][y]['cast_value'] : '')+'</h4>';
 						}
 						console.log(responseData.candidate);
 						// text = "";
