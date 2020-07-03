@@ -129,10 +129,32 @@ class ResultController extends Controller
             
             $candidate = json_decode($output);
             // dd($api, $data, $candidate);
+            $api1 = env('API').'/counter/proposition/pincode';
+            // $Api = new ApiController;
+            // $candidate = $Api->postApi($data, $api);
+            // dd($candidate);
+            $handle1 = curl_init($api1);
+
+            curl_setopt($handle1, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($handle1, CURLINFO_HEADER_OUT, true);
+            curl_setopt($handle1, CURLOPT_POST, true);
+            curl_setopt($handle1, CURLOPT_POSTFIELDS, $data);
+            curl_setopt($handle1, CURLOPT_HTTPHEADER, array(
+                'Content-Type: application/json',
+                'Content-Length: ' . strlen($data))
+            );
+
+            $output1 = curl_exec($handle1);
+            // dd($api, $output);
+            curl_close($handle1);
+
+            $prop = json_decode($output1);
+            
             return view('result.voter')->with([
                 'ballots' => $ballots, 
                 'response' => $response, 
                 'candidate' => $candidate, 
+                'prop' => $prop, 
                 'sliderAction' => 'result', 
                 'subAction' => 'voter'
             ]);
@@ -142,6 +164,8 @@ class ResultController extends Controller
     }
     public function votercal(Request $request) {
         // dd($request->all());
+        $candrlt=[];
+        $proprlt=[];
         $Api = new ApiController;
         $data = array(
             "ballot_id" => $request->ballot_id,
@@ -168,9 +192,34 @@ class ResultController extends Controller
         curl_close($handle);
 
         $candidate = json_decode($output);
+
+        $api1 = env('API').'/counter/proposition/pincode';
+        // $Api = new ApiController;
+        // $candidate = $Api->postApi($data, $api);
         // dd($candidate);
+        $handle1 = curl_init($api1);
+
+        curl_setopt($handle1, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($handle1, CURLINFO_HEADER_OUT, true);
+        curl_setopt($handle1, CURLOPT_POST, true);
+        curl_setopt($handle1, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($handle1, CURLOPT_HTTPHEADER, array(
+            'Content-Type: application/json',
+            'Content-Length: ' . strlen($data))
+        );
+
+        $output1 = curl_exec($handle1);
+        // dd($api, $output);
+        curl_close($handle1);
+
+        $prop = json_decode($output1);
+        // dd($prop);
+        if(count(get_object_vars($prop)) != 0 && property_exists($prop, "data")){
+
+        }
         return response()->json([
-            'candidate' => $candidate->data
+            'candidate' => $candidate->data,
+            'prop' => $prop->data
         ]);
     }
     

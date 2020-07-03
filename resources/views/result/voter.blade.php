@@ -39,20 +39,32 @@
 								</div>
 							</div>
 						</div>
-                        <h2 id="ballot_board">{{$ballots->data[0]->board}}</h2>
+						<button id="print" class="btn btn-primary pull-right" style=""><i class="fa fa-print"></i> <span>  Print</span></button>
+
                         <form class="guide-desc-body race-voter scroller" method="post" action="{{ url('client/cast') }}" style="height: 500px;">
+                        	<h2 id="ballot_board">{{$ballots->data[0]->board}}</h2>
                             @csrf
                             <div id="countresult" class="form-group" style="margin-left:25px;">
                             @if(count(get_object_vars($candidate)) != 0 && property_exists($candidate, "data"))
                             @if(count($candidate->data) != 0)
                             @foreach($candidate->data as $cand)
                                 <h2>{{$cand->race_title}}</h2>
-                                <h4>{{$cand->candidate_name}}</h4>
-                                <h4>{{$cand->cast_counter}}</h4>
-                                <h4>{{$cand->cast_value}}</h4>
+                                <h4>{{$cand->candidate_name}} {{$cand->cast_counter}} {{$cand->cast_value}}</h4>
                             @endforeach
                             @else
                             No Candidate
+                            @endif                            
+                            @endif                            
+                            </div>
+							<div id="propresult" class="form-group" style="margin-left:25px;">
+                            @if(count(get_object_vars($prop)) != 0 && property_exists($prop, "data"))
+                            @if(count($prop->data) != 0)
+                            @foreach($prop->data as $cand)
+                                <h2>{{$prop->prop_title}}</h2>
+                                <h4>{{$prop->prop_name}} {{$prop->cast_yes}} {{$prop->cast_no}}</h4>
+                            @endforeach
+                            @else
+                            No Proposition
                             @endif                            
                             @endif                            
                             </div>
@@ -142,18 +154,42 @@
                 dataType: 'json',
                 success: function(responseData, textStatus, jqXHR) {
                     var text = "";
+                    var text1 = "";
                     var x;
+                    var x1;
                     for (x in responseData.candidate) {
-                        text += '<h2>'+responseData.candidate[x]['race_title']+'</h2><h4>'+responseData.candidate[x]['candidate_name']+'</h4><h4>'+responseData.candidate[x]['cast_counter']+'</h4><h4>'+responseData.candidate[x]['cast_value']+'</h4>';
+						if($('.'+responseData.candidate[x]['race_id']).length != 0){
+							console.log($('.'+responseData.candidate[x]['race_id']));
+						}
+                        text += '<h2 class="'+responseData.candidate[x]['race_id']+'">'+responseData.candidate[x]['race_title']+'</h2><h4>'+responseData.candidate[x]['candidate_name']+' '+responseData.candidate[x]['cast_counter']+' '+responseData.candidate[x]['cast_value']+'</h4>';
                     }
-                    $('#countresult').html(text);
+					$('#countresult').html(text);
+					for (x1 in responseData.data) {
+						if($('.'+responseData.data[x1]['race_id']).length != 0){
+							console.log($('.'+responseData.data[x]['race_id']));
+						}
+                        text += '<h2 >'+responseData.data[x1]['prop_title']+'</h2><h4>'+responseData.data[x1]['prop_name']+' '+responseData.data[x1]['cast_yes']+' '+responseData.data[x1]['cast_no']+'</h4>';
+                    }
+                    $('#propresult').html(text1);
                 },
                 error: function (responseData, textStatus, errorThrown) {
 					$('#countresult').text('None');
+					$('#propresult').text('None');
                     console.log('POST failed.');
                 }
             });
 		}
 	});
+	$('#print').click(function(){
+		var divContents = $("#countresult").parent().html();
+		var printWindow = window.open('', '', 'height=400,width=800');
+		printWindow.document.write('<html><head><title>Vote Result</title>');
+		printWindow.document.write('</head><body >');
+		printWindow.document.write(divContents);
+		printWindow.document.write('</body></html>');
+		printWindow.document.close();
+		printWindow.print();
+		printWindow.close();
+    });
 </script>
 @endsection
