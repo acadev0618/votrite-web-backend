@@ -215,7 +215,22 @@ class ResultController extends Controller
         $prop = json_decode($output1);
         // dd($prop);
         if(count(get_object_vars($candidate)) != 0 && property_exists($candidate, "data")){
-            $candrlt = $candidate->data;
+            $candrlt = [];
+            if(count($candidate->data) != 0){
+                foreach($candidate->data as $cand){
+                    // if(property_exists($candidate, $cand->race_id)){
+                    //     $candrlt[$cand->race_id] = [];
+                    // }
+                    if(array_key_exists($cand->race_id, $candrlt)){
+                        // dd($candrlt[$cand->race_id], $cand->race_id);
+                        array_push($candrlt[$cand->race_id], (array)$cand);
+                    }else{
+                        $candrlt[$cand->race_id] = [];
+                        array_push($candrlt[$cand->race_id], (array)$cand);
+                    }
+                }
+                // dd($candrlt);
+            }
         }
         if(count(get_object_vars($prop)) != 0 && property_exists($prop, "data")){
             $proprlt = $prop->data;

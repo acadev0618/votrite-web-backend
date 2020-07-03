@@ -49,14 +49,22 @@
 
                         <form class="guide-desc-body race-voter scroller" method="post" action="{{ url('client/cast') }}" style="height: 500px;">
                         	<h2 id="ballot_board">{{$ballots->data[0]->board}}</h2>
+							<br>
+                        	<h2 >{{$ballots->data[0]->client}}</h2>
+                        	<h2 >{{$ballots->data[0]->election}}</h2>
+                        	<h2 >{{date("l F j Y")}}</h2>
+							<br>
+							<br>
+							<br>
+
                             @csrf
 							<h1>Candidate</h1>
                             <div id="countresult" class="form-group" style="margin-left:25px;">
                             @if(count(get_object_vars($candidate)) != 0 && property_exists($candidate, "data"))
                             @if(count($candidate->data) != 0)
-                            @foreach($candidate->data as $cand)
-                                <h2>{{$cand->race_title}}</h2>
-                                <h4>{{$cand->candidate_name}} {{$cand->cast_counter}} {{$cand->cast_value}}</h4>
+                            @foreach($candidate->data as $key=>$cand)
+                                <h2>Candidates For: {{$cand->race_title}}</h2>
+                                <h4>{{$key+1}}. {{$cand->candidate_name}} {{$cand->cast_counter}} {{$cand->cast_value}}</h4>
                             @endforeach
                             @else
                             No Candidate
@@ -167,17 +175,20 @@
                     var text1 = "";
                     var x;
                     var x1;
+					var race = [];
                     for (x in responseData.candidate) {
-						if($('.'+responseData.candidate[x]['race_id']).length != 0){
-							console.log($('.'+responseData.candidate[x]['race_id']));
+						text += '<h2 class="'+responseData.candidate[x][0]['race_id']+'">Candidates For: '+responseData.candidate[x][0]['race_title']+'</h2>'
+                    	for (y in responseData.candidate[x]) {
+							text += '<h4>'+responseData.candidate[x][y]['candidate_name']+' '+responseData.candidate[x][y]['cast_counter']+' '+responseData.candidate[x][y]['cast_value']+'</h4>';
 						}
-                        text += '<h2 class="'+responseData.candidate[x]['race_id']+'">'+responseData.candidate[x]['race_title']+'</h2><h4>'+responseData.candidate[x]['candidate_name']+' '+responseData.candidate[x]['cast_counter']+' '+responseData.candidate[x]['cast_value']+'</h4>';
+						console.log(responseData.candidate);
+						// text = "";
+						// console.log(race);
+						// for (y in race) {
+						// }
                     }
 					$('#countresult').html(text);
 					for (x1 in responseData.prop) {
-						if($('.'+responseData.prop[x1]['race_id']).length != 0){
-							console.log($('.'+responseData.prop[x]['race_id']));
-						}
                         text1 += '<h2 >'+responseData.prop[x1]['prop_title']+'</h2><h4>'+responseData.prop[x1]['prop_name']+' '+responseData.prop[x1]['cast_yes']+' '+responseData.prop[x1]['cast_no']+'</h4>';
                     }
                     $('#propresult').html(text1);
