@@ -111,44 +111,45 @@ class ResultController extends Controller
             $data = json_encode($data);
             $api = env('API').'/counter/candidate/pincode';
             // $Api = new ApiController;
-            // $candidate = $Api->postApi($data, $api);
+            $candidate = $Api->postApi($data, $api);
             // dd($candidate);
-            $handle = curl_init($api);
+            // $handle = curl_init($api);
 
-            curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($handle, CURLINFO_HEADER_OUT, true);
-            curl_setopt($handle, CURLOPT_POST, true);
-            curl_setopt($handle, CURLOPT_POSTFIELDS, $data);
-            curl_setopt($handle, CURLOPT_HTTPHEADER, array(
-                'Content-Type: application/json',
-                'Content-Length: ' . strlen($data))
-            );
+            // curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
+            // curl_setopt($handle, CURLINFO_HEADER_OUT, true);
+            // curl_setopt($handle, CURLOPT_POST, true);
+            // curl_setopt($handle, CURLOPT_POSTFIELDS, $data);
+            // curl_setopt($handle, CURLOPT_HTTPHEADER, array(
+            //     'Content-Type: application/json',
+            //     'Content-Length: ' . strlen($data))
+            // );
 
-            $output = curl_exec($handle);
-            curl_close($handle);
+            // $output = curl_exec($handle);
+            // curl_close($handle);
             
-            $candidate = json_decode($output);
+            // $candidate = json_decode($output);
+            
             // dd($api, $data, $candidate);
             $api1 = env('API').'/counter/proposition/pincode';
             // $Api = new ApiController;
-            // $candidate = $Api->postApi($data, $api);
+            $prop = $Api->postApi($data, $api1);
             // dd($candidate);
-            $handle1 = curl_init($api1);
+            // $handle1 = curl_init($api1);
 
-            curl_setopt($handle1, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($handle1, CURLINFO_HEADER_OUT, true);
-            curl_setopt($handle1, CURLOPT_POST, true);
-            curl_setopt($handle1, CURLOPT_POSTFIELDS, $data);
-            curl_setopt($handle1, CURLOPT_HTTPHEADER, array(
-                'Content-Type: application/json',
-                'Content-Length: ' . strlen($data))
-            );
+            // curl_setopt($handle1, CURLOPT_RETURNTRANSFER, true);
+            // curl_setopt($handle1, CURLINFO_HEADER_OUT, true);
+            // curl_setopt($handle1, CURLOPT_POST, true);
+            // curl_setopt($handle1, CURLOPT_POSTFIELDS, $data);
+            // curl_setopt($handle1, CURLOPT_HTTPHEADER, array(
+            //     'Content-Type: application/json',
+            //     'Content-Length: ' . strlen($data))
+            // );
 
-            $output1 = curl_exec($handle1);
-            // dd($api, $output);
-            curl_close($handle1);
+            // $output1 = curl_exec($handle1);
+            // // dd($api, $output);
+            // curl_close($handle1);
 
-            $prop = json_decode($output1);
+            // $prop = json_decode($output1);
             
             return view('result.voter')->with([
                 'ballots' => $ballots, 
@@ -173,46 +174,46 @@ class ResultController extends Controller
         );
         $data = json_encode($data);
         $api = env('API').'/counter/candidate/pincode';
-        // $Api = new ApiController;
-        // $candidate = $Api->postApi($data, $api);
+        $Api = new ApiController;
+        $candidate = $Api->postApi($data, $api);
         // dd($candidate);
-        $handle = curl_init($api);
+        // $handle = curl_init($api);
 
-        curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($handle, CURLINFO_HEADER_OUT, true);
-        curl_setopt($handle, CURLOPT_POST, true);
-        curl_setopt($handle, CURLOPT_POSTFIELDS, $data);
-        curl_setopt($handle, CURLOPT_HTTPHEADER, array(
-            'Content-Type: application/json',
-            'Content-Length: ' . strlen($data))
-        );
+        // curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
+        // curl_setopt($handle, CURLINFO_HEADER_OUT, true);
+        // curl_setopt($handle, CURLOPT_POST, true);
+        // curl_setopt($handle, CURLOPT_POSTFIELDS, $data);
+        // curl_setopt($handle, CURLOPT_HTTPHEADER, array(
+        //     'Content-Type: application/json',
+        //     'Content-Length: ' . strlen($data))
+        // );
 
-        $output = curl_exec($handle);
-        // dd($api, $output);
-        curl_close($handle);
+        // $output = curl_exec($handle);
+        // // dd($api, $output);
+        // curl_close($handle);
 
-        $candidate = json_decode($output);
+        // $candidate = json_decode($output);
 
         $api1 = env('API').'/counter/proposition/pincode';
         // $Api = new ApiController;
-        // $candidate = $Api->postApi($data, $api);
+        $prop = $Api->postApi($data, $api1);
         // dd($candidate);
-        $handle1 = curl_init($api1);
+        // $handle1 = curl_init($api1);
 
-        curl_setopt($handle1, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($handle1, CURLINFO_HEADER_OUT, true);
-        curl_setopt($handle1, CURLOPT_POST, true);
-        curl_setopt($handle1, CURLOPT_POSTFIELDS, $data);
-        curl_setopt($handle1, CURLOPT_HTTPHEADER, array(
-            'Content-Type: application/json',
-            'Content-Length: ' . strlen($data))
-        );
+        // curl_setopt($handle1, CURLOPT_RETURNTRANSFER, true);
+        // curl_setopt($handle1, CURLINFO_HEADER_OUT, true);
+        // curl_setopt($handle1, CURLOPT_POST, true);
+        // curl_setopt($handle1, CURLOPT_POSTFIELDS, $data);
+        // curl_setopt($handle1, CURLOPT_HTTPHEADER, array(
+        //     'Content-Type: application/json',
+        //     'Content-Length: ' . strlen($data))
+        // );
 
-        $output1 = curl_exec($handle1);
-        // dd($api, $output);
-        curl_close($handle1);
+        // $output1 = curl_exec($handle1);
+        // // dd($api, $output);
+        // curl_close($handle1);
 
-        $prop = json_decode($output1);
+        // $prop = json_decode($output1);
         // dd($prop);
         if(count(get_object_vars($candidate)) != 0 && property_exists($candidate, "data")){
             $candrlt = [];

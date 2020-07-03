@@ -76,9 +76,9 @@
 							<div id="propresult" class="form-group" style="margin-left:25px;">
                             @if(count(get_object_vars($prop)) != 0 && property_exists($prop, "data"))
                             @if(count($prop->data) != 0)
-                            @foreach($prop->data as $cand)
-                                <h2>{{$prop->prop_title}}</h2>
-                                <h4>{{$prop->prop_name}} {{$prop->cast_yes ? 'Yes' : ''}} {{$prop->cast_no ? 'No' : ''}}</h4>
+                            @foreach($prop->data as $pro)
+                                <h2>{{$pro->prop_title}}</h2>
+                                <h4>{{$pro->prop_name}} {{$pro->cast_yes ? 'Yes' : ''}} {{$pro->cast_no ? 'No' : ''}}</h4>
                             @endforeach
                             @else
                             No Proposition
