@@ -42,14 +42,14 @@
                         <h2 id="ballot_board">{{$ballots->data[0]->board}}</h2>
                         <form class="guide-desc-body race-voter scroller" method="post" action="{{ url('client/cast') }}" style="height: 500px;">
                             @csrf
-                            <div class="form-group" style="margin-left:25px;">
+                            <div id="countresult" class="form-group" style="margin-left:25px;">
                             @if(count(get_object_vars($candidate)) != 0 && property_exists($candidate, "data"))
                             @if(count($candidate->data) != 0)
                             @foreach($candidate->data as $cand)
-                                {{$cand->race_title}}
-                                {{$cand->candidate_name}}
-                                {{$cand->cast_counter}}
-                                {{$cand->cast_value}}
+                                <h2>{{$cand->race_title}}</h2>
+                                <h4>{{$cand->candidate_name}}</h4>
+                                <h4>{{$cand->cast_counter}}</h4>
+                                <h4>{{$cand->cast_value}}</h4>
                             @endforeach
                             @else
                             No Candidate
@@ -144,11 +144,12 @@
                     var text = "";
                     var x;
                     for (x in responseData.candidate) {
-                        text += responseData.candidate[x]['candidate_name']+' '+responseData.candidate[x]['pincode']+' '+responseData.candidate[x]['cast_counter']+' '+responseData.candidate[x]['cast_value'];
+                        text += '<h2>'+responseData.candidate[x]['race_title']+'</h2><h4>'+responseData.candidate[x]['candidate_name']+'</h4><h4>'+responseData.candidate[x]['cast_counter']+'</h4><h4>'+responseData.candidate[x]['cast_value']+'</h4>';
                     }
-                    $('#ballot_board form div').html(text);
+                    $('#countresult').html(text);
                 },
                 error: function (responseData, textStatus, errorThrown) {
+					$('#countresult').text('None');
                     console.log('POST failed.');
                 }
             });
