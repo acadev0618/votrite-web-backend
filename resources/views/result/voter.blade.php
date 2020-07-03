@@ -64,7 +64,7 @@
                             @if(count($candidate->data) != 0)
                             @foreach($candidate->data as $key=>$cand)
                                 <h2>Candidates For: {{$cand->race_title}}</h2>
-                                <h4>{{$key+1}}. {{$cand->candidate_name}} {{$cand->cast_counter}} {{$cand->cast_value}}</h4>
+                                <h4>{{$key+1}}. {{$cand->candidate_name}}</h4>
                             @endforeach
                             @else
                             No Candidate
