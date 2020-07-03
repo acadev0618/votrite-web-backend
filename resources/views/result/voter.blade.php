@@ -50,38 +50,43 @@
 						</div>
 
                         <form class="guide-desc-body race-voter scroller" method="post" action="{{ url('client/cast') }}" style="height: 500px;">
-                        	<h2 id="ballot_board">{{$ballots->data[0]->board}}</h2>
+                        	<h3 id="ballot_board">{{$ballots->data[0]->board}}</h3>
 							<br>
-                        	<h2 >{{$ballots->data[0]->client}}</h2>
-                        	<h2 >{{$ballots->data[0]->election}}</h2>
-                        	<h2 >{{date("l F j Y")}}</h2>
+                        	<h3 >{{$ballots->data[0]->client}}</h3>
+                        	<h3 >{{$ballots->data[0]->election}}</h3>
+                        	<h3 >{{date("l F j Y")}}</h3>
 							<br>
-							<br>
-							<br>
-
                             @csrf
-							<h1>Candidate</h1>
+							<h2>Candidate</h2>
                             <div id="countresult" class="form-group" style="margin-left:25px;">
                             @if(count($candidate) != 0)
 							
                             @foreach($candidate as $race)
-                                <h2>Candidates For: {{$race[0]['race_title']}}</h2>
+                                <h3>Candidates For: {{$race[0]['race_title']}}</h3>
 								@foreach($race as $key=>$cval)
+								@if($cval['race_type'] != 'R' )
                                 <h4>{{$key+1}}. {{$cval['candidate_name']}}</h4>
-                            	@endforeach
+                            	@else
+                                <h4>{{$key+1}}. {{$cval['candidate_name']}} {{$cval['cast_value']}}</h4>
+								@endif
+								@endforeach
                             @endforeach
                             @else
                             No Candidate
                             @endif                            
                             </div>
 							<hr style="border: 1px solid;width: 500px;">
-							<h1>Proposition</h1>
+							<h2>Proposition</h2>
 							<div id="propresult" class="form-group" style="margin-left:25px;">
                             @if(count(get_object_vars($prop)) != 0 && property_exists($prop, "data"))
                             @if(count($prop->data) != 0)
                             @foreach($prop->data as $pro)
-                                <h2>{{$pro->prop_title}}</h2>
+                                <h3>{{$pro->prop_title}}</h3>
+								@if($pro->prop_answer_type == 1)
                                 <h4>{{$pro->prop_name}} : {{$pro->cast_yes ? 'Yes' : ''}} {{$pro->cast_no ? 'No' : ''}}</h4>
+								@else
+								<h4>{{$pro->prop_name}} : {{$pro->cast_yes ? 'For' : ''}} {{$pro->cast_no ? 'Against' : ''}}</h4>
+								@endif
                             @endforeach
                             @else
                             No Proposition
@@ -189,9 +194,9 @@
                     var x1;
 					var race = [];
                     for (x in responseData.candidate) {
-						text += '<h2 class="'+responseData.candidate[x][0]['race_id']+'">Candidates For: '+responseData.candidate[x][0]['race_title']+'</h2>'
+						text += '<h3 class="'+responseData.candidate[x][0]['race_id']+'">Candidates For: '+responseData.candidate[x][0]['race_title']+'</h3>'
                     	for (y in responseData.candidate[x]) {
-							text += '<h4>'+(parseInt(y)+1)+'. '+responseData.candidate[x][y]['candidate_name']+'</h4>';
+							text += '<h4>'+(parseInt(y)+1)+'. '+responseData.candidate[x][y]['candidate_name']+(responseData.candidate[x][y]['race_type'] == 'R' ? responseData.candidate[x][y]['cast_value'] : '')+'</h4>';
 						}
 						console.log(responseData.candidate);
 						// text = "";
@@ -202,7 +207,7 @@
 					$('#countresult').html(text);
 					for (x1 in responseData.prop) {
 						console.log(responseData.prop);
-                        text1 += '<h2 >'+responseData.prop[x1]['prop_title']+'</h2><h4>'+responseData.prop[x1]['prop_name']+' : '+(!responseData.prop[x1]['cast_yes'] ? 'Yes' : '')+' '+(!responseData.prop[x1]['cast_no'] ? 'No' : '')+'</h4>';
+                        text1 += '<h3 >'+responseData.prop[x1]['prop_title']+'</h3><h4>'+responseData.prop[x1]['prop_name']+' : '+(responseData.prop[x1]['prop_answer_type'] == 1 ? responseData.prop[x1]['cast_yes'] ? 'Yes' : '' :  responseData.prop[x1]['cast_yes'] ? 'For' : '' )+' '+(responseData.prop[x1]['prop_answer_type'] == 1 ? responseData.prop[x1]['cast_no'] ? 'No' : '' : responseData.prop[x1]['cast_no'] ? 'Against' : '')+'</h4>';
                     }
                     $('#propresult').html(text1);
                 },
