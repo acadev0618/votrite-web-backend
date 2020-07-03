@@ -62,15 +62,16 @@
                             @csrf
 							<h1>Candidate</h1>
                             <div id="countresult" class="form-group" style="margin-left:25px;">
-                            @if(count(get_object_vars($candidate)) != 0 && property_exists($candidate, "data"))
-                            @if(count($candidate->data) != 0)
-                            @foreach($candidate->data as $key=>$cand)
-                                <h2>Candidates For: {{$cand->race_title}}</h2>
-                                <h4>{{$key+1}}. {{$cand->candidate_name}}</h4>
+                            @if(count($candidate) != 0)
+							
+                            @foreach($candidate as $race)
+                                <h2>Candidates For: {{$race[0]['race_title']}}</h2>
+								@foreach($race as $key=>$cval)
+                                <h4>{{$key+1}}. {{$cval['candidate_name']}}</h4>
+                            	@endforeach
                             @endforeach
                             @else
                             No Candidate
-                            @endif                            
                             @endif                            
                             </div>
 							<hr style="border: 1px solid;width: 500px;">
@@ -80,7 +81,7 @@
                             @if(count($prop->data) != 0)
                             @foreach($prop->data as $pro)
                                 <h2>{{$pro->prop_title}}</h2>
-                                <h4>{{$pro->prop_name}} {{$pro->cast_yes ? 'Yes' : ''}} {{$pro->cast_no ? 'No' : ''}}</h4>
+                                <h4>{{$pro->prop_name}} : {{$pro->cast_yes ? 'Yes' : ''}} {{$pro->cast_no ? 'No' : ''}}</h4>
                             @endforeach
                             @else
                             No Proposition
@@ -201,7 +202,7 @@
 					$('#countresult').html(text);
 					for (x1 in responseData.prop) {
 						console.log(responseData.prop);
-                        text1 += '<h2 >'+responseData.prop[x1]['prop_title']+'</h2><h4>'+responseData.prop[x1]['prop_name']+' '+(!responseData.prop[x1]['cast_yes'] ? 'Yes' : '')+' '+(!responseData.prop[x1]['cast_no'] ? 'No' : '')+'</h4>';
+                        text1 += '<h2 >'+responseData.prop[x1]['prop_title']+'</h2><h4>'+responseData.prop[x1]['prop_name']+' : '+(!responseData.prop[x1]['cast_yes'] ? 'Yes' : '')+' '+(!responseData.prop[x1]['cast_no'] ? 'No' : '')+'</h4>';
                     }
                     $('#propresult').html(text1);
                 },

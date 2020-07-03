@@ -96,6 +96,7 @@ class ResultController extends Controller
     }
     public function voter() {
         if(Session::get('display_name')) {
+            $candrlt = [];
             $BallotController = new BallotController;
             $ballots = $BallotController->getActiveBallot();
             $Api = new ApiController;
@@ -112,6 +113,24 @@ class ResultController extends Controller
             $api = env('API').'/counter/candidate/pincode';
             // $Api = new ApiController;
             $candidate = $Api->postApi($data, $api);
+            if(count(get_object_vars($candidate)) != 0 && property_exists($candidate, "data")){
+                
+                if(count($candidate->data) != 0){
+                    foreach($candidate->data as $cand){
+                        // if(property_exists($candidate, $cand->race_id)){
+                        //     $candrlt[$cand->race_id] = [];
+                        // }
+                        if(array_key_exists($cand->race_id, $candrlt)){
+                            // dd($candrlt[$cand->race_id], $cand->race_id);
+                            array_push($candrlt[$cand->race_id], (array)$cand);
+                        }else{
+                            $candrlt[$cand->race_id] = [];
+                            array_push($candrlt[$cand->race_id], (array)$cand);
+                        }
+                    }
+                    // dd($candrlt);
+                }
+            }
             // dd($candidate);
             // $handle = curl_init($api);
 
@@ -154,7 +173,7 @@ class ResultController extends Controller
             return view('result.voter')->with([
                 'ballots' => $ballots, 
                 'response' => $response, 
-                'candidate' => $candidate, 
+                'candidate' => $candrlt, 
                 'prop' => $prop, 
                 'sliderAction' => 'result', 
                 'subAction' => 'voter'
