@@ -49,7 +49,7 @@
 							</div>
 						</div>
 
-                        <form class="guide-desc-body race-voter scroller" method="post" action="{{ url('client/cast') }}" style="height: 100%;">
+                        <form class="guide-desc-body race-voter scroller" method="post" action="{{ url('client/cast') }}" style="height: 500px;">
                         	<h2 id="ballot_board">{{$ballots->data[0]->board}}</h2>
 							<br>
                         	<h2 >{{$ballots->data[0]->client}}</h2>
@@ -98,7 +98,7 @@
 @section('script')
 <script>
 	$(function(){
-        $('.scroller').css({ height: $(window).innerHeight()-210 });
+        $('.slimScrollDiv').css({ height: $(window).innerHeight()-210 });
         $(window).resize(function(){
             $('.scroller').css({ height: $(window).innerHeight()-210 });
         });

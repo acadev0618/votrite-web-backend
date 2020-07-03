@@ -34,7 +34,7 @@
 <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.print.min.js"></script>
 
 <script>
-    window.apiurl = "http://localhost:8000/result/";
+    window.apiurl = "{{env('APP_URL')}}/result/";
     window.baseurl = document.head.querySelector("[name~=baseurl][content]").content;
     window.csrfToken = document.head.querySelector("[name~=csrf-token][content]").content;
     jQuery(document).ready(function() {
