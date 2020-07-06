@@ -43,6 +43,16 @@ License: You must have a valid license purchased only from themeforest(the above
 <link href="/assets/admin/layout/css/themes/darkblue.css" rel="stylesheet" type="text/css" id="style_color"/>
 <link href="/assets/admin/layout/css/custom.css" rel="stylesheet" type="text/css"/>
 <!-- END THEME STYLES -->
+<style>
+@media only screen and (max-width: 1000px) {
+  .logo {
+    display : none;
+  }
+  .content {
+	margin-top: 40% !important;
+  }
+}
+</style>
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->

@@ -38,7 +38,7 @@ class ClientController extends Controller
         
         // $output = curl_exec($handle);
         // curl_close($handle);
-        
+        $request->session()->forget(['key']);
         $BallotController = new BallotController;
         $response = $BallotController->getActiveBallot();
         // dd($response);
@@ -55,6 +55,13 @@ class ClientController extends Controller
         $param = 'ballot_id='.$request->ballot_id.'&pin='.$request->pincode;
 
         $response = $Api->getParamApi($api_url, $param);
+        // dd($response);
+        if(!property_exists($response, "data")){
+            return back()->withErrors(['msg', 'error']);
+        }
+        if($response->data[0]->is_used){
+            return back()->withErrors(['msg', 'error']);
+        }
         session(['pin' => $request->pincode]);
         // dd(count(get_object_vars($response)) != 0);
         if(count(get_object_vars($response)) != 0){
@@ -101,6 +108,12 @@ class ClientController extends Controller
         session(['races' => []]);
         session(['props' => []]);
         session(['mass' => []]);
+        session(['raceresult' => []]);
+        session(['propresult' => []]);
+        session(['massresult' => []]);
+        session(['lastrace' => []]);
+        session(['current' => 0]);
+        session(['pin' => 0]);
 
         if(count(get_object_vars($races)) != 0){
             $rcnt = count($races->data);
@@ -248,7 +261,7 @@ class ClientController extends Controller
         $result = [];
         $data = null;
         $ballot_id = session('ballots')->data[0]->ballot_id;
-        if(count(session('raceresult')) != 0){
+        if(session('raceresult') != null && count(session('raceresult')) != 0){
             foreach(session('raceresult') as $key => $raceresult){
                 if(count($raceresult) != 0){
                     foreach($raceresult as $candkey => $candidates){
@@ -278,7 +291,7 @@ class ClientController extends Controller
                 }          
             }
         }
-        if(count(session('propresult')) != 0){
+        if(session('propresult') != null && count(session('propresult')) != 0){
             $castyes = 0;
             $castno = 0;
             foreach(session('propresult') as $key => $propresult){
@@ -302,7 +315,7 @@ class ClientController extends Controller
                 array_push($result, $response);
             }               
         }
-        if(count(session('massresult')) != 0){
+        if(session('massresult') != null && count(session('massresult')) != 0){
             $castyes = 0;
             $castno = 0;
             foreach(session('massresult') as $key => $massresult){
@@ -326,7 +339,19 @@ class ClientController extends Controller
                 array_push($result, $response);
             }               
         }
-        // dd($result);
+        $data = array(
+            "is_used" => true,
+            "keys" => array(
+                "ballot_id" => $ballot_id,
+                "pin" => session('pin')
+            )
+        );
+        $data = json_encode($data);
+        $api = env('API').'/pincode/update';
+        $Api = new ApiController;
+        $response = $Api->postApi($data, $api);
+        // dd($response);
+
         return view('client.cast')->with(['ballots' => session('ballots'), 'result'=>$result]);
     }
 }

@@ -73,7 +73,7 @@ Page Header
   height: 100px;
   min-height: 100px;
   filter: none;
-  background-image: linear-gradient(#673AB7, #624ee5);
+  background:  #7864f7;
 }
 .page-header.navbar.navbar-fixed-top {
   z-index: 9995;
@@ -194,9 +194,9 @@ Page Header
   color: white;
 }
 .voter-title{
-  position: absolute;
+  /* position: absolute;
   left: 200px;
-  top: 10px;
+  top: 10px; */
   color: white;
 }
 .btn-voter{
@@ -221,13 +221,13 @@ Page Header
   background-color: white;
 }
 .btn-voter-else{
-  margin-top: -35px;
-  float: right;
+  /* margin-top: -35px; */
+  /* float: right; */
   width: 200px;
   height: 50px;
   border-radius: 25px !important;
   color: white;
-  background-color: #624ee5;
+  background-color: #7864f7;
 }
 .page-header.navbar .top-menu .navbar-nav {
   padding: 0;
@@ -2384,7 +2384,7 @@ Page footer
   padding: 8px 20px 5px 20px;
   font-size: 12px;
   height: 100px;
-  background-image: linear-gradient(#624ee5, #7b6be2);
+  background: #7864f7;
 }
 .page-footer:before, .page-footer:after {
   content: " ";

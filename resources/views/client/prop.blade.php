@@ -4,14 +4,14 @@
 <!-- BEGIN HEADER -->
 <div class="page-header-voter -i navbar navbar-fixed-top">
 	<!-- BEGIN HEADER INNER -->
-	<div class="page-header-inner">
+	<div class="page-header-inner row">
 		<!-- BEGIN LOGO -->
-		<div class="page-logo">
-			<a href="index.html">
+		<div class="page-logo col-md-3">
+			<a href="{{url('/')}}">
 			    <img width="100" src="{{asset('assets/img/favicon_dark.png')}}" alt="logo" class="logo-default"/>
             </a>            
         </div>
-        <div class="voter-title">
+        <div class="voter-title col-md-6 col-xs-12 text-center">
             <h2>{{$ballots->data[0]->board}}</h2>
             <h4>{{$ballots->data[0]->election}}</h4>
         </div>
@@ -20,7 +20,7 @@
         <!-- <h2>N. Y. S. Board of Elections</h2>
         <h4>Statewide Races</h4> -->
         
-        <div class="top-menu">
+        <div class="top-menu col-md-3">
             <h2 style="margin-right:20px;">{{$ballots->data[0]->address}}</h2>
             <h4>{{date("l F j Y")}}</h4>
 		</div>
@@ -32,7 +32,7 @@
 	<!-- BEGIN CONTENT -->
 	<div class="page-content-wrapper" style="background-color: #e0e5ec;">
 		<div class="page-content-fullwidth">
-            <div class="col-md-4">
+            <div class="col-md-4 col-xs-0">
                 <div class="guide-desc-header">
                     <h2>{{$ballots->data[0]->board}}</h2>
                 </div>
@@ -46,14 +46,14 @@
                 </div>
                 <form class="guide-desc-body race-voter" method="post" action="{{ url('client/propcount') }}">
                     @csrf
-                    <div class="form-group">
+                    <div class="form-group scroller" style="height: 300px;">
                         <input type="hidden" name="ballot_id" value="{{$ballots->data[0]->ballot_id}}" />
                         @if(count(session('props')) != 0)
                         @foreach(session('props') as $key=>$prop)
-                        <h2> {{$prop->prop_title}}</h2>
-                        <h4>{{$prop->prop_text}}</h4>
+                        <h2 class="text-center"> {{$prop->prop_title}}</h2>
+                        <h4 class="text-center">{{$prop->prop_text}}</h4>
                         @if($prop->prop_answer_type == 1)
-                        <div class="form-group row">
+                        <div class="form-group row" style="margin-left: 20px;">
                             <div class="md-checkbox col-md-3">
                                 <input type="checkbox" id="checkboxyes{{$prop->proposition_id}}" name="{{$prop->proposition_id}}" value="yes" class="md-check">
                                 <label for="checkboxyes{{$prop->proposition_id}}">
@@ -72,7 +72,7 @@
                             </div>
                         </div>
                         @else
-                        <div class="form-group row">
+                        <div class="form-group row" style="margin-left: 20px;">
                             <div class="md-checkbox col-md-3">
                                 <input type="checkbox" id="checkboxfor{{$prop->proposition_id}}" name="{{$prop->proposition_id}}" value="for" class="md-check">
                                 <label for="checkboxfor{{$prop->proposition_id}}">
@@ -122,16 +122,16 @@
 </div>
 <!-- BEGIN FOOTER -->
 <div class="page-footer-voter" style="text-align:center;padding-top: 35px;color:white;">
-	<div class="col-md-3">
+	<div class="col-md-3 col-xs-3">
         <button href="{{url('client/review')}}" type="button" class="btn-review">Review your choice</button>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-3 col-xs-3">
         <button type="button" class="btn-voter-back">Back</button>
 	</div>
-    <div class="col-md-3">
+    <div class="col-md-3 col-xs-3">
         <h4>{{session('current')+1}} of {{session('totalcnt')}}</h4>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-3 col-xs-3">
         <button type="button" class="btn-voter">Next</button>
 	</div>
 </div>

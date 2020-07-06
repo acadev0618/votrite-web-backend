@@ -4,14 +4,14 @@
 <!-- BEGIN HEADER -->
 <div class="page-header-voter -i navbar navbar-fixed-top">
 	<!-- BEGIN HEADER INNER -->
-	<div class="page-header-inner">
+	<div class="page-header-inner row">
 		<!-- BEGIN LOGO -->
-		<div class="page-logo">
-			<a href="index.html">
+		<div class="page-logo col-md-3">
+			<a href="{{url('/')}}">
 			    <img width="100" src="{{asset('assets/img/favicon_dark.png')}}" alt="logo" class="logo-default"/>
             </a>            
         </div>
-        <div class="voter-title">
+        <div class="voter-title col-md-6 col-xs-12 text-center">
             <h2>{{$ballots->data[0]->board}}</h2>
             <h4>{{$ballots->data[0]->election}}</h4>
         </div>
@@ -20,7 +20,7 @@
         <!-- <h2>N. Y. S. Board of Elections</h2>
         <h4>Statewide Races</h4> -->
         
-        <div class="top-menu">
+        <div class="top-menu col-md-3">
             <h2 style="margin-right:20px;">{{$ballots->data[0]->address}}</h2>
             <h4>{{date("l F j Y")}}</h4>
 		</div>
@@ -32,8 +32,8 @@
 	<!-- BEGIN CONTENT -->
 	<div class="page-content-wrapper" style="background-color: #e0e5ec;">
 		<div class="page-content-fullwidth">
-            <div class="col-md-4">
-                <div class="guide-desc-header">
+            <div class="col-md-4 col-xs-0">
+                <div class="guide-desc-header text-center">
                     <h2>{{$ballots->data[0]->board}}</h2>
                     <h4>You have <strong id="maxvotes">{{$races[0]->max_num_of_votes ?? 0}}</strong> choice remaining.</h4>
                 </div>
@@ -45,21 +45,16 @@
                     @endif
                 </div>
             </div>
-            <div class="col-md-8">
-                <div class="guide-desc-header">
+            <div class="col-md-4 col-xs-12">
+                <div class="guide-desc-header text-center">
                     <h2>Candidates for : {{$races[0]->race_title}}</h2>
                     @if($races[0]->min_num_of_votes == null || $races[0]->min_num_of_votes == 0)
                     <h4>Vote for No more than {{$races[0]->max_num_of_votes ?? 0}}</h4>
                     @else
                     <h4>Vote for No less than {{$races[0]->min_num_of_votes}}, Vote for No more than {{$races[0]->max_num_of_votes ?? 0}}</h4>
                     @endif
-                </div>
-                <button type="button" class="btn-voter-else">Someone Else</button>
-                <div class="form-group form-md-line-input has-info pull-right">
-                    <input type="text" class="form-control" id="form_control_1" placeholder="Other Candidate">
-                    <label for="form_control_1"></label>
-                </div>
-                <form class="guide-desc-body race-voter scroller" method="post" action="{{ url('client/racecount') }}"  style="height: 600px;">
+                </div>                
+                <form class="guide-desc-body race-voter scroller" method="post" action="{{ url('client/racecount') }}"  style="height: 300px;">
                     @csrf
                     <div class="form-group">
                         <input type="hidden" name="ballot_id" value="{{$ballots->data[0]->ballot_id}}" />
@@ -138,22 +133,32 @@
                 </div> -->
                 <!-- <textarea id="nestable_list_1_output" class="form-control col-md-12 margin-bottom-10"></textarea> -->
             </div>
+            <div class="col-md-4 col-xs-12">
+                <div class="form-group form-md-line-input has-info col-md-6">
+                    <input type="text" class="form-control" id="form_control_1" placeholder="Other Candidate">
+                    <label for="form_control_1"></label>
+                </div>
+                <div class="col-md-6 text-center">
+                    <button type="button" class="btn-voter-else">Someone Else</button>
+                </div>
+            </div>
+            
 		</div>
 	</div>
 	<!-- END CONTENT -->
 </div>
 <!-- BEGIN FOOTER -->
 <div class="page-footer-voter" style="text-align:center;padding-top: 35px;color:white;">
-	<div class="col-md-3">
+	<div class="col-md-3 col-xs-3">
         <button href="{{url('client/review')}}" type="button" class="btn-review">Review your choice</button>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-3 col-xs-3">
         <button type="button" class="btn-voter-back">Back</button>
 	</div>
-    <div class="col-md-3">
+    <div class="col-md-3 col-xs-3">
         <h4>{{session('current')+1}} of {{session('totalcnt')}}</h4>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-3 col-xs-3">
         <button type="button" class="btn-voter">Next</button>
 	</div>
 </div>
@@ -260,7 +265,7 @@
             @foreach($candidates->data as $key=>$candidate)
                 
                 $('.btn-voter-else').click(function(){
-                    if(max_num_of_write_ins < {{$races[0]->max_num_of_write_ins}}){
+                    if(max_num_of_write_ins < {{$races[0]->max_num_of_write_ins}} && $('#form_control_1').val() != ''){
                         var order = {
                                     "ballot_id": {{$ballots->data[0]->ballot_id}},
                                     "race_id": {{$races[0]->race_id}},

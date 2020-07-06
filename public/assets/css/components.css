@@ -167,7 +167,7 @@ body {
 }
 .form-group.form-md-line-input {
   position: relative;
-  margin: -20px 0 0 0;
+  margin: 20px 0 0 0;
   padding-top: 0;
 }
 .form-horizontal .form-group.form-md-line-input {
@@ -13690,4 +13690,53 @@ Transparent Button
 .btn-transparent.btn {
   background: transparent;
   color: #888;
+}
+@media only screen and (max-width: 1000px) {
+  .page-logo {
+    display : none;
+  }
+  .voter-title{
+    left: 0 !important;
+  }
+  .page-header-voter.navbar .top-menu {
+    display: none;
+  }
+  .col-xs-0{
+    display: none;
+  }
+  .btn-voter{
+    width: 100px !important;
+    height: 50px;
+    border-radius: 25px !important;
+    color: #20084a;
+    background-color: white;
+  }
+  .btn-review{
+    width: 100px !important;
+    height: 50px;
+    border-radius: 25px !important;
+    color: #20084a;
+    background-color: white;
+  }
+  .btn-voter-back{
+    width: 100px !important;
+    height: 50px;
+    border-radius: 25px !important;
+    color: #20084a;
+    background-color: white;
+  }
+  .btn-voter-else{
+    /* margin-top: -35px; */
+    /* float: right; */
+    width: 200px !important;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    height: 50px;
+    border-radius: 25px !important;
+    color: white;
+    background-color: #7864f7;
+  }
+  body {
+    background-color: #e0e5ec !important;
+  }
 }

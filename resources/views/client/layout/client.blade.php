@@ -94,9 +94,15 @@ License: You must have a valid license purchased only from themeforest(the above
 <script src="/assets/admin/pages/scripts/login.js" type="text/javascript"></script>
 <script>
     $(function(){
-        $('.page-content-fullwidth').css({ height: $(window).innerHeight()-210 });
+        // console.log($('.page-footer-voter').height());
+        $('.page-content-fullwidth').css({ height: $(window).innerHeight()-$('.page-footer-voter').height()-$('.page-header-voter').height()});
+        // $('.slimScrollDiv').css({ height: $(window).innerHeight()-$('.page-footer-voter').height()-$('.page-header-voter').height()});
+        $('.cast').css({ height: $(window).innerHeight()});
         $(window).resize(function(){
-            $('.page-content-fullwidth').css({ height: $(window).innerHeight()-210 });
+            $('.page-content-fullwidth').css({ height: $(window).innerHeight()-$('.page-footer-voter').height()-$('.page-header-voter').height()});
+            // $('.slimScrollDiv').css({ height: $(window).innerHeight()-$('.page-footer-voter').height()-$('.page-header-voter').height()});
+            $('.cast').css({ height: $(window).innerHeight()});
+            // console.log($(window).innerHeight());
         });
     });
     jQuery(document).ready(function() {   
