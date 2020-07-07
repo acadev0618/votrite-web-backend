@@ -490,7 +490,7 @@ var TableManaged = function () {
             if(max_cand == 0) {
                 option += "<option value='0'>0</opiton>"
             } else {
-                for(i = 1; i <= max_cand; i ++) {
+                for(i = 0; i <= max_cand; i ++) {
                     option += "<option value='"+i+"'>"+i+"</opiton>"
                 }
             }
@@ -549,7 +549,7 @@ var TableManaged = function () {
 
                     var max_cand = race.data[0].max_num_of_votes;
                     var option = '';
-                    for(i = 1; i <= max_cand; i ++) {
+                    for(i = 0; i <= max_cand; i ++) {
                         option += "<option disabled value='"+i+"'>"+i+"</opiton>"
                     }
                     modal.find('.max_w_cand').html(option);
@@ -593,7 +593,7 @@ var TableManaged = function () {
 
                     var max_cand = race.data[0].max_num_of_votes;
                     var option = '';
-                    for(i = 1; i <= max_cand; i ++) {
+                    for(i = 0; i <= max_cand; i ++) {
                         option += "<option value='"+i+"'>"+i+"</opiton>"
                     }
                     modal.find('.max_w_cand').html(option);
@@ -718,7 +718,7 @@ var TableManaged = function () {
                         if(max_cand == 0) {
                             option += "<option value='0'>0</opiton>"
                         } else {
-                            for(i = 1; i <= max_cand; i ++) {
+                            for(i = 0; i <= max_cand; i ++) {
                                 option += "<option value='"+i+"'>"+i+"</opiton>"
                             }
                         }
@@ -777,7 +777,7 @@ var TableManaged = function () {
             
                                 var max_cand = race.data[0].max_num_of_votes;
                                 var option = '';
-                                for(i = 1; i <= max_cand; i ++) {
+                                for(i = 0; i <= max_cand; i ++) {
                                     option += "<option disabled value='"+i+"'>"+i+"</opiton>"
                                 }
                                 modal.find('.max_w_cand').html(option);
@@ -821,7 +821,7 @@ var TableManaged = function () {
             
                                 var max_cand = race.data[0].max_num_of_votes;
                                 var option = '';
-                                for(i = 1; i <= max_cand; i ++) {
+                                for(i = 0; i <= max_cand; i ++) {
                                     option += "<option value='"+i+"'>"+i+"</opiton>"
                                 }
                                 modal.find('.max_w_cand').html(option);
