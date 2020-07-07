@@ -31,7 +31,7 @@
 <div class="page-container">
 	<!-- BEGIN CONTENT -->
 	<div class="page-content-wrapper" style="background-color: #e0e5ec;">
-		<div class="page-content-fullwidth">
+		<div class="page-content-fullwidth" style="max-height: 768px;">
             <div class="col-md-4 col-xs-0">
                 <div class="guide-desc-header text-center">
                     <h2>{{$ballots->data[0]->board}}</h2>
@@ -54,7 +54,7 @@
                     <h4>Vote for No less than {{$races[0]->min_num_of_votes}}, Vote for No more than {{$races[0]->max_num_of_votes ?? 0}}</h4>
                     @endif
                 </div>                
-                <form class="guide-desc-body race-voter scroller" method="post" action="{{ url('client/racecount') }}"  style="height: 300px;">
+                <form class="guide-desc-body race-voter scroller" method="post" action="{{ url('client/racecount') }}"  style="height: auto; max-height: 600px;">
                     @csrf
                     <div class="form-group">
                         <input type="hidden" name="ballot_id" value="{{$ballots->data[0]->ballot_id}}" />
@@ -150,7 +150,9 @@
 <!-- BEGIN FOOTER -->
 <div class="page-footer-voter" style="text-align:center;padding-top: 35px;color:white;">
 	<div class="col-md-3 col-xs-3">
+    @if(count(session('raceresult')) != 0)
         <button href="{{url('client/review')}}" type="button" class="btn-review">Review your choice</button>
+    @endif
     </div>
     <div class="col-md-3 col-xs-3">
         <button type="button" class="btn-voter-back">Back</button>
@@ -211,7 +213,7 @@
             });
             @endforeach
             $('.btn-voter-else').click(function(){
-                if(max_num_of_write_ins < {{$races[0]->max_num_of_write_ins}}){
+                if(max_num_of_write_ins < {{$races[0]->max_num_of_write_ins}}  && $('#form_control_1').val() != ''){
                     var order = {
                                     "ballot_id": {{$ballots->data[0]->ballot_id}},
                                     "race_id": {{$races[0]->race_id}},
@@ -262,50 +264,47 @@
                     $('.btn-voter').show();
                 }
             });
-            @foreach($candidates->data as $key=>$candidate)
-                
-                $('.btn-voter-else').click(function(){
-                    if(max_num_of_write_ins < {{$races[0]->max_num_of_write_ins}} && $('#form_control_1').val() != ''){
-                        var order = {
-                                    "ballot_id": {{$ballots->data[0]->ballot_id}},
-                                    "race_id": {{$races[0]->race_id}},
-                                    "candidate_name": $('#form_control_1').val(),
-                                    "party_id" : {{$races[0]->race_id}}
-                                }
-                        $.ajax({
-                        type: 'POST',
-                        url: 'http://3.90.78.113:9191/api/candidate/create',
-                        crossDomain: true,
-                        data: JSON.stringify(order),
-                        dataType: 'json',
-                        success: function(responseData, textStatus, jqXHR) {
-                            $("form.race-voter > div").append('<div class="form-group row">\
-                                <label class="control-label col-md-3">'+$('#form_control_1')+'</label>\
-                                <div class="spinner col-md-9">\
-                                    <div class="input-group" style="width:150px;">\
-                                        <div class="spinner-buttons input-group-btn">\
-                                            <button type="button" class="btn spinner-up blue">\
-                                            <i class="fa fa-plus"></i>\
-                                            </button>\
-                                        </div>\
-                                        <input type="text" class="spinner-input form-control" name="'+responseData.message+'-'+$('#form_control_1').val()+'" value="" maxlength="3" readonly>\
-                                        <div class="spinner-buttons input-group-btn">\
-                                            <button type="button" class="btn spinner-down red">\
-                                            <i class="fa fa-minus"></i>\
-                                            </button>\
-                                        </div>\
+            $('.btn-voter-else').click(function(){
+                if(max_num_of_write_ins < {{$races[0]->max_num_of_write_ins}} && $('#form_control_1').val() != ''){
+                    var order = {
+                                "ballot_id": {{$ballots->data[0]->ballot_id}},
+                                "race_id": {{$races[0]->race_id}},
+                                "candidate_name": $('#form_control_1').val(),
+                                "party_id" : {{$races[0]->race_id}}
+                            }
+                    $.ajax({
+                    type: 'POST',
+                    url: 'http://3.90.78.113:9191/api/candidate/create',
+                    crossDomain: true,
+                    data: JSON.stringify(order),
+                    dataType: 'json',
+                    success: function(responseData, textStatus, jqXHR) {
+                        $("form.race-voter > div").append('<div class="form-group row">\
+                            <label class="control-label col-md-3">'+$('#form_control_1')+'</label>\
+                            <div class="spinner col-md-9">\
+                                <div class="input-group" style="width:150px;">\
+                                    <div class="spinner-buttons input-group-btn">\
+                                        <button type="button" class="btn spinner-up blue">\
+                                        <i class="fa fa-plus"></i>\
+                                        </button>\
+                                    </div>\
+                                    <input type="text" class="spinner-input form-control" name="'+responseData.message+'-'+$('#form_control_1').val()+'" value="" maxlength="3" readonly>\
+                                    <div class="spinner-buttons input-group-btn">\
+                                        <button type="button" class="btn spinner-down red">\
+                                        <i class="fa fa-minus"></i>\
+                                        </button>\
                                     </div>\
                                 </div>\
-                            </div>');
-                        }
-                        });	
-                        max_num_of_write_ins++;
-
-                    }else{
-                        toastr['warning']('Over max write in');
+                            </div>\
+                        </div>');
                     }
-                });
-            @endforeach
+                    });	
+                    max_num_of_write_ins++;
+
+                }else{
+                    toastr['warning']('Over max write in');
+                }
+            });
         @endif
     @endif
     $('.btn-voter').click(function(){

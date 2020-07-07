@@ -95,12 +95,14 @@ License: You must have a valid license purchased only from themeforest(the above
 <script>
     $(function(){
         // console.log($('.page-footer-voter').height());
-        $('.page-content-fullwidth').css({ height: $(window).innerHeight()-$('.page-footer-voter').height()-$('.page-header-voter').height()});
-        // $('.slimScrollDiv').css({ height: $(window).innerHeight()-$('.page-footer-voter').height()-$('.page-header-voter').height()});
+        $('.page-content-fullwidth').css({ height: $(window).innerHeight()-$('.page-footer-voter').outerHeight()-$('.page-header-voter').outerHeight()-$('.guide-desc-header').height()});
+        $('.slimScrollDiv').css({ height: $(window).innerHeight()-$('.page-footer-voter').outerHeight()-$('.page-header-voter').outerHeight()-$('.guide-desc-header').height()});
+        $('.scroller').css({ height: $(window).innerHeight()-$('.page-footer-voter').outerHeight()-$('.page-header-voter').outerHeight()-$('.guide-desc-header').height()});
         $('.cast').css({ height: $(window).innerHeight()});
         $(window).resize(function(){
-            $('.page-content-fullwidth').css({ height: $(window).innerHeight()-$('.page-footer-voter').height()-$('.page-header-voter').height()});
-            // $('.slimScrollDiv').css({ height: $(window).innerHeight()-$('.page-footer-voter').height()-$('.page-header-voter').height()});
+            $('.page-content-fullwidth').css({ height: $(window).innerHeight()-$('.page-footer-voter').outerHeight()-$('.page-header-voter').outerHeight()-$('.guide-desc-header').height()});
+            $('.slimScrollDiv').css({ height: $(window).innerHeight()-$('.page-footer-voter').outerHeight()-$('.page-header-voter').outerHeight()-$('.guide-desc-header').height()});
+            $('.scroller').css({ height: $(window).innerHeight()-$('.page-footer-voter').outerHeight()-$('.page-header-voter').outerHeight()-$('.guide-desc-header').height()});
             $('.cast').css({ height: $(window).innerHeight()});
             // console.log($(window).innerHeight());
         });

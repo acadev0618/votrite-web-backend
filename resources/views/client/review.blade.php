@@ -47,7 +47,7 @@
                     <h2>{{$ballots->data[0]->board}}</h2>
                 </div>
                 
-                <form class="guide-desc-body race-voter scroller" method="post" action="{{ url('client/cast') }}" style="height: 300px;">
+                <form class="guide-desc-body race-voter scroller" method="post" action="{{ url('client/cast') }}" style="height: auto; max-height: 600px;">
                     @csrf
                     <div class="form-group" style="margin-left:25px;">
                     @if(count($totalrace) != 0)
@@ -79,7 +79,7 @@
                     @else
                     No Candidate
                     @endif
-                    @if(count(session('props')) != 0)
+                    @if(count(session('propresult')) != 0)
                     @foreach(session('props') as $key=>$prop)
                     <h2> {{$prop->prop_title}}</h2>
                     <h4>{{$prop->prop_text}}</h4>
@@ -90,7 +90,7 @@
                     @endforeach
                     @endforeach
                     @endif
-                    @if(count(session('mass')) != 0)
+                    @if(count(session('massresult')) != 0)
                     @foreach(session('mass') as $key=>$prop)
                     <h2> {{$prop->prop_title}}</h2>
                     <h4>{{$prop->prop_text}}</h4>

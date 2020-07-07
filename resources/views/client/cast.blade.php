@@ -5,7 +5,7 @@
 <div class="cast row" style="height:100%;background:white">
     @if (count($result) != 0)
     @foreach($result as $val)
-    @if(property_exists($val, "500"))
+    @if($val == null || property_exists($val, "500"))
     @else
     <div class="alert alert-success alert-block">
         <button type="button" class="close" data-dismiss="alert">×</button>	

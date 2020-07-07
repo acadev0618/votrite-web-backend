@@ -38,7 +38,6 @@ class ClientController extends Controller
         
         // $output = curl_exec($handle);
         // curl_close($handle);
-        $request->session()->forget(['key']);
         $BallotController = new BallotController;
         $response = $BallotController->getActiveBallot();
         // dd($response);
