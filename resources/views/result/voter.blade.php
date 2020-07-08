@@ -51,19 +51,18 @@
 
                         <form class="guide-desc-body race-voter scroller" method="post" action="{{ url('client/cast') }}" style="height: 400px;width: 400px;">
 						<div id="totalresult" style="padding:10px; width:400px;">
-                        	<h3 id="ballot_board">{{$ballots->data[0]->board}}</h3>
-							<br>
-                        	<h3 >{{$ballots->data[0]->client}}</h3>
-                        	<h3 >{{$ballots->data[0]->election}}</h3>
-                        	<h3 >{{date("l F j Y")}}</h3>
+                        	<h4 style="font-weight: bold;" id="ballot_board">{{$ballots->data[0]->board}}</h4>
+                        	<h4 style="font-weight: bold;" >{{$ballots->data[0]->client}}</h4>
+                        	<h4 style="font-weight: bold;" >{{$ballots->data[0]->election}}</h4>
+                        	<h4 style="font-weight: bold;" >{{date("l F j Y")}}</h4>
 							<br>
                             @csrf
-							<h2>Candidate</h2>
+							<h3 style="font-weight: bold;">Candidate</h3>
                             <div id="countresult" class="form-group" style="margin-left:25px;">
                             @if(count($candidate) != 0)
 							
                             @foreach($candidate as $race)
-                                <h3>Candidates For: {{$race[0]['race_title']}}</h3>
+                                <h4 style="font-weight: bold;">Candidates For: {{$race[0]['race_title']}}</h4>
 								@foreach($race as $key=>$cval)
 								@if($cval['race_type'] != 'R' )
                                 <h4>{{$key+1}}. {{$cval['candidate_name']}}</h4>
@@ -77,12 +76,12 @@
                             @endif                            
                             </div>
 							<hr style="border: 1px solid;width: 400px;">
-							<h2>Proposition</h2>
+							<h3 style="font-weight: bold;">Proposition</h3>
 							<div id="propresult" class="form-group" style="margin-left:25px;">
                             @if(count(get_object_vars($prop)) != 0 && property_exists($prop, "data"))
                             @if(count($prop->data) != 0)
                             @foreach($prop->data as $pro)
-                                <h3>{{$pro->prop_title}}</h3>
+                                <h4 style="font-weight: bold;">{{$pro->prop_title}}</h4>
 								@if($pro->prop_answer_type == 1)
                                 <h4>{{$pro->prop_name}} : {{$pro->cast_yes ? 'Yes' : ''}} {{$pro->cast_no ? 'No' : ''}}</h4>
 								@else
@@ -189,7 +188,7 @@
 								var x1;
 								var race = [];
 								for (x in responseData.candidate) {
-									text += '<h3 class="'+responseData.candidate[x][0]['race_id']+'">Candidates For: '+responseData.candidate[x][0]['race_title']+'</h3>'
+									text += '<h4 class="'+responseData.candidate[x][0]['race_id']+'">Candidates For: '+responseData.candidate[x][0]['race_title']+'</h4>'
 									for (y in responseData.candidate[x]) {
 										text += '<h4>'+(responseData.candidate[x][y]['race_type'] != 'R' ? (parseInt(y)+1)+'. ' : '')+responseData.candidate[x][y]['candidate_name']+(responseData.candidate[x][y]['race_type'] == 'R' ? ' : '+responseData.candidate[x][y]['cast_value'] : '')+'</h4>';
 									}
@@ -202,7 +201,7 @@
 								$('#countresult').html(text);
 								for (x1 in responseData.prop) {
 									console.log(responseData.prop);
-									text1 += '<h3 >'+responseData.prop[x1]['prop_title']+'</h3><h4>'+responseData.prop[x1]['prop_name']+' : '+(responseData.prop[x1]['prop_answer_type'] == 1 ? responseData.prop[x1]['cast_yes'] ? 'Yes' : '' :  responseData.prop[x1]['cast_yes'] ? 'For' : '' )+' '+(responseData.prop[x1]['prop_answer_type'] == 1 ? responseData.prop[x1]['cast_no'] ? 'No' : '' : responseData.prop[x1]['cast_no'] ? 'Against' : '')+'</h4>';
+									text1 += '<h4 >'+responseData.prop[x1]['prop_title']+'</h4><h4>'+responseData.prop[x1]['prop_name']+' : '+(responseData.prop[x1]['prop_answer_type'] == 1 ? responseData.prop[x1]['cast_yes'] ? 'Yes' : '' :  responseData.prop[x1]['cast_yes'] ? 'For' : '' )+' '+(responseData.prop[x1]['prop_answer_type'] == 1 ? responseData.prop[x1]['cast_no'] ? 'No' : '' : responseData.prop[x1]['cast_no'] ? 'Against' : '')+'</h4>';
 								}
 								$('#propresult').html(text1);
 							},
@@ -236,7 +235,7 @@
                     var x1;
 					var race = [];
                     for (x in responseData.candidate) {
-						text += '<h3 class="'+responseData.candidate[x][0]['race_id']+'">Candidates For: '+responseData.candidate[x][0]['race_title']+'</h3>'
+						text += '<h4 style="font-weight: bold;" class="'+responseData.candidate[x][0]['race_id']+'">Candidates For: '+responseData.candidate[x][0]['race_title']+'</h4>'
                     	for (y in responseData.candidate[x]) {
 							text += '<h4>'+(responseData.candidate[x][y]['race_type'] != 'R' ? (parseInt(y)+1)+'. ' : '')+responseData.candidate[x][y]['candidate_name']+(responseData.candidate[x][y]['race_type'] == 'R' ? ' : '+responseData.candidate[x][y]['cast_value'] : '')+'</h4>';
 						}
@@ -249,7 +248,7 @@
 					$('#countresult').html(text);
 					for (x1 in responseData.prop) {
 						console.log(responseData.prop);
-                        text1 += '<h3 >'+responseData.prop[x1]['prop_title']+'</h3><h4>'+responseData.prop[x1]['prop_name']+' : '+(responseData.prop[x1]['prop_answer_type'] == 1 ? responseData.prop[x1]['cast_yes'] ? 'Yes' : '' :  responseData.prop[x1]['cast_yes'] ? 'For' : '' )+' '+(responseData.prop[x1]['prop_answer_type'] == 1 ? responseData.prop[x1]['cast_no'] ? 'No' : '' : responseData.prop[x1]['cast_no'] ? 'Against' : '')+'</h4>';
+                        text1 += '<h4 >'+responseData.prop[x1]['prop_title']+'</h4><h4>'+responseData.prop[x1]['prop_name']+' : '+(responseData.prop[x1]['prop_answer_type'] == 1 ? responseData.prop[x1]['cast_yes'] ? 'Yes' : '' :  responseData.prop[x1]['cast_yes'] ? 'For' : '' )+' '+(responseData.prop[x1]['prop_answer_type'] == 1 ? responseData.prop[x1]['cast_no'] ? 'No' : '' : responseData.prop[x1]['cast_no'] ? 'Against' : '')+'</h4>';
                     }
                     $('#propresult').html(text1);
                 },
