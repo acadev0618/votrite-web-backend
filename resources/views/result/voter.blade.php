@@ -49,8 +49,8 @@
 							</div>
 						</div>
 
-                        <form class="guide-desc-body race-voter scroller" method="post" action="{{ url('client/cast') }}" style="height: 500px;width: 600px;">
-						<div id="totalresult" style="padding:10px; width:600px;">
+                        <form class="guide-desc-body race-voter scroller" method="post" action="{{ url('client/cast') }}" style="height: 400px;width: 400px;">
+						<div id="totalresult" style="padding:10px; width:400px;">
                         	<h3 id="ballot_board">{{$ballots->data[0]->board}}</h3>
 							<br>
                         	<h3 >{{$ballots->data[0]->client}}</h3>
@@ -76,7 +76,7 @@
                             No Candidate
                             @endif                            
                             </div>
-							<hr style="border: 1px solid;width: 500px;">
+							<hr style="border: 1px solid;width: 400px;">
 							<h2>Proposition</h2>
 							<div id="propresult" class="form-group" style="margin-left:25px;">
                             @if(count(get_object_vars($prop)) != 0 && property_exists($prop, "data"))
