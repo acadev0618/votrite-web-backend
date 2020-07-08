@@ -60,11 +60,12 @@
                         	<h4 style="font-weight: bold;" id="ballot_board">{{$ballots->data[0]->board}}</h4>
 							<h4 style="font-weight: bold;" >{{$ballots->data[0]->address}}</h4>
                         	<h4 style="font-weight: bold;" >{{$ballots->data[0]->client}}</h4>
-                        	<h4 style="font-weight: bold;" >{{$ballots->data[0]->election}}</h4>
+                        	<h4 style="font-weight: bold;" >Start : {{$ballots->data[0]->start_date}}</h4>
+                        	<h4 style="font-weight: bold;" >End : {{$ballots->data[0]->end_date}}</h4>
 							<br>
                             @csrf
 							<h3 class="text-center" style="width: 400px;border-bottom:1px solid;font-weight: bold;">END OF DAY - REPORT</h3>
-							<h5 style="font-weight: bold;" >TOTAL VOTES ON MACHINE........{{$blt_cnt}}</h5>
+							<h3 style="font-weight: bold;" >TOTAL VOTES ON MACHINE........{{$blt_cnt}}</h3>
 							<hr style="border: 1px solid;width: 400px;">
                             <div id="countresult" class="form-group" style="margin-left:25px;">
                             @if(count($candidates) != 0)

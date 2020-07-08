@@ -5,7 +5,7 @@
 <br>
 @csrf
 <h3 class="text-center" style="width: 400px;border-bottom:1px solid;font-weight: bold;">END OF DAY - REPORT</h3>
-<h5 style="font-weight: bold;" >TOTAL VOTES ON MACHINE........{{$blt_cnt}}</h5>
+<h3 style="font-weight: bold;" >TOTAL VOTES ON MACHINE........{{$blt_cnt}}</h3>
 <hr style="border: 1px solid;width: 400px;">
 <div id="countresult" class="form-group" style="margin-left:25px;">
 @if(count($candidates) != 0)
