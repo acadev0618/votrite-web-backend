@@ -32,7 +32,7 @@
 											</select>
 										</div>
 									</div>
-									<div class="col-md-4 form-group ">
+									<!-- <div class="col-md-4 form-group ">
 										<label class="col-sm-3 control-label select_name">Race:</label>
 										<div class="col-sm-9 race_option">
 											<select class="form-control" name="cand_race_name" id="result_cand_race_name">
@@ -45,9 +45,9 @@
 											@endif
 											</select>
 										</div>
-									</div>
+									</div> -->
 									<div class="col-md-4 form-group ">
-										<button class="btn yellow showDetail" data-toggle="modal"><i class="fa fa-eye"></i> <span> Ballot Detail</span></button>
+										<button class="btn yellow showDetail"><i class="fa fa-eye"></i> <span> Print</span></button>
 									</div>
 								</div>
 								<div class="col-md-6">
@@ -55,7 +55,53 @@
 								</div>
 							</div>
 						</div>
-                        <div id='change_table_candidate_r'>
+						<form class="guide-desc-body race-voter scroller" method="post" action="{{ url('client/cast') }}" style="height: 500px; width:600px;">
+						<div id="balresult" style="padding:10px; width:600px;">
+                        	<h3 id="ballot_board">{{$ballots->data[0]->board}}</h3>
+							<h3 >{{$ballots->data[0]->address}}</h3>
+                        	<h3 >{{$ballots->data[0]->client}}</h3>
+                        	<h3 >{{$ballots->data[0]->election}}</h3>
+							<br>
+                            @csrf
+							<h2 class="text-center" style="border-bottom:1px solid">END OF DAY - REPORT</h2>
+							<h2 >TOTAL VOTES ON MACHINE...........................{{$blt_cnt}}</h2>
+							<hr style="border: 1px solid;width: 500px;">
+                            <div id="countresult" class="form-group" style="margin-left:25px;">
+                            @if(count($candidates) != 0)
+                            @foreach($candidates as $race)
+                                <h3 style="font-weight: bold;">{{$race[0]->race_title}}</h3>
+								<h3 style="font-weight: bold;">{{$race[0]->race_name}}</h4>
+								@foreach($race as $cand)
+								<h4>{{$cand->candidate_name}} - {{$cand->cast_counter}}</h4>
+                            	@endforeach
+                            @endforeach
+                            @else
+                            No Candidate
+                            @endif
+							</div>
+							<hr style="border: 1px solid;width: 500px;">
+							<h2>Proposition</h2>
+							<div id="propresult" class="form-group" style="margin-left:25px;">
+                            @if(count(get_object_vars($props)) != 0 && property_exists($props, "data"))
+                            @if(count($props->data) != 0)
+                            @foreach($props->data as $pro)
+                                <h3>{{$pro->prop_name}}</h3>
+								@if($pro->prop_answer_type == 1)
+                                <h4>Yes - {{$pro->cast_yes}}</h4>
+                                <h4>No - {{$pro->cast_no}}</h4>
+								@else
+								<h4>For - {{$pro->cast_yes}}</h4>
+                                <h4>Against - {{$pro->cast_no}}</h4>
+								@endif
+                            @endforeach
+                            @else
+                            No Proposition
+                            @endif                            
+                            @endif                            
+                            </div>
+						</div>
+                        </form>
+                        <!-- <div id='change_table_candidate_r'>
 							<h4 class="modal-title text-center">Candidate</h4>
 							<table class="table table-striped table-bordered table-hover" id="result_candidate_table_r">
 								<thead>
@@ -120,7 +166,7 @@
 								<tbody>
 								</tbody>
 							</table>
-						</div>
+						</div> -->
 					</div>
 				</div>
 			</div>
@@ -128,7 +174,7 @@
 	</div>
 </div>
 
-<div id="detailModal" class="modal fade" tabindex="-1" data-width="1020">
+<!-- <div id="detailModal" class="modal fade" tabindex="-1" data-width="1020">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">×</button>
     </div>
@@ -245,150 +291,148 @@
 			</button>
 		</div>
     </div>
-</div>
+</div> -->
 
 @endsection
 @section('script')
 <script>
-	function getImg(data, type, full, meta) {
-		return '<img src='+data+' />';
-	}
+	// function getImg(data, type, full, meta) {
+	// 	return '<img src='+data+' />';
+	// }
 	@if(empty($ballots->data))
 	var ballot_id = '';
-	var race_id = '';
-	var race_type = '';
+	// var race_id = '';
+	// var race_type = '';
 	@else
 	var ballot_id = '{{ $ballots->data[0]->ballot_id }}';
-	var race_id = '{{ $races->data[0]->race_id }}';
-	var race_type = '{{ $races->data[0]->race_type }}';
 	@endif
 
 	var typerpc = 'candidate';	
 
-	var handleRecords = function (ballot_id, race_id, typerpc) {
+	// var handleRecords = function (ballot_id, race_id, typerpc) {
 
-		propurl = baseurl+'result/'+typerpc+'?ballot_id='+ballot_id+'&race_id='+race_id;
+	// 	propurl = baseurl+'result/'+typerpc+'?ballot_id='+ballot_id+'&race_id='+race_id;
 		
-		if(race_type == 'R') {
-			var tablename = '#result_'+typerpc+'_table_r';
-		} else {
-			var tablename = '#result_'+typerpc+'_table';
-		}
+	// 	if(race_type == 'R') {
+	// 		var tablename = '#result_'+typerpc+'_table_r';
+	// 	} else {
+	// 		var tablename = '#result_'+typerpc+'_table';
+	// 	}
 
-		var table = $(tablename);
-		if(typerpc == 'candidate'){
-			table.dataTable({
-				"language": {
-					"aria": {
-						"sortAscending": ": activate to sort column ascending",
-						"sortDescending": ": activate to sort column descending"
-					},
-					"emptyTable": "No data available in table",
-					"info": "Showing _START_ to _END_ of _TOTAL_ entries",
-					"infoEmpty": "No entries found",
-					"infoFiltered": "(filtered1 from _MAX_ total entries)",
-					"lengthMenu": "Show _MENU_ entries",
-					"search": "Search:",
-					"zeroRecords": "No matching records found",
-					"processing": "No Result"
-				},
-				destroy: true,
-				"bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
-				ajax: function (data, callback, settings) {
-					$.ajax({
-						url: propurl,
-						type: 'GET',
-						dataType: 'json',
-						success:function(data){
-							if(data.data != undefined){
-								callback(data);
-							}else{
-								callback({data:[]});
-							}
-						}
-					});
-				},
-				"columns": [
-					{ "data": "candidate_name" },
-					{ "data": "cast_value" },
-					{ "data": "cast_counter" },
-					{ "data": "candidate_id" },
-				],
-				"lengthMenu": [
-					[5, 15, 20, -1],
-					[5, 15, 20, "All"] // change per page values here
-				],
-				// set the initial value
-				"pageLength": 5,
-				"language": {
-					"lengthMenu": " _MENU_ records"
-				},
-				"columnDefs": [{  // set default column settings
-					'orderable': false,
-					'targets': [-1]
-				},{  // set default column settings
-					'orderable': 'desc',
-					'targets': [0]
-				}]
-			});
-		} else {
-			table.dataTable({
+	// 	var table = $(tablename);
+	// 	if(typerpc == 'candidate'){
+	// 		table.dataTable({
+	// 			"language": {
+	// 				"aria": {
+	// 					"sortAscending": ": activate to sort column ascending",
+	// 					"sortDescending": ": activate to sort column descending"
+	// 				},
+	// 				"emptyTable": "No data available in table",
+	// 				"info": "Showing _START_ to _END_ of _TOTAL_ entries",
+	// 				"infoEmpty": "No entries found",
+	// 				"infoFiltered": "(filtered1 from _MAX_ total entries)",
+	// 				"lengthMenu": "Show _MENU_ entries",
+	// 				"search": "Search:",
+	// 				"zeroRecords": "No matching records found",
+	// 				"processing": "No Result"
+	// 			},
+	// 			destroy: true,
+	// 			"bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
+	// 			ajax: function (data, callback, settings) {
+	// 				$.ajax({
+	// 					url: propurl,
+	// 					type: 'GET',
+	// 					dataType: 'json',
+	// 					success:function(data){
+	// 						if(data.data != undefined){
+	// 							callback(data);
+	// 						}else{
+	// 							callback({data:[]});
+	// 						}
+	// 					}
+	// 				});
+	// 			},
+	// 			"columns": [
+	// 				{ "data": "candidate_name" },
+	// 				{ "data": "cast_value" },
+	// 				{ "data": "cast_counter" },
+	// 				{ "data": "candidate_id" },
+	// 			],
+	// 			"lengthMenu": [
+	// 				[5, 15, 20, -1],
+	// 				[5, 15, 20, "All"] // change per page values here
+	// 			],
+	// 			// set the initial value
+	// 			"pageLength": 5,
+	// 			"language": {
+	// 				"lengthMenu": " _MENU_ records"
+	// 			},
+	// 			"columnDefs": [{  // set default column settings
+	// 				'orderable': false,
+	// 				'targets': [-1]
+	// 			},{  // set default column settings
+	// 				'orderable': 'desc',
+	// 				'targets': [0]
+	// 			}]
+	// 		});
+	// 	} else {
+	// 		table.dataTable({
 				
-				"language": {
-					"aria": {
-						"sortAscending": ": activate to sort column ascending",
-						"sortDescending": ": activate to sort column descending"
-					},
-					"emptyTable": "No data available in table",
-					"info": "Showing _START_ to _END_ of _TOTAL_ entries",
-					"infoEmpty": "No entries found",
-					"infoFiltered": "(filtered1 from _MAX_ total entries)",
-					"lengthMenu": "Show _MENU_ entries",
-					"search": "Search:",
-					"zeroRecords": "No matching records found",
-					"processing": "No Result"
-				},
-				destroy: true,
-				"bStateSave": true,
-				ajax: function (data, callback, settings) {
-					$.ajax({
-						url: propurl,
-						type: 'GET',
-						dataType: 'json',
-						success:function(data){
-							if(data.data != undefined){
-								callback(data);
-							}else{
-								callback({data:[]});
-							}
-						}
-					});
-				},
-				"columns": [
-					{ "data": "party_name" },
-					{ "data": "cast_counter" },
-					{ "data": "party_id" },
-				],
-				"lengthMenu": [
-					[5, 15, 20, -1],
-					[5, 15, 20, "All"] // change per page values here
-				],
-				// set the initial value
-				"pageLength": 5,
-				"language": {
-					"lengthMenu": " _MENU_ records"
-				},
-				"columnDefs": [{  // set default column settings
-					'orderable': false,
-					'targets': [-1]
-				},{  // set default column settings
-					'orderable': 'desc',
-					'targets': [0]
-				}]
-			});
-		}
+	// 			"language": {
+	// 				"aria": {
+	// 					"sortAscending": ": activate to sort column ascending",
+	// 					"sortDescending": ": activate to sort column descending"
+	// 				},
+	// 				"emptyTable": "No data available in table",
+	// 				"info": "Showing _START_ to _END_ of _TOTAL_ entries",
+	// 				"infoEmpty": "No entries found",
+	// 				"infoFiltered": "(filtered1 from _MAX_ total entries)",
+	// 				"lengthMenu": "Show _MENU_ entries",
+	// 				"search": "Search:",
+	// 				"zeroRecords": "No matching records found",
+	// 				"processing": "No Result"
+	// 			},
+	// 			destroy: true,
+	// 			"bStateSave": true,
+	// 			ajax: function (data, callback, settings) {
+	// 				$.ajax({
+	// 					url: propurl,
+	// 					type: 'GET',
+	// 					dataType: 'json',
+	// 					success:function(data){
+	// 						if(data.data != undefined){
+	// 							callback(data);
+	// 						}else{
+	// 							callback({data:[]});
+	// 						}
+	// 					}
+	// 				});
+	// 			},
+	// 			"columns": [
+	// 				{ "data": "party_name" },
+	// 				{ "data": "cast_counter" },
+	// 				{ "data": "party_id" },
+	// 			],
+	// 			"lengthMenu": [
+	// 				[5, 15, 20, -1],
+	// 				[5, 15, 20, "All"] // change per page values here
+	// 			],
+	// 			// set the initial value
+	// 			"pageLength": 5,
+	// 			"language": {
+	// 				"lengthMenu": " _MENU_ records"
+	// 			},
+	// 			"columnDefs": [{  // set default column settings
+	// 				'orderable': false,
+	// 				'targets': [-1]
+	// 			},{  // set default column settings
+	// 				'orderable': 'desc',
+	// 				'targets': [0]
+	// 			}]
+	// 		});
+	// 	}
 
-	}
+	// }
 
 	jQuery(document).ready(function() {		
 		// handleRecords(ballot_id, race_id, typerpc);
@@ -415,348 +459,369 @@
 			error: function (responseData, textStatus, errorThrown) {
 			}
 		});
-		if(ballot_id != '' || ballot_id != -1){
-			switch(race_type) {
-				case 'R':
-					typerpc = 'candidate';
-					handleRecords(ballot_id, race_id, typerpc);
-					$('#change_table_candidate_r').show();
-					$('#change_table_candidate').hide();
-					$('#change_table_party').hide();
-					break;
-				case 'S':
-					// typerpc = 'party';
-					typerpc = 'candidate';
-					handleRecords(ballot_id, race_id, typerpc);
-					$('#change_table_candidate').show();
-					$('#change_table_candidate_r').hide();
-					$('#change_table_party').hide();
-					break;
-				case 'P':
-					typerpc = 'candidate';
-					handleRecords(ballot_id, race_id, typerpc);
-					typerpc = 'party';
-					handleRecords(ballot_id, race_id, typerpc);
-					$('#change_table_candidate').show();
-					$('#change_table_party').show();
-					$('#change_table_candidate_r').hide();
-					break;
-			}
-		}	
+		// if(ballot_id != '' || ballot_id != -1){
+		// 	switch(race_type) {
+		// 		case 'R':
+		// 			typerpc = 'candidate';
+		// 			handleRecords(ballot_id, race_id, typerpc);
+		// 			$('#change_table_candidate_r').show();
+		// 			$('#change_table_candidate').hide();
+		// 			$('#change_table_party').hide();
+		// 			break;
+		// 		case 'S':
+		// 			// typerpc = 'party';
+		// 			typerpc = 'candidate';
+		// 			handleRecords(ballot_id, race_id, typerpc);
+		// 			$('#change_table_candidate').show();
+		// 			$('#change_table_candidate_r').hide();
+		// 			$('#change_table_party').hide();
+		// 			break;
+		// 		case 'P':
+		// 			typerpc = 'candidate';
+		// 			handleRecords(ballot_id, race_id, typerpc);
+		// 			typerpc = 'party';
+		// 			handleRecords(ballot_id, race_id, typerpc);
+		// 			$('#change_table_candidate').show();
+		// 			$('#change_table_party').show();
+		// 			$('#change_table_candidate_r').hide();
+		// 			break;
+		// 	}
 	});
 
-	$(document).on('click', '.showDetail', function(e){
-		if($('#result_'+typerpc+'_table tbody tr').text() != 'No data available in table' && race_type != 'P'){
-			$.ajax({
-				type: 'GET',
-				url: baseurl+'ballot?ballot_id='+ballot_id,
-				crossDomain: true,
-				dataType: 'json',
-				success: function(responseData, textStatus, jqXHR) {
-					$('#form_election').val(responseData.data[0]['election']);
-					$('#form_address').val(responseData.data[0]['address']);
-					$('#form_client').val(responseData.data[0]['client']);
-					$('#form_board').val(responseData.data[0]['board']);
-				},
-				error: function (responseData, textStatus, errorThrown) {
-				}
-			});
-			$.ajax({
-				type: 'GET',
-				url: baseurl+'race?race_id='+race_id,
-				crossDomain: true,
-				dataType: 'json',
-				success: function(responseData, textStatus, jqXHR) {
-					$('#form_title').val(responseData.data[0]['race_title']);
-					$('#form_name').val(responseData.data[0]['race_name']);
-					$('#form_position').val(responseData.data[0]['race_voted_position']);
-					switch(responseData.data[0]['race_type']) {
-						case 'R':
-							$('#form_type').val('Rank');
-							break;
-						case 'P':
-							$('#form_type').val('Primary');
-							break;
-						case 'S':
-							$('#form_type').val('Standard');
-							break;
-					}
-				},
-				error: function (responseData, textStatus, errorThrown) {
-				}
-			});
-			$.ajax({
-				type: 'GET',
-				url: baseurl+'result/proposition?ballot_id='+ballot_id+'&prop_type=P'+'&race_id='+race_id,
-				crossDomain: true,
-				dataType: 'json',
-				success: function(responseData, textStatus, jqXHR) {
-					var text = "";
-					var x;
-					for (x in responseData.data) {
-						if(responseData.data[x]['prop_answer_type'] == "1"){
-							text += "<li >"+responseData.data[x]['prop_name']+"<ul ><li > Yes : "+responseData.data[x]['cast_yes']+"</li><li > No : "+responseData.data[x]['cast_no']+"</li></ul></li>";
-						}else{
-							text += "<li >"+responseData.data[x]['prop_name']+"<ul ><li > For : "+responseData.data[x]['cast_yes']+"</li><li > Against : "+responseData.data[x]['cast_no']+"</li></ul></li>";
-						}
-					}
-					$('#form_prop').html(text);
-				},
-				error: function (responseData, textStatus, errorThrown) {
-				}
-			});
-			$.ajax({
-				type: 'GET',
-				url: baseurl+'result/proposition?ballot_id='+ballot_id+'&prop_type=M'+'&race_id='+race_id,
-				crossDomain: true,
-				dataType: 'json',
-				success: function(responseData, textStatus, jqXHR) {
-					var text = "";
-					var x;
-					for (x in responseData.data) {
-						if(responseData.data[x]['prop_answer_type'] == "1"){
-							text += "<li >"+responseData.data[x]['prop_name']+"<ul ><li > Yes : "+responseData.data[x]['cast_yes']+"</li><li > No : "+responseData.data[x]['cast_no']+"</li></ul></li>";
-						}else{
-							text += "<li >"+responseData.data[x]['prop_name']+"<ul ><li > For : "+responseData.data[x]['cast_yes']+"</li><li > Against : "+responseData.data[x]['cast_no']+"</li></ul></li>";
-						}
-					}
-					$('#form_massprop').html(text);
-				},
-				error: function (responseData, textStatus, errorThrown) {
-				}
-			});
-			$.ajax({
-				url: baseurl+'result/'+typerpc+'?ballot_id='+ballot_id+'&race_id='+race_id,
-				type: 'GET',
-				dataType: 'json',
-				success:function(responseData, textStatus, jqXHR){
-					var text = "";
-					var x;
-					var oldname = '';
+	// $(document).on('click', '.showDetail', function(e){
+	// 	if($('#result_'+typerpc+'_table tbody tr').text() != 'No data available in table' && race_type != 'P'){
+	// 		$.ajax({
+	// 			type: 'GET',
+	// 			url: baseurl+'ballot?ballot_id='+ballot_id,
+	// 			crossDomain: true,
+	// 			dataType: 'json',
+	// 			success: function(responseData, textStatus, jqXHR) {
+	// 				$('#form_election').val(responseData.data[0]['election']);
+	// 				$('#form_address').val(responseData.data[0]['address']);
+	// 				$('#form_client').val(responseData.data[0]['client']);
+	// 				$('#form_board').val(responseData.data[0]['board']);
+	// 			},
+	// 			error: function (responseData, textStatus, errorThrown) {
+	// 			}
+	// 		});
+	// 		$.ajax({
+	// 			type: 'GET',
+	// 			url: baseurl+'race?race_id='+race_id,
+	// 			crossDomain: true,
+	// 			dataType: 'json',
+	// 			success: function(responseData, textStatus, jqXHR) {
+	// 				$('#form_title').val(responseData.data[0]['race_title']);
+	// 				$('#form_name').val(responseData.data[0]['race_name']);
+	// 				$('#form_position').val(responseData.data[0]['race_voted_position']);
+	// 				switch(responseData.data[0]['race_type']) {
+	// 					case 'R':
+	// 						$('#form_type').val('Rank');
+	// 						break;
+	// 					case 'P':
+	// 						$('#form_type').val('Primary');
+	// 						break;
+	// 					case 'S':
+	// 						$('#form_type').val('Standard');
+	// 						break;
+	// 				}
+	// 			},
+	// 			error: function (responseData, textStatus, errorThrown) {
+	// 			}
+	// 		});
+	// 		$.ajax({
+	// 			type: 'GET',
+	// 			url: baseurl+'result/proposition?ballot_id='+ballot_id+'&prop_type=P'+'&race_id='+race_id,
+	// 			crossDomain: true,
+	// 			dataType: 'json',
+	// 			success: function(responseData, textStatus, jqXHR) {
+	// 				var text = "";
+	// 				var x;
+	// 				for (x in responseData.data) {
+	// 					if(responseData.data[x]['prop_answer_type'] == "1"){
+	// 						text += "<li >"+responseData.data[x]['prop_name']+"<ul ><li > Yes : "+responseData.data[x]['cast_yes']+"</li><li > No : "+responseData.data[x]['cast_no']+"</li></ul></li>";
+	// 					}else{
+	// 						text += "<li >"+responseData.data[x]['prop_name']+"<ul ><li > For : "+responseData.data[x]['cast_yes']+"</li><li > Against : "+responseData.data[x]['cast_no']+"</li></ul></li>";
+	// 					}
+	// 				}
+	// 				$('#form_prop').html(text);
+	// 			},
+	// 			error: function (responseData, textStatus, errorThrown) {
+	// 			}
+	// 		});
+	// 		$.ajax({
+	// 			type: 'GET',
+	// 			url: baseurl+'result/proposition?ballot_id='+ballot_id+'&prop_type=M'+'&race_id='+race_id,
+	// 			crossDomain: true,
+	// 			dataType: 'json',
+	// 			success: function(responseData, textStatus, jqXHR) {
+	// 				var text = "";
+	// 				var x;
+	// 				for (x in responseData.data) {
+	// 					if(responseData.data[x]['prop_answer_type'] == "1"){
+	// 						text += "<li >"+responseData.data[x]['prop_name']+"<ul ><li > Yes : "+responseData.data[x]['cast_yes']+"</li><li > No : "+responseData.data[x]['cast_no']+"</li></ul></li>";
+	// 					}else{
+	// 						text += "<li >"+responseData.data[x]['prop_name']+"<ul ><li > For : "+responseData.data[x]['cast_yes']+"</li><li > Against : "+responseData.data[x]['cast_no']+"</li></ul></li>";
+	// 					}
+	// 				}
+	// 				$('#form_massprop').html(text);
+	// 			},
+	// 			error: function (responseData, textStatus, errorThrown) {
+	// 			}
+	// 		});
+	// 		$.ajax({
+	// 			url: baseurl+'result/'+typerpc+'?ballot_id='+ballot_id+'&race_id='+race_id,
+	// 			type: 'GET',
+	// 			dataType: 'json',
+	// 			success:function(responseData, textStatus, jqXHR){
+	// 				var text = "";
+	// 				var x;
+	// 				var oldname = '';
 
-					for (x in responseData.data) {
-						if(typerpc == 'candidate'){
-							if(race_type == 'R') {
-								if(oldname != responseData.data[x]['candidate_name']){
-									if(responseData.data[x]['candidate_name'].length > 20) {
-										name = responseData.data[x]['candidate_name'].slice(0, 20);
-										name += ' ...';
-										text += "<div class='col-md-offset-1 col-md-5'>"+name;
-									} else {
-										text += "<div class='col-md-offset-1 col-md-5'>"+responseData.data[x]['candidate_name'];
-									}
-								}else{
-									text += "<div class='col-md-offset-1 col-md-5'>";
-								}
-								text +="</div><div class='col-md-2'> Rank: "+responseData.data[x]['cast_value']+"</div><div class='col-md-3'>Total Votes: "+responseData.data[x]['cast_counter']+"</div>";
-								oldname = responseData.data[x]['candidate_name'];
-							} else if(race_type == 'S') {
-								text += "<div class='col-md-offset-1 col-md-7'>"+responseData.data[x]['candidate_name']+"</div><div class='col-md-offset-1 col-md-3'>Total Votes: "+responseData.data[x]['cast_counter']+"</div>";
-							}
-						}
-					}
-					$('#cand_title').text('Candidate');
-					$('#cand_detail').html(text);
-				}
-			});
-			var modal = $('#detailModal');
-			modal.modal('show');
-		} else {
-			if($('#result_candidate_table tbody tr').text() != 'No data available in table' || $('#result_party_table tbody tr').text() != 'No data available in table'){
-				$.ajax({
-					type: 'GET',
-					url: baseurl+'ballot?ballot_id='+ballot_id,
-					crossDomain: true,
-					dataType: 'json',
-					success: function(responseData, textStatus, jqXHR) {
-						$('#form_election').val(responseData.data[0]['election']);
-						$('#form_address').val(responseData.data[0]['address']);
-						$('#form_client').val(responseData.data[0]['client']);
-						$('#form_board').val(responseData.data[0]['board']);
-					},
-					error: function (responseData, textStatus, errorThrown) {
-					}
-				});
-				$.ajax({
-					type: 'GET',
-					url: baseurl+'race?race_id='+race_id,
-					crossDomain: true,
-					dataType: 'json',
-					success: function(responseData, textStatus, jqXHR) {
-						$('#form_title').val(responseData.data[0]['race_title']);
-						$('#form_name').val(responseData.data[0]['race_name']);
-						$('#form_position').val(responseData.data[0]['race_voted_position']);
-						switch(responseData.data[0]['race_type']) {
-							case 'R':
-								$('#form_type').val('Rank');
-								break;
-							case 'P':
-								$('#form_type').val('Primary');
-								break;
-							case 'S':
-								$('#form_type').val('Standard');
-								break;
-						}
-					},
-					error: function (responseData, textStatus, errorThrown) {
-					}
-				});
-				$.ajax({
-					type: 'GET',
-					url: baseurl+'result/proposition?ballot_id='+ballot_id+'&prop_type=P'+'&race_id='+race_id,
-					crossDomain: true,
-					dataType: 'json',
-					success: function(responseData, textStatus, jqXHR) {
-						var text = "";
-						var x;
-						for (x in responseData.data) {
-							text += "<li >"+responseData.data[x]['prop_name']+"<ul ><li > Yes : "+responseData.data[x]['cast_yes']+"</li><li > No : "+responseData.data[x]['cast_no']+"</li></ul></li>";
-						}
-						$('#form_prop').html(text);
-					},
-					error: function (responseData, textStatus, errorThrown) {
-					}
-				});
-				$.ajax({
-					type: 'GET',
-					url: baseurl+'result/proposition?ballot_id='+ballot_id+'&prop_type=M'+'&race_id='+race_id,
-					crossDomain: true,
-					dataType: 'json',
-					success: function(responseData, textStatus, jqXHR) {
-						var text = "";
-						var x;
-						for (x in responseData.data) {
-							text += "<li >"+responseData.data[x]['prop_name']+"<ul ><li > Yes : "+responseData.data[x]['cast_yes']+"</li><li > No : "+responseData.data[x]['cast_no']+"</li></ul></li>";
-						}
-						$('#form_massprop').html(text);
-					},
-					error: function (responseData, textStatus, errorThrown) {
-					}
-				});
-				var text = '';
-				$.ajax({
-					url: baseurl+'result/candidate?ballot_id='+ballot_id+'&race_id='+race_id,
-					type: 'GET',
-					dataType: 'json',
-					success:function(responseData, textStatus, jqXHR){
-						var x;
-						for (x in responseData.data) {
-							text += "<div class='col-md-12'>";
-							text += "<div class='col-md-offset-1 col-md-7'>"+responseData.data[x]['candidate_name']+"</div ><div class='col-md-offset-1 col-md-3'>Total Votes: "+responseData.data[x]['cast_counter']+"</div>";
-							text += "</div>";
-						}
-						$('#cand_title').text('Party / Candidate');
-						$('#cand_detail').html(text);
-					}
-				});
-				$.ajax({
-					url: baseurl+'result/party?ballot_id='+ballot_id+'&race_id='+race_id,
-					type: 'GET',
-					dataType: 'json',
-					success:function(responseData, textStatus, jqXHR){
-						var x;
-						for (x in responseData.data) {
-							text += "<div class='col-md-12'>";
-							text += "<div class='col-md-offset-1 col-md-7'>"+responseData.data[x]['party_name']+"</div ><div class='col-md-offset-1 col-md-3'>Total Votes: "+responseData.data[x]['cast_counter']+"</div>";
-							text += "</div>";
-						}
-						text += "<div class='col-md-12' style='margin-bottom: 10px;'> </div>"
-						$('#cand_title').text('Candidate');
-						$('#cand_detail').html(text);
-					}
-				});
-				var modal = $('#detailModal');
-				modal.modal('show');			
-			}
-		}
-	}); 
+	// 				for (x in responseData.data) {
+	// 					if(typerpc == 'candidate'){
+	// 						if(race_type == 'R') {
+	// 							if(oldname != responseData.data[x]['candidate_name']){
+	// 								if(responseData.data[x]['candidate_name'].length > 20) {
+	// 									name = responseData.data[x]['candidate_name'].slice(0, 20);
+	// 									name += ' ...';
+	// 									text += "<div class='col-md-offset-1 col-md-5'>"+name;
+	// 								} else {
+	// 									text += "<div class='col-md-offset-1 col-md-5'>"+responseData.data[x]['candidate_name'];
+	// 								}
+	// 							}else{
+	// 								text += "<div class='col-md-offset-1 col-md-5'>";
+	// 							}
+	// 							text +="</div><div class='col-md-2'> Rank: "+responseData.data[x]['cast_value']+"</div><div class='col-md-3'>Total Votes: "+responseData.data[x]['cast_counter']+"</div>";
+	// 							oldname = responseData.data[x]['candidate_name'];
+	// 						} else if(race_type == 'S') {
+	// 							text += "<div class='col-md-offset-1 col-md-7'>"+responseData.data[x]['candidate_name']+"</div><div class='col-md-offset-1 col-md-3'>Total Votes: "+responseData.data[x]['cast_counter']+"</div>";
+	// 						}
+	// 					}
+	// 				}
+	// 				$('#cand_title').text('Candidate');
+	// 				$('#cand_detail').html(text);
+	// 			}
+	// 		});
+	// 		var modal = $('#detailModal');
+	// 		modal.modal('show');
+	// 	} else {
+	// 		if($('#result_candidate_table tbody tr').text() != 'No data available in table' || $('#result_party_table tbody tr').text() != 'No data available in table'){
+	// 			$.ajax({
+	// 				type: 'GET',
+	// 				url: baseurl+'ballot?ballot_id='+ballot_id,
+	// 				crossDomain: true,
+	// 				dataType: 'json',
+	// 				success: function(responseData, textStatus, jqXHR) {
+	// 					$('#form_election').val(responseData.data[0]['election']);
+	// 					$('#form_address').val(responseData.data[0]['address']);
+	// 					$('#form_client').val(responseData.data[0]['client']);
+	// 					$('#form_board').val(responseData.data[0]['board']);
+	// 				},
+	// 				error: function (responseData, textStatus, errorThrown) {
+	// 				}
+	// 			});
+	// 			$.ajax({
+	// 				type: 'GET',
+	// 				url: baseurl+'race?race_id='+race_id,
+	// 				crossDomain: true,
+	// 				dataType: 'json',
+	// 				success: function(responseData, textStatus, jqXHR) {
+	// 					$('#form_title').val(responseData.data[0]['race_title']);
+	// 					$('#form_name').val(responseData.data[0]['race_name']);
+	// 					$('#form_position').val(responseData.data[0]['race_voted_position']);
+	// 					switch(responseData.data[0]['race_type']) {
+	// 						case 'R':
+	// 							$('#form_type').val('Rank');
+	// 							break;
+	// 						case 'P':
+	// 							$('#form_type').val('Primary');
+	// 							break;
+	// 						case 'S':
+	// 							$('#form_type').val('Standard');
+	// 							break;
+	// 					}
+	// 				},
+	// 				error: function (responseData, textStatus, errorThrown) {
+	// 				}
+	// 			});
+	// 			$.ajax({
+	// 				type: 'GET',
+	// 				url: baseurl+'result/proposition?ballot_id='+ballot_id+'&prop_type=P'+'&race_id='+race_id,
+	// 				crossDomain: true,
+	// 				dataType: 'json',
+	// 				success: function(responseData, textStatus, jqXHR) {
+	// 					var text = "";
+	// 					var x;
+	// 					for (x in responseData.data) {
+	// 						text += "<li >"+responseData.data[x]['prop_name']+"<ul ><li > Yes : "+responseData.data[x]['cast_yes']+"</li><li > No : "+responseData.data[x]['cast_no']+"</li></ul></li>";
+	// 					}
+	// 					$('#form_prop').html(text);
+	// 				},
+	// 				error: function (responseData, textStatus, errorThrown) {
+	// 				}
+	// 			});
+	// 			$.ajax({
+	// 				type: 'GET',
+	// 				url: baseurl+'result/proposition?ballot_id='+ballot_id+'&prop_type=M'+'&race_id='+race_id,
+	// 				crossDomain: true,
+	// 				dataType: 'json',
+	// 				success: function(responseData, textStatus, jqXHR) {
+	// 					var text = "";
+	// 					var x;
+	// 					for (x in responseData.data) {
+	// 						text += "<li >"+responseData.data[x]['prop_name']+"<ul ><li > Yes : "+responseData.data[x]['cast_yes']+"</li><li > No : "+responseData.data[x]['cast_no']+"</li></ul></li>";
+	// 					}
+	// 					$('#form_massprop').html(text);
+	// 				},
+	// 				error: function (responseData, textStatus, errorThrown) {
+	// 				}
+	// 			});
+	// 			var text = '';
+	// 			$.ajax({
+	// 				url: baseurl+'result/candidate?ballot_id='+ballot_id+'&race_id='+race_id,
+	// 				type: 'GET',
+	// 				dataType: 'json',
+	// 				success:function(responseData, textStatus, jqXHR){
+	// 					var x;
+	// 					for (x in responseData.data) {
+	// 						text += "<div class='col-md-12'>";
+	// 						text += "<div class='col-md-offset-1 col-md-7'>"+responseData.data[x]['candidate_name']+"</div ><div class='col-md-offset-1 col-md-3'>Total Votes: "+responseData.data[x]['cast_counter']+"</div>";
+	// 						text += "</div>";
+	// 					}
+	// 					$('#cand_title').text('Party / Candidate');
+	// 					$('#cand_detail').html(text);
+	// 				}
+	// 			});
+	// 			$.ajax({
+	// 				url: baseurl+'result/party?ballot_id='+ballot_id+'&race_id='+race_id,
+	// 				type: 'GET',
+	// 				dataType: 'json',
+	// 				success:function(responseData, textStatus, jqXHR){
+	// 					var x;
+	// 					for (x in responseData.data) {
+	// 						text += "<div class='col-md-12'>";
+	// 						text += "<div class='col-md-offset-1 col-md-7'>"+responseData.data[x]['party_name']+"</div ><div class='col-md-offset-1 col-md-3'>Total Votes: "+responseData.data[x]['cast_counter']+"</div>";
+	// 						text += "</div>";
+	// 					}
+	// 					text += "<div class='col-md-12' style='margin-bottom: 10px;'> </div>"
+	// 					$('#cand_title').text('Candidate');
+	// 					$('#cand_detail').html(text);
+	// 				}
+	// 			});
+	// 			var modal = $('#detailModal');
+	// 			modal.modal('show');			
+	// 		}
+	// 	}
+	// }); 
 
 	$('#result_cand_ballot_name').change(function(){
 		ballot_id = $(this).val();
-		race_id = -1;
-		$.ajax({
-			type: 'GET',
-			url: baseurl+'race?ballot_id='+ballot_id,
-			crossDomain: true,
-			dataType: 'json',
-			success: function(responseData, textStatus, jqXHR) {
-				var text = "";
-				var x;
-				if(responseData.data != null){
-					race_id = responseData.data[0]['race_id'];
-					race_type = responseData.data[0]['race_type'];
-				}
-				for (x in responseData.data) {
-					text += "<option value="+responseData.data[x]['race_id']+" data-type="+responseData.data[x]['race_type']+">"+responseData.data[x]['race_name']+"</opiton>";
-				}
-				$('#result_cand_race_name').html(text);
+		// race_id = -1;
+		// $.ajax({
+		// 	type: 'GET',
+		// 	url: baseurl+'race?ballot_id='+ballot_id,
+		// 	crossDomain: true,
+		// 	dataType: 'json',
+		// 	success: function(responseData, textStatus, jqXHR) {
+		// 		var text = "";
+		// 		var x;
+		// 		if(responseData.data != null){
+		// 			race_id = responseData.data[0]['race_id'];
+		// 			race_type = responseData.data[0]['race_type'];
+		// 		}
+				// for (x in responseData.data) {
+				// 	text += "<option value="+responseData.data[x]['race_id']+" data-type="+responseData.data[x]['race_type']+">"+responseData.data[x]['race_name']+"</opiton>";
+				// }
+				// $('#result_cand_race_name').html(text);
 				
-				if(ballot_id != '' || ballot_id != -1){
-					switch(race_type) {
-						case 'R':
-							typerpc = 'candidate';
-							handleRecords(ballot_id, race_id, typerpc);
-							$('#change_table_candidate_r').show();
-							$('#change_table_candidate').hide();
-							$('#change_table_party').hide();
-							break;
-						case 'S':
-							// typerpc = 'party';
-							typerpc = 'candidate';
-							handleRecords(ballot_id, race_id, typerpc);
-							$('#change_table_candidate').show();
-							$('#change_table_candidate_r').hide();
-							$('#change_table_party').hide();
-							break;
-						case 'P':
-							typerpc = 'candidate';
-							handleRecords(ballot_id, race_id, typerpc);
-							typerpc = 'party';
-							handleRecords(ballot_id, race_id, typerpc);
-							$('#change_table_candidate').show();
-							$('#change_table_party').show();
-							$('#change_table_candidate_r').hide();
-							break;
-					}
-				}
-			},
-			error: function (responseData, textStatus, errorThrown) {
-			}
-		});
+				// if(ballot_id != '' || ballot_id != -1){
+				// 	switch(race_type) {
+				// 		case 'R':
+				// 			typerpc = 'candidate';
+				// 			handleRecords(ballot_id, race_id, typerpc);
+				// 			$('#change_table_candidate_r').show();
+				// 			$('#change_table_candidate').hide();
+				// 			$('#change_table_party').hide();
+				// 			break;
+				// 		case 'S':
+				// 			// typerpc = 'party';
+				// 			typerpc = 'candidate';
+				// 			handleRecords(ballot_id, race_id, typerpc);
+				// 			$('#change_table_candidate').show();
+				// 			$('#change_table_candidate_r').hide();
+				// 			$('#change_table_party').hide();
+				// 			break;
+				// 		case 'P':
+				// 			typerpc = 'candidate';
+				// 			handleRecords(ballot_id, race_id, typerpc);
+				// 			typerpc = 'party';
+				// 			handleRecords(ballot_id, race_id, typerpc);
+				// 			$('#change_table_candidate').show();
+				// 			$('#change_table_party').show();
+				// 			$('#change_table_candidate_r').hide();
+				// 			break;
+				// 	}
+				// }
+		// 	},
+		// 	error: function (responseData, textStatus, errorThrown) {
+		// 	}
+		// });
+		$.ajax({
+                type: 'GET',
+                url: apiurl+'ballotcal?ballot_id='+ballot_id,
+                success: function(responseData, textStatus, jqXHR) {
+					console.log(responseData);
+					$('#balresult').html(responseData);
+                },
+                error: function (responseData, textStatus, errorThrown) {
+					// $('#balresult').text('None');
+                    console.log(responseData,'error');
+                }
+            });
 	});
 
-	$(document).on('change','#result_cand_race_name',function(){
-		race_id = $(this).val();
-		race_type = $(this[this.selectedIndex]).data('type');
+	// $(document).on('change','#result_cand_race_name',function(){
+	// 	race_id = $(this).val();
+	// 	race_type = $(this[this.selectedIndex]).data('type');
 
-		if(ballot_id != '' || ballot_id != -1){
-			switch(race_type) {
-				case 'R':
-					typerpc = 'candidate';
-					handleRecords(ballot_id, race_id, typerpc);
-					$('#change_table_candidate_r').show();
-					$('#change_table_candidate').hide();
-					$('#change_table_party').hide();
-					break;
-				case 'S':
-					// typerpc = 'party';
-					typerpc = 'candidate';
-					handleRecords(ballot_id, race_id, typerpc);
-					$('#change_table_candidate').show();
-					$('#change_table_candidate_r').hide();
-					$('#change_table_party').hide();
-					break;
-				case 'P':
-					typerpc = 'candidate';
-					handleRecords(ballot_id, race_id, typerpc);
-					typerpc = 'party';
-					handleRecords(ballot_id, race_id, typerpc);
-					$('#change_table_candidate').show();
-					$('#change_table_party').show();
-					$('#change_table_candidate_r').hide();
-					break;
-			}
-		}
+	// 	if(ballot_id != '' || ballot_id != -1){
+	// 		switch(race_type) {
+	// 			case 'R':
+	// 				typerpc = 'candidate';
+	// 				handleRecords(ballot_id, race_id, typerpc);
+	// 				$('#change_table_candidate_r').show();
+	// 				$('#change_table_candidate').hide();
+	// 				$('#change_table_party').hide();
+	// 				break;
+	// 			case 'S':
+	// 				// typerpc = 'party';
+	// 				typerpc = 'candidate';
+	// 				handleRecords(ballot_id, race_id, typerpc);
+	// 				$('#change_table_candidate').show();
+	// 				$('#change_table_candidate_r').hide();
+	// 				$('#change_table_party').hide();
+	// 				break;
+	// 			case 'P':
+	// 				typerpc = 'candidate';
+	// 				handleRecords(ballot_id, race_id, typerpc);
+	// 				typerpc = 'party';
+	// 				handleRecords(ballot_id, race_id, typerpc);
+	// 				$('#change_table_candidate').show();
+	// 				$('#change_table_party').show();
+	// 				$('#change_table_candidate_r').hide();
+	// 				break;
+	// 		}
+	// 	}
+	// });
+	$('.showDetail').click(function(){
+		html2canvas(document.querySelector("#balresult")).then(canvas => {
+			var img = canvas.toDataURL("image/png");
+			var download = document.createElement('a');
+			download.href = img;
+			download.download = ''+new Date().getTime()+'.png';
+			download.click();
+			// console.log(img);
+		});
 	});
 </script>
 @endsection

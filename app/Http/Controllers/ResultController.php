@@ -8,44 +8,140 @@ use Session;
 class ResultController extends Controller
 {
     public function candidate() {
+        $result = [];
+        $blt_cnt = 0;
         if(Session::get('display_name')) {
             $BallotController = new BallotController;
-            $RaceController = new RaceController;
-            $PartyController = new PartyController;
-            $CandidateController = new CandidateController;
 
             $ballots = $BallotController->getActiveBallot();
             
-            if(empty($ballots->data)) {
-                $races = trim(' ');
-                $candidates = trim(' ');
-                $parties = trim(' ');
-            } else {
+            if(!empty($ballots->data)) {
                 $ballot_id = $ballots->data[0]->ballot_id;
-                $races = $RaceController->getRaceOfBallot($ballot_id);
-                $parties = $PartyController->getPartyOfBallot($ballot_id);
-                if(empty($races->data)) {
-                    $candidates = trim(' ');
-                    $parties = trim(' ');
-                } else {
-                    $race_id = $races->data[0]->race_id;
-                    $candidates = $CandidateController->getCandidateOfRace($race_id);
+                // $races = $RaceController->getRaceOfBallot($ballot_id);
+                
+                $Api = new ApiController;
+                
+                $api_url_cand = env('API').'/result/candidate';
+                $param_cand = 'ballot_id='.$ballots->data[0]->ballot_id;
+                $response_cand = $Api->getParamApi($api_url_cand, $param_cand);
+                if(count(get_object_vars($response_cand)) != 0 && property_exists($response_cand, "data")){
+                    if(count($response_cand->data) != 0){
+                        foreach($response_cand->data as $cand){
+                            if(array_key_exists($cand->race_id, $result)){
+                                array_push($result[$cand->race_id], $cand);
+                            }else{
+                                $result[$cand->race_id] = [];
+                                array_push($result[$cand->race_id], $cand);
+                            }
+                        }
+                    }
                 }
-            }
+                // dd($result);
+                $api_url_prop = env('API').'/result/proposition';
+                $param_prop = 'ballot_id='.$ballots->data[0]->ballot_id;
+                $response_prop = $Api->getParamApi($api_url_prop, $param_prop);
 
+                $data = array(
+                    "ballot_id" => $ballots->data[0]->ballot_id
+                );
+                $data = json_encode($data);
+                $api = env('API').'/result/ballot/counter';
+                // $Api = new ApiController;
+                $ballot_cnt = $Api->postApi($data, $api);
+                if(count(get_object_vars($ballot_cnt)) != 0){
+                    $blt_cnt = $ballot_cnt->data[0]->count;
+                }
+
+                // dd($ballot_cnt);
+                // $parties = $PartyController->getPartyOfBallot($ballot_id);
+                // if(empty($races->data)) {
+                //     $candidates = trim(' ');
+                //     $parties = trim(' ');
+                // } else {
+                //     $race_id = $races->data[0]->race_id;
+                //     $candidates = $CandidateController->getCandidateOfRace($race_id);
+                // }
+            }
+            // dd($ballots, $races, $candidates, $parties);
             return view('result.candidate')->with([
                 'sliderAction' => 'result', 
                 'subAction' => 'candidate',
                 'ballots' => $ballots,
-                'races' => $races,
-                'candidates' => $candidates,
-                'parties' => $parties
+                // 'races' => $races,
+                'candidates' => $result,
+                'blt_cnt' => $blt_cnt,
+                'props' => $response_prop
             ]);
         } else {
             return redirect('admin/');
         }
     }
 
+    public function ballotcal(Request $request) {
+        $result = [];
+        $blt_cnt = 0;
+            $BallotController = new BallotController;
+
+            $ballots = $BallotController->getActiveBallot();
+            
+            if(!empty($ballots->data)) {
+                $ballot_id = $request->ballot_id;
+                // $races = $RaceController->getRaceOfBallot($ballot_id);
+                
+                $Api = new ApiController;
+                
+                $api_url_cand = env('API').'/result/candidate';
+                $param_cand = 'ballot_id='.$request->ballot_id;
+                $response_cand = $Api->getParamApi($api_url_cand, $param_cand);
+                if(count(get_object_vars($response_cand)) != 0 && property_exists($response_cand, "data")){
+                    if(count($response_cand->data) != 0){
+                        foreach($response_cand->data as $cand){
+                            if(array_key_exists($cand->race_id, $result)){
+                                array_push($result[$cand->race_id], $cand);
+                            }else{
+                                $result[$cand->race_id] = [];
+                                array_push($result[$cand->race_id], $cand);
+                            }
+                        }
+                    }
+                }
+                // dd($result);
+                $api_url_prop = env('API').'/result/proposition';
+                $param_prop = 'ballot_id='.$request->ballot_id;
+                $response_prop = $Api->getParamApi($api_url_prop, $param_prop);
+
+                $data = array(
+                    "ballot_id" => $request->ballot_id
+                );
+                $data = json_encode($data);
+                $api = env('API').'/result/ballot/counter';
+                // $Api = new ApiController;
+                $ballot_cnt = $Api->postApi($data, $api);
+                if(count(get_object_vars($ballot_cnt)) != 0){
+                    $blt_cnt = $ballot_cnt->data[0]->count;
+                }
+
+                // dd($ballot_cnt);
+                // $parties = $PartyController->getPartyOfBallot($ballot_id);
+                // if(empty($races->data)) {
+                //     $candidates = trim(' ');
+                //     $parties = trim(' ');
+                // } else {
+                //     $race_id = $races->data[0]->race_id;
+                //     $candidates = $CandidateController->getCandidateOfRace($race_id);
+                // }
+            }
+            // dd($ballots, $races, $candidates, $parties);
+            return view('result.common.table')->with([
+                'sliderAction' => 'result', 
+                'subAction' => 'candidate',
+                'ballots' => $ballots,
+                // 'races' => $races,
+                'candidates' => $result,
+                'blt_cnt' => $blt_cnt,
+                'props' => $response_prop
+            ]);
+    }
     public function proposition() {
         if(Session::get('display_name')) {
             $BallotController = new BallotController;

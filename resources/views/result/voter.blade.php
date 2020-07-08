@@ -41,15 +41,16 @@
 												</select>
 											</div>
 										</div>
+										<div class="col-md-2"><button id="print" class="btn yellow" style=""><i class="fa fa-print"></i> <span>  Print</span></button></div>
 									</div>
 								</div>
 								<div class="col-md-2"></div>
-								<div class="col-md-2"><button id="print" class="btn btn-primary pull-right" style=""><i class="fa fa-print"></i> <span>  Print</span></button></div>
 								
 							</div>
 						</div>
 
-                        <form class="guide-desc-body race-voter scroller" method="post" action="{{ url('client/cast') }}" style="height: 500px;">
+                        <form class="guide-desc-body race-voter scroller" method="post" action="{{ url('client/cast') }}" style="height: 500px;width: 600px;">
+						<div id="totalresult" style="padding:10px; width:600px;">
                         	<h3 id="ballot_board">{{$ballots->data[0]->board}}</h3>
 							<br>
                         	<h3 >{{$ballots->data[0]->client}}</h3>
@@ -93,6 +94,7 @@
                             @endif                            
                             @endif                            
                             </div>
+						</div>
                         </form>
 					</div>
 				</div>
@@ -260,15 +262,14 @@
 		}
 	});
 	$('#print').click(function(){
-		var divContents = $("#countresult").parent().html();
-		var printWindow = window.open('', '', 'height=400,width=800');
-		printWindow.document.write('<html><head><title>Vote Result</title>');
-		printWindow.document.write('</head><body >');
-		printWindow.document.write(divContents);
-		printWindow.document.write('</body></html>');
-		printWindow.document.close();
-		printWindow.print();
-		printWindow.close();
+		html2canvas(document.querySelector("#totalresult")).then(canvas => {
+			var img = canvas.toDataURL("image/png");
+			var download = document.createElement('a');
+			download.href = img;
+			download.download = ''+new Date().getTime()+'.png';
+			download.click();
+			// console.log(img);
+		});
     });
 </script>
 @endsection
