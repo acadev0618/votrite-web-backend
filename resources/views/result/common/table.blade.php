@@ -2,10 +2,12 @@
 <h4 style="font-weight: bold;" >{{$ballots->data[0]->address}}</h4>
 <h4 style="font-weight: bold;" >{{$ballots->data[0]->client}}</h4>
 <h4 style="font-weight: bold;" >{{$ballots->data[0]->election}}</h4>
+<h4 style="font-weight: bold;" >Start : {{date_format(date_create($ballots->data[0]->start_date),"l, F j, Y")}}</h4>
+<h4 style="font-weight: bold;" >End : {{date_format(date_create($ballots->data[0]->end_date),"l, F j, Y")}}</h4>
 <br>
 @csrf
 <h3 class="text-center" style="width: 400px;border-bottom:1px solid;font-weight: bold;">END OF DAY - REPORT</h3>
-<h3 style="font-weight: bold;" >TOTAL VOTES ON MACHINE........{{$blt_cnt}}</h3>
+<h4 style="font-weight: bold;" >TOTAL VOTES ON MACHINE........{{$blt_cnt}}</h4>
 <hr style="border: 1px solid;width: 400px;">
 <div id="countresult" class="form-group" style="margin-left:25px;">
 @if(count($candidates) != 0)
