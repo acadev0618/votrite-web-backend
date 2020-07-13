@@ -264,6 +264,7 @@
 				}else{
 					$('#countresult').text('None');
 					$('#propresult').text('None');
+					$('#result_pincode').html("<option >none</opiton>");
 				}
 			},
 			error: function (responseData, textStatus, errorThrown) {
