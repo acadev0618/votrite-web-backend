@@ -22,7 +22,7 @@ class PropositionController extends Controller {
             } else {
                 $old_prop_ballot_id = session::get('old_prop_ballot_id');
                 $ballot_id = $request->old('ballot_id')==null?$ballots->data[0]->ballot_id:$request->old('ballot_id');
-                if($old_prop_ballot_id != $ballot_id) {
+                if(($old_prop_ballot_id != null) && ($old_prop_ballot_id != $ballot_id)) {
                     $ballot_id = $old_prop_ballot_id;
                 }
                 $prop_type = 'P';

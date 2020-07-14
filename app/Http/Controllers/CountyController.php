@@ -20,6 +20,14 @@ class CountyController extends Controller {
                 $state_id = $states->data[0]->state_id;
                 $counties = $this->getCountiesOfState($state_id);
                 $ballot_id = $request->old('ballot_id')==null?$ballots->data[0]->ballot_id:$request->old('ballot_id');
+                $old_county_ballot_id = session::get('old_county_ballot_id');
+                if(($old_county_ballot_id != null) && ($old_county_ballot_id != $ballot_id)) {
+                    $ballot_id = $old_county_ballot_id;
+                }
+                $old_county_state_id = session::get('old_county_state_id');
+                if(($old_county_state_id != null) && ($old_county_state_id != $state_id)) {
+                    $state_id = $old_county_state_id;
+                }
                 $ballot_counties = $this->getCounties($ballot_id , $state_id);
             }
 
@@ -40,6 +48,9 @@ class CountyController extends Controller {
         $BallotController = new BallotController;
         $ballots = $BallotController->getActiveBallot();
         $states = $this->getAllStates();
+
+        session(['old_county_ballot_id' => $request->ballot_id]);
+        session(['old_county_state_id' => $request->state_id]);
         
         if(empty($ballots->data) || empty($states->data)) {
             $ballot_counties = trim(' ');

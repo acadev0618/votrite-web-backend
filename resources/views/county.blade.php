@@ -23,14 +23,17 @@
 										<div class="col-sm-10">
 											<select class="form-control" name="county_ballot_option" id="county_ballot_option">
 											@if(empty($ballots->data))
-												<!-- <option value="-1">No Ballot</opiton> -->
 											@else
 												@foreach($ballots->data as $ballot)
-												@if($ballot->ballot_id == old('ballot_id'))
-												<option value="{{ $ballot->ballot_id }}" selected>{{ $ballot->election }}</opiton>
-												@else
-												<option value="{{ $ballot->ballot_id }}">{{ $ballot->election }}</opiton>
-												@endif
+													@if($ballot->ballot_id == session::get('old_county_ballot_id'))
+													<option value="{{ $ballot->ballot_id }}" selected>{{ $ballot->election }}</opiton>
+													@else	
+														@if($ballot->ballot_id == old('ballot_id'))
+														<option value="{{ $ballot->ballot_id }}" selected>{{ $ballot->election }}</opiton>
+														@else
+														<option value="{{ $ballot->ballot_id }}">{{ $ballot->election }}</opiton>
+														@endif
+													@endif
 												@endforeach
 											@endif
 											</select>
@@ -41,10 +44,13 @@
 										<div class="col-sm-5">
 											<select class="form-control" name="county_state_option" id="county_state_option">
 											@if(empty($states->data))
-												<!-- <option value="-1">No states</opiton> -->
 											@else
 												@foreach($states->data as $state)
-												<option value="{{ $state->state_id }}">{{ $state->state_code }}</opiton>
+													@if($state->state_id == session::get('old_county_state_id'))
+													<option value="{{ $state->state_id }}" selected>{{ $state->state_code }}</opiton>
+													@else	
+													<option value="{{ $state->state_id }}">{{ $state->state_code }}</opiton>
+													@endif
 												@endforeach
 											@endif
 											</select>

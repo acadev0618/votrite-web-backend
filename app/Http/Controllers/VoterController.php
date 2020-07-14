@@ -15,6 +15,10 @@ class VoterController extends Controller {
                 $voters = trim(' ');
             } else {
                 $ballot_id = $ballots->data[0]->ballot_id;
+                $old_voter_ballot_id = session::get('old_voter_ballot_id');
+                if($old_voter_ballot_id != $ballot_id) {
+                    $ballot_id = $old_voter_ballot_id;
+                }
                 $voters = $this->getPinsOfBallot($ballot_id);
             }
 
@@ -90,5 +94,11 @@ class VoterController extends Controller {
         $response = $Api->postApi($data, $api);
 
         return json_encode($response);
+    }
+
+    public function setOldVBId(Request $request) {
+       $old_voter_ballot_id = $request->ballot_id;
+       session(['old_voter_ballot_id' => $old_voter_ballot_id]);
+       return $old_voter_ballot_id;
     }
 }

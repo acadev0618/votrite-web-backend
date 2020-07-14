@@ -21,7 +21,7 @@ class RaceController extends Controller {
             } else {
                 $old_race_ballot_id = session::get('old_race_ballot_id');
                 $ballot_id = $request->old('ballot_id')==null?$ballots->data[0]->ballot_id:$request->old('ballot_id');
-                if($old_race_ballot_id != $ballot_id) {
+                if(($old_race_ballot_id != null) && ($old_race_ballot_id != $ballot_id)) {
                     $ballot_id = $old_race_ballot_id;
                 }
                 $languages = $LanguageController->getLangOfBallot($ballot_id);

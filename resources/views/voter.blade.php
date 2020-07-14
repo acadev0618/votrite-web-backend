@@ -26,8 +26,12 @@
                                                     @if(empty($ballots->data))
                                                     <option value="-1">No Ballot</opiton>
                                                     @else
-                                                        @foreach($ballots->data as $ballot)
-                                                        <option value="{{ $ballot->ballot_id }}">{{ $ballot->election }}</opiton>
+														@foreach($ballots->data as $ballot)
+															@if($ballot->ballot_id == session::get('old_voter_ballot_id'))
+																<option value="{{ $ballot->ballot_id }}" selected>{{ $ballot->election }}</opiton>
+															@else
+																<option value="{{ $ballot->ballot_id }}">{{ $ballot->election }}</opiton>
+															@endif
                                                         @endforeach
                                                     @endif
 												</select>
@@ -353,18 +357,18 @@
 			"bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
 			ajax: function (data, callback, settings) {
 				$.ajax({
-				url: propurl,
-				type: 'GET',
-				dataType: 'json',
-				success:function(data){
-					if(data.data != undefined){
-						$('.expertPinCode').show();
-						callback(data);
-					}else{
-						$('.expertPinCode').hide();
-						callback({data:[]});
+					url: propurl,
+					type: 'GET',
+					dataType: 'json',
+					success:function(data){
+						if(data.data != undefined){
+							$('.expertPinCode').show();
+							callback(data);
+						}else{
+							$('.expertPinCode').hide();
+							callback({data:[]});
+						}
 					}
-				}
 				});
 			},
 			"columns": [
@@ -482,7 +486,12 @@
 	$('#pin_ballot').unbind().bind('change',function(e){
 		e.preventDefault();
 		ballot_id = $(this).val();
-		ballot_name = this.options[this.selectedIndex].text
+		// @php
+		// 	$ballot_id = $(this).val();
+		// 	$old_voter_ballot_id = $ballot_id;
+		// 	session(['old_voter_ballot_id' => $old_voter_ballot_id]);
+		// @endphp
+		ballot_name = this.options[this.selectedIndex].text;
 		if(ballot_id != '' || ballot_id != -1){
 			handleRecords(ballot_id);
 		}

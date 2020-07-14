@@ -16,7 +16,7 @@ class PartyController extends Controller {
             } else {
                 $ballot_id = $request->old('ballot_id')==null?$ballots->data[0]->ballot_id:$request->old('ballot_id');
                 $old_party_ballot_id = session::get('old_party_ballot_id');
-                if($old_party_ballot_id != $ballot_id) {
+                if(($old_party_ballot_id != null) && ($old_party_ballot_id != $ballot_id)) {
                     $ballot_id = $old_party_ballot_id;
                 }
                 $parties = $this->getPartyOfBallot($ballot_id);

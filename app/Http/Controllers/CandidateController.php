@@ -22,7 +22,7 @@ class CandidateController extends Controller {
             } else {
                 $old_cand_ballot_id = session::get('old_cand_ballot_id');
                 $ballot_id = $request->old('ballot_id')==null?$ballots->data[0]->ballot_id:$request->old('ballot_id');
-                if($old_cand_ballot_id != $ballot_id) {
+                if(($old_cand_ballot_id != null) && ($old_cand_ballot_id != $ballot_id)) {
                     $ballot_id = $old_cand_ballot_id;
                 }
                 $races = $RaceController->getRaceOfBallot($ballot_id);
@@ -33,7 +33,7 @@ class CandidateController extends Controller {
                 } else {
                     $old_cand_race_id = session::get('old_cand_race_id');
                     $race_id = $request->old('race_id')==null?$races->data[0]->race_id:$request->old('race_id');
-                    if($old_cand_race_id != $race_id) {
+                    if(($old_cand_race_id != null) && ($old_cand_race_id != $race_id)) {
                         $race_id = $old_cand_race_id;
                     }
                     $candidates = $this->getCandidateOfRace($race_id);
