@@ -65,9 +65,7 @@ var TableManaged = function () {
     var ballotTable = function () {
 
         var table = $('#ballot_table');
-
         table.dataTable({
-
             "language": {
                 "aria": {
                     "sortAscending": ": activate to sort column ascending",
@@ -1024,6 +1022,12 @@ var TableManaged = function () {
             modal.modal('show');
         });
 
+        $('.del_photo').change(function () {
+            var checked = jQuery(this).is(":checked");
+            console.log(checked);
+            $('#editCandidateModal #edit_del_photo').val(checked);
+         });
+
         table.$('.editCandidateModal').click(function(){
             var cand_id = $(this).data('id');
             var lang_id = $('#cand_lang_name').val();
@@ -1179,6 +1183,12 @@ var TableManaged = function () {
                             $(this).attr("checked", false);
                         }
                     });
+
+                    $('.del_photo').change(function () {
+                        var checked = jQuery(this).is(":checked");
+                        console.log(checked);
+                        $('#editCandidateModal #edit_del_photo').val(checked);
+                     });
 
                     $('.addCandidateModal').click(function(){
                         var ballot_id = $('#cand_ballot_name').val();
@@ -1387,6 +1397,12 @@ var TableManaged = function () {
                             $(this).attr("checked", false);
                         }
                     });
+
+                    $('.del_photo').change(function () {
+                        var checked = jQuery(this).is(":checked");
+                        console.log(checked);
+                        $('#editCandidateModal #edit_del_photo').val(checked);
+                     });
 
                     $('.addCandidateModal').click(function(){
                         var ballot_id = $('#cand_ballot_name').val();
