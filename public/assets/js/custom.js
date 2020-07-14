@@ -972,6 +972,10 @@ var TableManaged = function () {
         $(document).on('click', '.deleteCandidatesModal', function(){
             var modal = $('#deleteCandidatesModal');
             var allVals = [];
+            var ballot_id = $('#cand_ballot_name').val();
+            var race_id = $('#cand_race_name').val();
+            modal.find('#ballot_id').val(ballot_id);
+            modal.find('#race_id').val(race_id);
 
             table.find(".checkboxes:checked").each(function() {  
                 allVals.push($(this).attr('data-id'));
@@ -1042,6 +1046,7 @@ var TableManaged = function () {
 
         table.$('.editCandidateModal').click(function(){
             var ballot_id = $('#cand_ballot_name').val();
+            var race_id = $('#cand_race_name').val();
             var cand_id = $(this).data('id');
             var lang_id = $('#cand_lang_name').val();
             var modal = $('#editCandidateModal');
@@ -1049,6 +1054,7 @@ var TableManaged = function () {
             modal.find('#ballot_id').val(ballot_id);
             modal.find('#edit_cand_id').val(cand_id);
             modal.find('#edit_lang_id').val(lang_id);
+            modal.find('#race_id').val(race_id);
 
             $.ajax({
                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
@@ -1073,11 +1079,13 @@ var TableManaged = function () {
         table.$('.deleteCandidateModal').click(function(){
             var ballot_id = $('#cand_ballot_name').val();
             var target_id= 'candidate_id';
+            var race_id = $('#cand_race_name').val();
+
             var id = $(this).data('id');
             var api = api_url+'/candidate/delete';
 
             var modal = $('#deleteCandidateModal');
-
+            modal.find('#race_id').val(race_id);
             modal.find('#ballot_id').val(ballot_id);
             modal.find('.id').val(id);
             modal.find('.target_id').val(target_id);
@@ -1237,11 +1245,15 @@ var TableManaged = function () {
                     $(document).on('click', '.deleteCandidatesModal', function(){
                         var modal = $('#deleteCandidatesModal');
                         var allVals = [];
-
+                        var ballot_id = $('#cand_ballot_name').val();
+                        var race_id = $('#cand_race_name').val();
+                        modal.find('#ballot_id').val(ballot_id);
+                        modal.find('#race_id').val(race_id);
+            
                         table.find(".checkboxes:checked").each(function() {  
                             allVals.push($(this).attr('data-id'));
                         });
-
+            
                         if(allVals.length <= 0) {
                             var confrim = $('#candConfirmModal');
                             confrim.modal('show');
@@ -1250,23 +1262,23 @@ var TableManaged = function () {
                             var target_id = 'candidate_id';
                             var ids = allVals.join(",");
                             var api = api_url+'/candidate/delete';
-
+            
                             modal.find('.target_id').val(target_id);
                             modal.find('.ids').val(ids);
                             modal.find('.api').val(api);
                         }
                     });
-
+            
                     var confirmModal = $('#candConfirmModal');
                     confirmModal.find('.modal_hide').click(function(){
                         confirmModal.modal('hide');
                         confirmModal.find('.modal_content').text('Please select porpositions.');
                     });
-
+            
                     table.$('.previewCandidateModal').click(function(){
                         var cand_id = $(this).data('id');
                         var modal = $('#previewCandidateModal');
-
+            
                         $.ajax({
                             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                             url: base_url+'/getOneCand',
@@ -1276,20 +1288,38 @@ var TableManaged = function () {
                             },
                             success: function(response) {
                                 var cand = JSON.parse(response);
-
+            
                                 modal.find('#prev_candidate_name').val(cand.data[0].candidate_name);
-                                modal.find('#prev_cand_photo').attr("src", ""+cand.data[0].photo);
-                                modal.find('#prev_party_logo').attr("src", ""+cand.data[0].party_logo);
+            
+                                if(cand.data[0].photo == null) {
+                                    modal.find('#prev_cand_photo').text("");
+                                } else {
+                                    modal.find('#prev_cand_photo').attr("src", ""+cand.data[0].photo);
+                                }
+            
+                                if(cand.data[0].party_logo == null) {
+                                    modal.find('#prev_party_logo').text("");
+                                } else {
+                                    modal.find('#prev_party_logo').attr("src", ""+cand.data[0].party_logo);
+                                }
+            
                                 modal.find('#email').val(cand.data[0].email);
                                 modal.find('#party_id').val(cand.data[0].party_id);
                             }
                         });
-
+            
                         modal.modal('show');
                     });
-
+            
+                    $('.del_photo').change(function () {
+                        var checked = jQuery(this).is(":checked");
+                        console.log(checked);
+                        $('#editCandidateModal #edit_del_photo').val(checked);
+                     });
+            
                     table.$('.editCandidateModal').click(function(){
                         var ballot_id = $('#cand_ballot_name').val();
+                        var race_id = $('#cand_race_name').val();
                         var cand_id = $(this).data('id');
                         var lang_id = $('#cand_lang_name').val();
                         var modal = $('#editCandidateModal');
@@ -1297,6 +1327,7 @@ var TableManaged = function () {
                         modal.find('#ballot_id').val(ballot_id);
                         modal.find('#edit_cand_id').val(cand_id);
                         modal.find('#edit_lang_id').val(lang_id);
+                        modal.find('#race_id').val(race_id);
             
                         $.ajax({
                             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
@@ -1317,16 +1348,17 @@ var TableManaged = function () {
             
                         modal.modal('show');
                     });
-
+            
                     table.$('.deleteCandidateModal').click(function(){
                         var ballot_id = $('#cand_ballot_name').val();
                         var target_id= 'candidate_id';
+                        var race_id = $('#cand_race_name').val();
+            
                         var id = $(this).data('id');
                         var api = api_url+'/candidate/delete';
             
-                        console.log(ballot_id);
                         var modal = $('#deleteCandidateModal');
-            
+                        modal.find('#race_id').val(race_id);
                         modal.find('#ballot_id').val(ballot_id);
                         modal.find('.id').val(id);
                         modal.find('.target_id').val(target_id);
@@ -1453,11 +1485,15 @@ var TableManaged = function () {
                     $(document).on('click', '.deleteCandidatesModal', function(){
                         var modal = $('#deleteCandidatesModal');
                         var allVals = [];
-
+                        var ballot_id = $('#cand_ballot_name').val();
+                        var race_id = $('#cand_race_name').val();
+                        modal.find('#ballot_id').val(ballot_id);
+                        modal.find('#race_id').val(race_id);
+            
                         table.find(".checkboxes:checked").each(function() {  
                             allVals.push($(this).attr('data-id'));
                         });
-
+            
                         if(allVals.length <= 0) {
                             var confrim = $('#candConfirmModal');
                             confrim.modal('show');
@@ -1466,23 +1502,23 @@ var TableManaged = function () {
                             var target_id = 'candidate_id';
                             var ids = allVals.join(",");
                             var api = api_url+'/candidate/delete';
-
+            
                             modal.find('.target_id').val(target_id);
                             modal.find('.ids').val(ids);
                             modal.find('.api').val(api);
                         }
                     });
-
+            
                     var confirmModal = $('#candConfirmModal');
                     confirmModal.find('.modal_hide').click(function(){
                         confirmModal.modal('hide');
                         confirmModal.find('.modal_content').text('Please select porpositions.');
                     });
-
+            
                     table.$('.previewCandidateModal').click(function(){
                         var cand_id = $(this).data('id');
                         var modal = $('#previewCandidateModal');
-
+            
                         $.ajax({
                             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                             url: base_url+'/getOneCand',
@@ -1492,20 +1528,38 @@ var TableManaged = function () {
                             },
                             success: function(response) {
                                 var cand = JSON.parse(response);
-
+            
                                 modal.find('#prev_candidate_name').val(cand.data[0].candidate_name);
-                                modal.find('#prev_cand_photo').attr("src", ""+cand.data[0].photo);
-                                modal.find('#prev_party_logo').attr("src", ""+cand.data[0].party_logo);
+            
+                                if(cand.data[0].photo == null) {
+                                    modal.find('#prev_cand_photo').text("");
+                                } else {
+                                    modal.find('#prev_cand_photo').attr("src", ""+cand.data[0].photo);
+                                }
+            
+                                if(cand.data[0].party_logo == null) {
+                                    modal.find('#prev_party_logo').text("");
+                                } else {
+                                    modal.find('#prev_party_logo').attr("src", ""+cand.data[0].party_logo);
+                                }
+            
                                 modal.find('#email').val(cand.data[0].email);
                                 modal.find('#party_id').val(cand.data[0].party_id);
                             }
                         });
-
+            
                         modal.modal('show');
                     });
-
+            
+                    $('.del_photo').change(function () {
+                        var checked = jQuery(this).is(":checked");
+                        console.log(checked);
+                        $('#editCandidateModal #edit_del_photo').val(checked);
+                     });
+            
                     table.$('.editCandidateModal').click(function(){
                         var ballot_id = $('#cand_ballot_name').val();
+                        var race_id = $('#cand_race_name').val();
                         var cand_id = $(this).data('id');
                         var lang_id = $('#cand_lang_name').val();
                         var modal = $('#editCandidateModal');
@@ -1513,6 +1567,7 @@ var TableManaged = function () {
                         modal.find('#ballot_id').val(ballot_id);
                         modal.find('#edit_cand_id').val(cand_id);
                         modal.find('#edit_lang_id').val(lang_id);
+                        modal.find('#race_id').val(race_id);
             
                         $.ajax({
                             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
@@ -1533,15 +1588,17 @@ var TableManaged = function () {
             
                         modal.modal('show');
                     });
-
+            
                     table.$('.deleteCandidateModal').click(function(){
                         var ballot_id = $('#cand_ballot_name').val();
                         var target_id= 'candidate_id';
+                        var race_id = $('#cand_race_name').val();
+            
                         var id = $(this).data('id');
                         var api = api_url+'/candidate/delete';
             
                         var modal = $('#deleteCandidateModal');
-            
+                        modal.find('#race_id').val(race_id);
                         modal.find('#ballot_id').val(ballot_id);
                         modal.find('.id').val(id);
                         modal.find('.target_id').val(target_id);

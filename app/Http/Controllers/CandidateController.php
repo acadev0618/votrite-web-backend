@@ -101,6 +101,7 @@ class CandidateController extends Controller {
         $cand_id = array('candidate_id' => $request->edit_cand_id);
         $data = array(
             "ballot_id" => $request->ballot_id,
+            "race_id" => $request->race_id,
             "candidate_name" => $request->edit_candidate_name,
             "email" => $request->edit_email,
             "party_id" => $request->edit_party_id,

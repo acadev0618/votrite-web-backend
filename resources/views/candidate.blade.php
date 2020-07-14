@@ -260,6 +260,7 @@
             </div>
             <div class="modal-footer">
 				<input type="text" name="ballot_id" id="ballot_id" hidden/>
+				<input type="text" name="race_id" id="race_id" hidden/>
 				<input type="text" name="edit_lang_id" id="edit_lang_id" hidden/>
 				<input type="text" name="edit_cand_id" id="edit_cand_id" hidden/>
 				<input type="text" name="edit_del_photo" id="edit_del_photo" value="false" hidden/>
@@ -346,7 +347,9 @@
     </div>
     <div class="modal-footer">
 		<form class="form-horizontal" role="form" method="post" action="{{ asset('/mutiDeleteData') }}">
-		@csrf            
+		@csrf           
+			<input type="text" name="ballot_id" id="ballot_id" hidden/>
+			<input type="text" name="race_id" id="race_id" hidden/> 
 			<input type="text" class="ids" name="ids" hidden />
 			<input type="text" class="target_id" name="target_id" hidden />
 			<input type="text" class="api" name="api" hidden />
@@ -374,6 +377,7 @@
 		<form class="form-horizontal" role="form" method="post" action="{{ asset('/deleteData') }}">
         @csrf 
 			<input type="text" name="ballot_id" id="ballot_id" hidden /> 
+			<input type="text" name="race_id" id="race_id" hidden/>
 			<input type="text" class="target_id" name="target_id" hidden />
 			<input type="text" class="id" name="id" hidden />
 			<input type="text" class="api" name="api" hidden />
