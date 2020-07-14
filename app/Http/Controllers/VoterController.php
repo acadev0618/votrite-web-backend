@@ -96,7 +96,7 @@ class VoterController extends Controller {
         return json_encode($response);
     }
 
-    public function setOldVBId(Request $request) {
+    public function setOldVB(Request $request) {
        $old_voter_ballot_id = $request->ballot_id;
        session(['old_voter_ballot_id' => $old_voter_ballot_id]);
        return $old_voter_ballot_id;

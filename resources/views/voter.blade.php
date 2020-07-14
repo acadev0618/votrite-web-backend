@@ -236,7 +236,11 @@
 	var ballot_id = '';
 	var ballot_name = '';
 	@else
-	var ballot_id = '{{ $ballots->data[0]->ballot_id }}';
+		@if(session::get('old_voter_ballot_id') == null)
+			var ballot_id = '{{ $ballots->data[0]->ballot_id }}';
+		@else
+			var ballot_id = '{{ session::get('old_voter_ballot_id') }}';
+		@endif
 	var ballot_name = '{{ $ballots->data[0]->election }}';
 	@endif
 	
@@ -486,11 +490,16 @@
 	$('#pin_ballot').unbind().bind('change',function(e){
 		e.preventDefault();
 		ballot_id = $(this).val();
-		// @php
-		// 	$ballot_id = $(this).val();
-		// 	$old_voter_ballot_id = $ballot_id;
-		// 	session(['old_voter_ballot_id' => $old_voter_ballot_id]);
-		// @endphp
+		$.ajax({
+			url : "{{url('/setOldVB')}}",
+			type : 'GET',
+			data : {
+				ballot_id : ballot_id
+			},
+			success : function(response) {
+				console.log(response);
+			}
+		});
 		ballot_name = this.options[this.selectedIndex].text;
 		if(ballot_id != '' || ballot_id != -1){
 			handleRecords(ballot_id);

@@ -105,3 +105,5 @@ Route::post('/saveAllLang', 'LanguageController@saveAllLang')->name('request');
 Route::post('/setAvalBallotCounty', 'CountyController@setAvalBallotCounty')->name('request');
 Route::post('/saveAllCounty', 'CountyController@saveAllCounty')->name('request');
 Route::post('/getChangedCountyOfBallot', 'CountyController@getChangedCountyOfBallot')->name('request');
+
+Route::get('/setOldVB', 'VoterController@setOldVB')->name('request');
