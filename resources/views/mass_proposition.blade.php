@@ -257,6 +257,7 @@
                 </div>
             </div>
             <div class="modal-footer">
+				<input type="text" value="0" name="ballot_id" id="ballot_id" hidden />
                 <input type="text" id="edit_prop_id" name="prop_id" hidden>
                 <input type="text" name="prop_type" value="M" hidden>
                 <button type="submit" class="btn btn-success addInvoice">
@@ -352,7 +353,8 @@
     </div>
     <div class="modal-footer">
 		<form class="form-horizontal" role="form" method="post" action="{{ asset('/mutiDeleteData') }}">
-		@csrf            
+		@csrf   
+			<input type="text" value="0" name="ballot_id" id="ballot_id" hidden />         
 			<input type="text" class="ids" name="ids" hidden />
 			<input type="text" class="target_id" name="target_id" hidden />
 			<input type="text" class="api" name="api" hidden />
@@ -379,6 +381,7 @@
     <div class="modal-footer">
 		<form class="form-horizontal" role="form" method="post" action="{{ asset('/deleteData') }}">
         @csrf 
+			<input type="text" value="0" name="ballot_id" id="ballot_id" hidden />
 			<input type="text" class="target_id" name="target_id" hidden />
 			<input type="text" class="id" name="id" hidden />
 			<input type="text" class="api" name="api" hidden />

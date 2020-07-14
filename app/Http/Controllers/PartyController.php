@@ -70,18 +70,21 @@ class PartyController extends Controller {
     }
 
     public function updateParty(Request $request) {
-        $BaseController = new BaseController;
-        $directory = "party/";
-        $photo = $request->file('edit_party');
-        $photo_link = $BaseController->fileUpload($photo, $directory);
-
         $party_id = array('party_id' => $request->party_id);
         $data = array(
             "ballot_id" => $request->ballot_id,
             "party_name" => $request->party_name,
-            "party_logo" => $photo_link,
             'keys' => $party_id
         );
+
+        $BaseController = new BaseController;
+        $directory = "party/";
+        $photo = $request->file('edit_party');
+        if($photo) {
+            $photo_link = $BaseController->fileUpload($photo, $directory);
+            $data += [ "party_logo" => $photo_link ];
+        }
+
         $data = json_encode($data);
         $api = env('API').'/ballot/party/update';
 

@@ -134,6 +134,7 @@ class RaceController extends Controller {
         $race_id = array('race_id' => $request->race_id);
         if(($request->race_lang_id == 0) || ($request->race_location_id == 0)) {
             $data = array(
+                "ballot_id" => $request->ballot_id,
                 'race_title' => $request->race_title,
                 'race_voted_position' => $request->race_voted_position,
                 'race_name' => $request->race_name,
@@ -145,6 +146,7 @@ class RaceController extends Controller {
             );
         } else {
             $data = array(
+                "ballot_id" => $request->ballot_id,
                 'race_title' => $request->race_title,
                 'race_voted_position' => $request->race_voted_position,
                 'race_name' => $request->race_name,

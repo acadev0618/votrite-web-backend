@@ -69,9 +69,7 @@
     </tbody>
 </table>
 
-
-
-<div id="addRaceModal" class="modal fade" tabindex="-1" data-width="620">
+    <div id="addRaceModal" class="modal fade" tabindex="-1" data-width="620">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">×</button>
             <h4 class="modal-title text-center">Add The Race</h4>
@@ -402,6 +400,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
+                    <input type="text" id="ballot_id" name="ballot_id" hidden />
                     <input type="text" id="edit_race_id" name="race_id" hidden>
                     <button type="submit" class="btn btn-success addInvoice">
                         <span id="" class='glyphicon glyphicon-check'></span> Save
@@ -425,7 +424,8 @@
     </div>
     <div class="modal-footer">
         <form class="form-horizontal" role="form" method="post" action="{{ asset('/mutiDeleteData') }}">
-        @csrf            
+        @csrf     
+            <input type="text" id="ballot_id" name="ballot_id" hidden />       
             <input type="text" class="ids" name="ids" hidden />
             <input type="text" class="target_id" name="target_id" hidden />
             <input type="text" class="api" name="api" hidden />
@@ -452,6 +452,7 @@
     <div class="modal-footer">
         <form class="form-horizontal" role="form" method="post" action="{{ asset('/deleteData') }}">
         @csrf
+            <input type="text" id="ballot_id" name="ballot_id" hidden />      
             <input type="text" class="target_id" name="target_id" hidden />
             <input type="text" class="id" name="id" hidden />
             <input type="text" class="api" name="api" hidden />

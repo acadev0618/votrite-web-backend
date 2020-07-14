@@ -10,6 +10,11 @@ class BaseController extends Controller {
         $api_url = $request->api;
         $target_id = $request->target_id;
         $id = $request->id;
+        $ballotid = null;
+
+        if(isset($request->ballot_id)){
+            $ballotid = $request->ballot_id;
+        }
 
         $data = array(
             $target_id => $id
@@ -22,21 +27,29 @@ class BaseController extends Controller {
         if($response->state == "success") {
             $notification = array(
                 'message' => 'Successfully deleted data.', 
-                'alert-type' => 'success'
+                'alert-type' => 'success',
+                'ballot_id' => $ballotid
             );
         } else {
             $notification = array(
                 'message' => 'Whoops! Something went wrong.', 
-                'alert-type' => 'error'
+                'alert-type' => 'error',
+                'ballot_id' => $ballotid
             );
         }
-        return back()->with($notification);
+        return back()->withInput($notification);
     }
 
     public function mutiDeleteData(Request $request) {
         $target_id = $request->target_id;
         $ids = $request->ids;
         $ids = explode(',', $ids);
+        $id = $request->id;
+        $ballotid = null;
+
+        if(isset($request->ballot_id)){
+            $ballotid = $request->ballot_id;
+        }
 
         for($i = 0; $i < count($ids); $i ++) {
             $data = array(
@@ -52,16 +65,18 @@ class BaseController extends Controller {
             if($response->state != 'success') {
                 $notification = array(
                     'message' => 'Whoops! Something went wrong.', 
-                    'alert-type' => 'warning'
+                    'alert-type' => 'warning',
+                    'ballot_id' => $ballotid
                 );
             }
         }
 
         $notification = array(
             'message' => 'Successfully deleted data.', 
-            'alert-type' => 'success'
+            'alert-type' => 'success',
+            'ballot_id' => $ballotid
         );
-        return back()->with($notification);
+        return back()->withInput($notification);
     }
 
     public function pinDeleteData(Request $request) {
@@ -126,20 +141,27 @@ class BaseController extends Controller {
     public function updateData($request, $api_url) {
         $Api = new ApiController;
         $response = $Api->postApi($request, $api_url);
-        
+        $ballotid = null;
+        $request = json_decode($request, true);
+
+        if(isset($request['ballot_id'])){
+            $ballotid = $request['ballot_id'];
+        }
 
         if($response->state == "success") {
             $notification = array(
                 'message' => 'Successfully updated data.', 
-                'alert-type' => 'success'
+                'alert-type' => 'success',
+                'ballot_id' => $ballotid
             );
         } else {
             $notification = array(
                 'message' => 'Whoops! Something went wrong.', 
-                'alert-type' => 'error'
+                'alert-type' => 'error',
+                'ballot_id' => $ballotid
             );
         }
-        return back()->with($notification);
+        return back()->withInput($notification);
     }
 
     public function fileUpload($photo, $directory) {

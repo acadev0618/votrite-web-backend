@@ -27,7 +27,8 @@ class CandidateController extends Controller {
                 if(empty($races->data)) {
                     $candidates = trim(' ');
                 } else {
-                    $race_id = $races->data[0]->race_id;
+                    // $race_id = $races->data[0]->race_id;
+                    $race_id = $request->old('race_id')==null?$races->data[0]->race_id:$request->old('race_id');
                     $candidates = $this->getCandidateOfRace($race_id);
                 }
             }
@@ -99,6 +100,7 @@ class CandidateController extends Controller {
         $del_photo = $request->edit_del_photo;
         $cand_id = array('candidate_id' => $request->edit_cand_id);
         $data = array(
+            "ballot_id" => $request->ballot_id,
             "candidate_name" => $request->edit_candidate_name,
             "email" => $request->edit_email,
             "party_id" => $request->edit_party_id,

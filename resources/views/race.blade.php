@@ -24,14 +24,13 @@
 											<div class="col-sm-10">
 												<select class="form-control select_ballot" name="select_ballot_name" id="select_ballot_name">
                                                     @if(empty($ballots->data))
-                                                    <!-- <option value="-1">No Ballot</opiton> -->
                                                     @else
                                                         @foreach($ballots->data as $ballot)
-                                                        @if($ballot->ballot_id == old('ballot_id'))
-                                                        <option value="{{ $ballot->ballot_id }}" selected>{{ $ballot->election }}</opiton>
-                                                        @else
-                                                        <option value="{{ $ballot->ballot_id }}">{{ $ballot->election }}</opiton>
-                                                        @endif
+                                                            @if($ballot->ballot_id == old('ballot_id'))
+                                                            <option value="{{ $ballot->ballot_id }}" selected>{{ $ballot->election }}</opiton>
+                                                            @else
+                                                            <option value="{{ $ballot->ballot_id }}">{{ $ballot->election }}</opiton>
+                                                            @endif
                                                         @endforeach
                                                     @endif
 												</select>
@@ -454,6 +453,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
+                    <input type="text" id="ballot_id" name="ballot_id" hidden />
                     <input type="text" id="edit_race_id" name="race_id" hidden>
                     <button type="submit" class="btn btn-success addInvoice">
                         <span id="" class='glyphicon glyphicon-check'></span> Save
@@ -477,7 +477,8 @@
         </div>
         <div class="modal-footer">
             <form class="form-horizontal" role="form" method="post" action="{{ asset('/mutiDeleteData') }}">
-            @csrf            
+            @csrf   
+                <input type="text" id="ballot_id" name="ballot_id" hidden />         
                 <input type="text" class="ids" name="ids" hidden />
                 <input type="text" class="target_id" name="target_id" hidden />
                 <input type="text" class="api" name="api" hidden />
@@ -504,6 +505,7 @@
         <div class="modal-footer">
             <form class="form-horizontal" role="form" method="post" action="{{ asset('/deleteData') }}">
             @csrf
+                <input type="text" id="ballot_id" name="ballot_id" hidden />      
                 <input type="text" class="target_id" name="target_id" hidden />
                 <input type="text" class="id" name="id" hidden />
                 <input type="text" class="api" name="api" hidden />

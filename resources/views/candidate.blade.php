@@ -25,11 +25,11 @@
 											@if(empty($ballots->data))
 											@else
 												@foreach($ballots->data as $ballot)
-                                       @if($ballot->ballot_id == old('ballot_id'))
-                                       <option value="{{ $ballot->ballot_id }}" selected>{{ $ballot->election }}</opiton>
-                                       @else
-                                       <option value="{{ $ballot->ballot_id }}">{{ $ballot->election }}</opiton>
-                                       @endif
+													@if($ballot->ballot_id == old('ballot_id'))
+													<option value="{{ $ballot->ballot_id }}" selected>{{ $ballot->election }}</opiton>
+													@else
+													<option value="{{ $ballot->ballot_id }}">{{ $ballot->election }}</opiton>
+													@endif
 												@endforeach
 											@endif
 											</select>
@@ -40,10 +40,13 @@
 										<div class="col-sm-9">
 											<select class="form-control" name="cand_race_name" id="cand_race_name">
 											@if(empty($races->data))
-												<!-- <option value="-1">No Race</opiton> -->
 											@else
 												@foreach($races->data as $race)
-												<option value="{{ $race->race_id }}">{{ $race->race_name }}</opiton>
+													@if($race->race_id == old('race_id'))
+													<option value="{{ $race->race_id }}" selected>{{ $race->race_name }}</opiton>
+													@else
+													<option value="{{ $race->race_id }}">{{ $race->race_name }}</opiton>
+													@endif
 												@endforeach
 											@endif
 											</select>
@@ -54,7 +57,6 @@
 										<div class="col-sm-8">
 											<select class="form-control" name="cand_lang_name" id="cand_lang_name">
 											@if(empty($languages->data))
-											<!-- <option value="-1">No Language</option> -->
 											@else
 												@foreach($languages->data as $lang)
 												<option value="{{ $lang->lang_id }}">{{ $lang->language_name }}</option>
@@ -257,6 +259,7 @@
                 </div>
             </div>
             <div class="modal-footer">
+				<input type="text" name="ballot_id" id="ballot_id" hidden/>
 				<input type="text" name="edit_lang_id" id="edit_lang_id" hidden/>
 				<input type="text" name="edit_cand_id" id="edit_cand_id" hidden/>
 				<input type="text" name="edit_del_photo" id="edit_del_photo" value="false" hidden/>
@@ -370,6 +373,7 @@
     <div class="modal-footer">
 		<form class="form-horizontal" role="form" method="post" action="{{ asset('/deleteData') }}">
         @csrf 
+			<input type="text" name="ballot_id" id="ballot_id" hidden /> 
 			<input type="text" class="target_id" name="target_id" hidden />
 			<input type="text" class="id" name="id" hidden />
 			<input type="text" class="api" name="api" hidden />

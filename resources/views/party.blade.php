@@ -127,7 +127,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-            <input type="text" id="ballot_id" name="ballot_id" hidden/>
+                <input type="text" id="ballot_id" name="ballot_id" hidden/>
                 <button type="submit" class="btn btn-success addInvoice">
                     <span id="" class='glyphicon glyphicon-check'></span> Add
                 </button>
@@ -156,12 +156,12 @@
             <div class="form-group">
                 <label class="label_des col-sm-4" for="title">Party Logo:</label>
                 <div class="col-sm-8">
-                <input type="file" class="form-control" name="edit_party" id="edit_party_logo" accept="image/png, image/jpeg" required></input>
+                <input type="file" class="form-control" name="edit_party" id="edit_party_logo" accept="image/png, image/jpeg"></input>
                 </div>
             </div>
             <div class="modal-footer">
-            <input type="text" name="ballot_id" id="edit_ballot_id" hidden>
-            <input type="text" name="party_id" id="edit_party_id" hidden>
+                <input type="text" name="ballot_id" id="edit_ballot_id" hidden>
+                <input type="text" name="party_id" id="edit_party_id" hidden>
                 <button type="submit" class="btn btn-success addInvoice">
                     <span id="" class='glyphicon glyphicon-check'></span> Save
                 </button>
@@ -212,7 +212,8 @@
     </div>
     <div class="modal-footer">
         <form class="form-horizontal" role="form" method="post" action="{{ asset('/mutiDeleteData') }}">
-		@csrf            
+		@csrf      
+            <input type="text" id="ballot_id" name="ballot_id" hidden/>      
 			<input type="text" class="ids" name="ids" hidden />
 			<input type="text" class="target_id" name="target_id" hidden />
 			<input type="text" class="api" name="api" hidden />
@@ -239,6 +240,7 @@
     <div class="modal-footer">
         <form class="form-horizontal" role="form" method="post" action="{{ asset('/deleteData') }}">
         @csrf 
+            <input type="text" id="ballot_id" name="ballot_id" hidden/>
 			<input type="text" class="target_id" name="target_id" hidden />
 			<input type="text" class="id" name="id" hidden />
 			<input type="text" class="api" name="api" hidden />

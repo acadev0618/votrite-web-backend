@@ -119,6 +119,7 @@ class PropositionController extends Controller {
 
         if($request->prop_location_id == 0 || $request->prop_lang_id == 0) {
             $data = array(
+                "ballot_id" => $request->ballot_id,
                 "prop_name" => $prop_name,
                 "prop_title" => $request->prop_title,
                 "prop_text" => $prop_text,
@@ -128,6 +129,7 @@ class PropositionController extends Controller {
             );
         } else {
             $data = array(
+                "ballot_id" => $request->ballot_id,
                 "prop_name" => $prop_name,
                 "prop_title" => $request->prop_title,
                 "prop_text" => $prop_text,
