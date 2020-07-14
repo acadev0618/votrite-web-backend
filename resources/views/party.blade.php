@@ -20,7 +20,7 @@
 								<div class="col-md-6">
 									<div class="row">
 										<div class="col-md-5 form-group">
-											<label class="col-sm-2 control-label select_name">Ballot:</label>
+											<label class="col-sm-2 label_des select_name">Ballot:</label>
 											<div class="col-sm-10">
 												<select class="form-control" name="party_ballot_name" id="party_ballot_name">
                                                 @if(empty($ballots->data))
@@ -115,13 +115,13 @@
         <form class="form-horizontal" role="form" method="post" action="{{ asset('/createParty') }}" enctype="multipart/form-data">
         @csrf
             <div class="form-group">
-                <label class="control-label col-sm-4" for="title">Party Name:</label>
+                <label class="label_des col-sm-4" for="title">Party Name:</label>
                 <div class="col-sm-8">
                     <input type="text" class="form-control" name="party_name" id="add_party_name" required>
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-4" for="title">Party Logo:</label>
+                <label class="label_des col-sm-4" for="title">Party Logo:</label>
                 <div class="col-sm-8">
                     <input type="file" class="form-control" name="party" accept="image/png, image/jpeg" required></input>
                 </div>
@@ -148,13 +148,13 @@
         <form class="form-horizontal" role="form" method="post" action="{{asset('updateParty')}}" enctype="multipart/form-data">
         @csrf
 			<div class="form-group">
-                <label class="control-label col-sm-4" for="title">Party Name:</label>
+                <label class="label_des col-sm-4" for="title">Party Name:</label>
                 <div class="col-sm-8">
                     <input type="text" class="form-control" name="party_name" id="edit_party_name">
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-4" for="title">Party Logo:</label>
+                <label class="label_des col-sm-4" for="title">Party Logo:</label>
                 <div class="col-sm-8">
                 <input type="file" class="form-control" name="edit_party" id="edit_party_logo" accept="image/png, image/jpeg" required></input>
                 </div>
@@ -181,13 +181,13 @@
     <div class="modal-body">
         <form class="form-horizontal">
 			<div class="form-group">
-                <label class="control-label col-sm-4" for="title">Party Name:</label>
+                <label class="label_des col-sm-4" for="title">Party Name:</label>
                 <div class="col-sm-8">
                     <input type="text" class="form-control" name="party_name" id="party_name" readonly autofocus>
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-4" for="title">Party Logo:</label>
+                <label class="label_des col-sm-4" for="title">Party Logo:</label>
                 <div class="col-sm-8">
                     <img id="party_logo" src="https://cdn.vuetifyjs.com/images/lists/1.jpg" style="width: 60px;">
                 </div>

@@ -197,7 +197,9 @@
     <div class="modal-body">
         <form class="form-horizontal">
 			<div class="form-group">
-                <label class="label_des col-sm-4" for="title">Candidate Name:</label>
+				<div class="col-sm-4">
+					<label class="label_des col-sm-12" for="title">Candidate Name:</label>
+				</div>
                 <div class="col-sm-8">
                     <input type="text" class="form-control" id="prev_candidate_name" required readonly>
                 </div>

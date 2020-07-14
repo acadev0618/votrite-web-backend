@@ -80,13 +80,13 @@
             <form class="form-horizontal" role="form" method="post" action="{{ asset('/createRace') }}">
             @csrf
                 <div class="form-group">
-                    <label class="control-label col-sm-5" for="title">International Race Name:</label>
+                    <label class="label_des col-sm-5" for="title">International Race Name:</label>
                     <div class="col-sm-7">
                         <input type="text" class="form-control" id="add_race_name" name="race_name" required placeholder="Example: BOD">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-sm-5" for="title">Race Type:</label>
+                    <label class="label_des col-sm-5" for="title">Race Type:</label>
                     <div class="col-sm-7">
                         <select class="form-control" name="race_type" id="add_race_type">
                             <option value="P">Primary</option>
@@ -96,7 +96,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-sm-5" for="title">Minimum number of vote:</label>
+                    <label class="label_des col-sm-5" for="title">Minimum number of vote:</label>
                     <div class="col-sm-7">
                         <select class="form-control min_cand" name="min_num_of_vote" id="add_min_num_of_vote">
                             <option value="0">0</opiton>
@@ -109,7 +109,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-sm-5" for="title">Maximum number of vote:</label>
+                    <label class="label_des col-sm-5" for="title">Maximum number of vote:</label>
                     <div class="col-sm-7">
                         <select class="form-control max_cand" name="max_num_of_vote" id="add_max_num_of_vote">
                             <option value="0">0</opiton>
@@ -127,7 +127,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-sm-5" for="title">Maximum number of Write-Ins:</label>
+                    <label class="label_des col-sm-5" for="title">Maximum number of Write-Ins:</label>
                     <div class="col-sm-7">
                         <select class="form-control max_w_cand" name="max_num_of_write_ins" id="add_max_num_of_write_ins">
                             <option value="0">0</opiton>
@@ -135,7 +135,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-sm-5" for="title">Choose Language:</label>
+                    <label class="label_des col-sm-5" for="title">Choose Language:</label>
                     <div class="col-sm-7">
                         <select class="form-control" name="race_lang_id" id="add_race_lang_id">
                             @if(empty($languages->data))
@@ -149,7 +149,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-sm-5" for="title">Choose County:</label>
+                    <label class="label_des col-sm-5" for="title">Choose County:</label>
                     <div class="col-sm-7">
                         <select class="form-control" name="race_location_id" id="add_race_location_id">
                         @if(empty($counties->data))
@@ -163,13 +163,13 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-sm-5" for="title">Race title:</label>
+                    <label class="label_des col-sm-5" for="title">Race title:</label>
                     <div class="col-sm-7">
                         <input type="text" class="form-control" id="add_race_title" name="race_title" required placeholder="Example: Election of Board of Directors">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-sm-5" for="title">Voted Position:</label>
+                    <label class="label_des col-sm-5" for="title">Voted Position:</label>
                     <div class="col-sm-7">
                         <textarea type="text" class="form-control" id="add_race_voted_position" name="race_voted_position" required placeholder="Candidates for: Director"></textarea>
                     </div>
@@ -195,13 +195,13 @@
         <div class="modal-body">
             <form class="form-horizontal">
                 <div class="form-group">
-                    <label class="control-label col-sm-5" for="title">International Race Name:</label>
+                    <label class="label_des col-sm-5" for="title">International Race Name:</label>
                     <div class="col-sm-7">
                         <input type="text" class="form-control" id="race_name" name="race_name" readonly>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-sm-5" for="title">Race Type:</label>
+                    <label class="label_des col-sm-5" for="title">Race Type:</label>
                     <div class="col-sm-7">
                         <select class="form-control" name="race_type" id="race_type" readonly>
                             <option disabled value="P">Primary</option>
@@ -211,7 +211,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-sm-5" for="title">Minimum number of vote:</label>
+                    <label class="label_des col-sm-5" for="title">Minimum number of vote:</label>
                     <div class="col-sm-7">
                         <select class="form-control min_cand" name="min_num_of_votes" id="min_num_of_votes" readonly>
                             <option disabled value="0">0</opiton>
@@ -224,7 +224,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-sm-5" for="title">Maximum number of vote:</label>
+                    <label class="label_des col-sm-5" for="title">Maximum number of vote:</label>
                     <div class="col-sm-7">
                         <select class="form-control max_cand" name="max_num_of_votes" id="max_num_of_votes" readonly>
                             <option disabled value="0">0</opiton>
@@ -242,7 +242,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-sm-5" for="title">Maximum number of Write-Ins:</label>
+                    <label class="label_des col-sm-5" for="title">Maximum number of Write-Ins:</label>
                     <div class="col-sm-7">
                         <select class="form-control max_w_cand" name="max_num_of_write_ins" id="max_num_of_write_ins" readonly>
                             <option disabled value="0">0</opiton>
@@ -250,7 +250,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-sm-5" for="title">Language:</label>
+                    <label class="label_des col-sm-5" for="title">Language:</label>
                     <div class="col-sm-7">
                         <select class="form-control" name="race_lang_id" id="race_lang_id" readonly>
                             @if(empty($languages->data))
@@ -264,7 +264,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-sm-5" for="title">County:</label>
+                    <label class="label_des col-sm-5" for="title">County:</label>
                     <div class="col-sm-7">
                         <select class="form-control" name="race_location_id" id="race_location_id" readonly>
                         @if(empty($counties->data))
@@ -278,13 +278,13 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-sm-5" for="title">Race title:</label>
+                    <label class="label_des col-sm-5" for="title">Race title:</label>
                     <div class="col-sm-7">
                         <input type="text" class="form-control" id="race_title" name="race_title" readonly>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-sm-5" for="title">Voted Position:</label>
+                    <label class="label_des col-sm-5" for="title">Voted Position:</label>
                     <div class="col-sm-7">
                         <textarea type="text" class="form-control" id="race_voted_position" name="race_voted_position" readonly></textarea>
                     </div>
@@ -307,13 +307,13 @@
             <form class="form-horizontal" role="form" method="post" action="{{ asset('/updateRace') }}">
             @csrf
                 <div class="form-group">
-                    <label class="control-label col-sm-5" for="title">International Race Name:</label>
+                    <label class="label_des col-sm-5" for="title">International Race Name:</label>
                     <div class="col-sm-7">
                         <input type="text" class="form-control" id="edit_race_name" name="race_name">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-sm-5" for="title">Race Type:</label>
+                    <label class="label_des col-sm-5" for="title">Race Type:</label>
                     <div class="col-sm-7">
                         <select class="form-control" name="race_type" id="edit_race_type">
                             <option value="P">Primary</option>
@@ -323,7 +323,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-sm-5" for="title">Minimum number of vote:</label>
+                    <label class="label_des col-sm-5" for="title">Minimum number of vote:</label>
                     <div class="col-sm-7">
                         <select class="form-control min_cand" name="min_num_of_votes" id="edit_min_num_of_votes">
                             <option value="0">0</opiton>
@@ -336,7 +336,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-sm-5" for="title">Maximum number of vote:</label>
+                    <label class="label_des col-sm-5" for="title">Maximum number of vote:</label>
                     <div class="col-sm-7">
                         <select class="form-control max_cand" name="max_num_of_votes" id="edit_max_num_of_votes">
                             <option value="0">0</opiton>
@@ -354,7 +354,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-sm-5" for="title">Maximum number of Write-Ins:</label>
+                    <label class="label_des col-sm-5" for="title">Maximum number of Write-Ins:</label>
                     <div class="col-sm-7">
                         <select class="form-control max_w_cand" name="max_num_of_write_ins" id="edit_max_num_of_write_ins">
                             <option value="0">0</opiton>
@@ -362,7 +362,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-sm-5" for="title">Choose Language:</label>
+                    <label class="label_des col-sm-5" for="title">Choose Language:</label>
                     <div class="col-sm-7">
                         <select class="form-control" name="race_lang_id" id="edit_race_lang_id">
                             @if(empty($languages->data))
@@ -376,7 +376,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-sm-5" for="title">Choose County:</label>
+                    <label class="label_des col-sm-5" for="title">Choose County:</label>
                     <div class="col-sm-7">
                         <select class="form-control" name="race_location_id" id="edit_race_location_id">
                         @if(empty($counties->data))
@@ -390,13 +390,13 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-sm-5" for="title">Race title:</label>
+                    <label class="label_des col-sm-5" for="title">Race title:</label>
                     <div class="col-sm-7">
                         <input type="text" class="form-control" id="edit_race_title" name="race_title">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-sm-5" for="title">Voted Position:</label>
+                    <label class="label_des col-sm-5" for="title">Voted Position:</label>
                     <div class="col-sm-7">
                         <textarea type="text" class="form-control" id="edit_race_voted_position" name="race_voted_position"></textarea>
                     </div>

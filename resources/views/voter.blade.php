@@ -20,7 +20,7 @@
 								<div class="col-md-5">
 									<div class="row">
 										<div class="col-md-5 form-group">
-											<label class="col-sm-2 control-label select_name">Ballot:</label>
+											<label class="col-sm-2 label_des select_name">Ballot:</label>
 											<div class="col-sm-10">
 												<select class="form-control select_ballot" name="pin_ballot" id="pin_ballot">
                                                     @if(empty($ballots->data))
@@ -93,19 +93,19 @@
         <form class="form-horizontal" role="form" method="post" action="">
         @csrf
             <div class="form-group">
-                <label class="control-label col-sm-5" for="title">Length of Code:</label>
+                <label class="label_des col-sm-5" for="title">Length of Code:</label>
                 <div class="col-sm-7">
                     <input type="number" class="form-control" name="pin_length" id="add_pin_length" required>
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-5" for="title">Expiration Time:</label>
+                <label class="label_des col-sm-5" for="title">Expiration Time:</label>
                 <div class="col-sm-7">
 					<input type="date" class="form-control" name="expire_time" id="add_expire_time" required>
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-5" for="title">Count of Code:</label>
+                <label class="label_des col-sm-5" for="title">Count of Code:</label>
                 <div class="col-sm-7">
                     <input type="number" class="form-control" name="pin_count" id="add_pin_count" required>
                 </div>
@@ -132,13 +132,13 @@
 		@csrf
 		
 			<div class="form-group">
-                <label class="control-label col-sm-5" for="title">Is Active:</label>
+                <label class="label_des col-sm-5" for="title">Is Active:</label>
                 <div class="col-sm-7">
 					<input type="checkbox" checked="checked" id="verify_checkbox" name="verify_checkbox" class="verify_checkbox">
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-5" for="title">Expire Date:</label>
+                <label class="label_des col-sm-5" for="title">Expire Date:</label>
                 <div class="col-sm-7">
                     <input type="date" class="form-control" name="voter_expire_time" id="edit_expire_time"></input>
                 </div>

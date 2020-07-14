@@ -19,7 +19,7 @@
 							<div class="row">
 								<div class="col-md-6 select_options">
 									<div class="col-md-4 form-group">
-										<label class="col-sm-2 control-label select_name">Ballot:</label>
+										<label class="col-sm-2 label_des select_name">Ballot:</label>
 										<div class="col-sm-10">
 											<select class="form-control" name="county_ballot_option" id="county_ballot_option">
 											@if(empty($ballots->data))
@@ -37,7 +37,7 @@
 										</div>
 									</div>
 									<div class="col-md-6 form-group">
-										<label class="col-sm-2 control-label select_name">State:</label>
+										<label class="col-sm-2 label_des select_name">State:</label>
 										<div class="col-sm-5">
 											<select class="form-control" name="county_state_option" id="county_state_option">
 											@if(empty($states->data))
