@@ -20,7 +20,11 @@ class PropositionController extends Controller {
                 $counties = trim(' ');
                 $propositions = trim(' ');
             } else {
+                $old_prop_ballot_id = session::get('old_prop_ballot_id');
                 $ballot_id = $request->old('ballot_id')==null?$ballots->data[0]->ballot_id:$request->old('ballot_id');
+                if($old_prop_ballot_id != $ballot_id) {
+                    $ballot_id = $old_prop_ballot_id;
+                }
                 $prop_type = 'P';
                 $languages = $LanguageController->getLangOfBallot($ballot_id);
                 $counties = $CountyController->getCountyOfBallot($ballot_id);
@@ -153,6 +157,8 @@ class PropositionController extends Controller {
         $CountyController = new CountyController;
 
         $ballots = $BallotController->getActiveBallot();
+
+        session(['old_prop_ballot_id' => $request->ballot_id]);
 
         if(empty($ballots->data)) {
             $languages = trim(' ');

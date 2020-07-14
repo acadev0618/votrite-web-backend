@@ -19,7 +19,11 @@ class RaceController extends Controller {
                 $counties = trim(' ');
                 $races = trim(' ');
             } else {
+                $old_race_ballot_id = session::get('old_race_ballot_id');
                 $ballot_id = $request->old('ballot_id')==null?$ballots->data[0]->ballot_id:$request->old('ballot_id');
+                if($old_race_ballot_id != $ballot_id) {
+                    $ballot_id = $old_race_ballot_id;
+                }
                 $languages = $LanguageController->getLangOfBallot($ballot_id);
                 $counties = $CountyController->getCountyOfBallot($ballot_id);
                 $races = $this->getRaceOfBallot($ballot_id);
@@ -56,6 +60,8 @@ class RaceController extends Controller {
         $BallotController = new BallotController;
         $LanguageController = new LanguageController;
         $CountyController = new CountyController;
+
+        session(['old_race_ballot_id' => $request->ballot_id]);
 
         $ballots = $BallotController->getActiveBallot();
         if(empty($ballots->data)) {

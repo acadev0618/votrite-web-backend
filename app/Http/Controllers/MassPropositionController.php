@@ -19,7 +19,11 @@ class MassPropositionController extends Controller {
                 $counties = trim(' ');
                 $propositions = trim(' ');
             } else {
+                $old_mprop_ballot_id = session::get('old_mprop_ballot_id');
                 $ballot_id = $request->old('ballot_id')==null?$ballots->data[0]->ballot_id:$request->old('ballot_id');
+                if($old_mprop_ballot_id != $ballot_id) {
+                    $ballot_id = $old_mprop_ballot_id;
+                }
                 $prop_type = 'M';
                 $languages = $LanguageController->getLangOfBallot($ballot_id);
                 $counties = $CountyController->getCountyOfBallot($ballot_id);
@@ -55,6 +59,8 @@ class MassPropositionController extends Controller {
         $PropositionController = new PropositionController;
 
         $ballots = $BallotController->getActiveBallot();
+
+        session(['old_mprop_ballot_id' => $request->ballot_id]);
 
         if(empty($ballots->data)) {
             $languages = trim(' ');

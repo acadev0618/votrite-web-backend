@@ -24,13 +24,16 @@
 											<div class="col-sm-10">
 												<select class="form-control" name="mass_prop_ballot_name" id="mass_prop_ballot_name">
 												@if(empty($ballots->data))
-                                                    <!-- <option value="-1">No Ballot</opiton> -->
                                                 @else
 													@foreach($ballots->data as $ballot)
-													@if($ballot->ballot_id == old('ballot_id'))
-													<option value="{{ $ballot->ballot_id }}" selected>{{ $ballot->election }}</opiton>
+													@if($ballot->ballot_id == session::get('old_mprop_ballot_id'))
+														<option value="{{ $ballot->ballot_id }}" selected>{{ $ballot->election }}</opiton>
 													@else
-													<option value="{{ $ballot->ballot_id }}">{{ $ballot->election }}</opiton>
+														@if($ballot->ballot_id == old('ballot_id'))
+														<option value="{{ $ballot->ballot_id }}" selected>{{ $ballot->election }}</opiton>
+														@else
+														<option value="{{ $ballot->ballot_id }}">{{ $ballot->election }}</opiton>
+														@endif
 													@endif
 													@endforeach
                                                 @endif

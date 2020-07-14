@@ -5,7 +5,6 @@ var base_url="";
 // var base_url="http://dev.voterite.com";
 
 var TableManaged = function () {
-
     var dashboardTable = function () {
 
         var table = $('#dashboard_table');
@@ -1095,6 +1094,8 @@ var TableManaged = function () {
 
         $('#cand_ballot_name').change(function(){
             var ballot_id = $(this).val();
+            var race_id = $(this).val();
+
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -1102,7 +1103,8 @@ var TableManaged = function () {
                 url: base_url+'/getChangedCand',
                 type: 'POST',
                 data: {
-                    ballot_id : ballot_id
+                    ballot_id : ballot_id,
+                    race_id : race_id
                 },
                 success:function(response){
                     $.ajax({
@@ -1114,13 +1116,12 @@ var TableManaged = function () {
                         data: {
                             ballot_id : ballot_id
                         },
-                        success: function(response){
+                        success:function(response){
                             var response = JSON.parse(response);
                             var races = response.races;
                             var langs = response.langs;
 
                             if($.isEmptyObject(races)){
-                                // var race_options = "<option value='-1'>No Race</opiton>";
                                 var race_options = "";
                             } else {
                                 for (var x in races.data) {
@@ -1129,7 +1130,6 @@ var TableManaged = function () {
                             }
 
                             if($.isEmptyObject(langs)){
-                                // var lang_options = "<option value='-1'>No Language</opiton>";
                                 var lang_options = "";
                             } else {
                                 for (var x in langs.data) {
@@ -1372,6 +1372,7 @@ var TableManaged = function () {
         $('#cand_race_name').change(function(){
             var ballot_id = $('#cand_ballot_name').val();
             var race_id = $(this).val();
+
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -3397,7 +3398,6 @@ var TableManaged = function () {
             countyTable();
             propositionTable();
             massPropositionTable();
-            // voterTable();
             usersTable();
             partyTable();
         }

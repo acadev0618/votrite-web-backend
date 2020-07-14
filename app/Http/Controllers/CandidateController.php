@@ -20,15 +20,22 @@ class CandidateController extends Controller {
                 $candidates = trim(' ');
                 $languages = trim(' ');
             } else {
+                $old_cand_ballot_id = session::get('old_cand_ballot_id');
                 $ballot_id = $request->old('ballot_id')==null?$ballots->data[0]->ballot_id:$request->old('ballot_id');
+                if($old_cand_ballot_id != $ballot_id) {
+                    $ballot_id = $old_cand_ballot_id;
+                }
                 $races = $RaceController->getRaceOfBallot($ballot_id);
                 $parties = $PartyController->getPartyOfBallot($ballot_id);
                 $languages = $LanguageController->getLangOfBallot($ballot_id);
                 if(empty($races->data)) {
                     $candidates = trim(' ');
                 } else {
-                    // $race_id = $races->data[0]->race_id;
+                    $old_cand_race_id = session::get('old_cand_race_id');
                     $race_id = $request->old('race_id')==null?$races->data[0]->race_id:$request->old('race_id');
+                    if($old_cand_race_id != $race_id) {
+                        $race_id = $old_cand_race_id;
+                    }
                     $candidates = $this->getCandidateOfRace($race_id);
                 }
             }
@@ -135,6 +142,8 @@ class CandidateController extends Controller {
         $RaceController = new RaceController;
         $PartyController = new PartyController;
         $LanguageController = new LanguageController;
+        session(['old_cand_ballot_id' => $request->ballot_id]);
+        session(['old_cand_race_id' => $request->race_id]);
 
         $ballots = $BallotController->getActiveBallot();
         if(empty($ballots->data)) {
@@ -169,6 +178,9 @@ class CandidateController extends Controller {
         $RaceController = new RaceController;
         $PartyController = new PartyController;
         $LanguageController = new LanguageController;
+
+        session(['old_cand_ballot_id' => $request->ballot_id]);
+        session(['old_cand_race_id' => $request->race_id]);
 
         $ballots = $BallotController->getActiveBallot();
         if(empty($ballots->data)) {

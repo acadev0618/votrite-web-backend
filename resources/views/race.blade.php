@@ -26,10 +26,14 @@
                                                     @if(empty($ballots->data))
                                                     @else
                                                         @foreach($ballots->data as $ballot)
-                                                            @if($ballot->ballot_id == old('ballot_id'))
-                                                            <option value="{{ $ballot->ballot_id }}" selected>{{ $ballot->election }}</opiton>
+                                                            @if($ballot->ballot_id == session::get('old_race_ballot_id'))
+                                                                <option value="{{ $ballot->ballot_id }}" selected>{{ $ballot->election }}</opiton>
                                                             @else
-                                                            <option value="{{ $ballot->ballot_id }}">{{ $ballot->election }}</opiton>
+                                                                @if($ballot->ballot_id == old('ballot_id'))
+                                                                <option value="{{ $ballot->ballot_id }}" selected>{{ $ballot->election }}</opiton>
+                                                                @else
+                                                                <option value="{{ $ballot->ballot_id }}">{{ $ballot->election }}</opiton>
+                                                                @endif
                                                             @endif
                                                         @endforeach
                                                     @endif
