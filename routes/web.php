@@ -107,3 +107,5 @@ Route::post('/saveAllCounty', 'CountyController@saveAllCounty')->name('request')
 Route::post('/getChangedCountyOfBallot', 'CountyController@getChangedCountyOfBallot')->name('request');
 
 Route::get('/setOldVB', 'VoterController@setOldVB')->name('request');
+Route::get('/setOldRVB', 'ResultController@setOldRVB')->name('request');
+Route::get('/setOldRVP', 'ResultController@setOldRVP')->name('request');

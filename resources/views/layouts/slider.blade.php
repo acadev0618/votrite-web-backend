@@ -145,15 +145,6 @@
                         <a href="{{ asset('/result/voter') }}">
                         Voter Result</a>
                     </li>
-
-                    <!-- @if($subAction == "ballot")
-                    <li class="active">
-                    @else
-                    <li>
-                    @endif
-                        <a href="{{ asset('/result/ballot') }}">
-                        Ballot Result</a>
-                    </li> -->
                 </ul>
             </li>
         </ul>

@@ -16,7 +16,7 @@ class VoterController extends Controller {
             } else {
                 $ballot_id = $ballots->data[0]->ballot_id;
                 $old_voter_ballot_id = session::get('old_voter_ballot_id');
-                if($old_voter_ballot_id != $ballot_id) {
+                if(($old_voter_ballot_id != null) && ($old_voter_ballot_id != $ballot_id)) {
                     $ballot_id = $old_voter_ballot_id;
                 }
                 $voters = $this->getPinsOfBallot($ballot_id);
