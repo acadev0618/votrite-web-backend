@@ -96,6 +96,7 @@ class CandidateController extends Controller {
     }
 
     public function updateCandidate(Request $request) {
+        $del_photo = $request->edit_del_photo;
         $cand_id = array('candidate_id' => $request->edit_cand_id);
         $data = array(
             "candidate_name" => $request->edit_candidate_name,
@@ -104,12 +105,16 @@ class CandidateController extends Controller {
             'keys' => $cand_id
         );
 
-        $BaseController = new BaseController;
-        $directory = "candidate/";
-        $photo = $request->file('edit_photo');
-        if($photo) {
-            $photo_link = $BaseController->fileUpload($photo, $directory);
-            $data += [ "photo" => $photo_link ];
+        if($del_photo == "false") {
+            $BaseController = new BaseController;
+            $directory = "candidate/";
+            $photo = $request->file('edit_photo');
+            if($photo) {
+                $photo_link = $BaseController->fileUpload($photo, $directory);
+                $data += [ "photo" => $photo_link ];
+            }
+        } else if($del_photo == "true") {
+            $data += [ "photo" => null ];
         }
 
         if($request->edit_lang_id != -1) {

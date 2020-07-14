@@ -19,25 +19,24 @@
 							<div class="row">
 								<div class="col-lg-7 col-md-12 col-sm-12 select_options">
 									<div class="col-md-4 col-sm-12 form-group">
-										<label class="col-sm-3 control-label select_name">Ballot:</label>
+										<label class="col-sm-3 label_des select_name">Ballot:</label>
 										<div class="col-sm-9">
 											<select class="form-control" name="cand_ballot_name" id="cand_ballot_name">
 											@if(empty($ballots->data))
-												<!-- <option value="-1">No Ballot</opiton> -->
 											@else
 												@foreach($ballots->data as $ballot)
-												@if($ballot->ballot_id == old('ballot_id'))
-												<option value="{{ $ballot->ballot_id }}" selected>{{ $ballot->election }}</opiton>
-												@else
-												<option value="{{ $ballot->ballot_id }}">{{ $ballot->election }}</opiton>
-												@endif
+                                       @if($ballot->ballot_id == old('ballot_id'))
+                                       <option value="{{ $ballot->ballot_id }}" selected>{{ $ballot->election }}</opiton>
+                                       @else
+                                       <option value="{{ $ballot->ballot_id }}">{{ $ballot->election }}</opiton>
+                                       @endif
 												@endforeach
 											@endif
 											</select>
 										</div>
 									</div>
 									<div class="col-md-4 col-sm-12 form-group ">
-										<label class="col-sm-3 control-label select_name">Race:</label>
+										<label class="col-sm-3 label_des select_name">Race:</label>
 										<div class="col-sm-9">
 											<select class="form-control" name="cand_race_name" id="cand_race_name">
 											@if(empty($races->data))
@@ -51,7 +50,7 @@
 										</div>
 									</div>
 									<div class="col-md-4 col-sm-12 form-group">
-										<label class="col-sm-4 control-label select_name">Language:</label>
+										<label class="col-sm-4 label_des select_name">Language:</label>
 										<div class="col-sm-8">
 											<select class="form-control" name="cand_lang_name" id="cand_lang_name">
 											@if(empty($languages->data))
@@ -162,25 +161,25 @@
         <form class="form-horizontal" role="form" method="post" action="{{ asset('/createCandidate') }}" enctype="multipart/form-data">
 			@csrf
             <div class="form-group">
-                <label class="control-label col-sm-4" for="title">Candidate Name:</label>
+                <label class="label_des col-sm-4" for="title">Candidate Name:</label>
                 <div class="col-sm-8">
                     <input type="text" class="form-control" name="candidate_name" required>
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-4" for="title">Candidate Photo:</label>
+                <label class="label_des col-sm-4" for="title">Candidate Photo:</label>
                 <div class="col-sm-8">
                     <input type="file" class="form-control" name="photo" accept="image/png, image/jpeg"></input>
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-4" for="title">Email:</label>
+                <label class="label_des col-sm-4" for="title">Email:</label>
                 <div class="col-sm-8">
                     <input type="email" class="form-control" name="email">
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-4" for="title">Party:</label>
+                <label class="label_des col-sm-4" for="title">Party:</label>
                 <div class="col-sm-8">
                     <select class="form-control" name="party_id" id="add_cand_party">
 					@if(empty($parties->data))
@@ -219,25 +218,31 @@
 		<form class="form-horizontal" role="form" method="post" action="{{ asset('/updateCandidate') }}" enctype="multipart/form-data">
 			@csrf
             <div class="form-group">
-                <label class="control-label col-sm-4" for="title">Candidate Name:</label>
+                <label class="label_des col-sm-4" for="title">Candidate Name:</label>
                 <div class="col-sm-8">
                     <input type="text" class="form-control" name="edit_candidate_name" id="edit_candidate_name">
                 </div>
             </div>
             <div class="form-group">
-				<label class="control-label col-sm-4" for="title">Candidate Photo:</label>
-				<div class="col-sm-8">
-					<input type="file" class="form-control" name="edit_photo" id="edit_photo" value="sdfsfd.txt" accept="image/png, image/jpeg"></input>
-				</div>
+               <label class="label_des col-sm-4" for="title">Candidate Photo:</label>
+               <div class="col-sm-8">
+                  <input type="file" class="form-control" name="edit_photo" id="edit_photo" value="sdfsfd.txt" accept="image/png, image/jpeg"></input>
+               </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-4" for="title">Email:</label>
+               <label class="label_des col-sm-4" for="title">Photo Delete:</label>
+               <div class="col-sm-8" style="margin-top: 6px;">
+                  <input type="checkbox" class="form-control del_photo" name="del_photo" id="del_photo"></input>
+               </div>
+            </div>
+            <div class="form-group">
+                <label class="label_des col-sm-4" for="title">Email:</label>
                 <div class="col-sm-8">
                     <input type="email" class="form-control" name="edit_email" id="edit_email">
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-4" for="title">Party:</label>
+                <label class="label_des col-sm-4" for="title">Party:</label>
                 <div class="col-sm-8">
                     <select class="form-control" name="edit_party_id" id="edit_party_id">
 					@if(empty($parties->data))
@@ -254,6 +259,7 @@
             <div class="modal-footer">
 				<input type="text" name="edit_lang_id" id="edit_lang_id" hidden/>
 				<input type="text" name="edit_cand_id" id="edit_cand_id" hidden/>
+				<input type="text" name="edit_del_photo" id="edit_del_photo" value="false" hidden/>
                 <button type="submit" class="btn btn-success addInvoice">
                     <span id="" class='glyphicon glyphicon-check'></span> Save
                 </button>
@@ -273,20 +279,20 @@
     <div class="modal-body">
         <form class="form-horizontal">
 			<div class="form-group">
-                <label class="control-label col-sm-4" for="title">Candidate Name:</label>
+                <label class="label_des col-sm-4" for="title">Candidate Name:</label>
                 <div class="col-sm-8">
                     <input type="text" class="form-control" id="prev_candidate_name" required readonly>
                 </div>
             </div>
             <div class="form-group">
 				<div class="col-sm-6">
-					<label class="control-label col-sm-8" for="title">Candidate Photo:</label>
+					<label class="label_des col-sm-8" for="title">Candidate Photo:</label>
 					<div class="col-sm-4">
 						<img id="prev_cand_photo" style="width: 60px;">
 					</div>
 				</div>
 				<div class="col-sm-6">
-					<label class="control-label col-sm-8" for="title">Party Logo:</label>
+					<label class="label_des col-sm-8" for="title">Party Logo:</label>
 					<div class="col-sm-4">
 						<img id="prev_party_logo" style="width: 60px;">
 					</div>
@@ -294,13 +300,13 @@
             </div>
             <div class="form-group">
 				<div class="col-sm-6">
-					<label class="control-label col-sm-3" for="title">Email:</label>
+					<label class="label_des col-sm-3" for="title">Email:</label>
 					<div class="col-sm-9">
 						<input type="email" class="form-control" id="email" readonly>
 					</div>
 				</div>
 				<div class="col-sm-6">
-					<label class="control-label col-sm-3" for="title">Party:</label>
+					<label class="label_des col-sm-3" for="title">Party:</label>
 					<div class="col-sm-9">
 						<select class="form-control" id="party_id" readonly>
 					@if(empty($parties->data))
