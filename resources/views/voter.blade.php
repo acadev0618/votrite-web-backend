@@ -20,14 +20,18 @@
 								<div class="col-md-5">
 									<div class="row">
 										<div class="col-md-5 form-group">
-											<label class="col-sm-2 control-label select_name">Ballot:</label>
+											<label class="col-sm-2 label_des select_name">Ballot:</label>
 											<div class="col-sm-10">
 												<select class="form-control select_ballot" name="pin_ballot" id="pin_ballot">
                                                     @if(empty($ballots->data))
                                                     <option value="-1">No Ballot</opiton>
                                                     @else
-                                                        @foreach($ballots->data as $ballot)
-                                                        <option value="{{ $ballot->ballot_id }}">{{ $ballot->election }}</opiton>
+														@foreach($ballots->data as $ballot)
+															@if($ballot->ballot_id == session::get('old_voter_ballot_id'))
+																<option value="{{ $ballot->ballot_id }}" selected>{{ $ballot->election }}</opiton>
+															@else
+																<option value="{{ $ballot->ballot_id }}">{{ $ballot->election }}</opiton>
+															@endif
                                                         @endforeach
                                                     @endif
 												</select>
@@ -93,19 +97,19 @@
         <form class="form-horizontal" role="form" method="post" action="">
         @csrf
             <div class="form-group">
-                <label class="control-label col-sm-5" for="title">Length of Code:</label>
+                <label class="label_des col-sm-5" for="title">Length of Code:</label>
                 <div class="col-sm-7">
                     <input type="number" class="form-control" name="pin_length" id="add_pin_length" required>
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-5" for="title">Expiration Time:</label>
+                <label class="label_des col-sm-5" for="title">Expiration Time:</label>
                 <div class="col-sm-7">
 					<input type="date" class="form-control" name="expire_time" id="add_expire_time" required>
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-5" for="title">Count of Code:</label>
+                <label class="label_des col-sm-5" for="title">Count of Code:</label>
                 <div class="col-sm-7">
                     <input type="number" class="form-control" name="pin_count" id="add_pin_count" required>
                 </div>
@@ -132,13 +136,13 @@
 		@csrf
 		
 			<div class="form-group">
-                <label class="control-label col-sm-5" for="title">Is Active:</label>
+                <label class="label_des col-sm-5" for="title">Is Active:</label>
                 <div class="col-sm-7">
 					<input type="checkbox" checked="checked" id="verify_checkbox" name="verify_checkbox" class="verify_checkbox">
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-5" for="title">Expire Date:</label>
+                <label class="label_des col-sm-5" for="title">Expire Date:</label>
                 <div class="col-sm-7">
                     <input type="date" class="form-control" name="voter_expire_time" id="edit_expire_time"></input>
                 </div>
@@ -232,7 +236,11 @@
 	var ballot_id = '';
 	var ballot_name = '';
 	@else
-	var ballot_id = '{{ $ballots->data[0]->ballot_id }}';
+		@if(session::get('old_voter_ballot_id') == null)
+			var ballot_id = '{{ $ballots->data[0]->ballot_id }}';
+		@else
+			var ballot_id = '{{ session::get('old_voter_ballot_id') }}';
+		@endif
 	var ballot_name = '{{ $ballots->data[0]->election }}';
 	@endif
 	
@@ -357,18 +365,18 @@
 			"bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
 			ajax: function (data, callback, settings) {
 				$.ajax({
-				url: propurl,
-				type: 'GET',
-				dataType: 'json',
-				success:function(data){
-					if(data.data != undefined){
-						$('.expertPinCode').show();
-						callback(data);
-					}else{
-						$('.expertPinCode').hide();
-						callback({data:[]});
+					url: propurl,
+					type: 'GET',
+					dataType: 'json',
+					success:function(data){
+						if(data.data != undefined){
+							$('.expertPinCode').show();
+							callback(data);
+						}else{
+							$('.expertPinCode').hide();
+							callback({data:[]});
+						}
 					}
-				}
 				});
 			},
 			"columns": [
@@ -486,7 +494,17 @@
 	$('#pin_ballot').unbind().bind('change',function(e){
 		e.preventDefault();
 		ballot_id = $(this).val();
-		ballot_name = this.options[this.selectedIndex].text
+		$.ajax({
+			url : "{{url('/setOldVB')}}",
+			type : 'GET',
+			data : {
+				ballot_id : ballot_id
+			},
+			success : function(response) {
+				console.log(response);
+			}
+		});
+		ballot_name = this.options[this.selectedIndex].text;
 		if(ballot_id != '' || ballot_id != -1){
 			handleRecords(ballot_id);
 		}

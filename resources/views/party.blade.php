@@ -20,18 +20,22 @@
 								<div class="col-md-6">
 									<div class="row">
 										<div class="col-md-5 form-group">
-											<label class="col-sm-2 control-label select_name">Ballot:</label>
+											<label class="col-sm-2 label_des select_name">Ballot:</label>
 											<div class="col-sm-10">
 												<select class="form-control" name="party_ballot_name" id="party_ballot_name">
                                                 @if(empty($ballots->data))
                                                     <!-- <option value="-1">No Ballot</opiton> -->
                                                 @else
-													@foreach($ballots->data as $ballot)
-													@if($ballot->ballot_id == old('ballot_id'))
-                                                    <option value="{{ $ballot->ballot_id }}" selected>{{ $ballot->election }}</opiton>
-                                                    @else
-                                                    <option value="{{ $ballot->ballot_id }}">{{ $ballot->election }}</opiton>
-                                                    @endif
+                                                    @foreach($ballots->data as $ballot)
+                                                        @if($ballot->ballot_id == session::get('old_party_ballot_id'))
+                                                            <option value="{{ $ballot->ballot_id }}" selected>{{ $ballot->election }}</opiton>
+                                                        @else
+                                                            @if($ballot->ballot_id == old('ballot_id'))
+                                                            <option value="{{ $ballot->ballot_id }}" selected>{{ $ballot->election }}</opiton>
+                                                            @else
+                                                            <option value="{{ $ballot->ballot_id }}">{{ $ballot->election }}</opiton>
+                                                            @endif
+                                                        @endif
 													@endforeach
                                                 @endif
 												</select>
@@ -115,19 +119,19 @@
         <form class="form-horizontal" role="form" method="post" action="{{ asset('/createParty') }}" enctype="multipart/form-data">
         @csrf
             <div class="form-group">
-                <label class="control-label col-sm-4" for="title">Party Name:</label>
+                <label class="label_des col-sm-4" for="title">Party Name:</label>
                 <div class="col-sm-8">
                     <input type="text" class="form-control" name="party_name" id="add_party_name" required>
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-4" for="title">Party Logo:</label>
+                <label class="label_des col-sm-4" for="title">Party Logo:</label>
                 <div class="col-sm-8">
                     <input type="file" class="form-control" name="party" accept="image/png, image/jpeg" required></input>
                 </div>
             </div>
             <div class="modal-footer">
-            <input type="text" id="ballot_id" name="ballot_id" hidden/>
+                <input type="text" id="ballot_id" name="ballot_id" hidden/>
                 <button type="submit" class="btn btn-success addInvoice">
                     <span id="" class='glyphicon glyphicon-check'></span> Add
                 </button>
@@ -148,20 +152,20 @@
         <form class="form-horizontal" role="form" method="post" action="{{asset('updateParty')}}" enctype="multipart/form-data">
         @csrf
 			<div class="form-group">
-                <label class="control-label col-sm-4" for="title">Party Name:</label>
+                <label class="label_des col-sm-4" for="title">Party Name:</label>
                 <div class="col-sm-8">
                     <input type="text" class="form-control" name="party_name" id="edit_party_name">
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-4" for="title">Party Logo:</label>
+                <label class="label_des col-sm-4" for="title">Party Logo:</label>
                 <div class="col-sm-8">
-                <input type="file" class="form-control" name="edit_party" id="edit_party_logo" accept="image/png, image/jpeg" required></input>
+                <input type="file" class="form-control" name="edit_party" id="edit_party_logo" accept="image/png, image/jpeg"></input>
                 </div>
             </div>
             <div class="modal-footer">
-            <input type="text" name="ballot_id" id="edit_ballot_id" hidden>
-            <input type="text" name="party_id" id="edit_party_id" hidden>
+                <input type="text" name="ballot_id" id="edit_ballot_id" hidden>
+                <input type="text" name="party_id" id="edit_party_id" hidden>
                 <button type="submit" class="btn btn-success addInvoice">
                     <span id="" class='glyphicon glyphicon-check'></span> Save
                 </button>
@@ -181,13 +185,13 @@
     <div class="modal-body">
         <form class="form-horizontal">
 			<div class="form-group">
-                <label class="control-label col-sm-4" for="title">Party Name:</label>
+                <label class="label_des col-sm-4" for="title">Party Name:</label>
                 <div class="col-sm-8">
                     <input type="text" class="form-control" name="party_name" id="party_name" readonly autofocus>
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-4" for="title">Party Logo:</label>
+                <label class="label_des col-sm-4" for="title">Party Logo:</label>
                 <div class="col-sm-8">
                     <img id="party_logo" src="https://cdn.vuetifyjs.com/images/lists/1.jpg" style="width: 60px;">
                 </div>
@@ -212,7 +216,8 @@
     </div>
     <div class="modal-footer">
         <form class="form-horizontal" role="form" method="post" action="{{ asset('/mutiDeleteData') }}">
-		@csrf            
+		@csrf      
+            <input type="text" id="ballot_id" name="ballot_id" hidden/>      
 			<input type="text" class="ids" name="ids" hidden />
 			<input type="text" class="target_id" name="target_id" hidden />
 			<input type="text" class="api" name="api" hidden />
@@ -239,6 +244,7 @@
     <div class="modal-footer">
         <form class="form-horizontal" role="form" method="post" action="{{ asset('/deleteData') }}">
         @csrf 
+            <input type="text" id="ballot_id" name="ballot_id" hidden/>
 			<input type="text" class="target_id" name="target_id" hidden />
 			<input type="text" class="id" name="id" hidden />
 			<input type="text" class="api" name="api" hidden />

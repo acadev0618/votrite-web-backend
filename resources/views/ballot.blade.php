@@ -119,25 +119,29 @@
                 <p class="mini-title">Primary Details</p>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-3" for="title">Client:</label>
+                <div class="col-sm-1"></div>
+                <label class="label_des col-sm-2" for="title">Client:</label>
                 <div class="col-sm-9">
                     <input type="text" class="form-control" name="client" placeholder="Example: Luna Park Housing Corporation" required>
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-3" for="title">Election:</label>
+                <div class="col-sm-1"></div>
+                <label class="label_des col-sm-2" for="title">Election:</label>
                 <div class="col-sm-9">
                     <input type="text" class="form-control" name="election" placeholder="Example: Election of Board of Directiors" required>
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-3" for="title">Address:</label>
+                <div class="col-sm-1"></div>
+                <label class="label_des col-sm-2" for="title">Address:</label>
                 <div class="col-sm-9">
                     <input type="text" class="form-control" name="address" placeholder="Example: Boorklyn, New York" required>
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-3" for="title">Board:</label>
+                <div class="col-sm-1"></div>
+                <label class="label_des col-sm-2" for="title">Board:</label>
                 <div class="col-sm-9">
                     <input type="text" class="form-control" name="board" placeholder="Example: Honest Ballot Association" required>
                 </div>
@@ -146,13 +150,15 @@
                 <p class="mini-title">Times</p>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-3" for="title">Start Date:</label>
+                <div class="col-sm-1"></div>
+                <label class="label_des col-sm-2" for="title">Start Date:</label>
                 <div class="col-sm-9">
                     <input type="datetime-local" class="form-control" name="start_date" required>
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-3" for="title">End Date:</label>
+                <div class="col-sm-1"></div>
+                <label class="label_des col-sm-2" for="title">End Date:</label>
                 <div class="col-sm-9">
                     <input type="datetime-local" class="form-control" name="end_date" required>
                 </div>
@@ -181,25 +187,29 @@
                 <p class="mini-title">Primary Details</p>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-3" for="title">Client:</label>
+                <div class="col-sm-1"></div>
+                <label class="label_des col-sm-2" for="title">Client:</label>
                 <div class="col-sm-9">
                     <input type="text" class="form-control" id="editClient" name="client" required>
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-3" for="title">Election:</label>
+                <div class="col-sm-1"></div>
+                <label class="label_des col-sm-2" for="title">Election:</label>
                 <div class="col-sm-9">
                     <input type="text" class="form-control" id="editElection" name="election" required>
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-3" for="title">Address:</label>
+                <div class="col-sm-1"></div>
+                <label class="label_des col-sm-2" for="title">Address:</label>
                 <div class="col-sm-9">
                     <input type="text" class="form-control" id="editAddress" name="address" required>
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-3" for="title">Board:</label>
+                <div class="col-sm-1"></div>
+                <label class="label_des col-sm-2" for="title">Board:</label>
                 <div class="col-sm-9">
                     <input type="text" class="form-control" id="editBoard" name="board" required>
                 </div>
@@ -208,13 +218,15 @@
                 <p class="mini-title">Times</p>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-3" for="title">Start Date:</label>
+                <div class="col-sm-1"></div>
+                <label class="label_des col-sm-2" for="title">Start Date:</label>
                 <div class="col-sm-9">
                     <input type="datetime-local" class="form-control" id="editStart" name="start_date" required>
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-3" for="title">End Date:</label>
+                <div class="col-sm-1"></div>
+                <label class="label_des col-sm-2" for="title">End Date:</label>
                 <div class="col-sm-9">
                     <input type="datetime-local" class="form-control" id="editEnd" name="end_date" required>
                 </div>
@@ -244,25 +256,29 @@
                 <p class="mini-title">Primary Details</p>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-3" for="title">Client:</label>
+                <div class="col-sm-1"></div>
+                <label class="label_des col-sm-2" for="title">Client:</label>
                 <div class="col-sm-9">
                     <input type="text" class="form-control" id="previewClient" name="client" readonly autofocus>
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-3" for="title">Election:</label>
+                <div class="col-sm-1"></div>
+                <label class="label_des col-sm-2" for="title">Election:</label>
                 <div class="col-sm-9">
                     <input type="text" class="form-control" id="previewElection" name="election" readonly autofocus>
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-3" for="title">Address:</label>
+                <div class="col-sm-1"></div>
+                <label class="label_des col-sm-2" for="title">Address:</label>
                 <div class="col-sm-9">
                     <input type="text" class="form-control" id="previewAddress" name="address" readonly autofocus>
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-3" for="title">Board:</label>
+                <div class="col-sm-1"></div>
+                <label class="label_des col-sm-2" for="title">Board:</label>
                 <div class="col-sm-9">
                     <input type="text" class="form-control" id="previewBoard" name="board" readonly autofocus>
                 </div>
@@ -271,13 +287,15 @@
                 <p class="mini-title">Times</p>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-3" for="title">Start Date:</label>
+                <div class="col-sm-1"></div>
+                <label class="label_des col-sm-2" for="title">Start Date:</label>
                 <div class="col-sm-9">
                     <input type="datetime-local" class="form-control" id="previewStart" name="start_date" readonly>
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-3" for="title">End Date:</label>
+                <div class="col-sm-1"></div>
+                <label class="label_des col-sm-2" for="title">End Date:</label>
                 <div class="col-sm-9">
                     <input type="datetime-local" class="form-control" id="previewEnd" name="end_date" readonly>
                 </div>

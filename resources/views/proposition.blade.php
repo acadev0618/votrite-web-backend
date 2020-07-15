@@ -20,17 +20,20 @@
 								<div class="col-md-6">
 									<div class="row">
 										<div class="col-md-5 form-group">
-											<label class="col-sm-2 control-label select_name">Ballot:</label>
+											<label class="col-sm-2 label_des select_name">Ballot:</label>
 											<div class="col-sm-10">
 												<select class="form-control" name="prop_ballot_name" id="prop_ballot_name">
 												@if(empty($ballots->data))
-                                                    <!-- <option value="-1">No Ballot</opiton> -->
                                                 @else
 													@foreach($ballots->data as $ballot)
-													@if($ballot->ballot_id == old('ballot_id'))
-													<option value="{{ $ballot->ballot_id }}" selected>{{ $ballot->election }}</opiton>
+													@if($ballot->ballot_id == session::get('old_prop_ballot_id'))
+														<option value="{{ $ballot->ballot_id }}" selected>{{ $ballot->election }}</opiton>
 													@else
-													<option value="{{ $ballot->ballot_id }}">{{ $ballot->election }}</opiton>
+														@if($ballot->ballot_id == old('ballot_id'))
+														<option value="{{ $ballot->ballot_id }}" selected>{{ $ballot->election }}</opiton>
+														@else
+														<option value="{{ $ballot->ballot_id }}">{{ $ballot->election }}</opiton>
+														@endif
 													@endif
 													@endforeach
                                                 @endif
@@ -125,13 +128,13 @@
         <form class="form-horizontal" role="form" method="post" action="{{ asset('/createProposition') }}">
 		@csrf
             <div class="form-group">
-                <label class="control-label col-sm-5" for="title">International Proposition Name:</label>
+                <label class="label_des col-sm-5" for="title">International Proposition Name:</label>
                 <div class="col-sm-7">
                     <input type="text" class="form-control" name="prop_name" id="prop_name" placeholder="Example: LElection of Board of Directiors" required>
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-5" for="title">Choose Language:</label>
+                <label class="label_des col-sm-5" for="title">Choose Language:</label>
                 <div class="col-sm-7">
 					<select class="form-control" name="prop_lang_id" id="add_prop_lang_id">
 						@if(empty($languages->data))
@@ -145,7 +148,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-5" for="title">Proposition Answer:</label>
+                <label class="label_des col-sm-5" for="title">Proposition Answer:</label>
                 <div class="col-sm-7">
                     <select class="form-control" name="prop_answer_type" id="prop_answer_type">
 						<option value='1'>YES/NO</option>
@@ -154,7 +157,7 @@
                 </div>
 			</div>
 			<div class="form-group">
-                <label class="control-label col-sm-5" for="title">Choose County:</label>
+                <label class="label_des col-sm-5" for="title">Choose County:</label>
                 <div class="col-sm-7">
                     <select class="form-control" name="prop_location_id" id="prop_location_id">
 					@if(empty($counties->data))
@@ -168,13 +171,13 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-5" for="title">Proposition Title:</label>
+                <label class="label_des col-sm-5" for="title">Proposition Title:</label>
                 <div class="col-sm-7">
                     <input type="text" class="form-control" name="prop_title" id="prop_title" placeholder="Example: Proposition 1" required>
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-5" for="title">Proposition Text:</label>
+                <label class="label_des col-sm-5" for="title">Proposition Text:</label>
                 <div class="col-sm-7">
                     <textarea type="text" class="form-control" name="prop_text" id="prop_text"></textarea>
                 </div>
@@ -202,13 +205,13 @@
         <form class="form-horizontal" role="form" method="post" action="{{ asset('/updateProposition') }}">
 		@csrf
 			<div class="form-group">
-                <label class="control-label col-sm-5" for="title">International Proposition Name:</label>
+                <label class="label_des col-sm-5" for="title">International Proposition Name:</label>
                 <div class="col-sm-7">
                     <input type="text" class="form-control" name="prop_name" id="edit_prop_name">
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-5" for="title">Choose Language:</label>
+                <label class="label_des col-sm-5" for="title">Choose Language:</label>
                 <div class="col-sm-7">
 					<select class="form-control" name="prop_lang_id" id="edit_prop_lang_id">
 						@if(empty($languages->data))
@@ -222,7 +225,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-5" for="title">Proposition Answer:</label>
+                <label class="label_des col-sm-5" for="title">Proposition Answer:</label>
                 <div class="col-sm-7">
                     <select class="form-control" name="prop_answer_type" id="edit_prop_answer_type">
 						<option value='1'>YES/NO</option>
@@ -231,7 +234,7 @@
                 </div>
 			</div>
 			<div class="form-group">
-                <label class="control-label col-sm-5" for="title">Choose County:</label>
+                <label class="label_des col-sm-5" for="title">Choose County:</label>
                 <div class="col-sm-7">
                     <select class="form-control" name="prop_location_id" id="edit_prop_location_id">
 					@if(empty($counties->data))
@@ -245,18 +248,19 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-5" for="title">Proposition Title:</label>
+                <label class="label_des col-sm-5" for="title">Proposition Title:</label>
                 <div class="col-sm-7">
                     <input type="text" class="form-control" name="prop_title" id="edit_prop_title">
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-5" for="title">Proposition Text:</label>
+                <label class="label_des col-sm-5" for="title">Proposition Text:</label>
                 <div class="col-sm-7">
                     <textarea type="text" class="form-control" name="prop_text" id="edit_prop_text"></textarea>
                 </div>
             </div>
             <div class="modal-footer">
+				<input type="text" name="ballot_id" id="ballot_id" hidden />
                 <input type="text" id="edit_prop_id" name="prop_id" hidden>
                 <input type="text" name="prop_type" value="P" hidden>
                 <button type="submit" class="btn btn-success addInvoice">
@@ -278,13 +282,13 @@
     <div class="modal-body">
         <form class="form-horizontal">
 			<div class="form-group">
-                <label class="control-label col-sm-5" for="title">International Proposition Name:</label>
+                <label class="label_des col-sm-5" for="title">International Proposition Name:</label>
                 <div class="col-sm-7">
                     <input type="text" class="form-control" name="prop_name" id="prev_prop_name" readonly>
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-5" for="title">Language:</label>
+                <label class="label_des col-sm-5" for="title">Language:</label>
                 <div class="col-sm-7">
 					<select class="form-control" name="prop_lang_id" id="prev_prop_lang_id" readonly>
 						@if(empty($languages->data))
@@ -298,7 +302,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-5" for="title">Proposition Answer:</label>
+                <label class="label_des col-sm-5" for="title">Proposition Answer:</label>
                 <div class="col-sm-7">
                     <select class="form-control" name="prop_answer_type" id="prev_prop_answer_type" readonly>
 						<option value='1' disabled>YES/NO</option>
@@ -307,7 +311,7 @@
                 </div>
 			</div>
 			<div class="form-group">
-                <label class="control-label col-sm-5" for="title">County:</label>
+                <label class="label_des col-sm-5" for="title">County:</label>
                 <div class="col-sm-7">
                     <select class="form-control" name="prop_location_id" id="prev_prop_location_id" readonly>
 					@if(empty($counties->data))
@@ -321,13 +325,13 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-5" for="title">Proposition Title:</label>
+                <label class="label_des col-sm-5" for="title">Proposition Title:</label>
                 <div class="col-sm-7">
                     <input type="text" class="form-control" name="prop_title" id="prev_prop_title" readonly>
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-5" for="title">Proposition Text:</label>
+                <label class="label_des col-sm-5" for="title">Proposition Text:</label>
                 <div class="col-sm-7">
                     <textarea type="text" class="form-control" name="prop_text" id="prev_prop_text" readonly></textarea>
                 </div>
@@ -353,6 +357,7 @@
     <div class="modal-footer">
 		<form class="form-horizontal" role="form" method="post" action="{{ asset('/mutiDeleteData') }}">
 		@csrf
+			<input type="text" name="ballot_id" id="ballot_id" hidden />
 			<input type="text" class="ids" name="ids" hidden />
 			<input type="text" class="target_id" name="target_id" hidden />
 			<input type="text" class="api" name="api" hidden />
@@ -379,6 +384,7 @@
     <div class="modal-footer">
 		<form class="form-horizontal" role="form" method="post" action="{{ asset('/deleteData') }}">
         @csrf 
+			<input type="text" name="ballot_id" id="ballot_id" hidden />
 			<input type="text" class="target_id" name="target_id" hidden />
 			<input type="text" class="id" name="id" hidden />
 			<input type="text" class="api" name="api" hidden />

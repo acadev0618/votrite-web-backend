@@ -21,6 +21,10 @@ class LanguageController extends Controller {
                     $ballot_languages = trim(' ');
                 } else {
                     $ballot_id = $request->old('ballot_id')==null?$ballots->data[0]->ballot_id:$request->old('ballot_id');
+                    $old_lang_ballot_id = session::get('old_lang_ballot_id');
+                    if(($old_lang_ballot_id != null) && ($old_lang_ballot_id != $ballot_id)) {
+                        $ballot_id = $old_lang_ballot_id;
+                    }
                     $ballot_languages = $this->getLangOfBallot($ballot_id);
                 }
             }
@@ -58,6 +62,8 @@ class LanguageController extends Controller {
     public function getChangedLangs(Request $request) {
         $BallotController = new BallotController;
         $ballots = $BallotController->getActiveBallot();
+
+        session(['old_lang_ballot_id' => $request->ballot_id]);
 
         if(empty($ballots->data)) {
             $languages = trim(' ');

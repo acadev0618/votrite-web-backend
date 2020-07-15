@@ -15,6 +15,10 @@ class PartyController extends Controller {
                 $parties = trim(' ');
             } else {
                 $ballot_id = $request->old('ballot_id')==null?$ballots->data[0]->ballot_id:$request->old('ballot_id');
+                $old_party_ballot_id = session::get('old_party_ballot_id');
+                if(($old_party_ballot_id != null) && ($old_party_ballot_id != $ballot_id)) {
+                    $ballot_id = $old_party_ballot_id;
+                }
                 $parties = $this->getPartyOfBallot($ballot_id);
             }
 
@@ -70,18 +74,21 @@ class PartyController extends Controller {
     }
 
     public function updateParty(Request $request) {
-        $BaseController = new BaseController;
-        $directory = "party/";
-        $photo = $request->file('edit_party');
-        $photo_link = $BaseController->fileUpload($photo, $directory);
-
         $party_id = array('party_id' => $request->party_id);
         $data = array(
             "ballot_id" => $request->ballot_id,
             "party_name" => $request->party_name,
-            "party_logo" => $photo_link,
             'keys' => $party_id
         );
+
+        $BaseController = new BaseController;
+        $directory = "party/";
+        $photo = $request->file('edit_party');
+        if($photo) {
+            $photo_link = $BaseController->fileUpload($photo, $directory);
+            $data += [ "party_logo" => $photo_link ];
+        }
+
         $data = json_encode($data);
         $api = env('API').'/ballot/party/update';
 
@@ -92,6 +99,8 @@ class PartyController extends Controller {
     public function getChangedParty(Request $request) {
         $BallotController = new BallotController;
         $ballots = $BallotController->getActiveBallot();
+
+        session(['old_party_ballot_id' => $request->ballot_id]);
 
         if(empty($ballots->data)) {
             $parties = trim(' ');

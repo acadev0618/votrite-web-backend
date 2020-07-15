@@ -1,10 +1,5 @@
 <?php
-
 ////////////////////////////////////  Authentication Urls   //////////////////////////////////////
-
-// Route::get('/', function(){
-//     dd(123);
-// });
 Route::get('/', 'Client\ClientController@ballot')->name('client.ballot');
 Route::get('client/', 'Client\ClientController@index')->name('client.index');
 Route::post('client/sendpincode', 'Client\ClientController@sendpincode')->name('client.sendpincode');
@@ -47,8 +42,6 @@ Route::prefix('/manage')->group(function() {
 ////////////////////////////////////  User Url   ////////////////////////////////////////////
 Route::get('/users', 'UserController@index')->name('request');
 
-
-////////////////////////////////
 Route::get('/profile/{id}', 'AuthController@profile')->name('profile');
 Route::get('/changepwd/{id}', 'AuthController@changepwd')->name('changepwd');
 
@@ -60,9 +53,8 @@ Route::prefix('result')->group(function () {
     Route::get('voter', 'ResultController@voter');
     Route::get('votercal', 'ResultController@votercal');
 });
-///////////////////////////////
 
-////////////////////////////////////  Post Urls   ////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 Route::post('/deleteData', 'BaseController@deleteData')->name('request');
 Route::post('/mutiDeleteData', 'BaseController@mutiDeleteData')->name('request');
 Route::post('/pinDeleteData', 'BaseController@pinDeleteData')->name('request');
@@ -113,3 +105,7 @@ Route::post('/saveAllLang', 'LanguageController@saveAllLang')->name('request');
 Route::post('/setAvalBallotCounty', 'CountyController@setAvalBallotCounty')->name('request');
 Route::post('/saveAllCounty', 'CountyController@saveAllCounty')->name('request');
 Route::post('/getChangedCountyOfBallot', 'CountyController@getChangedCountyOfBallot')->name('request');
+
+Route::get('/setOldVB', 'VoterController@setOldVB')->name('request');
+Route::get('/setOldRVB', 'ResultController@setOldRVB')->name('request');
+Route::get('/setOldRVP', 'ResultController@setOldRVP')->name('request');

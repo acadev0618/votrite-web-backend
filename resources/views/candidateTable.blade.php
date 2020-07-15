@@ -77,33 +77,33 @@
     </div>
     <div class="modal-body">
         <form class="form-horizontal" role="form" method="post" action="{{ asset('/createCandidate') }}" enctype="multipart/form-data">
-		@csrf
+			@csrf
             <div class="form-group">
-                <label class="control-label col-sm-4" for="title">Candidate Name:</label>
+                <label class="label_des col-sm-4" for="title">Candidate Name:</label>
                 <div class="col-sm-8">
                     <input type="text" class="form-control" name="candidate_name" required>
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-4" for="title">Candidate Photo:</label>
+                <label class="label_des col-sm-4" for="title">Candidate Photo:</label>
                 <div class="col-sm-8">
                     <input type="file" class="form-control" name="photo" accept="image/png, image/jpeg"></input>
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-4" for="title">Email:</label>
+                <label class="label_des col-sm-4" for="title">Email:</label>
                 <div class="col-sm-8">
                     <input type="email" class="form-control" name="email">
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-4" for="title">Party:</label>
+                <label class="label_des col-sm-4" for="title">Party:</label>
                 <div class="col-sm-8">
                     <select class="form-control" name="party_id" id="add_cand_party">
 					@if(empty($parties->data))
 						<option value="-1">No Party</opiton>
 					@else
-					<option value="0"></opiton>
+						<option value="0"></opiton>
 						@foreach($parties->data as $party)
 							<option value="{{ $party->party_id }}">{{ $party->party_name }}</opiton>
 						@endforeach
@@ -136,31 +136,37 @@
 		<form class="form-horizontal" role="form" method="post" action="{{ asset('/updateCandidate') }}" enctype="multipart/form-data">
 			@csrf
             <div class="form-group">
-                <label class="control-label col-sm-4" for="title">Candidate Name:</label>
+                <label class="label_des col-sm-4" for="title">Candidate Name:</label>
                 <div class="col-sm-8">
                     <input type="text" class="form-control" name="edit_candidate_name" id="edit_candidate_name">
                 </div>
             </div>
             <div class="form-group">
-				<label class="control-label col-sm-4" for="title">Candidate Photo:</label>
-				<div class="col-sm-8">
-					<input type="file" class="form-control" name="edit_photo" id="edit_photo" value="sdfsfd.txt" accept="image/png, image/jpeg"></input>
-				</div>
+               <label class="label_des col-sm-4" for="title">Candidate Photo:</label>
+               <div class="col-sm-8">
+                  <input type="file" class="form-control" name="edit_photo" id="edit_photo" value="sdfsfd.txt" accept="image/png, image/jpeg"></input>
+               </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-4" for="title">Email:</label>
+               <label class="label_des col-sm-4" for="title">Photo Delete:</label>
+               <div class="col-sm-8" style="margin-top: 6px;">
+                  <input type="checkbox" class="form-control del_photo changed_sel" name="del_photo" id="del_photo"></input>
+               </div>
+            </div>
+            <div class="form-group">
+                <label class="label_des col-sm-4" for="title">Email:</label>
                 <div class="col-sm-8">
                     <input type="email" class="form-control" name="edit_email" id="edit_email">
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-4" for="title">Party:</label>
+                <label class="label_des col-sm-4" for="title">Party:</label>
                 <div class="col-sm-8">
                     <select class="form-control" name="edit_party_id" id="edit_party_id">
 					@if(empty($parties->data))
 						<option value="-1">No Party</opiton>
 					@else
-					<option value="0"></opiton>
+						<option value="0"></opiton>
 						@foreach($parties->data as $party)
 							<option value="{{ $party->party_id }}">{{ $party->party_name }}</opiton>
 						@endforeach
@@ -169,8 +175,11 @@
                 </div>
             </div>
             <div class="modal-footer">
+				<input type="text" name="ballot_id" id="ballot_id" hidden/>
+				<input type="text" name="race_id" id="race_id" hidden/> 
 				<input type="text" name="edit_lang_id" id="edit_lang_id" hidden/>
 				<input type="text" name="edit_cand_id" id="edit_cand_id" hidden/>
+				<input type="text" name="edit_del_photo" id="edit_del_photo" value="false" hidden/>
                 <button type="submit" class="btn btn-success addInvoice">
                     <span id="" class='glyphicon glyphicon-check'></span> Save
                 </button>
@@ -190,20 +199,22 @@
     <div class="modal-body">
         <form class="form-horizontal">
 			<div class="form-group">
-                <label class="control-label col-sm-4" for="title">Candidate Name:</label>
+				<div class="col-sm-4">
+					<label class="label_des col-sm-12" for="title">Candidate Name:</label>
+				</div>
                 <div class="col-sm-8">
                     <input type="text" class="form-control" id="prev_candidate_name" required readonly>
                 </div>
             </div>
             <div class="form-group">
 				<div class="col-sm-6">
-					<label class="control-label col-sm-8" for="title">Candidate Photo:</label>
+					<label class="label_des col-sm-8" for="title">Candidate Photo:</label>
 					<div class="col-sm-4">
 						<img id="prev_cand_photo" style="width: 60px;">
 					</div>
 				</div>
 				<div class="col-sm-6">
-					<label class="control-label col-sm-8" for="title">Party Logo:</label>
+					<label class="label_des col-sm-8" for="title">Party Logo:</label>
 					<div class="col-sm-4">
 						<img id="prev_party_logo" style="width: 60px;">
 					</div>
@@ -211,22 +222,22 @@
             </div>
             <div class="form-group">
 				<div class="col-sm-6">
-					<label class="control-label col-sm-3" for="title">Email:</label>
+					<label class="label_des col-sm-3" for="title">Email:</label>
 					<div class="col-sm-9">
 						<input type="email" class="form-control" id="email" readonly>
 					</div>
 				</div>
 				<div class="col-sm-6">
-					<label class="control-label col-sm-3" for="title">Party:</label>
+					<label class="label_des col-sm-3" for="title">Party:</label>
 					<div class="col-sm-9">
 						<select class="form-control" id="party_id" readonly>
 					@if(empty($parties->data))
 						<option value="-1" disabled="disabled">No Party</opiton>
 					@else
-					<option value="0" disabled="disabled"></opiton>
-					@foreach($parties->data as $party)
-						<option value="{{ $party->party_id }}" disabled="disabled">{{ $party->party_name }}</opiton>
-					@endforeach
+						<option value="0" disabled="disabled"></opiton>
+						@foreach($parties->data as $party)
+							<option value="{{ $party->party_id }}" disabled="disabled">{{ $party->party_name }}</opiton>
+						@endforeach
 					@endif
 						</select>
 					</div>
@@ -252,7 +263,9 @@
     </div>
     <div class="modal-footer">
 		<form class="form-horizontal" role="form" method="post" action="{{ asset('/mutiDeleteData') }}">
-		@csrf            
+		@csrf
+			<input type="text" name="ballot_id" id="ballot_id" hidden />  
+			<input type="text" name="race_id" id="race_id" hidden/>     
 			<input type="text" class="ids" name="ids" hidden />
 			<input type="text" class="target_id" name="target_id" hidden />
 			<input type="text" class="api" name="api" hidden />
@@ -278,7 +291,9 @@
     </div>
     <div class="modal-footer">
 		<form class="form-horizontal" role="form" method="post" action="{{ asset('/deleteData') }}">
-        @csrf 
+        @csrf
+			<input type="text" name="ballot_id" id="ballot_id" hidden />  
+			<input type="text" name="race_id" id="race_id" hidden/> 
 			<input type="text" class="target_id" name="target_id" hidden />
 			<input type="text" class="id" name="id" hidden />
 			<input type="text" class="api" name="api" hidden />

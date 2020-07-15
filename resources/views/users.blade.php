@@ -94,31 +94,31 @@
         <form class="form-horizontal" role="form" method="post" action="{{ asset('/createUser') }}" enctype="multipart/form-data">
 		@csrf
             <div class="form-group">
-                <label class="control-label col-sm-4" for="title">User Name:</label>
+                <label class="label_des col-sm-4" for="title">User Name:</label>
                 <div class="col-sm-8">
                     <input type="text" class="form-control" name="user_name" id="add_user_name" required>
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-4" for="title">Alias:</label>
+                <label class="label_des col-sm-4" for="title">Alias:</label>
                 <div class="col-sm-8">
                     <input type="text" class="form-control" name="display_name" id="add_display_name" required>
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-4" for="title">Email:</label>
+                <label class="label_des col-sm-4" for="title">Email:</label>
                 <div class="col-sm-8">
                     <input type="email" class="form-control" name="user_email" id="add_user_email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required>
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-4" for="title">Password:</label>
+                <label class="label_des col-sm-4" for="title">Password:</label>
                 <div class="col-sm-8">
                     <input type="password" class="form-control" name="user_password" id="add_user_password" required>
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-4" for="title">Avatar:</label>
+                <label class="label_des col-sm-4" for="title">Avatar:</label>
                 <div class="col-sm-8">
                     <input type="file" class="form-control" name="user_avatar" id="add_user_avatar">
                 </div>
@@ -144,25 +144,25 @@
 		<form class="form-horizontal" role="form" method="post" action="{{ asset('/updateUser') }}" enctype="multipart/form-data">
 		@csrf
 		<div class="form-group">
-                <label class="control-label col-sm-4" for="title">User Name:</label>
+                <label class="label_des col-sm-4" for="title">User Name:</label>
                 <div class="col-sm-8">
                     <input type="text" class="form-control" name="user_name" id="edit_user_name" />
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-4" for="title">Alias:</label>
+                <label class="label_des col-sm-4" for="title">Alias:</label>
                 <div class="col-sm-8">
                     <input type="text" class="form-control" name="display_name" id="edit_display_name" />
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-4" for="title">Email:</label>
+                <label class="label_des col-sm-4" for="title">Email:</label>
                 <div class="col-sm-8">
                     <input type="text" class="form-control" name="user_email" id="edit_user_email" />
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-4" for="title">Avatar:</label>
+                <label class="label_des col-sm-4" for="title">Avatar:</label>
                 <div class="col-sm-8">
                     <input type="file" class="form-control" name="user_avatar" id="edit_user_avatar" accept="image/png, image/jpeg"></input>
                 </div>
@@ -188,25 +188,25 @@
     <div class="modal-body">
         <form class="form-horizontal">
             <div class="form-group">
-                <label class="control-label col-sm-4" for="title">User Name:</label>
+                <label class="label_des col-sm-4" for="title">User Name:</label>
                 <div class="col-sm-8">
                     <input type="text" class="form-control" id="preview_user_name" disabled>
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-4" for="title">Alias:</label>
+                <label class="label_des col-sm-4" for="title">Alias:</label>
                 <div class="col-sm-8">
                     <input type="text" class="form-control" id="preview_display_name" disabled>
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-4" for="title">Email:</label>
+                <label class="label_des col-sm-4" for="title">Email:</label>
                 <div class="col-sm-8">
                     <input type="text" class="form-control" id="preview_user_email" disabled>
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-4" for="title">Avatar:</label>
+                <label class="label_des col-sm-4" for="title">Avatar:</label>
                 <div class="col-sm-8">
                     <img id="preview_user_avatar" style="width: 60px;">
                 </div>

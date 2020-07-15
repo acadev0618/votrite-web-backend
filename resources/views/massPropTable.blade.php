@@ -69,25 +69,25 @@
         <form class="form-horizontal" role="form" method="post" action="{{ asset('/createProposition') }}">
 		@csrf
             <div class="form-group">
-                <label class="control-label col-sm-5" for="title">Title:</label>
+                <label class="label_des col-sm-5" for="title">Title:</label>
                 <div class="col-sm-7">
                     <input type="text" class="form-control" name="prop_title" id="prop_title" placeholder="Example: Proposition 1" required>
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-5" for="title">Current Article Reads:</label>
+                <label class="label_des col-sm-5" for="title">Current Article Reads:</label>
                 <div class="col-sm-7">
                     <textarea type="text" class="form-control" name="prop_text" id="prop_text"></textarea>
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-5" for="title">Proposed Change To Read:</label>
+                <label class="label_des col-sm-5" for="title">Proposed Change To Read:</label>
                 <div class="col-sm-7">
                     <input type="text" class="form-control" name="prop_name" id="prop_name" placeholder="Example: LElection of Board of Directiors">
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-5" for="title">Answer Type:</label>
+                <label class="label_des col-sm-5" for="title">Answer Type:</label>
                 <div class="col-sm-7">
                     <select class="form-control" name="prop_answer_type" id="prop_answer_type">
 						<option value='1'>YES/NO</option>
@@ -96,7 +96,7 @@
                 </div>
 			</div>
             <div class="form-group">
-                <label class="control-label col-sm-5" for="title">Choose Language:</label>
+                <label class="label_des col-sm-5" for="title">Choose Language:</label>
                 <div class="col-sm-7">
 					<select class="form-control" name="prop_lang_id" id="add_prop_lang_id">
 						@if(empty($languages->data))
@@ -110,7 +110,7 @@
                 </div>
             </div>
 			<div class="form-group">
-                <label class="control-label col-sm-5" for="title">Choose County:</label>
+                <label class="label_des col-sm-5" for="title">Choose County:</label>
                 <div class="col-sm-7">
                     <select class="form-control" name="prop_location_id" id="prop_location_id">
 					@if(empty($counties->data))
@@ -146,25 +146,25 @@
         <form class="form-horizontal" role="form" method="post" action="{{ asset('/updateProposition') }}">
 		@csrf
             <div class="form-group">
-                <label class="control-label col-sm-5" for="title">Title:</label>
+                <label class="label_des col-sm-5" for="title">Title:</label>
                 <div class="col-sm-7">
                     <input type="text" class="form-control" name="prop_title" id="edit_prop_title">
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-5" for="title">Current Article Reads:</label>
+                <label class="label_des col-sm-5" for="title">Current Article Reads:</label>
                 <div class="col-sm-7">
                     <textarea type="text" class="form-control" name="prop_text" id="edit_prop_text"></textarea>
                 </div>
             </div>
 			<div class="form-group">
-                <label class="control-label col-sm-5" for="title">Proposed Change To Read:</label>
+                <label class="label_des col-sm-5" for="title">Proposed Change To Read:</label>
                 <div class="col-sm-7">
                     <input type="text" class="form-control" name="prop_name" id="edit_prop_name">
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-5" for="title">Answer Type:</label>
+                <label class="label_des col-sm-5" for="title">Answer Type:</label>
                 <div class="col-sm-7">
                     <select class="form-control" name="prop_answer_type" id="edit_prop_answer_type">
 						<option value='1'>YES/NO</option>
@@ -173,7 +173,7 @@
                 </div>
 			</div>
             <div class="form-group">
-                <label class="control-label col-sm-5" for="title">Choose Language:</label>
+                <label class="label_des col-sm-5" for="title">Choose Language:</label>
                 <div class="col-sm-7">
 					<select class="form-control" name="prop_lang_id" id="edit_prop_lang_id">
 						@if(empty($languages->data))
@@ -187,7 +187,7 @@
                 </div>
             </div>
 			<div class="form-group">
-                <label class="control-label col-sm-5" for="title">Choose County:</label>
+                <label class="label_des col-sm-5" for="title">Choose County:</label>
                 <div class="col-sm-7">
                     <select class="form-control" name="prop_location_id" id="edit_prop_location_id">
 					@if(empty($counties->data))
@@ -201,6 +201,7 @@
                 </div>
             </div>
             <div class="modal-footer">
+				<input type="text" value="0" name="ballot_id" id="ballot_id" hidden />
                 <input type="text" id="edit_prop_id" name="prop_id" hidden>
                 <input type="text" name="prop_type" value="M" hidden>
                 <button type="submit" class="btn btn-success addInvoice">
@@ -222,25 +223,25 @@
     <div class="modal-body">
         <form class="form-horizontal">
             <div class="form-group">
-                <label class="control-label col-sm-5" for="title">Title:</label>
+                <label class="label_des col-sm-5" for="title">Title:</label>
                 <div class="col-sm-7">
                     <input type="text" class="form-control" name="prop_title" id="prev_prop_title" readonly>
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-5" for="title">Current Article Reads:</label>
+                <label class="label_des col-sm-5" for="title">Current Article Reads:</label>
                 <div class="col-sm-7">
                     <textarea type="text" class="form-control" name="prop_text" id="prev_prop_text" readonly></textarea>
                 </div>
             </div>
 			<div class="form-group">
-                <label class="control-label col-sm-5" for="title">Proposed Change To Read:</label>
+                <label class="label_des col-sm-5" for="title">Proposed Change To Read:</label>
                 <div class="col-sm-7">
                     <input type="text" class="form-control" name="prop_name" id="prev_prop_name" readonly>
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-5" for="title">Answer Type:</label>
+                <label class="label_des col-sm-5" for="title">Answer Type:</label>
                 <div class="col-sm-7">
                     <select class="form-control" name="prop_answer_type" id="prev_prop_answer_type" readonly>
 						<option value='1' disabled>YES/NO</option>
@@ -249,7 +250,7 @@
                 </div>
 			</div>
             <div class="form-group">
-                <label class="control-label col-sm-5" for="title">Language:</label>
+                <label class="label_des col-sm-5" for="title">Language:</label>
                 <div class="col-sm-7">
 					<select class="form-control" name="prop_lang_id" id="prev_prop_lang_id" readonly>
 						@if(empty($languages->data))
@@ -263,7 +264,7 @@
                 </div>
             </div>
 			<div class="form-group">
-                <label class="control-label col-sm-5" for="title">County:</label>
+                <label class="label_des col-sm-5" for="title">County:</label>
                 <div class="col-sm-7">
                     <select class="form-control" name="prop_location_id" id="prev_prop_location_id" readonly>
 					@if(empty($counties->data))
@@ -296,7 +297,8 @@
     </div>
     <div class="modal-footer">
 		<form class="form-horizontal" role="form" method="post" action="{{ asset('/mutiDeleteData') }}">
-		@csrf            
+		@csrf    
+            <input type="text" value="0" name="ballot_id" id="ballot_id" hidden />        
 			<input type="text" class="ids" name="ids" hidden />
 			<input type="text" class="target_id" name="target_id" hidden />
 			<input type="text" class="api" name="api" hidden />
@@ -323,6 +325,7 @@
     <div class="modal-footer">
 		<form class="form-horizontal" role="form" method="post" action="{{ asset('/deleteData') }}">
         @csrf 
+            <input type="text" value="0" name="ballot_id" id="ballot_id" hidden />
 			<input type="text" class="target_id" name="target_id" hidden />
 			<input type="text" class="id" name="id" hidden />
 			<input type="text" class="api" name="api" hidden />

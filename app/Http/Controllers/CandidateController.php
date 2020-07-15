@@ -20,16 +20,26 @@ class CandidateController extends Controller {
                 $candidates = trim(' ');
                 $languages = trim(' ');
             } else {
+                $old_cand_ballot_id = session::get('old_cand_ballot_id');
                 $ballot_id = $request->old('ballot_id')==null?$ballots->data[0]->ballot_id:$request->old('ballot_id');
+                if(($old_cand_ballot_id != null) && ($old_cand_ballot_id != $ballot_id)) {
+                    $ballot_id = $old_cand_ballot_id;
+                }
                 $races = $RaceController->getRaceOfBallot($ballot_id);
                 $parties = $PartyController->getPartyOfBallot($ballot_id);
                 $languages = $LanguageController->getLangOfBallot($ballot_id);
                 if(empty($races->data)) {
                     $candidates = trim(' ');
                 } else {
-                    $race_id = $races->data[0]->race_id;
+                    $old_cand_race_id = session::get('old_cand_race_id');
+                    $race_id = $request->old('race_id')==null?$races->data[0]->race_id:$request->old('race_id');
+                    if(($old_cand_race_id != null) && ($old_cand_race_id != $race_id)) {
+                        $race_id = $old_cand_race_id;
+                    }
                     $candidates = $this->getCandidateOfRace($race_id);
                 }
+
+                // var_dump($ballot_id, $race_id);die();
             }
 
             return view('candidate')->with([
@@ -96,20 +106,27 @@ class CandidateController extends Controller {
     }
 
     public function updateCandidate(Request $request) {
+        $del_photo = $request->edit_del_photo;
         $cand_id = array('candidate_id' => $request->edit_cand_id);
         $data = array(
+            "ballot_id" => $request->ballot_id,
+            "race_id" => $request->race_id,
             "candidate_name" => $request->edit_candidate_name,
             "email" => $request->edit_email,
             "party_id" => $request->edit_party_id,
             'keys' => $cand_id
         );
 
-        $BaseController = new BaseController;
-        $directory = "candidate/";
-        $photo = $request->file('edit_photo');
-        if($photo) {
-            $photo_link = $BaseController->fileUpload($photo, $directory);
-            $data += [ "photo" => $photo_link ];
+        if($del_photo == "false") {
+            $BaseController = new BaseController;
+            $directory = "candidate/";
+            $photo = $request->file('edit_photo');
+            if($photo) {
+                $photo_link = $BaseController->fileUpload($photo, $directory);
+                $data += [ "photo" => $photo_link ];
+            }
+        } else if($del_photo == "true") {
+            $data += [ "photo" => null ];
         }
 
         if($request->edit_lang_id != -1) {
@@ -127,6 +144,8 @@ class CandidateController extends Controller {
         $RaceController = new RaceController;
         $PartyController = new PartyController;
         $LanguageController = new LanguageController;
+        session(['old_cand_ballot_id' => $request->ballot_id]);
+        session(['old_cand_race_id' => $request->race_id]);
 
         $ballots = $BallotController->getActiveBallot();
         if(empty($ballots->data)) {
@@ -142,7 +161,7 @@ class CandidateController extends Controller {
             if(empty($races->data)) {
                 $candidates = trim(' ');
             } else {
-                $race_id = $races->data[0]->race_id;
+                $race_id = $request->race_id;
                 $candidates = $this->getCandidateOfRace($race_id);
             }
         }
@@ -161,6 +180,9 @@ class CandidateController extends Controller {
         $RaceController = new RaceController;
         $PartyController = new PartyController;
         $LanguageController = new LanguageController;
+
+        session(['old_cand_ballot_id' => $request->ballot_id]);
+        session(['old_cand_race_id' => $request->race_id]);
 
         $ballots = $BallotController->getActiveBallot();
         if(empty($ballots->data)) {

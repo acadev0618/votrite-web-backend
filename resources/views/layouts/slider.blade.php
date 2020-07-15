@@ -11,7 +11,7 @@
             @else
             <li>
             @endif
-                <a href="{{ asset('/') }}" class="active">
+                <a href="{{ asset('/dashboard') }}" class="active">
                     <i class="icon-briefcase"></i>
                     <span class="title">Dashboard</span>
                     <span class="selected"></span>
@@ -145,15 +145,6 @@
                         <a href="{{ asset('/result/voter') }}">
                         Voter Result</a>
                     </li>
-
-                    <!-- @if($subAction == "ballot")
-                    <li class="active">
-                    @else
-                    <li>
-                    @endif
-                        <a href="{{ asset('/result/ballot') }}">
-                        Ballot Result</a>
-                    </li> -->
                 </ul>
             </li>
         </ul>
