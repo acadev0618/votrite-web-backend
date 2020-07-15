@@ -320,16 +320,16 @@
 								"expiration_time": val[2],
 								"pin": val[1].replace("_", "").replace("_", "").trim()
 							}
-							// $.ajax({
-							// 	type: 'POST',
-							// 	url: baseurl+'pincode/create',
-							// 	crossDomain: true,
-							// 	data: JSON.stringify(order),
-							// 	dataType: 'json',
-							// 	error: function(responseData, textStatus, jqXHR) {
+							$.ajax({
+								type: 'POST',
+								url: baseurl+'pincode/create',
+								crossDomain: true,
+								data: JSON.stringify(order),
+								dataType: 'json',
+								error: function(responseData, textStatus, jqXHR) {
 									
-							// 	}
-							// });	
+								}
+							});	
 						});
 						toastr.success("Pin codes added");
 						handleRecords(window.ballot_id);
