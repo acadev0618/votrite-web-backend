@@ -116,41 +116,20 @@
 	var ballot_id = '';
 	var pincode = '';
 	@else
-	console.log(localStorage.getItem('old_rvp'));
 	if(localStorage.getItem('old_rvb') != null) {
 		var ballot_id = localStorage.getItem('old_rvb');
 		var pincode = localStorage.getItem('old_rvp');
 		$('#result_cand_ballot_name option').each(function(){
 			$(this).attr('selected', false);
-			console.log($(this));
 			if(localStorage.getItem('old_rvb') == $(this).val()){
 				$(this).attr('selected', true);
 			}
 		});
-		
 	} else {
 		var ballot_id = '{{ $ballots->data[0]->ballot_id }}';
 		var pincode = '{{ $response->data[0]->pin }}';
 	}
 	@endif
-
-	// $.ajax({
-	// 	type: 'GET',
-	// 	url: baseurl+'ballot',
-	// 	crossDomain: true,
-	// 	dataType: 'json',
-	// 	success: function(responseData, textStatus, jqXHR) {
-	// 		var text = "";
-	// 		var x;
-	// 		for (x in responseData.data) {
-	// 			text += "<option value="+responseData.data[x]['ballot_id']+">"+responseData.data[x]['election']+"</opiton>";
-	// 		}
-	// 		$('#result_cand_ballot_name').html(text);
-	// 	},
-	// 	error: function (responseData, textStatus, errorThrown) {
-	// 		console.log('POST failed.');
-	// 	}
-    // });
     
     $.ajax({
 			type: 'GET',
@@ -166,7 +145,6 @@
 							localStorage.setItem('old_rvp',responseData.data[0]['pin']);
 						}
 						for (x in responseData.data) {
-							// console.log(responseData.data[x]['pin'],localStorage.getItem('old_rvp'),localStorage.getItem('old_rvp') == responseData.data[x]['pin']);
 							text += "<option value='"+responseData.data[x]['pin']+"' "+(localStorage.getItem('old_rvp') == responseData.data[x]['pin'] ? 'selected': '')+">"+responseData.data[x]['pin']+"</opiton>";
 						}
 						$('#result_pincode').html(text);

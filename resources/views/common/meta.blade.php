@@ -9,4 +9,3 @@
 <meta content="" name="author"/>
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <meta name="baseurl" content="{{url('')}}:9191/api/">
-

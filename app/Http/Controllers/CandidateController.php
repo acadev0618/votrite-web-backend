@@ -38,6 +38,8 @@ class CandidateController extends Controller {
                     }
                     $candidates = $this->getCandidateOfRace($race_id);
                 }
+
+                // var_dump($ballot_id, $race_id);die();
             }
 
             return view('candidate')->with([
@@ -159,7 +161,7 @@ class CandidateController extends Controller {
             if(empty($races->data)) {
                 $candidates = trim(' ');
             } else {
-                $race_id = $races->data[0]->race_id;
+                $race_id = $request->race_id;
                 $candidates = $this->getCandidateOfRace($race_id);
             }
         }
