@@ -243,6 +243,9 @@
 	function getInput(data, type, full, meta) {
 		return '<div class="checker"><span><input type="checkbox" name="active_ballot_checkbox" class="checkboxes selcheck" data-id='+data+' /></span></div>';
 	}
+	function getdetail(data, type, full, meta) {
+		return '_ '+data+' _';
+	}
 	function getUsed(data, type, full, meta) {
 		if(data) {
 			return '<div class="clearfix"><a type="button" class="btn btn-xs red">Used</a></div>';
@@ -302,22 +305,23 @@
 						results.data.shift();
 						results.data.shift();
 						results.data.map(function(val){
+							// console.log(val[1].replace("_", "").replace("_", "").trim());
 							var order = {
 								"ballot_id": window.ballot_id,
 								"is_active": val[3],
 								"expiration_time": val[2],
-								"pin": val[1]
+								"pin": val[1].replace("_", "").replace("_", "").trim()
 							}
-							$.ajax({
-								type: 'POST',
-								url: baseurl+'pincode/create',
-								crossDomain: true,
-								data: JSON.stringify(order),
-								dataType: 'json',
-								error: function(responseData, textStatus, jqXHR) {
+							// $.ajax({
+							// 	type: 'POST',
+							// 	url: baseurl+'pincode/create',
+							// 	crossDomain: true,
+							// 	data: JSON.stringify(order),
+							// 	dataType: 'json',
+							// 	error: function(responseData, textStatus, jqXHR) {
 									
-								}
-							});	
+							// 	}
+							// });	
 						});
 						toastr.success("Pin codes added");
 						handleRecords(window.ballot_id);
@@ -374,7 +378,7 @@
 						return meta.row + meta.settings._iDisplayStart + 1;
 					}
 				},
-				{ "data": "pin" },
+				{ "data": "pin", render: getdetail },
 				{ "data": "expiration_time" , render: getTime },
 				{ "data": "is_used" , render: getUsed },
 				{ "data": "is_active" , render: getChecked },
