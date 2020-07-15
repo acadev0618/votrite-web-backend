@@ -356,5 +356,4 @@ class ResultController extends Controller
             'prop' => $proprlt
         ]);
     }
-    
 }

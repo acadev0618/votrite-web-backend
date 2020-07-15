@@ -116,8 +116,22 @@
 	var ballot_id = '';
 	var pincode = '';
 	@else
-	var ballot_id = '{{ $ballots->data[0]->ballot_id }}';
-	var pincode = '{{ $response->data[0]->pin }}';
+	console.log(localStorage.getItem('old_rvp'));
+	if(localStorage.getItem('old_rvb') != null) {
+		var ballot_id = localStorage.getItem('old_rvb');
+		var pincode = localStorage.getItem('old_rvp');
+		$('#result_cand_ballot_name option').each(function(){
+			$(this).attr('selected', false);
+			console.log($(this));
+			if(localStorage.getItem('old_rvb') == $(this).val()){
+				$(this).attr('selected', true);
+			}
+		});
+		
+	} else {
+		var ballot_id = '{{ $ballots->data[0]->ballot_id }}';
+		var pincode = '{{ $response->data[0]->pin }}';
+	}
 	@endif
 
 	// $.ajax({
@@ -148,81 +162,21 @@
 				var x;
 				if(responseData.data != undefined){
 					if(responseData.data.length != 0){
+						if(localStorage.getItem('old_rvp') == null){
+							localStorage.setItem('old_rvp',responseData.data[0]['pin']);
+						}
 						for (x in responseData.data) {
-							text += "<option value="+responseData.data[x]['pin']+">"+responseData.data[x]['pin']+"</opiton>";
+							// console.log(responseData.data[x]['pin'],localStorage.getItem('old_rvp'),localStorage.getItem('old_rvp') == responseData.data[x]['pin']);
+							text += "<option value='"+responseData.data[x]['pin']+"' "+(localStorage.getItem('old_rvp') == responseData.data[x]['pin'] ? 'selected': '')+">"+responseData.data[x]['pin']+"</opiton>";
 						}
 						$('#result_pincode').html(text);
 						$('#countresult').text('');
 						$('#propresult').text('');
-						pincode = responseData.data[0]['pin'];
-						if(ballot_id != '' || ballot_id != -1){
-							$.ajax({
-								type: 'GET',
-								url: apiurl+'votercal?ballot_id='+ballot_id+'&pincode='+pincode,
-								crossDomain: true,
-								dataType: 'json',
-								success: function(responseData, textStatus, jqXHR) {
-									var text = "";
-									var text1 = "";
-									var x;
-									var x1;
-									var race = [];
-									for (x in responseData.candidate) {
-										text += '<h4 class="'+responseData.candidate[x][0]['race_id']+'">Candidates For: '+responseData.candidate[x][0]['race_title']+'</h4>'
-										for (y in responseData.candidate[x]) {
-											text += '<h4>'+(responseData.candidate[x][y]['race_type'] != 'R' ? (parseInt(y)+1)+'. ' : '')+responseData.candidate[x][y]['candidate_name']+(responseData.candidate[x][y]['race_type'] == 'R' ? ' : '+responseData.candidate[x][y]['cast_value'] : '')+'</h4>';
-										}
-										console.log(responseData.candidate);
-										// text = "";
-										// console.log(race);
-										// for (y in race) {
-										// }
-									}
-									$('#countresult').html(text);
-									for (x1 in responseData.prop) {
-										console.log(responseData.prop);
-										text1 += '<h4 >'+responseData.prop[x1]['prop_title']+'</h4><h4>'+responseData.prop[x1]['prop_name']+' : '+(responseData.prop[x1]['prop_answer_type'] == 1 ? responseData.prop[x1]['cast_yes'] ? 'Yes' : '' :  responseData.prop[x1]['cast_yes'] ? 'For' : '' )+' '+(responseData.prop[x1]['prop_answer_type'] == 1 ? responseData.prop[x1]['cast_no'] ? 'No' : '' : responseData.prop[x1]['cast_no'] ? 'Against' : '')+'</h4>';
-									}
-									$('#propresult').html(text1);
-								},
-								error: function (responseData, textStatus, errorThrown) {
-									$('#countresult').text('None');
-									$('#propresult').text('None');
-									console.log('POST failed.');
-								}
-							});
+						if(localStorage.getItem('old_rvp') != null){
+							pincode = localStorage.getItem('old_rvp');
+						}else{
+							pincode = responseData.data[0]['pin'];
 						}
-					}
-				}else{
-					$('#countresult').text('None');
-					$('#propresult').text('None');
-				}
-			},
-			error: function (responseData, textStatus, errorThrown) {
-				console.log('POST failed.');
-			}
-		});
-
-	$('#result_cand_ballot_name').change(function(){
-		ballot_id = $(this).val();
-		$('#ballot_board').text($(this).find('option:selected').text());
-		$.ajax({
-			type: 'GET',
-			url: baseurl+'pincode?ballot_id='+ballot_id+'&is_used=true',
-			crossDomain: true,
-			dataType: 'json',
-			success: function(responseData, textStatus, jqXHR) {
-				var text = "";
-				var x;
-				if(responseData.data != undefined){
-					if(responseData.data.length != 0){
-						for (x in responseData.data) {
-							text += "<option value="+responseData.data[x]['pin']+">"+responseData.data[x]['pin']+"</opiton>";
-						}
-						$('#result_pincode').html(text);
-						$('#countresult').text('');
-						$('#propresult').text('');
-						pincode = responseData.data[0]['pin'];
 						if(ballot_id != '' || ballot_id != -1){
 							$.ajax({
 								type: 'GET',
@@ -271,10 +225,83 @@
 				console.log('POST failed.');
 			}
 		});
+
+	$('#result_cand_ballot_name').change(function(){
+		ballot_id = $(this).val();
+		localStorage.setItem("old_rvb", ballot_id);
+		$('#ballot_board').text($(this).find('option:selected').text());
+		$.ajax({
+			type: 'GET',
+			url: baseurl+'pincode?ballot_id='+ballot_id+'&is_used=true',
+			crossDomain: true,
+			dataType: 'json',
+			success: function(responseData, textStatus, jqXHR) {
+				var text = "";
+				var x;
+				if(responseData.data != undefined){
+					if(responseData.data.length != 0){
+						for (x in responseData.data) {
+							text += "<option value="+responseData.data[x]['pin']+">"+responseData.data[x]['pin']+"</opiton>";
+						}
+						$('#result_pincode').html(text);
+						$('#countresult').text('');
+						$('#propresult').text('');
+						pincode = responseData.data[0]['pin'];
+						localStorage.setItem('old_rvp',pincode);
+						if(ballot_id != '' || ballot_id != -1){
+							$.ajax({
+								type: 'GET',
+								url: apiurl+'votercal?ballot_id='+ballot_id+'&pincode='+pincode,
+								crossDomain: true,
+								dataType: 'json',
+								success: function(responseData, textStatus, jqXHR) {
+									var text = "";
+									var text1 = "";
+									var x;
+									var x1;
+									var race = [];
+									for (x in responseData.candidate) {
+										text += '<h4 class="'+responseData.candidate[x][0]['race_id']+'">Candidates For: '+responseData.candidate[x][0]['race_title']+'</h4>'
+										for (y in responseData.candidate[x]) {
+											text += '<h4>'+(responseData.candidate[x][y]['race_type'] != 'R' ? (parseInt(y)+1)+'. ' : '')+responseData.candidate[x][y]['candidate_name']+(responseData.candidate[x][y]['race_type'] == 'R' ? ' : '+responseData.candidate[x][y]['cast_value'] : '')+'</h4>';
+										}
+										console.log(responseData.candidate);
+										// text = "";
+										// console.log(race);
+										// for (y in race) {
+										// }
+									}
+									$('#countresult').html(text);
+									for (x1 in responseData.prop) {
+										console.log(responseData.prop);
+										text1 += '<h4 >'+responseData.prop[x1]['prop_title']+'</h4><h4>'+responseData.prop[x1]['prop_name']+' : '+(responseData.prop[x1]['prop_answer_type'] == 1 ? responseData.prop[x1]['cast_yes'] ? 'Yes' : '' :  responseData.prop[x1]['cast_yes'] ? 'For' : '' )+' '+(responseData.prop[x1]['prop_answer_type'] == 1 ? responseData.prop[x1]['cast_no'] ? 'No' : '' : responseData.prop[x1]['cast_no'] ? 'Against' : '')+'</h4>';
+									}
+									$('#propresult').html(text1);
+								},
+								error: function (responseData, textStatus, errorThrown) {
+									$('#countresult').text('None');
+									$('#propresult').text('None');
+									console.log('POST failed.');
+								}
+							});
+						}
+					}
+				}else{
+					localStorage.setItem('old_rvp',null);
+					$('#countresult').text('None');
+					$('#propresult').text('None');
+					$('#result_pincode').html("<option >none</opiton>");
+				}
+			},
+			error: function (responseData, textStatus, errorThrown) {
+				console.log('POST failed.');
+			}
+		});
 	});
 
 	$('#result_pincode').change(function(){
 		pincode = $(this).val();
+		localStorage.setItem('old_rvp',pincode);
 		if(ballot_id != '' || ballot_id != -1){
             $.ajax({
                 type: 'GET',
