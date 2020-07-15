@@ -2,9 +2,6 @@ var api_url = "ec2-3-90-78-113.compute-1.amazonaws.com:9191/api";
 var base_url="";
 
 // var api_url = "http://10.10.10.143:9191/api";
-// var base_url="http://dev.voterite.com";
-// var base_url="";
-
 var TableManaged = function () {
     var dashboardTable = function () {
 
