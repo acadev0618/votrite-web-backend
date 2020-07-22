@@ -20,7 +20,7 @@
 								<div class="col-md-6">
 									<div class="btn-group">
                                             <select class="form-control" id="active_change_option" name="active_change_option">
-                                                <option value="1">Actived</option>
+                                                <option value="1">Active</option>
                                                 <option value="2">Show All</option>
                                             </select>
 									</div>
