@@ -252,7 +252,7 @@
 		return '<div class="checker"><span><input type="checkbox" name="active_ballot_checkbox" class="checkboxes selcheck" data-id='+data+' /></span></div>';
 	}
 	function getdetail(data, type, full, meta) {
-		return '"'+data+'"';
+		return data;
 	}
 	function getUsed(data, type, full, meta) {
 		if(data) {
@@ -318,7 +318,8 @@
 								"ballot_id": window.ballot_id,
 								"is_active": val[3],
 								"expiration_time": val[2],
-								"pin": val[1].replace('"', "").replace('"', "").trim()
+								"pin": val[1]
+								// "pin": val[1].replace('"', "").replace('"', "").trim()
 							}
 							$.ajax({
 								type: 'POST',

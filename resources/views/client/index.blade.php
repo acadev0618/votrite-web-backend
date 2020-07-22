@@ -78,17 +78,17 @@ License: You must have a valid license purchased only from themeforest(the above
 			<button class="close" data-close="alert"></button>
 			<span>
 			@if($errors->any())
-			Incorrect PinCode.
+			{{$errors->first()}}
 			@endif
 			Enter PinCode. </span>
 		</div>
 		<div class="form-group">
 			<!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
-			<label class="control-label visible-ie8 visible-ie9">PinCode</label>
+			<label class="control-label visible-ie8 visible-ie9">PINCODE</label>
 			<div class="input-icon">
 				<i class="fa fa-user"></i>
 				<input type="hidden" name="ballot_id" value="{{$ballot}}"/>
-				<input class="form-control placeholder-no-fix" type="password" autocomplete="off" placeholder="PinCode" name="pincode" required/>
+				<input class="form-control placeholder-no-fix" type="password" autocomplete="off" placeholder="Please enter your pincode" name="pincode" required/>
 			</div>
 		</div>
 		<div class="form-actions">

@@ -139,7 +139,7 @@
                     <label for="form_control_1"></label>
                 </div>
                 <div class="col-md-6 text-center">
-                    <button type="button" class="btn-voter-else">Someone Else</button>
+                    <button type="button" class="btn-voter-else">WRITE - IN CANDIDATE</button>
                 </div>
             </div>
             
@@ -249,6 +249,29 @@
                     toastr['warning']('Over max write in');
                 }
             });
+            $('.btn-voter').click(function(){
+                // if($('input[name=radio]:checked').length == 0){
+                //     toastr['warning']('Please select one');
+                // }else{
+                    var duplicate = true;
+                    var dspin = 0;
+                    var candid = [];
+                    $('.spinner-input').each(function(){
+                        if($(this).val() != 0){
+                            if(candid.indexOf($(this).val()) != -1){
+                                duplicate = false;
+                            }
+                            candid.push($(this).val());
+                            dspin++;
+                        }
+                    });
+                    if(duplicate){
+                        $ ('.race-voter').submit();
+                    }else{
+                        toastr['warning']('Please check duplicate');
+                    }
+                // }
+            });
         @else
             $('.spinner').spinner({value:0, min: 0, max: {{count($candidates->data)}}});
             $('.spinner-buttons').click(function(){
@@ -258,6 +281,7 @@
                         spin ++;
                     }
                 });
+                $('#maxvotes').text(max-spin);
                 if(spin<min){
                     $('.btn-voter').hide();
                 }else{
@@ -280,7 +304,7 @@
                     dataType: 'json',
                     success: function(responseData, textStatus, jqXHR) {
                         $("form.race-voter > div").append('<div class="form-group row">\
-                            <label class="control-label col-md-3">'+$('#form_control_1')+'</label>\
+                            <label class="control-label col-md-3">'+$('#form_control_1').val()+'</label>\
                             <div class="spinner col-md-9">\
                                 <div class="input-group" style="width:150px;">\
                                     <div class="spinner-buttons input-group-btn">\
@@ -288,7 +312,7 @@
                                         <i class="fa fa-plus"></i>\
                                         </button>\
                                     </div>\
-                                    <input type="text" class="spinner-input form-control" name="'+responseData.message+'-'+$('#form_control_1').val()+'" value="" maxlength="3" readonly>\
+                                    <input type="text" class="spinner-input form-control" name="'+responseData.message+'-'+$('#form_control_1').val()+'" value="0" maxlength="3" readonly>\
                                     <div class="spinner-buttons input-group-btn">\
                                         <button type="button" class="btn spinner-down red">\
                                         <i class="fa fa-minus"></i>\
@@ -305,27 +329,32 @@
                     toastr['warning']('Over max write in');
                 }
             });
+            $('.btn-voter').click(function(){
+                // if($('input[name=radio]:checked').length == 0){
+                //     toastr['warning']('Please select one');
+                // }else{
+                    var duplicate = true;
+                    var dspin = 0;
+                    var candid = [];
+                    $('.spinner-input').each(function(){
+                        if($(this).val() != 0){
+                            if(candid.indexOf($(this).val()) != -1){
+                                duplicate = false;
+                            }
+                            candid.push($(this).val());
+                            dspin++;
+                        }
+                    });
+                    if(duplicate && dspin>=min){
+                        $ ('.race-voter').submit();
+                    }else{
+                        toastr['warning']('Please check duplicate');
+                    }
+                // }
+            });
         @endif
     @endif
-    $('.btn-voter').click(function(){
-        // if($('input[name=radio]:checked').length == 0){
-        //     toastr['warning']('Please select one');
-        // }else{
-            var duplicate = true;
-            var candid = [];
-            $('.spinner-input').each(function(){
-                if(candid.indexOf($(this).val()) != -1){
-                    duplicate = false;
-                }
-                candid.push($(this).val());
-            });
-            if(duplicate){
-                $ ('.race-voter').submit();
-            }else{
-                toastr['warning']('Please input other values');
-            }
-        // }
-    });
+    
     $('.btn-voter-back').click(function(){
         $ ('.race-voter').attr('action', "{{ url('client/racedecount') }}");
         $ ('.race-voter').submit();

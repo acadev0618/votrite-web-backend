@@ -54,12 +54,17 @@ class ClientController extends Controller
         $param = 'ballot_id='.$request->ballot_id.'&pin='.$request->pincode;
 
         $response = $Api->getParamApi($api_url, $param);
-        // dd($response);
         if(!property_exists($response, "data")){
-            return back()->withErrors(['msg', 'error']);
+            return back()->withErrors(['Incorrect PinCode.']);
         }
         if($response->data[0]->is_used){
-            return back()->withErrors(['msg', 'error']);
+            return back()->withErrors(['Used PinCode.']);
+        }
+        if($response->data[0]->is_used){
+            return back()->withErrors(['Used PinCode.']);
+        }
+        if(strtotime('today') > strtotime($response->data[0]->expiration_time)){
+            return back()->withErrors(['Expired PinCode.']);
         }
         session(['pin' => $request->pincode]);
         // dd(count(get_object_vars($response)) != 0);
