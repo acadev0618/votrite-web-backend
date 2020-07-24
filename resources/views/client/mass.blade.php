@@ -124,7 +124,11 @@
 <!-- BEGIN FOOTER -->
 <div class="page-footer-voter" style="text-align:center;padding-top: 35px;color:white;">
 	<div class="col-md-3 col-xs-3">
-        <button href="{{url('client/review')}}" type="button" class="btn-review">Review your choice</button>
+    @if(session('showreview'))
+        <button type="button" class="btn-review">Review your choice</button>
+    @else
+        <button type="button" class="btn-skip">Skip</button>
+    @endif
     </div>
     <div class="col-md-3 col-xs-3">
         <button type="button" class="btn-voter-back">Back</button>
@@ -143,6 +147,7 @@
     var precheck = null;
     $('input.md-check').change(function(e){
         e.preventDefault();
+        
         $(e.target).parent().parent().find('.md-check').attr('checked', false);
         if($(this).attr('id') == precheck){
             $(this).attr('checked',false);
@@ -151,6 +156,14 @@
             $(this).attr('checked',true);
             precheck = $(this).attr('id');
         }
+        $.ajax({
+            type: 'post',
+            url: "{{ url('client/updatemass') }}",
+            data: $('form').serialize(),
+            success: function () {
+                console.log('form was submitted');
+            }
+        });
     });
     $('.btn-voter').click(function(){
         // if($('input[name=radio]:checked').length == 0){
@@ -170,10 +183,14 @@
         // }
     });
     $('.btn-voter-back').click(function(){
-        window.location.href="{{url('client/prop')}}";
+        // window.location.href="{{url('client/prop')}}";
+        window.history.back();
     });
     $('.btn-review').click(function(){
         window.location.href="{{url('client/review')}}";
+    });
+    $('.btn-skip').click(function(){
+        $ ('.race-voter').submit();
     });
 </script>
 @endsection

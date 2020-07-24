@@ -55,7 +55,15 @@
                         @if($prop->prop_answer_type == 1)
                         <div class="form-group row" style="margin-left: 20px;">
                             <div class="md-checkbox col-md-3">
+                                @if(array_key_exists($prop->proposition_id,session('propresult')))
+                                @if(session('propresult')[$prop->proposition_id]=='yes')
+                                <input type="checkbox" id="checkboxyes{{$prop->proposition_id}}" name="{{$prop->proposition_id}}" value="yes" class="md-check" checked>
+                                @else
                                 <input type="checkbox" id="checkboxyes{{$prop->proposition_id}}" name="{{$prop->proposition_id}}" value="yes" class="md-check">
+                                @endif
+                                @else
+                                <input type="checkbox" id="checkboxyes{{$prop->proposition_id}}" name="{{$prop->proposition_id}}" value="yes" class="md-check">
+                                @endif
                                 <label for="checkboxyes{{$prop->proposition_id}}">
                                 <span></span>
                                 <span class="check"></span>
@@ -63,7 +71,15 @@
                                 YES</label>
                             </div>
                             <div class="md-checkbox col-md-3">
+                                @if(array_key_exists($prop->proposition_id,session('propresult')))
+                                @if(session('propresult')[$prop->proposition_id]=='no')
+                                <input type="checkbox" id="checkboxno{{$prop->proposition_id}}" name="{{$prop->proposition_id}}" value="no" class="md-check" checked>
+                                @else
                                 <input type="checkbox" id="checkboxno{{$prop->proposition_id}}" name="{{$prop->proposition_id}}" value="no" class="md-check">
+                                @endif
+                                @else
+                                <input type="checkbox" id="checkboxno{{$prop->proposition_id}}" name="{{$prop->proposition_id}}" value="no" class="md-check">
+                                @endif
                                 <label for="checkboxno{{$prop->proposition_id}}">
                                 <span></span>
                                 <span class="check"></span>
@@ -74,7 +90,15 @@
                         @else
                         <div class="form-group row" style="margin-left: 20px;">
                             <div class="md-checkbox col-md-3">
+                                @if(array_key_exists($prop->proposition_id,session('propresult')))
+                                @if(session('propresult')[$prop->proposition_id]=='for')
+                                <input type="checkbox" id="checkboxfor{{$prop->proposition_id}}" name="{{$prop->proposition_id}}" value="for" class="md-check" checked>
+                                @else
                                 <input type="checkbox" id="checkboxfor{{$prop->proposition_id}}" name="{{$prop->proposition_id}}" value="for" class="md-check">
+                                @endif
+                                @else
+                                <input type="checkbox" id="checkboxfor{{$prop->proposition_id}}" name="{{$prop->proposition_id}}" value="for" class="md-check">
+                                @endif
                                 <label for="checkboxfor{{$prop->proposition_id}}">
                                 <span></span>
                                 <span class="check"></span>
@@ -82,7 +106,15 @@
                                 FOR</label>
                             </div>
                             <div class="md-checkbox col-md-3">
-                                <input type="checkbox" id="checkboxagainst{{$prop->proposition_id}}" name="{$prop->proposition_id}}" value="against" class="md-check">
+                                @if(array_key_exists($prop->proposition_id,session('propresult')))
+                                @if(session('propresult')[$prop->proposition_id]=='fagainstor')
+                                <input type="checkbox" id="checkboxagainst{{$prop->proposition_id}}" name="{$prop->proposition_id}}" value="against" class="md-check" checked>
+                                @else
+                                <input type="checkbox" id="checkboxagainst{{$prop->proposition_id}}" name="{{$prop->proposition_id}}" value="against" class="md-check">
+                                @endif
+                                @else
+                                <input type="checkbox" id="checkboxagainst{{$prop->proposition_id}}" name="{{$prop->proposition_id}}" value="against" class="md-check">
+                                @endif
                                 <label for="checkboxagainst{{$prop->proposition_id}}">
                                 <span></span>
                                 <span class="check"></span>
@@ -123,7 +155,11 @@
 <!-- BEGIN FOOTER -->
 <div class="page-footer-voter" style="text-align:center;padding-top: 35px;color:white;">
 	<div class="col-md-3 col-xs-3">
-        <button href="{{url('client/review')}}" type="button" class="btn-review">Review your choice</button>
+    @if(session('showreview'))
+        <button type="button" class="btn-review">Review your choice</button>
+    @else
+        <button type="button" class="btn-skip">Skip</button>
+    @endif
     </div>
     <div class="col-md-3 col-xs-3">
         <button type="button" class="btn-voter-back">Back</button>
@@ -150,6 +186,14 @@
             $(this).attr('checked',true);
             precheck = $(this).attr('id');
         }
+        $.ajax({
+            type: 'post',
+            url: "{{ url('client/updateprops') }}",
+            data: $('form').serialize(),
+            success: function () {
+                console.log('form was submitted');
+            }
+        });
     });
     $('.btn-voter').click(function(){
         // if($('input[name=radio]:checked').length == 0){
@@ -174,6 +218,9 @@
     });
     $('.btn-review').click(function(){
         window.location.href="{{url('client/review')}}";
+    });
+    $('.btn-skip').click(function(){
+        $ ('.race-voter').submit();
     });
 </script>
 @endsection

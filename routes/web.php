@@ -10,10 +10,15 @@ Route::group(['middleware' => 'client', 'prefix'=>'client', 'namespace'=>'Client
     Route::get('/race', 'ClientController@race')->name('client.race');
     Route::get('/prop', 'ClientController@prop')->name('client.prop');
     Route::post('/propcount', 'ClientController@propcount')->name('client.propcount');
+    Route::post('/updateprops', 'ClientController@updateprops')->name('client.updateprops');
     Route::get('/mass', 'ClientController@mass')->name('client.mass');
     Route::post('/masscount', 'ClientController@masscount')->name('client.masscount');
+    Route::post('/updatemass', 'ClientController@updatemass')->name('client.updatemass');
     Route::get('/review', 'ClientController@review')->name('client.review');
+    Route::get('/returnvote', 'ClientController@returnvote')->name('client.returnvote');
     Route::post('/racecount', 'ClientController@racecount')->name('client.racecount');
+    Route::post('/updaterace', 'ClientController@updaterace')->name('client.updaterace');
+    Route::get('/back/{id}', 'ClientController@back')->name('client.back');
     Route::post('/racedecount', 'ClientController@racedecount')->name('client.racedecount');
     Route::post('/cast', 'ClientController@cast')->name('client.cast');
 });

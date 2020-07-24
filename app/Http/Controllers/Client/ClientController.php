@@ -68,6 +68,17 @@ class ClientController extends Controller
         }
         session(['pin' => $request->pincode]);
         // dd(count(get_object_vars($response)) != 0);
+        session(['races' => []]);
+        session(['props' => []]);
+        session(['mass' => []]);
+        session(['raceresult' => []]);
+        session(['propresult' => []]);
+        session(['massresult' => []]);
+        session(['lastrace' => []]);
+        session(['current' => 0]);
+        session(['pin' => 0]);
+        session(['showreview'=> false]);
+        
         if(count(get_object_vars($response)) != 0){
             return  redirect()->route('client.viewcand', ['ballot_id'=>$request->ballot_id]);
         }else{
@@ -109,16 +120,7 @@ class ClientController extends Controller
         $rcnt = 0;
         $pcnt = 0;
         $mcnt = 0;
-        session(['races' => []]);
-        session(['props' => []]);
-        session(['mass' => []]);
-        session(['raceresult' => []]);
-        session(['propresult' => []]);
-        session(['massresult' => []]);
-        session(['lastrace' => []]);
-        session(['current' => 0]);
-        session(['pin' => 0]);
-
+        
         if(count(get_object_vars($races)) != 0){
             $rcnt = count($races->data);
             session([ 'races' => $races->data ]);
@@ -142,7 +144,7 @@ class ClientController extends Controller
         
         $response = $Api->getParamApi($api_url, $param);
         
-        session([ 'ballots' => $response, 'current'=>0, 'raceresult'=>[], 'lastrace'=>[], 'totalcnt'=>$totalcnt ]);
+        session([ 'ballots' => $response, 'totalcnt'=>$totalcnt ]);
 
         return view('client.race')->with(['ballots' => $response, 'races' => session('races'), 'candidates' => $candidates]);
     }
@@ -155,6 +157,8 @@ class ClientController extends Controller
         // $raceresult2 = array_merge($raceresult, array($request->only('race_id')['race_id'] => $request->except('_token', 'ballot_id', 'race_id')));
         $raceresult[$request->only('race_id')['race_id']] = $request->except('_token', 'ballot_id', 'race_id');
         // dd($raceresult);
+        session(['reviewcnt'=> null]);
+        // session(['updaterace'=> false]);
         session(['raceresult'=> $raceresult]);
         
         $races = session('races');
@@ -175,17 +179,28 @@ class ClientController extends Controller
         return view('client.race')->with(['ballots' => session('ballots'), 'races' => $races, 'candidates' => $candidates]);
     }
 
+    public function updaterace(Request $request) {
+
+        // dd($request->all());
+        $raceresult = session('raceresult');
+        $raceresult[$request->only('race_id')['race_id']] = $request->except('_token', 'ballot_id', 'race_id');
+        session(['raceresult'=> $raceresult]);
+        // if(count(session('races'))!=0){
+        //     session(['updaterace'=> true]);
+        // }
+        return response()->json(['result' => 'success']);
+    }
+
     public function racedecount(Request $request) {
 
         $CandidateController = new CandidateController;
 
-        $raceresult = session('raceresult');
-        array_pop($raceresult);
-        session(['raceresult'=> $raceresult]);
-        if(count($raceresult) == 0){
-            return  redirect()->route('client.ballot');
-        }
+        // $raceresult = session('raceresult');
+        // array_pop($raceresult);
+        // session(['raceresult'=> $raceresult]);
+        
         // dd($raceresult, $request->except('_token', 'ballot_id', 'race_id'));
+        session(['reviewcnt'=> null]);
         
         $races = session('races');
         $lastrace = session('lastrace');
@@ -193,9 +208,11 @@ class ClientController extends Controller
         array_unshift($races, $race);
         session(['lastrace'=> $lastrace]);
         session(['races'=> $races]);
-        
         $current = session('current');
         session(['current'=> $current-1]);
+        if($current == 0){
+            return  redirect()->route('client.ballot');
+        }
         
         if($race == null){
             return  redirect()->route('client.prop', ['ballot_id'=>$request->ballot_id]);
@@ -207,6 +224,7 @@ class ClientController extends Controller
 
     public function prop(Request $request) {
         $props = session('props');
+        session(['current'=> session('totalcnt')-1]);
         // dd($props);
         if(count(session('props')) == 0){
             return  redirect()->route('client.mass', ['ballot_id'=>$request->ballot_id]);
@@ -221,7 +239,13 @@ class ClientController extends Controller
         return  redirect()->route('client.mass', ['ballot_id'=>$request->ballot_id]);
     }
 
+    public function updateprops(Request $request) {
+        session(['propresult'=> $request->except('_token', 'ballot_id')]);
+        return response()->json(['result' => 'success']);
+    }
+
     public function mass(Request $request) {
+        session(['current'=> session('totalcnt')]);
         if(count(session('mass')) == 0){
             return  redirect()->route('client.review', ['ballot_id'=>$request->ballot_id]);
         }
@@ -235,8 +259,77 @@ class ClientController extends Controller
         return  redirect()->route('client.review', ['ballot_id'=>$request->ballot_id]);
     }
 
-    public function review(Request $request) {
+    public function updatemass(Request $request) {
+        session(['massresult'=> $request->except('_token', 'ballot_id')]);
+        return response()->json(['result' => 'success']);
+    }
+
+    public function back(Request $request, $id) {
+
+        $CandidateController = new CandidateController;
+        session(['current'=> $id]);
+        $races = session('races');
+        $lastrace = session('lastrace');
+        $cnt = count(session('lastrace'));
+        session(['reviewcnt'=> $cnt - $id]);
+        do {
+            $id++;
+            $race = array_pop($lastrace);
+            array_unshift($races, $race);
+        } while ($id < $cnt);
+        session(['lastrace'=> $lastrace]);
+        session(['races'=> $races]);
         // dd($request->session()->all());
+        if(count($races) == 0){
+            return  redirect()->route('client.ballot');
+        }
+        $candidates = $CandidateController->getCandidateOfRace($races[0]->race_id);
+
+        return view('client.race')->with(['ballots' => session('ballots'), 'races' => $races, 'candidates' => $candidates]);
+    }
+
+    public function returnvote(Request $request) {
+
+        $CandidateController = new CandidateController;
+        session(['current'=> 0]);
+        $cnt = count(session('lastrace'));
+        session(['reviewcnt'=> $cnt]);
+        $races = session('races');
+        $lastrace = session('lastrace');
+        do {
+            $race = array_pop($lastrace);
+            array_unshift($races, $race);
+        } while (count($lastrace) > 0);
+        session(['lastrace'=> $lastrace]);
+        session(['races'=> $races]);
+        // dd($request->session()->all());
+        if(count($races) == 0){
+            return  redirect()->route('client.ballot');
+        }
+        $candidates = $CandidateController->getCandidateOfRace($races[0]->race_id);
+
+        return view('client.race')->with(['ballots' => session('ballots'), 'races' => $races, 'candidates' => $candidates]);
+    }
+
+    public function review(Request $request) {
+        session(['showreview'=> true]);
+        if(session('reviewcnt') != null){
+            $reviewcnt = session('reviewcnt');
+            // if(session('updaterace')){
+            //     $reviewcnt--;
+            // }
+            $races = session('races');
+            $lastrace = session('lastrace');
+            do {
+                $race = array_shift($races);
+                array_push($lastrace, $race);
+                $reviewcnt--;
+            }while($reviewcnt > 0);        
+            session(['lastrace'=> $lastrace]);
+            session(['races'=> $races]);
+            // dd($request->session()->all());
+        }
+        
         $totalrace = [];
         $ballot = session('ballots');
         $CandidateController = new CandidateController;

@@ -213,6 +213,13 @@ Page Header
   color: #20084a;
   background-color: white;
 }
+.btn-skip{
+  width: 200px;
+  height: 50px;
+  border-radius: 25px !important;
+  color: #20084a;
+  background-color: white;
+}
 .btn-voter-back{
   width: 200px;
   height: 50px;

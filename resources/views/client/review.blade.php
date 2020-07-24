@@ -35,10 +35,10 @@
             <div class="col-md-4 col-xs-0">
                 <div class="guide-desc-header">
                     <h2>{{$ballots->data[0]->board}}</h2>
-                    <h4>You have  choice remaining.</h4>
+                    <h4>You can see result that you have done by now.</h4>
                 </div>
                 <div class="guide-desc-body">
-                    <h4>This shows your voting records. When you are done, touch the "Next" button to continue to next screen.</h4>
+                    <h4>When you are done, touch the "Accept and Print" button to continue to next screen.</h4>
                 </div>
             </div>
             <div class="col-md-8">
@@ -51,9 +51,10 @@
                     @csrf
                     <div class="form-group" style="margin-left:25px;">
                     @if(count($totalrace) != 0)
-                    @foreach($totalrace as $race)
+                    @foreach($totalrace as $rkey=>$race)
                         @if($race['race_type'] != "R")
-                            <h4>Candidates For: {{$race['race_title']}}.</h4>
+                            <h4 style="cursor:pointer" onclick="govote({{$rkey}})">Candidates For: {{$race['race_title']}}.</h4>
+                            @if(count($race['candidates']) != 0)
                             @foreach($race['candidates'] as $key=>$candidate)
                             <div class="form-group row">
                                 <div class="md-checkbox col-md-3">
@@ -66,41 +67,54 @@
                                 </div>
                             </div>
                             @endforeach
+                            @else
+                                    No Candidate
+                            @endif
                         @else
-                            <h4>Candidates For: {{$race['race_title']}}.</h4>
+                            <h4 style="cursor:pointer" onclick="govote({{$rkey}})">Candidates For: {{$race['race_title']}}.</h4>
+                            <?php 
+                                $zcnt=0;
+                            ?>
                             @foreach($race['candidates'] as $key=>$candidate)
+                            @if($candidate != 0)
                             <div class="form-group row">
                                 <div class="col-md-3">{{explode('-', $key)[1]}}</div>
                                 <div class="col-md-3">{{$candidate}}</div>
                             </div>
+                            @else
+                            <?php 
+                                $zcnt++;
+                            ?>                            
+                            @endif
                             @endforeach
+                            {{ $zcnt==count($race['candidates']) ? 'No Candidate' : ''}}
                         @endif
                     @endforeach
                     @else
                     No Candidate
                     @endif
-                    @if(count(session('propresult')) != 0)
                     @foreach(session('props') as $key=>$prop)
                     <h2> {{$prop->prop_title}}</h2>
-                    <h4>{{$prop->prop_text}}</h4>
+                    <h4 style="cursor:pointer" onclick="goprop()">{{$prop->prop_text}}</h4>
+                    @if(count(session('propresult')) != 0)
                     @foreach(session('propresult') as $resultkey=>$resultprop)
                     @if($prop->proposition_id == $resultkey)
                     {{$resultprop}}
                     @endif
                     @endforeach
-                    @endforeach
                     @endif
-                    @if(count(session('massresult')) != 0)
+                    @endforeach
                     @foreach(session('mass') as $key=>$prop)
                     <h2> {{$prop->prop_title}}</h2>
-                    <h4>{{$prop->prop_text}}</h4>
+                    <h4 style="cursor:pointer" onclick="gomass()">{{$prop->prop_text}}</h4>
+                    @if(count(session('massresult')) != 0)
                     @foreach(session('massresult') as $resultkey=>$resultprop)
                     @if($prop->proposition_id == $resultkey)
                     {{$resultprop}}
                     @endif
                     @endforeach
-                    @endforeach
                     @endif
+                    @endforeach
                     </div>
                 </form>
                 <!-- <div class="dd" id="nestable_list_1">
@@ -131,7 +145,7 @@
 <!-- BEGIN FOOTER -->
 <div class="page-footer-voter" style="text-align:center;padding-top: 35px;color:white;">
 	<div class="col-md-3 col-xs-3">
-        <button href="{{url('/')}}" type="button" class="btn-review">Return to Voting</button>
+        <button type="button" class="btn-review" onclick="returnvote()">Return to Voting</button>
     </div>
     <div class="col-md-3 col-xs-3">
         <button type="button" class="btn-voter-back">Cancel Ballot</button>
@@ -146,7 +160,16 @@
 @endsection
 @section('script')
 <script>
-   
+    function govote(key) {
+        console.log(key);
+        window.location.href="{{url('/client/back')}}"+'/'+key;
+    }
+    function goprop() {
+        window.location.href="{{url('/client/prop')}}";
+    }
+    function gomass() {
+        window.location.href="{{url('/client/mass')}}";
+    }
     $('.btn-voter').click(function(){
         // if($('input[name=radio]:checked').length == 0){
         //     toastr['warning']('Please select one');
@@ -176,8 +199,8 @@
     $('.btn-voter-back').click(function(){
         window.location.href="{{url('/')}}";
     });
-    $('.btn-review').click(function(){
-        window.location.href="{{url('/')}}";
-    });
+    function returnvote(){
+        window.location.href="{{url('client/returnvote')}}";
+    };
 </script>
 @endsection
