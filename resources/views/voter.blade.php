@@ -301,7 +301,7 @@
 	var uploadEditor;
 	uploadEditor = new $.fn.dataTable.Editor( {
 		fields: [ {
-			label: 'CSV file:',
+			label: 'Excel file:',
 			name: 'csv',
 			type: 'upload',
 			ajax: function ( files ) {
@@ -415,7 +415,7 @@
 			dom: 'lBfrtip',
 			buttons: [
 				{ 	
-					"extend": 'csvHtml5', 
+					"extend": 'excel', 
 					"text":'<i class="fa fa-plus-circle"></i>Export EXCEL',
 					"className": 'hidden' ,
 					exportOptions: {
@@ -465,7 +465,7 @@
 	});
 
 	$(".expertPinCode").on("click", function() {
-		$('.buttons-csv').trigger('click');
+		$('.buttons-excel').trigger('click');
 	});
 
 	$(".importPinCode").on("click", function() {
