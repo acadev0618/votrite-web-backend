@@ -101,6 +101,14 @@
                     @endif
                         <a href="{{ asset('/manage/language') }}">Languages</a>
                     </li>
+
+                    @if($subAction == "location")
+                    <li class="active">
+                    @else
+                    <li>
+                    @endif
+                        <a href="{{ asset('/manage/location') }}">Locations</a>
+                    </li>
                 </ul>
             </li>
 

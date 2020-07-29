@@ -1,7 +1,6 @@
 var api_url = "ec2-3-90-78-113.compute-1.amazonaws.com:9191/api";
 var base_url="";
 
-// var api_url = "http://10.10.10.143:9191/api";
 var TableManaged = function () {
     var dashboardTable = function () {
 
@@ -3405,6 +3404,239 @@ var TableManaged = function () {
         });
     }
 
+    var stateTable = function () {
+        var table = $('#state_change_table #state_table');
+
+        table.dataTable({
+            "language": {
+                "aria": {
+                    "sortAscending": ": activate to sort column ascending",
+                    "sortDescending": ": activate to sort column descending"
+                },
+                "emptyTable": "No data available in table",
+                "info": "Showing _START_ to _END_ of _TOTAL_ entries",
+                "infoEmpty": "No entries found",
+                "infoFiltered": "(filtered1 from _MAX_ total entries)",
+                "lengthMenu": "Show _MENU_ entries",
+                "search": "Search:",
+                "zeroRecords": "No matching records found"
+            },
+            "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
+            
+            "lengthMenu": [
+                [5, 15, 20, -1],
+                [5, 15, 20, "All"] // change per page values here
+            ],
+            // set the initial value
+            "pageLength": 5,
+            "language": {
+                "lengthMenu": " _MENU_ records"
+            },
+            "columnDefs": [{  // set default column settings
+                'orderable': false,
+                'targets': [-1]
+            }, {
+                "searchable": false,
+                "targets": [0]
+            }],
+            "order": [
+                [0, "asc"]
+            ] // set first column as a default sort by asc
+        });
+
+        $('.addStateModal').click(function(){
+            var addModal = $('#addStateModal');
+            addModal.modal('show');
+        });
+
+        table.$('.editStateModal').click(function(){
+            var state_id = $(this).data('id');
+            var state_code = $(this).data('code');
+            
+            var modal = $('#editStateModal');
+            modal.find('#edit_state_id').val(state_id);
+            modal.find('#edit_state_code').val(state_code);
+
+            modal.modal('show');
+        });
+
+        table.$('.deleteStateModal').click(function(){
+            var state_id = $(this).data('id');
+            var target_id= 'state_id';
+            var api = api_url+'/location/state/delete';
+
+            var modal = $('#deleteStateModal');
+
+            modal.find('#id').val(state_id);
+            modal.find('.target_id').val(target_id);
+            modal.find('.api').val(api);
+            modal.modal('show');
+        });
+    }
+
+    var stateCTable = function () {
+        var table = $('#county_change_table #county_table');
+        
+        table.dataTable({
+            "language": {
+                "aria": {
+                    "sortAscending": ": activate to sort column ascending",
+                    "sortDescending": ": activate to sort column descending"
+                },
+                "emptyTable": "No data available in table",
+                "info": "Showing _START_ to _END_ of _TOTAL_ entries",
+                "infoEmpty": "No entries found",
+                "infoFiltered": "(filtered1 from _MAX_ total entries)",
+                "lengthMenu": "Show _MENU_ entries",
+                "search": "Search:",
+                "zeroRecords": "No matching records found"
+            },
+            "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
+            
+            "lengthMenu": [
+                [5, 15, 20, -1],
+                [5, 15, 20, "All"] // change per page values here
+            ],
+            // set the initial value
+            "pageLength": 5,
+            "language": {
+                "lengthMenu": " _MENU_ records"
+            },
+            "columnDefs": [{  // set default column settings
+                'orderable': false,
+                'targets': [-1]
+            }, {
+                "searchable": false,
+                "targets": [0]
+            }],
+            "order": [
+                [0, "asc"]
+            ] // set first column as a default sort by asc
+        });
+
+        $('.addCountyModal').click(function(){
+            var state_id = $('#loc_state_name').val();
+            var addModal = $('#addCountyModal');
+
+            addModal.find('#add_state_id').val(state_id);
+            addModal.modal('show');
+        });
+
+        table.$('.editCountyModal').click(function(){
+            var county_id = $(this).data('id');
+            var county_name = $(this).data('name');
+            
+            var modal = $('#editCountyModal');
+            modal.find('#edit_county_id').val(county_id);
+            modal.find('#edit_county_name').val(county_name);
+
+            modal.modal('show');
+        });
+
+        table.$('.deleteCountyModal').click(function(){
+            var county_id = $(this).data('id');
+            var target_id= 'county_id';
+            var api = api_url+'/location/county/delete';
+
+            var modal = $('#deleteCountyModal');
+
+            modal.find('#id').val(county_id);
+            modal.find('.target_id').val(target_id);
+            modal.find('.api').val(api);
+            modal.modal('show');
+        });
+
+        $('#loc_state_name').on('change', function(){
+            var state_id = $(this).val();
+        
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: base_url+'/getChangedCountyOfState',
+                type: 'POST',
+                data: {
+                    state_id : state_id
+                },
+                success:function(response){
+                    $('#addCountyModal').remove();
+                    $('#county_change_table').html(response);
+                    
+                    var table = $('#county_change_table #county_table');
+                    
+                    table.dataTable({
+                        "language": {
+                            "aria": {
+                                "sortAscending": ": activate to sort column ascending",
+                                "sortDescending": ": activate to sort column descending"
+                            },
+                            "emptyTable": "No data available in table",
+                            "info": "Showing _START_ to _END_ of _TOTAL_ entries",
+                            "infoEmpty": "No entries found",
+                            "infoFiltered": "(filtered1 from _MAX_ total entries)",
+                            "lengthMenu": "Show _MENU_ entries",
+                            "search": "Search:",
+                            "zeroRecords": "No matching records found"
+                        },
+                        "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
+                        
+                        "lengthMenu": [
+                            [5, 15, 20, -1],
+                            [5, 15, 20, "All"] // change per page values here
+                        ],
+                        // set the initial value
+                        "pageLength": 5,
+                        "language": {
+                            "lengthMenu": " _MENU_ records"
+                        },
+                        "columnDefs": [{  // set default column settings
+                            'orderable': false,
+                            'targets': [-1]
+                        }, {
+                            "searchable": false,
+                            "targets": [0]
+                        }],
+                        "order": [
+                            [0, "asc"]
+                        ] // set first column as a default sort by asc
+                    });
+
+                    $('.addCountyModal').click(function(){
+                        var state_id = $('#loc_state_name').val();
+                        var addModal = $('#addCountyModal');
+
+                        addModal.find('#add_state_id').val(state_id);
+                        addModal.modal('show');
+                    });
+
+                    table.$('.editCountyModal').click(function(){
+                        var county_id = $(this).data('id');
+                        var county_name = $(this).data('name');
+                        
+                        var modal = $('#editCountyModal');
+                        modal.find('#edit_county_id').val(county_id);
+                        modal.find('#edit_county_name').val(county_name);
+
+                        modal.modal('show');
+                    });
+
+                    table.$('.deleteCountyModal').click(function(){
+                        var county_id = $(this).data('id');
+                        var target_id= 'county_id';
+                        var api = api_url+'/location/county/delete';
+
+                        var modal = $('#deleteCountyModal');
+
+                        modal.find('#id').val(county_id);
+                        modal.find('.target_id').val(target_id);
+                        modal.find('.api').val(api);
+                        modal.modal('show');
+                    });
+                }
+            });
+        });
+    }
+
     return {
         init: function () {
             if (!jQuery().dataTable) {
@@ -3421,6 +3653,8 @@ var TableManaged = function () {
             massPropositionTable();
             usersTable();
             partyTable();
+            stateTable();
+            stateCTable();
         }
     };
 }();

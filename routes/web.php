@@ -42,6 +42,7 @@ Route::prefix('/manage')->group(function() {
     Route::get('/party', 'PartyController@index')->name('request');
     Route::get('/county', 'CountyController@index')->name('request');
     Route::get('/language', 'LanguageController@index')->name('request');
+    Route::get('/location', 'LocationController@index')->name('request');
 });
 
 ////////////////////////////////////  User Url   ////////////////////////////////////////////
@@ -114,3 +115,10 @@ Route::post('/getChangedCountyOfBallot', 'CountyController@getChangedCountyOfBal
 Route::get('/setOldVB', 'VoterController@setOldVB')->name('request');
 Route::get('/setOldRVB', 'ResultController@setOldRVB')->name('request');
 Route::get('/setOldRVP', 'ResultController@setOldRVP')->name('request');
+
+Route::post('/createState', 'LocationController@createState')->name('request');
+Route::post('/updateState', 'LocationController@updateState')->name('request');
+
+Route::post('/createCounty', 'LocationController@createCounty')->name('request');
+Route::post('/updateCounty', 'LocationController@updateCounty')->name('request');
+Route::post('/getChangedCountyOfState', 'LocationController@getChangedCountyOfState')->name('request');
