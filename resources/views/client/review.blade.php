@@ -99,11 +99,11 @@
                         <br>
 
                         @foreach(session('props') as $key=>$prop)
-                            <h3> {{$prop->prop_title}}</h3>
+                            <h3 style="cursor:pointer;" onclick="goprop()"> {{$prop->prop_title}}</h3>
                             <div class="form-group row" style="margin-left: 5px;">
                                 
                                 <div class="col-md-3">
-                                    <h4 style="cursor:pointer;" onclick="goprop()">
+                                    <h4>
                                     {{$prop->prop_text}}
                                     </h4>
                                 </div>
@@ -122,10 +122,10 @@
                         @endforeach
 
                         @foreach(session('mass') as $key=>$prop)
-                            <h3> {{$prop->prop_title}}</h3>
+                            <h3 style="cursor:pointer;" onclick="gomass()"> {{$prop->prop_title}}</h3>
                             <div class="form-group row" style="margin-left: 5px;">
                                 <div class="col-md-3">
-                                    <h4 style="cursor:pointer;" onclick="gomass()">
+                                    <h4>
                                     {{$prop->prop_text}}
                                     </h4>
                                 </div>
