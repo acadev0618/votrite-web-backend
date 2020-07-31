@@ -12,35 +12,11 @@ use App\Http\Controllers\CandidateController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
-class ClientController extends Controller
-{
+class ClientController extends Controller {
 
     public function ballot(Request $request) {
-        // $data = array(
-        //     'election' => "%%"
-        // );
-        
-        // $json = json_encode($data);
-        // $api_url = env('API').'/ballot/active';
-        // dd(env('API'));
-        // $api_url = 'http://10.10.10.143:9191/api/ballot/active';
-        
-        // $handle = curl_init($api_url);
-        
-        // curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
-        // curl_setopt($handle, CURLINFO_HEADER_OUT, true);
-        // curl_setopt($handle, CURLOPT_POST, true);
-        // curl_setopt($handle, CURLOPT_POSTFIELDS, $json);
-        // curl_setopt($handle, CURLOPT_HTTPHEADER, array(
-        //     'Content-Type: application/json',
-        //     'Content-Length: ' . strlen($json))
-        // );
-        
-        // $output = curl_exec($handle);
-        // curl_close($handle);
         $BallotController = new BallotController;
         $response = $BallotController->getActiveBallot();
-        // dd($response);
         return view('client.ballot')->with(['ballots' => $response]);
     }
 
@@ -67,7 +43,6 @@ class ClientController extends Controller
             return back()->withErrors(['Expired PinCode.']);
         }
         session(['pin' => $request->pincode]);
-        // dd(count(get_object_vars($response)) != 0);
         session(['races' => []]);
         session(['props' => []]);
         session(['mass' => []]);
@@ -89,7 +64,6 @@ class ClientController extends Controller
     public function lang(Request $request) {
         $LanguageController = new LanguageController;
         $languages = $LanguageController->getLangOfBallot($request->ballot_id);
-        // dd($languages);
         if(count(get_object_vars($languages)) != 0){
             return view('client.lang')->with(['languages' => $languages,'ballot_id'=>$request->ballot_id]);
         }else{
@@ -98,7 +72,6 @@ class ClientController extends Controller
     }
 
     public function viewcand(Request $request) {
-        // dd($request->all());
         $ballot_id = $request->ballot_id;
         
         $BallotController = new BallotController;
@@ -114,9 +87,6 @@ class ClientController extends Controller
         $propositions = $PropositionController->getPropOfBallot($ballot_id, 'P');
         $massitions = $PropositionController->getPropOfBallot($ballot_id, 'M');
 
-        // if (!$request->session()->exists('races')) {
-            // }
-            // dd($request->session()->all());
         $rcnt = 0;
         $pcnt = 0;
         $mcnt = 0;
@@ -127,12 +97,10 @@ class ClientController extends Controller
         }
         if(count(get_object_vars($propositions)) != 0){
             $pcnt = 1;
-            // $pcnt = count($propositions->data);
             session([ 'props' => $propositions->data ]);
         }
         if(count(get_object_vars($massitions)) != 0){
             $mcnt = 1;
-            // $mcnt = count($massitions->data);
             session([ 'mass' => $massitions->data ]);
         }
         $candidates = $CandidateController->getCandidateOfRace($races->data[0]->race_id);
@@ -225,7 +193,6 @@ class ClientController extends Controller
     public function prop(Request $request) {
         $props = session('props');
         session(['current'=> session('totalcnt')-1]);
-        // dd($props);
         if(count(session('props')) == 0){
             return  redirect()->route('client.mass', ['ballot_id'=>$request->ballot_id]);
         }
@@ -279,7 +246,6 @@ class ClientController extends Controller
         } while ($id < $cnt);
         session(['lastrace'=> $lastrace]);
         session(['races'=> $races]);
-        // dd($request->session()->all());
         if(count($races) == 0){
             return  redirect()->route('client.ballot');
         }

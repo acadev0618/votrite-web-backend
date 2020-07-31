@@ -1,11 +1,8 @@
 @extends('client.layout.client')
 
 @section('content')
-<!-- BEGIN HEADER -->
 <div class="page-header-voter -i navbar navbar-fixed-top">
-	<!-- BEGIN HEADER INNER -->
 	<div class="page-header-inner row">
-		<!-- BEGIN LOGO -->
 		<div class="page-logo col-md-3">
 			<a href="{{url('/')}}">
 			    <img width="100" src="{{asset('assets/img/favicon_dark.png')}}" alt="logo" class="logo-default"/>
@@ -13,30 +10,19 @@
         </div>
         <div class="voter-title col-md-6 col-xs-12 text-center">
             <h2>Choose Active Ballot</h2>
-            <!-- <h4>Statewide Races</h4> -->
         </div>
-		<!-- END LOGO -->
-        <!-- BEGIN TOP NAVIGATION MENU -->
-        <!-- <h2>N. Y. S. Board of Elections</h2>
-        <h4>Statewide Races</h4> -->
         
         <div class="top-menu col-md-3">
-            <!-- <h2>N. Y. S. Board of Elections</h2>
-            <h4>Statewide Races</h4> -->
 		</div>
-		<!-- END TOP NAVIGATION MENU -->
 	</div>
-	<!-- END HEADER INNER -->
 </div>
 <div class="page-container">
-	<!-- BEGIN CONTENT -->
 	<div class="page-content-wrapper" style="background-color: #e0e5ec;">
 		<div class="page-content-fullwidth">
             <div class="col-md-4">
 
             </div>
             <form class="col-md-4 scroller ballot-voter" role="form" method="get" action="{{ url('/client') }}" style="height: 60%;">
-                <!-- @csrf -->
                 @if($ballots != null)
                 @foreach($ballots->data as $key=>$value)
                 <div class="md-radio">
@@ -55,9 +41,7 @@
             </div>
 		</div>
 	</div>
-	<!-- END CONTENT -->
 </div>
-<!-- BEGIN FOOTER -->
 <div class="page-footer-voter" style="text-align:center;padding-top: 35px;color:white; position: absolute;bottom: 0;width: 100%;">
 	<div class="col-md-4">
     </div>
@@ -67,7 +51,6 @@
     <div class="col-md-4">
 	</div>
 </div>
-<!-- END FOOTER -->
 @endsection
 @section('script')
 <script>

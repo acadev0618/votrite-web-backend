@@ -1,11 +1,8 @@
 @extends('client.layout.client')
 
 @section('content')
-<!-- BEGIN HEADER -->
 <div class="page-header-voter -i navbar navbar-fixed-top">
-	<!-- BEGIN HEADER INNER -->
 	<div class="page-header-inner row">
-		<!-- BEGIN LOGO -->
 		<div class="page-logo col-md-3">
 			<a href="{{url('/')}}">
 			    <img width="100" src="{{asset('assets/img/favicon_dark.png')}}" alt="logo" class="logo-default"/>
@@ -15,21 +12,14 @@
             <h2>{{$ballots->data[0]->board}}</h2>
             <h4>{{$ballots->data[0]->election}}</h4>
         </div>
-		<!-- END LOGO -->
-        <!-- BEGIN TOP NAVIGATION MENU -->
-        <!-- <h2>N. Y. S. Board of Elections</h2>
-        <h4>Statewide Races</h4> -->
         
         <div class="top-menu col-md-3">
             <h2 style="margin-right:20px;">{{$ballots->data[0]->address}}</h2>
             <h4>{{date("l F j Y")}}</h4>
 		</div>
-		<!-- END TOP NAVIGATION MENU -->
 	</div>
-	<!-- END HEADER INNER -->
 </div>
 <div class="page-container">
-	<!-- BEGIN CONTENT -->
 	<div class="page-content-wrapper" style="background-color: #e0e5ec;">
 		<div class="page-content-fullwidth">
             <div class="col-md-4 col-xs-0">
@@ -37,7 +27,7 @@
                     <h2>{{$ballots->data[0]->board}}</h2>
                 </div>
                 <div class="guide-desc-body">
-                    <h4>To vote, touch a YES/NO or FOR/AGAINST button. To unselect the answer, touch it again. When you are done, touch the "Next" button to continue to next screen.</h4>
+                    <h4>To vote, touch a "YES" or "NO" or "FOR" or "AGAINST" button. A check mark will appear to confirm your selection. To unselect the answer, touch it again. When you are done, touch the "Next" button to continue to the next screen. Touch the "Skip" button to skip.</h4>
                 </div>
             </div>
             <div class="col-md-8">
@@ -50,8 +40,8 @@
                         <input type="hidden" name="ballot_id" value="{{$ballots->data[0]->ballot_id}}" />
                         @if(count(session('props')) != 0)
                         @foreach(session('props') as $key=>$prop)
-                        <h2 class="text-center"> {{$prop->prop_title}}</h2>
-                        <h4 class="text-center">{{$prop->prop_text}}</h4>
+                        <h2> {{$prop->prop_title}}</h2>
+                        <h4> {{$prop->prop_text}}</h4>
                         @if($prop->prop_answer_type == 1)
                         <div class="form-group row" style="margin-left: 20px;">
                             <div class="md-checkbox col-md-3">
@@ -107,7 +97,7 @@
                             </div>
                             <div class="md-checkbox col-md-3">
                                 @if(array_key_exists($prop->proposition_id,session('propresult')))
-                                @if(session('propresult')[$prop->proposition_id]=='fagainstor')
+                                @if(session('propresult')[$prop->proposition_id]=='against')
                                 <input type="checkbox" id="checkboxagainst{{$prop->proposition_id}}" name="{$prop->proposition_id}}" value="against" class="md-check" checked>
                                 @else
                                 <input type="checkbox" id="checkboxagainst{{$prop->proposition_id}}" name="{{$prop->proposition_id}}" value="against" class="md-check">
@@ -127,51 +117,28 @@
                         @endif
                     </div>
                 </form>
-                <!-- <div class="dd" id="nestable_list_1">
-                    <ol class="dd-list">
-                        <li class="dd-item" data-id="13">
-                            <div class="dd-handle">
-                                Item 13
-                            </div>
-                        </li>
-                        <li class="dd-item" data-id="14">
-                            <div class="dd-handle">
-                                Item 14
-                            </div>
-                        </li>
-                        <li class="dd-item" data-id="15">
-                            <div class="dd-handle">
-                                Item 15
-                            </div>
-                        </li>
-                    </ol>
-                </div> -->
-                <!-- <textarea id="nestable_list_1_output" class="form-control col-md-12 margin-bottom-10"></textarea> -->
             </div>
 		</div>
 	</div>
-	<!-- END CONTENT -->
 </div>
-<!-- BEGIN FOOTER -->
-<div class="page-footer-voter" style="text-align:center;padding-top: 35px;color:white;">
-	<div class="col-md-3 col-xs-3">
+<div class="page-footer-voter row" style="text-align:center; padding-top: 35px; color:white;">
+    <div class="col-md-3 col-xs-3" style="padding: 0px;">
+        <button type="button" class="btn-voter-back">Go Back</button>
+	</div>
+	<div class="col-md-3 col-xs-3" style="padding: 0px;">
     @if(session('showreview'))
-        <button type="button" class="btn-review">Review your choice</button>
+        <button type="button" class="btn-review">Return to review</button>
     @else
         <button type="button" class="btn-skip">Skip</button>
     @endif
     </div>
-    <div class="col-md-3 col-xs-3">
-        <button type="button" class="btn-voter-back">Back</button>
-	</div>
-    <div class="col-md-3 col-xs-3">
-        <h4>{{session('current')+1}} of {{session('totalcnt')}}</h4>
+    <div class="col-md-3 col-xs-3" style="padding: 0px;">
+        <h4>{{session('current')}} of {{session('totalcnt')}}</h4>
     </div>
-    <div class="col-md-3 col-xs-3">
+    <div class="col-md-3 col-xs-3" style="padding: 0px;">
         <button type="button" class="btn-voter">Next</button>
 	</div>
 </div>
-<!-- END FOOTER -->
 @endsection
 @section('script')
 <script>
@@ -195,30 +162,24 @@
             }
         });
     });
+
     $('.btn-voter').click(function(){
-        // if($('input[name=radio]:checked').length == 0){
-        //     toastr['warning']('Please select one');
-        // }else{
-            // var duplicate = true;
-            // var candid = [];
-            // $('.spinner-input').each(function(){
-            //     if(candid.indexOf($(this).val()) != -1){
-            //         duplicate = false;
-            //     }
-            //     candid.push($(this).val());
-            // });
-            // if(duplicate){
-                $ ('.race-voter').submit();
-            // }
-        // }
+        $ ('.race-voter').submit();
     });
+
     $('.btn-voter-back').click(function(){
+        <?php
+            $current = session('current');
+            session(['current'=> $current-1]);
+        ?>
         $ ('.race-voter').attr('action', "{{ url('client/racedecount') }}");
         $ ('.race-voter').submit();
     });
+
     $('.btn-review').click(function(){
         window.location.href="{{url('client/review')}}";
     });
+
     $('.btn-skip').click(function(){
         $ ('.race-voter').submit();
     });

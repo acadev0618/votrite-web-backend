@@ -1,11 +1,8 @@
 @extends('client.layout.client')
 
 @section('content')
-<!-- BEGIN HEADER -->
 <div class="page-header-voter -i navbar navbar-fixed-top">
-	<!-- BEGIN HEADER INNER -->
 	<div class="page-header-inner row">
-		<!-- BEGIN LOGO -->
 		<div class="page-logo col-md-3">
 			<a href="{{url('/')}}">
 			    <img width="100" src="{{asset('assets/img/favicon_dark.png')}}" alt="logo" class="logo-default"/>
@@ -15,21 +12,14 @@
             <h2>{{$ballots->data[0]->board}}</h2>
             <h4>{{$ballots->data[0]->election}}</h4>
         </div>
-		<!-- END LOGO -->
-        <!-- BEGIN TOP NAVIGATION MENU -->
-        <!-- <h2>N. Y. S. Board of Elections</h2>
-        <h4>Statewide Races</h4> -->
         
         <div class="top-menu col-md-3">
             <h2 style="margin-right:20px;">{{$ballots->data[0]->address}}</h2>
             <h4>{{date("l F j Y")}}</h4>
 		</div>
-		<!-- END TOP NAVIGATION MENU -->
 	</div>
-	<!-- END HEADER INNER -->
 </div>
 <div class="page-container">
-	<!-- BEGIN CONTENT -->
 	<div class="page-content-wrapper" style="background-color: #e0e5ec;">
 		<div class="page-content-fullwidth" style="max-height: 768px;">
             <div class="col-md-4 col-xs-0">
@@ -39,9 +29,9 @@
                 </div>
                 <div class="guide-desc-body">
                     @if($races[0]->race_type != "R")
-                    <h4>To vote, touch a name. A check mark will appear to confirm your selection. To unselect the name, touch it again. When you are done, touch the "Next" button to continue to next screen.</h4>
+                    <h4>To vote, touch a name. A check mark will appear to confirm your selection. To unselect the name, touch it again. When you are done, touch the "Next" button to continue to next screen. Touch the "Skip" button to skip. Touch the "Write-In Candidate" button to add other candidates.</h4>
                     @else
-                    <h4>To vote, touch a plus or minus button. A changing value will appear to confirm your selection. Please input other value for each candidate. When you are done, touch the "Next" button to continue to next screen.</h4>
+                    <h4>To vote, touch a plus or minus button. A changing value will appear to confirm your selection. Please input other value for each candidate. When you are done, touch the "Next" button to continue to next screen. Touch the "Skip" button to skip. Touch the "Write-In Candidate" button to add other candidates.</h4>
                     @endif
                 </div>
             </div>
@@ -49,9 +39,13 @@
                 <div class="guide-desc-header text-center">
                     <h2>Candidates for : {{$races[0]->race_title}}</h2>
                     @if($races[0]->min_num_of_votes == null || $races[0]->min_num_of_votes == 0)
-                    <h4>Vote for No more than {{$races[0]->max_num_of_votes ?? 0}}</h4>
-                    @else
-                    <h4>Vote for No less than {{$races[0]->min_num_of_votes}}, Vote for No more than {{$races[0]->max_num_of_votes ?? 0}}</h4>
+                        <h4>Vote for No less than 0, Vote for No more than {{$races[0]->max_num_of_votes ?? 0}}</h4>
+                    @else 
+                        @if($races[0]->max_num_of_votes == null || $races[0]->max_num_of_votes == 0)
+                            <h4>Vote for No less than {{$races[0]->min_num_of_votes ?? 0}}, Vote for No more than 0</h4>
+                        @else
+                        <h4>Vote for No less than {{$races[0]->min_num_of_votes}}, Vote for No more than {{$races[0]->max_num_of_votes}}</h4>
+                        @endif
                     @endif
                 </div>                
                 <form class="guide-desc-body race-voter scroller" method="post" action="{{ url('client/racecount') }}"  style="height: auto; max-height: 600px;">
@@ -111,9 +105,9 @@
                                                 $vraceresult = session('raceresult');
                                             ?>
                                             @if(array_key_exists($races[0]->race_id,$vraceresult))
-                                                <input type="text" class="spinner-input form-control" name="{{$candidate->candidate_id}}-{{$candidate->candidate_name}}" value="{{$vraceresult[$races[0]->race_id][$candidate->candidate_id.'-'.$candidate->candidate_name]}}" maxlength="3" readonly>
+                                                <input type="text" class="spinner-input form-control text-center" name="{{$candidate->candidate_id}}-{{$candidate->candidate_name}}" value="{{$vraceresult[$races[0]->race_id][$candidate->candidate_id.'-'.$candidate->candidate_name]}}" maxlength="3" readonly>
                                             @else
-                                                <input type="text" class="spinner-input form-control" name="{{$candidate->candidate_id}}-{{$candidate->candidate_name}}" value="0" maxlength="3" readonly>
+                                                <input type="text" class="spinner-input form-control text-center" name="{{$candidate->candidate_id}}-{{$candidate->candidate_name}}" value="0" maxlength="3" readonly>
                                             @endif
                                             <div class="spinner-buttons input-group-btn">
                                                 <button type="button" class="btn spinner-down red">
@@ -130,26 +124,6 @@
                         @endif
                     </div>
                 </form>
-                <!-- <div class="dd" id="nestable_list_1">
-                    <ol class="dd-list">
-                        <li class="dd-item" data-id="13">
-                            <div class="dd-handle">
-                                Item 13
-                            </div>
-                        </li>
-                        <li class="dd-item" data-id="14">
-                            <div class="dd-handle">
-                                Item 14
-                            </div>
-                        </li>
-                        <li class="dd-item" data-id="15">
-                            <div class="dd-handle">
-                                Item 15
-                            </div>
-                        </li>
-                    </ol>
-                </div> -->
-                <!-- <textarea id="nestable_list_1_output" class="form-control col-md-12 margin-bottom-10"></textarea> -->
             </div>
             <div class="col-md-4 col-xs-12">
                 <div class="form-group form-md-line-input has-info col-md-6">
@@ -163,44 +137,28 @@
             
 		</div>
 	</div>
-	<!-- END CONTENT -->
 </div>
-<!-- BEGIN FOOTER -->
-<div class="page-footer-voter" style="text-align:center;padding-top: 35px;color:white;">
-	<div class="col-md-3 col-xs-3">
-    @if(session('showreview'))
-    <button type="button" class="btn-review">Review your choice</button>
-    @else
-    <button type="button" class="btn-skip">Skip</button>
-    @endif
-    </div>
-    <div class="col-md-3 col-xs-3">
-        <button type="button" class="btn-voter-back">Back</button>
+<div class="page-footer-voter row" style="text-align:center; padding-top: 35px; color:white;">
+    <div class="col-md-3 col-xs-3" style="padding: 0px;">
+        <button type="button" class="btn-voter-back">Go Back</button>
 	</div>
-    <div class="col-md-3 col-xs-3">
+	<div class="col-md-3 col-xs-3" style="padding: 0px;">
+        @if(session('showreview'))
+        <button type="button" class="btn-review">Return to review</button>
+        @else
+        <button type="button" class="btn-skip">Skip</button>
+        @endif
+    </div>
+    <div class="col-md-3 col-xs-3" style="padding: 0px;">
         <h4>{{session('current')+1}} of {{session('totalcnt')}}</h4>
     </div>
-    <div class="col-md-3 col-xs-3">
+    <div class="col-md-3 col-xs-3" style="padding: 0px;">
         <button type="button" class="btn-voter">Next</button>
 	</div>
 </div>
-<!-- END FOOTER -->
 @endsection
 @section('script')
 <script>
-    // var updateOutput = function (e) {
-    //     var list = e.length ? e : $(e.target),
-    //         output = list.data('output');
-    //     if (window.JSON) {
-    //         output.val(window.JSON.stringify(list.nestable('serialize'))); //, null, 2));
-    //     } else {
-    //         output.val('JSON browser support required for this demo.');
-    //     }
-    // };
-    // $('#nestable_list_1').nestable({
-    //     group: 1
-    // }).on('change', updateOutput);
-    // updateOutput($('#nestable_list_1').data('output', $('#nestable_list_1_output')));
     
     @if(count(get_object_vars($candidates)) != 0)
         var max_num_of_write_ins = 0;
@@ -217,8 +175,6 @@
             });  
             $('.md-check').change(function(e){
                 e.preventDefault();
-                // $('.md-check').attr('checked', false);
-                // $(this).attr('checked', true);
                 
                 if($('.md-check:checked').length >= min){
                     $('.btn-voter').show();
@@ -277,27 +233,23 @@
                 }
             });
             $('.btn-voter').click(function(){
-                // if($('input[name=radio]:checked').length == 0){
-                //     toastr['warning']('Please select one');
-                // }else{
-                    var duplicate = true;
-                    var dspin = 0;
-                    var candid = [];
-                    $('.spinner-input').each(function(){
-                        if($(this).val() != 0){
-                            if(candid.indexOf($(this).val()) != -1){
-                                duplicate = false;
-                            }
-                            candid.push($(this).val());
-                            dspin++;
+                var duplicate = true;
+                var dspin = 0;
+                var candid = [];
+                $('.spinner-input').each(function(){
+                    if($(this).val() != 0){
+                        if(candid.indexOf($(this).val()) != -1){
+                            duplicate = false;
                         }
-                    });
-                    if(duplicate){
-                        $ ('.race-voter').submit();
-                    }else{
-                        toastr['warning']('Please check duplicate');
+                        candid.push($(this).val());
+                        dspin++;
                     }
-                // }
+                });
+                if(duplicate){
+                    $ ('.race-voter').submit();
+                }else{
+                    toastr['warning']('Please check duplicate');
+                }
             });
         @else
             jQuery(document).ready(function() {   
@@ -378,41 +330,36 @@
                 }
             });
             $('.btn-voter').click(function(){
-                // if($('input[name=radio]:checked').length == 0){
-                //     toastr['warning']('Please select one');
-                // }else{
-                    var duplicate = true;
-                    var overval = true;
-                    var dspin = 0;
-                    var candid = [];
-                    $('.spinner-input').each(function(){
-                        if($(this).val() != 0){
-                            if(candid.indexOf($(this).val()) != -1){
-                                duplicate = false;
-                            }
-                            candid.push($(this).val());
-                            dspin++;
+                var duplicate = true;
+                var overval = true;
+                var dspin = 0;
+                var candid = [];
+                $('.spinner-input').each(function(){
+                    if($(this).val() != 0){
+                        if(candid.indexOf($(this).val()) != -1){
+                            duplicate = false;
                         }
-                        if($(this).val() > max + {{$races[0]->max_num_of_write_ins}}){
-                            overval = false;
-                        }
-                    });
-                    if(duplicate && dspin>=min && dspin <= max && overval){
-                        $ ('.race-voter').submit();
-                    }else{
-                        if(overval){
-                            toastr['warning']('Please check duplicate');
-                        }else{
-                            toastr['warning']('Please check Over values');
-                        }
+                        candid.push($(this).val());
+                        dspin++;
                     }
-                // }
+                    if($(this).val() > max + {{$races[0]->max_num_of_write_ins}}){
+                        overval = false;
+                    }
+                });
+                if(duplicate && dspin>=min && dspin <= max && overval){
+                    $ ('.race-voter').submit();
+                }else{
+                    if(overval){
+                        toastr['warning']('Please check duplicate');
+                    }else{
+                        toastr['warning']('Please check Over values');
+                    }
+                }
             });
         @endif
     @endif
     
     $('.btn-voter-back').click(function(){
-        // window.history.back();
         $ ('.race-voter').attr('action', "{{ url('client/racedecount') }}");
         $ ('.race-voter').submit();
     });
