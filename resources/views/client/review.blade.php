@@ -101,13 +101,14 @@
                         @foreach(session('props') as $key=>$prop)
                             <h3> {{$prop->prop_title}}</h3>
                             <div class="form-group row" style="margin-left: 5px;">
-                                @if(count(session('propresult')) != 0)
+                                
                                 <div class="col-md-3">
                                     <h4 style="cursor:pointer;" onclick="goprop()">
                                     {{$prop->prop_text}}
                                     </h4>
                                 </div>
                                 <div class="col-md-3">
+                                @if(count(session('propresult')) != 0)
                                     @foreach(session('propresult') as $resultkey=>$resultprop)
                                         @if($prop->proposition_id == $resultkey)
                                         <h4>
@@ -115,8 +116,8 @@
                                         </h4>
                                         @endif
                                     @endforeach
-                                </div>
                                 @endif
+                                </div>
                             </div>
                         @endforeach
 
