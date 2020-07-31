@@ -40,13 +40,14 @@
                 <form class="guide-desc-body race-voter scroller" method="post" action="{{ url('client/cast') }}" style="height: auto; max-height: 600px;">
                     @csrf
                     <div class="form-group row" style="margin-left:25px;">
+                        <h3>Candidates</h3>
                         @if(count($totalrace) != 0)
                             @foreach($totalrace as $rkey=>$race)
                                 @if($race['race_type'] != "R")
-                                    <h3 style="cursor:pointer" onclick="govote({{$rkey}})">Candidates For: {{$race['race_title']}}.</h3>
+                                    <div  style="margin-left: 10px;"><h4 style="cursor:pointer" onclick="govote({{$rkey}})">Candidates For: {{$race['race_title']}}.</h4></div>
                                     @if(count($race['candidates']) != 0)
                                         @foreach($race['candidates'] as $key=>$candidate)
-                                        <div class="form-group row" style="margin-left: 20px;">
+                                        <div class="form-group row" style="margin-left: 25px;">
                                             <div class="md-checkbox col-md-3">
                                                 <input type="checkbox" id="checkbox{{$key}}" name="{{$key}}" value="{{$candidate}}" class="md-check" checked disabled>
                                                 <label for="checkbox{{$key}}">
@@ -59,14 +60,14 @@
                                         </div>
                                         @endforeach
                                     @else
-                                    <div class="form-group row" style="margin-left: 20px;">
+                                    <div class="form-group row" style="margin-left: 25px;">
                                         <h4>
                                             No selected
                                         </h4>
                                     </div>
                                     @endif
                                 @else
-                                    <h3 style="cursor:pointer" onclick="govote({{$rkey}})">Candidates For: {{$race['race_title']}}.</h3>
+                                    <div  style="margin-left: 10px;"><h4 style="cursor:pointer" onclick="govote({{$rkey}})">Candidates For: {{$race['race_title']}}.</h4></div>
                                     <?php 
                                         $zcnt=0;
                                     ?>
@@ -82,7 +83,7 @@
                                         ?>                            
                                         @endif
                                     @endforeach
-                                    <div class="form-group row" style="margin-left: 20px;">
+                                    <div class="form-group row" style="margin-left: 25px;">
                                         <h4>
                                         {{ $zcnt==count($race['candidates']) ? 'No selected' : ''}}
                                         </h4>
@@ -90,7 +91,7 @@
                                 @endif
                             @endforeach
                         @else
-                            <div class="form-group row" style="margin-left: 20px;">
+                            <div class="form-group row" style="margin-left: 25px;">
                                 <h4>
                                     No selected
                                 </h4>
@@ -98,10 +99,10 @@
                         @endif
                         <br>
 
+                        <h3>Propositions</h3>
                         @foreach(session('props') as $key=>$prop)
-                            <h3 style="cursor:pointer;" onclick="goprop()"> {{$prop->prop_title}}</h3>
-                            <div class="form-group row" style="margin-left: 5px;">
-                                
+                            <div  style="margin-left: 10px;"><h4 style="cursor:pointer;" onclick="goprop()"> {{$prop->prop_title}}</h4></div>
+                            <div class="form-group row" style="margin-left: 10px;">
                                 <div class="col-md-3">
                                     <h4>
                                     {{$prop->prop_text}}
@@ -121,9 +122,10 @@
                             </div>
                         @endforeach
 
+                        <h3>Mass Propositions</h3>
                         @foreach(session('mass') as $key=>$prop)
-                            <h3 style="cursor:pointer;" onclick="gomass()"> {{$prop->prop_title}}</h3>
-                            <div class="form-group row" style="margin-left: 5px;">
+                            <div  style="margin-left: 10px;"><h4 style="cursor:pointer;" onclick="gomass()"> {{$prop->prop_title}}</h4></div>
+                            <div class="form-group row" style="margin-left: 10px;">
                                 <div class="col-md-3">
                                     <h4>
                                     {{$prop->prop_text}}
