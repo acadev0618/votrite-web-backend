@@ -32,13 +32,12 @@
                 </div>
             </div>
             <div class="col-md-8">
-                <div class="guide-desc-header">
-                    <h2>Review your choices.</h2>
-                    <h2>{{$ballots->data[0]->board}}</h2>
-                </div>
-                
+                <h2>Review your choices.</h2>
                 <form class="guide-desc-body race-voter scroller" method="post" action="{{ url('client/cast') }}" style="height: auto; max-height: 600px;">
                     @csrf
+                    <div class="guide-desc-header">
+                        <h2>{{$ballots->data[0]->board}}</h2>
+                    </div>
                     <div class="form-group row" style="margin-left:25px;">
                         <h3>Candidates</h3>
                         @if(count($totalrace) != 0)
