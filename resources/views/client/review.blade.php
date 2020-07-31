@@ -40,77 +40,107 @@
                 <form class="guide-desc-body race-voter scroller" method="post" action="{{ url('client/cast') }}" style="height: auto; max-height: 600px;">
                     @csrf
                     <div class="form-group row" style="margin-left:25px;">
-                        <div class="col-md-6" style="margin-top: 16px;">
                         @if(count($totalrace) != 0)
                             @foreach($totalrace as $rkey=>$race)
                                 @if($race['race_type'] != "R")
-                                    <h4 style="cursor:pointer" onclick="govote({{$rkey}})">Candidates For: {{$race['race_title']}}.</h4>
+                                    <h3 style="cursor:pointer" onclick="govote({{$rkey}})">Candidates For: {{$race['race_title']}}.</h3>
                                     @if(count($race['candidates']) != 0)
-                                    @foreach($race['candidates'] as $key=>$candidate)
-                                    <div class="form-group row">
-                                        <div class="md-checkbox col-md-3">
-                                            <input type="checkbox" id="checkbox{{$key}}" name="{{$key}}" value="{{$candidate}}" class="md-check" checked disabled>
-                                            <label for="checkbox{{$key}}">
-                                            <span></span>
-                                            <span class="check"></span>
-                                            <span class="box"></span>
-                                            {{$candidate}}</label>
+                                        @foreach($race['candidates'] as $key=>$candidate)
+                                        <div class="form-group row" style="margin-left: 20px;">
+                                            <div class="md-checkbox col-md-3">
+                                                <input type="checkbox" id="checkbox{{$key}}" name="{{$key}}" value="{{$candidate}}" class="md-check" checked disabled>
+                                                <label for="checkbox{{$key}}">
+                                                    <span></span>
+                                                    <span class="check"></span>
+                                                    <span class="box"></span>
+                                                    {{$candidate}}
+                                                </label>
+                                            </div>
                                         </div>
-                                    </div>
-                                    @endforeach
+                                        @endforeach
                                     @else
-                                            No Candidate
+                                    <div class="form-group row" style="margin-left: 20px;">
+                                        <h4>
+                                            No selected
+                                        </h4>
+                                    </div>
                                     @endif
                                 @else
-                                    <h4 style="cursor:pointer" onclick="govote({{$rkey}})">Candidates For: {{$race['race_title']}}.</h4>
+                                    <h3 style="cursor:pointer" onclick="govote({{$rkey}})">Candidates For: {{$race['race_title']}}.</h3>
                                     <?php 
                                         $zcnt=0;
                                     ?>
                                     @foreach($race['candidates'] as $key=>$candidate)
-                                    @if($candidate != 0)
-                                    <div class="form-group row">
-                                        <div class="col-md-3">{{explode('-', $key)[1]}}</div>
-                                        <div class="col-md-3">{{$candidate}}</div>
-                                    </div>
-                                    @else
-                                    <?php 
-                                        $zcnt++;
-                                    ?>                            
-                                    @endif
+                                        @if($candidate != 0)
+                                        <div class="form-group row" style="margin-left: 10px;">
+                                            <div class="col-md-3"><h4>{{explode('-', $key)[1]}}</h4></div>
+                                            <div class="col-md-3"><h4>{{$candidate}}</h4></div>
+                                        </div>
+                                        @else
+                                        <?php 
+                                            $zcnt++;
+                                        ?>                            
+                                        @endif
                                     @endforeach
-                                    {{ $zcnt==count($race['candidates']) ? 'No Candidate' : ''}}
+                                    <div class="form-group row" style="margin-left: 20px;">
+                                        <h4>
+                                        {{ $zcnt==count($race['candidates']) ? 'No selected' : ''}}
+                                        </h4>
+                                    </div>
                                 @endif
                             @endforeach
                         @else
-                            No Candidate
+                            <div class="form-group row" style="margin-left: 20px;">
+                                <h4>
+                                    No selected
+                                </h4>
+                            <div>
                         @endif
-                        </div>
+                        <br>
 
-                        <div class="col-md-6" style="float: left;">
                         @foreach(session('props') as $key=>$prop)
-                            <h2> {{$prop->prop_title}}</h2>
-                            <h4 style="cursor:pointer" onclick="goprop()">{{$prop->prop_text}}</h4>
-                            @if(count(session('propresult')) != 0)
-                                @foreach(session('propresult') as $resultkey=>$resultprop)
-                                    @if($prop->proposition_id == $resultkey)
-                                        {{$resultprop}}
-                                    @endif
-                                @endforeach
-                            @endif
+                            <h3> {{$prop->prop_title}}</h3>
+                            <div class="form-group row" style="margin-left: 5px;">
+                                @if(count(session('propresult')) != 0)
+                                <div class="col-md-3">
+                                    <h4 style="cursor:pointer;" onclick="goprop()">
+                                    {{$prop->prop_text}}
+                                    </h4>
+                                </div>
+                                <div class="col-md-3">
+                                    @foreach(session('propresult') as $resultkey=>$resultprop)
+                                        @if($prop->proposition_id == $resultkey)
+                                        <h4>
+                                            {{$resultprop}}
+                                        </h4>
+                                        @endif
+                                    @endforeach
+                                </div>
+                                @endif
+                            </div>
                         @endforeach
 
                         @foreach(session('mass') as $key=>$prop)
-                            <h2> {{$prop->prop_title}}</h2>
-                            <h4 style="cursor:pointer" onclick="gomass()">{{$prop->prop_text}}</h4>
-                            @if(count(session('massresult')) != 0)
-                                @foreach(session('massresult') as $resultkey=>$resultprop)
-                                    @if($prop->proposition_id == $resultkey)
-                                        {{$resultprop}}
-                                    @endif
-                                @endforeach
-                            @endif
+                            <h3> {{$prop->prop_title}}</h3>
+                            <div class="form-group row" style="margin-left: 5px;">
+                                <div class="col-md-3">
+                                    <h4 style="cursor:pointer;" onclick="gomass()">
+                                    {{$prop->prop_text}}
+                                    </h4>
+                                </div>
+                                <div class="col-md-3">
+                                @if(count(session('massresult')) != 0)
+                                    @foreach(session('massresult') as $resultkey=>$resultprop)
+                                        @if($prop->proposition_id == $resultkey)
+                                        <h4>
+                                            {{$resultprop}}
+                                        </h4>
+                                        @endif
+                                    @endforeach
+                                @endif
+                                </div>
+                            </div>
                         @endforeach
-                        </div>
                     </div>
                 </form>
             </div>
