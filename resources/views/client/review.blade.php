@@ -176,16 +176,20 @@
         window.location.href="{{url('/client/mass')}}";
     }
     $('.btn-voter').click(function(){
-            var divContents = $(".race-voter").html();
-            var printWindow = window.open('', '', 'height=400,width=800');
-            printWindow.document.write('<html><head><title>Vote Result</title>');
-            printWindow.document.write('</head><body >');
-            printWindow.document.write(divContents);
-            printWindow.document.write('</body></html>');
-            printWindow.document.close();
-            printWindow.print();
-            printWindow.close();
-            $ ('.race-voter').submit();
+            // var divContents = $(".race-voter").html();
+            // var printWindow = window.open('', '', 'height=400,width=800');
+            // printWindow.document.write('<html><head><title>Vote Result</title>');
+            // printWindow.document.write('</head><body >');
+            // printWindow.document.write(divContents);
+            // printWindow.document.write('</body></html>');
+            // printWindow.document.close();
+            // printWindow.print();
+            // printWindow.close();
+
+            var r = confirm("Are you sure you want to cast your vote?");
+            if (r == true) {
+                $ ('.race-voter').submit();
+            }
     });
     $('.btn-voter-back').click(function(){
         window.location.href="{{url('/')}}";
