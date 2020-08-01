@@ -136,6 +136,13 @@
         <button type="button" class="btn-voter">Next</button>
 	</div>
 </div>
+<form class="guide-desc-body race-voter-skip" method="post" action="{{ url('client/propcount') }}" style="height: 60%;display:none;">
+    @csrf
+    <div class="form-group">
+        <input type="hidden" name="ballot_id" value="{{$ballots->data[0]->ballot_id}}" />
+        
+    </div>
+</form>
 @endsection
 @section('script')
 <script>
@@ -178,7 +185,7 @@
     });
 
     $('.btn-skip').click(function(){
-        $ ('.race-voter').submit();
+        $ ('.race-voter-skip').submit();
     });
 </script>
 @endsection

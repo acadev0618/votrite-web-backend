@@ -273,9 +273,6 @@ class ClientController extends Controller {
         session(['showreview'=> true]);
         if(session('reviewcnt') != null){
             $reviewcnt = session('reviewcnt');
-            // if(session('updaterace')){
-            //     $reviewcnt--;
-            // }
             $races = session('races');
             $lastrace = session('lastrace');
             do {
@@ -285,7 +282,6 @@ class ClientController extends Controller {
             }while($reviewcnt > 0);        
             session(['lastrace'=> $lastrace]);
             session(['races'=> $races]);
-            // dd($request->session()->all());
         }
         
         $totalrace = [];
@@ -300,13 +296,7 @@ class ClientController extends Controller {
                     array_push($totalrace, $mergerace);
                 }
             }
-            // $candidates = $CandidateController->getCandidateOfRace($race->race_id);
-            // if(count(get_object_vars($candidates)) != 0){
-            //     $mergerace = array_merge((array)$race, array('candidates'=>(array)$candidates->data));
-            //     array_push($totalrace, $mergerace);
-            // }
         }
-        // dd($totalrace);
 
         return view('client.review')->with(['ballots' => session('ballots'), 'totalrace' => $totalrace]);
     }

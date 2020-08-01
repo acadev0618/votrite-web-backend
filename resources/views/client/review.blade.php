@@ -99,7 +99,9 @@
                         @endif
                         <br>
 
+                        @if(count(session('props')) != 0)
                         <h3>Propositions</h3>
+                        @endif
                         @foreach(session('props') as $key=>$prop)
                             <div  style="margin-left: 10px;"><h4 style="cursor:pointer;" onclick="goprop()"> {{$prop->prop_title}}</h4></div>
                             <div class="form-group row" style="margin-left: 10px;">
@@ -110,19 +112,36 @@
                                 </div>
                                 <div class="col-md-3 col-xs-6">
                                 @if(count(session('propresult')) != 0)
+                                        <?php 
+                                            $prorecnt = 0;
+                                        ?>
                                     @foreach(session('propresult') as $resultkey=>$resultprop)
                                         @if($prop->proposition_id == $resultkey)
+                                        <?php 
+                                            $prorecnt++;
+                                        ?>
                                         <h4>
                                             {{$resultprop}}
                                         </h4>
                                         @endif
                                     @endforeach
+                                    @if($prorecnt == 0)
+                                    <h4>
+                                        No selected
+                                    </h4>
+                                    @endif
+                                @else
+                                <h4>
+                                    No selected
+                                </h4>
                                 @endif
                                 </div>
                             </div>
                         @endforeach
 
+                        @if(count(session('mass')) != 0)
                         <h3>Mass Propositions</h3>
+                        @endif
                         @foreach(session('mass') as $key=>$prop)
                             <div  style="margin-left: 10px;"><h4 style="cursor:pointer;" onclick="gomass()"> {{$prop->prop_title}}</h4></div>
                             <div class="form-group row" style="margin-left: 10px;">
@@ -133,13 +152,28 @@
                                 </div>
                                 <div class="col-md-3 col-xs-6">
                                 @if(count(session('massresult')) != 0)
+                                    <?php 
+                                        $massrecnt = 0;
+                                    ?>
                                     @foreach(session('massresult') as $resultkey=>$resultprop)
                                         @if($prop->proposition_id == $resultkey)
+                                        <?php 
+                                            $massrecnt++;
+                                        ?>
                                         <h4>
                                             {{$resultprop}}
                                         </h4>
                                         @endif
                                     @endforeach
+                                    @if($massrecnt == 0)
+                                    <h4>
+                                        No selected
+                                    </h4>
+                                    @endif
+                                @else
+                                <h4>
+                                    No selected
+                                </h4>
                                 @endif
                                 </div>
                             </div>

@@ -102,10 +102,14 @@
                                                 </button>
                                             </div>
                                             <?php
-                                                $vraceresult = session('raceresult');
+                                                $vraceresult = session('raceresult') ;
                                             ?>
-                                            @if(array_key_exists($races[0]->race_id,$vraceresult))
-                                                <input type="text" class="spinner-input form-control text-center" name="{{$candidate->candidate_id}}-{{$candidate->candidate_name}}" value="{{$vraceresult[$races[0]->race_id][$candidate->candidate_id.'-'.$candidate->candidate_name]}}" maxlength="3" readonly>
+                                            @if(count($vraceresult) == 0)
+                                                @if(array_key_exists($races[0]->race_id,$vraceresult))
+                                                    <input type="text" class="spinner-input form-control text-center" name="{{$candidate->candidate_id}}-{{$candidate->candidate_name}}" value="{{$vraceresult[$races[0]->race_id][$candidate->candidate_id.'-'.$candidate->candidate_name]}}" maxlength="3" readonly>
+                                                @else
+                                                    <input type="text" class="spinner-input form-control text-center" name="{{$candidate->candidate_id}}-{{$candidate->candidate_name}}" value="0" maxlength="3" readonly>
+                                                @endif
                                             @else
                                                 <input type="text" class="spinner-input form-control text-center" name="{{$candidate->candidate_id}}-{{$candidate->candidate_name}}" value="0" maxlength="3" readonly>
                                             @endif
@@ -120,7 +124,9 @@
                                 @endforeach
                             @endif
                         @else
-                        No Candidate
+                        <h4>
+                            No Selected
+                        </h4>
                         @endif
                     </div>
                 </form>
@@ -155,6 +161,13 @@
         <button type="button" class="btn-voter">Next</button>
 	</div>
 </div>
+<form class="guide-desc-body race-voter-skip" method="post" action="{{ url('client/racecount') }}" style="height: 60%;display:none;">
+    @csrf
+    <div class="form-group">
+        <input type="hidden" name="ballot_id" value="{{$ballots->data[0]->ballot_id}}" />
+        <input type="hidden" name="race_id" value="{{$races[0]->race_id}}" />
+    </div>
+</form>
 @endsection
 @section('script')
 <script>
@@ -365,7 +378,7 @@
         window.location.href="{{url('client/review')}}";
     });
     $('.btn-skip').click(function(){
-        $ ('.race-voter').submit();
+        $ ('.race-voter-skip').submit();
     });
     
 </script>
