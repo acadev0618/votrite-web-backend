@@ -2277,7 +2277,7 @@ Page content
 
 .page-content-wrapper .page-content-fullwidth {
   margin-top: 70px;
-  height: 750px;
+  /* height: 750px; */
   padding: 25px 20px 10px 20px;
 }
 

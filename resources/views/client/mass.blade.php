@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="page-header-voter -i navbar navbar-fixed-top">
-	<div class="page-header-inner row">
+	<div class="page-header-inner">
 		<div class="page-logo col-md-3">
 			<a href="{{url('/')}}">
 			    <img width="100" src="{{asset('assets/img/favicon_dark.png')}}" alt="logo" class="logo-default"/>
@@ -22,22 +22,18 @@
 <div class="page-container">
 	<div class="page-content-wrapper" style="background-color: #e0e5ec;">
 		<div class="page-content-fullwidth">
-            <div class="col-md-4 col-xs-0">
+            <div class="col-md-4 col-xs-12">
                 <div class="guide-desc-header">
                     <h2>{{$ballots->data[0]->board}}</h2>
-                    <h4>You have  choice remaining.</h4>
                 </div>
                 <div class="guide-desc-body">
                 <h4>To vote, touch a "YES" or "NO" or "FOR" or "AGAINST" button. A check mark will appear to confirm your selection. To unselect the answer, touch it again. When you are done, touch the "Next" button to continue to the next screen. Touch the "Skip" button to skip.</h4>
                 </div>
             </div>
-            <div class="col-md-8">
-                <div class="guide-desc-header">
-                    
-                </div>
-                <form class="guide-desc-body race-voter" method="post" action="{{ url('client/masscount') }}">
+            <div class="col-md-8 col-xs-12">
+                <form class="guide-desc-body race-voter scroller" method="post" action="{{ url('client/masscount') }}" style="height: auto;">
                     @csrf
-                    <div class="form-group scroller" style="height: 300px;">
+                    <div class="form-group ">
                         <input type="hidden" name="ballot_id" value="{{$ballots->data[0]->ballot_id}}" />
                         @if(count(session('mass')) != 0)
                         @foreach(session('mass') as $key=>$prop)
@@ -122,7 +118,7 @@
 		</div>
 	</div>
 </div>
-<div class="page-footer-voter row" style="text-align:center; padding-top: 35px; color:white;">
+<div class="page-footer-voter" style="text-align:center; padding-top: 35px; color:white;">
     <div class="col-md-3 col-xs-3" style="padding: 0px;">
         <button type="button" class="btn-voter-back">Go Back</button>
 	</div>

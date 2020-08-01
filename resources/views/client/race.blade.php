@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="page-header-voter -i navbar navbar-fixed-top">
-	<div class="page-header-inner row">
+	<div class="page-header-inner">
 		<div class="page-logo col-md-3">
 			<a href="{{url('/')}}">
 			    <img width="100" src="{{asset('assets/img/favicon_dark.png')}}" alt="logo" class="logo-default"/>
@@ -21,8 +21,8 @@
 </div>
 <div class="page-container">
 	<div class="page-content-wrapper" style="background-color: #e0e5ec;">
-		<div class="page-content-fullwidth" style="max-height: 768px;">
-            <div class="col-md-4 col-xs-0">
+		<div class="page-content-fullwidth"">
+            <div class="col-md-4 col-xs-12">
                 <div class="guide-desc-header text-center">
                     <h2>{{$ballots->data[0]->board}}</h2>
                     <h4>You have <strong id="maxvotes">{{$races[0]->max_num_of_votes ?? 0}}</strong> choice remaining.</h4>
@@ -134,20 +134,19 @@
                     <button type="button" class="btn-voter-else">WRITE - IN CANDIDATE</button>
                 </div>
             </div>
-            
 		</div>
 	</div>
 </div>
-<div class="page-footer-voter row" style="text-align:center; padding-top: 35px; color:white;">
+<div class="page-footer-voter" style="text-align:center; padding-top: 35px; color:white;">
     <div class="col-md-3 col-xs-3" style="padding: 0px;">
         <button type="button" class="btn-voter-back">Go Back</button>
 	</div>
 	<div class="col-md-3 col-xs-3" style="padding: 0px;">
-        @if(session('showreview'))
+    @if(session('showreview'))
         <button type="button" class="btn-review">Return to review</button>
-        @else
+    @else
         <button type="button" class="btn-skip">Skip</button>
-        @endif
+    @endif
     </div>
     <div class="col-md-3 col-xs-3" style="padding: 0px;">
         <h4>{{session('current')+1}} of {{session('totalcnt')}}</h4>

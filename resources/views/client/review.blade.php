@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="page-header-voter -i navbar navbar-fixed-top">
-	<div class="page-header-inner row">
+	<div class="page-header-inner">
 		<div class="page-logo col-md-3">
 			<a href="{{url('/')}}">
 			    <img width="100" src="{{asset('assets/img/favicon_dark.png')}}" alt="logo" class="logo-default"/>
@@ -21,19 +21,20 @@
 </div>
 <div class="page-container">
 	<div class="page-content-wrapper" style="background-color: #e0e5ec;">
-		<div class="page-content-fullwidth row">
-            <div class="col-md-4">
+		<div class="page-content-fullwidth">
+            <div class="col-md-4 col-xs-12">
                 <div class="guide-desc-header">
                     <h2>{{$ballots->data[0]->board}}</h2>
-                    <h4>You can see result that you have done by now.</h4>
                 </div>
                 <div class="guide-desc-body">
-                    <h4>Read each name and review each selection carefully. When you are done, press the "Cast my vote" button. If you wish you can edit the voting result by clicking race names.</h4>
+                    <h4>You can see result that you have done by now. Read each name and review each selection carefully. When you are done, press the "Cast my vote" button. If you wish you can edit the voting result by clicking race names.</h4>
                 </div>
             </div>
-            <div class="col-md-8">
-                <h2>Review your choices.</h2>
-                <form class="guide-desc-body race-voter scroller" method="post" action="{{ url('client/cast') }}" style="height: auto; max-height: 600px;">
+            <div class="col-md-4 col-xs-12">
+                <div class="guide-desc-header">
+                    <h2>Review your choices.</h2>
+                </div>
+                <form class="guide-desc-body race-voter scroller" method="post" action="{{ url('client/cast') }}" style="height: auto; width: 100px;">
                     @csrf
                     <div class="guide-desc-header">
                         <h2>{{$ballots->data[0]->board}}</h2>
@@ -149,16 +150,15 @@
 		</div>
 	</div>
 </div>
-<div class="page-footer-voter row" style="text-align:center; padding-top: 35px; color:white;">
-	<div class="col-sm-12 col-md-3 col-xs-3" style="padding: 0px;">
+<div class="page-footer-voter" style="text-align:center; padding-top: 35px; color:white;">
+	<div class="col-md-3 col-xs-3" style="padding: 0px;">
         <button type="button" class="btn-review" onclick="gomass()">Go Back</button>
     </div>
-    <div class="col-sm-12 col-md-3 col-xs-3" style="padding: 0px;">
+    <div class="col-md-3 col-xs-3" style="padding: 0px;">
         <button type="button" class="btn-voter-back">Cancel Ballot</button>
 	</div>
-    <div class="col-sm-12 col-md-3 col-xs-3" style="padding: 0px;">
-    </div>
-    <div class="col-sm-12 col-md-3 col-xs-3" style="padding: 0px;">
+    <div class="col-md-3 col-xs-3" style="padding: 0px;"></div>
+    <div class="col-md-3 col-xs-3" style="padding: 0px;">
         <button type="button" class="btn-voter">Cast my bote</button>
 	</div>
 </div>
