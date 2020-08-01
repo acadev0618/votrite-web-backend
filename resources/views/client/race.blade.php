@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="page-header-voter -i navbar navbar-fixed-top">
-	<div class="page-header-inner">
+	<div class="page-header-inner row">
 		<div class="page-logo col-md-3">
 			<a href="{{url('/')}}">
 			    <img width="100" src="{{asset('assets/img/favicon_dark.png')}}" alt="logo" class="logo-default"/>
@@ -21,7 +21,7 @@
 </div>
 <div class="page-container">
 	<div class="page-content-wrapper" style="background-color: #e0e5ec;">
-		<div class="page-content-fullwidth"">
+		<div class="page-content-fullwidth" style="margin-top: 120px;">
             <div class="col-md-4 col-xs-12">
                 <div class="guide-desc-header text-center">
                     <h2>{{$ballots->data[0]->board}}</h2>
@@ -48,7 +48,7 @@
                         @endif
                     @endif
                 </div>                
-                <form class="guide-desc-body race-voter scroller" method="post" action="{{ url('client/racecount') }}"  style="height: auto; max-height: 600px;">
+                <form class="guide-desc-body race-voter" method="post" action="{{ url('client/racecount') }}" style="height: 60%;">
                     @csrf
                     <div class="form-group">
                         <input type="hidden" name="ballot_id" value="{{$ballots->data[0]->ballot_id}}" />
@@ -57,7 +57,7 @@
                             @if($races[0]->race_type != "R")
                                 @foreach($candidates->data as $key=>$candidate)
                                 <div class="form-group row" style="margin-left: 25px;">
-                                    <div class="md-checkbox col-md-3">
+                                    <div class="md-checkbox col-md-4 col-xs-6">
                                         <?php
                                             $vraceresult = session('raceresult');
                                         ?>
@@ -76,7 +76,7 @@
                                         <span class="box"></span>
                                         {{$candidate->candidate_name}}</label>
                                     </div>
-                                    <div class="x col-md-9" style="margin-top: 15px;">
+                                    <div class="col-md-8 col-xs-6" style="margin-top: 15px;">
                                         @if($candidate->party_logo == null)
                                         <img alt="" class="img-circle" width="30" src="/assets/img/favicon_dark.png">
                                         @else
@@ -126,18 +126,18 @@
                 </form>
             </div>
             <div class="col-md-4 col-xs-12">
-                <div class="form-group form-md-line-input has-info col-md-6">
+                <div class="form-group form-md-line-input has-info col-md-5">
                     <input type="text" class="form-control" id="form_control_1" placeholder="Other Candidate">
                     <label for="form_control_1"></label>
                 </div>
-                <div class="col-md-6 text-center">
+                <div class="col-md-3 text-center">
                     <button type="button" class="btn-voter-else">WRITE - IN CANDIDATE</button>
                 </div>
             </div>
 		</div>
 	</div>
 </div>
-<div class="page-footer-voter" style="text-align:center; padding-top: 35px; color:white;">
+<div class="page-footer-voter" style="text-align:center; padding-top: 35px; color:white; position: absolute; width: 100%;">
     <div class="col-md-3 col-xs-3" style="padding: 0px;">
         <button type="button" class="btn-voter-back">Go Back</button>
 	</div>
@@ -158,7 +158,6 @@
 @endsection
 @section('script')
 <script>
-    
     @if(count(get_object_vars($candidates)) != 0)
         var max_num_of_write_ins = 0;
         var max = {{$races[0]->max_num_of_votes ?? 0}};

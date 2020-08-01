@@ -11,6 +11,7 @@ use App\Http\Controllers\PropositionController;
 use App\Http\Controllers\CandidateController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Session;
 
 class ClientController extends Controller {
 
@@ -42,6 +43,7 @@ class ClientController extends Controller {
         if(strtotime('today') > strtotime($response->data[0]->expiration_time)){
             return back()->withErrors(['Expired PinCode.']);
         }
+
         session(['pin' => $request->pincode]);
         session(['races' => []]);
         session(['props' => []]);
@@ -51,7 +53,6 @@ class ClientController extends Controller {
         session(['massresult' => []]);
         session(['lastrace' => []]);
         session(['current' => 0]);
-        session(['pin' => 0]);
         session(['showreview'=> false]);
         
         if(count(get_object_vars($response)) != 0){
@@ -122,11 +123,8 @@ class ClientController extends Controller {
         $CandidateController = new CandidateController;
         
         $raceresult = session('raceresult');
-        // $raceresult2 = array_merge($raceresult, array($request->only('race_id')['race_id'] => $request->except('_token', 'ballot_id', 'race_id')));
         $raceresult[$request->only('race_id')['race_id']] = $request->except('_token', 'ballot_id', 'race_id');
-        // dd($raceresult);
         session(['reviewcnt'=> null]);
-        // session(['updaterace'=> false]);
         session(['raceresult'=> $raceresult]);
         
         $races = session('races');
@@ -138,12 +136,11 @@ class ClientController extends Controller {
         
         $current = session('current');
         session(['current'=> $current+1]);
-        // dd($request->session()->all());
         if(count($races) == 0){
             return  redirect()->route('client.prop', ['ballot_id'=>$request->ballot_id]);
         }
-        $candidates = $CandidateController->getCandidateOfRace($races[0]->race_id);
 
+        $candidates = $CandidateController->getCandidateOfRace($races[0]->race_id);
         return view('client.race')->with(['ballots' => session('ballots'), 'races' => $races, 'candidates' => $candidates]);
     }
 
@@ -163,11 +160,6 @@ class ClientController extends Controller {
 
         $CandidateController = new CandidateController;
 
-        // $raceresult = session('raceresult');
-        // array_pop($raceresult);
-        // session(['raceresult'=> $raceresult]);
-        
-        // dd($raceresult, $request->except('_token', 'ballot_id', 'race_id'));
         session(['reviewcnt'=> null]);
         
         $races = session('races');
@@ -320,7 +312,6 @@ class ClientController extends Controller {
     }
 
     public function cast(Request $request) {
-        // dd($request->session()->all());
         $result = [];
         $data = null;
         $ballot_id = session('ballots')->data[0]->ballot_id;
@@ -413,7 +404,8 @@ class ClientController extends Controller {
         $api = env('API').'/pincode/update';
         $Api = new ApiController;
         $response = $Api->postApi($data, $api);
-        // dd($response);
+
+        session(['showreview'=> false]);
 
         return view('client.cast')->with(['ballots' => session('ballots'), 'result'=>$result]);
     }

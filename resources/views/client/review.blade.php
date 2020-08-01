@@ -21,7 +21,7 @@
 </div>
 <div class="page-container">
 	<div class="page-content-wrapper" style="background-color: #e0e5ec;">
-		<div class="page-content-fullwidth">
+		<div class="page-content-fullwidth" style="margin-top: 120px;">
             <div class="col-md-4 col-xs-12">
                 <div class="guide-desc-header">
                     <h2>{{$ballots->data[0]->board}}</h2>
@@ -30,7 +30,7 @@
                     <h4>You can see result that you have done by now. Read each name and review each selection carefully. When you are done, press the "Cast my vote" button. If you wish you can edit the voting result by clicking race names.</h4>
                 </div>
             </div>
-            <div class="col-md-4 col-xs-12">
+            <div class="col-md-6 col-xs-12">
                 <div class="guide-desc-header">
                     <h2>Review your choices.</h2>
                 </div>
@@ -103,12 +103,12 @@
                         @foreach(session('props') as $key=>$prop)
                             <div  style="margin-left: 10px;"><h4 style="cursor:pointer;" onclick="goprop()"> {{$prop->prop_title}}</h4></div>
                             <div class="form-group row" style="margin-left: 10px;">
-                                <div class="col-md-3">
+                                <div class="col-md-3 col-xs-6">
                                     <h4>
                                     {{$prop->prop_text}}
                                     </h4>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-3 col-xs-6">
                                 @if(count(session('propresult')) != 0)
                                     @foreach(session('propresult') as $resultkey=>$resultprop)
                                         @if($prop->proposition_id == $resultkey)
@@ -126,12 +126,12 @@
                         @foreach(session('mass') as $key=>$prop)
                             <div  style="margin-left: 10px;"><h4 style="cursor:pointer;" onclick="gomass()"> {{$prop->prop_title}}</h4></div>
                             <div class="form-group row" style="margin-left: 10px;">
-                                <div class="col-md-3">
+                                <div class="col-md-3 col-xs-6">
                                     <h4>
                                     {{$prop->prop_text}}
                                     </h4>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-3 col-xs-6">
                                 @if(count(session('massresult')) != 0)
                                     @foreach(session('massresult') as $resultkey=>$resultprop)
                                         @if($prop->proposition_id == $resultkey)
@@ -150,7 +150,7 @@
 		</div>
 	</div>
 </div>
-<div class="page-footer-voter" style="text-align:center; padding-top: 35px; color:white;">
+<div class="page-footer-voter" style="text-align:center; padding-top: 35px; color:white; position: absolute; width: 100%;">
 	<div class="col-md-3 col-xs-3" style="padding: 0px;">
         <button type="button" class="btn-review" onclick="gomass()">Go Back</button>
     </div>

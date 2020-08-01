@@ -42,7 +42,7 @@
 		</div>
 	</div>
 </div>
-<div class="page-footer-voter" style="text-align:center;padding-top: 35px;color:white; position: absolute;bottom: 0;width: 100%;">
+<div class="page-footer-voter" style="text-align:center; padding-top: 35px; color:white; position: absolute; bottom: 0; width: 100%;">
 	<div class="col-md-4">
     </div>
     <div class="col-md-4">

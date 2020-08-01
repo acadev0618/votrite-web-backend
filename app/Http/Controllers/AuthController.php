@@ -19,7 +19,6 @@ class AuthController extends Controller {
     }
 
     public function loginApi(Request $request) {
-        // dd($request->all());
         $data = array(
             'user_email' => $request->user_email,
             'user_password' =>  $request->user_password
@@ -35,11 +34,9 @@ class AuthController extends Controller {
                 CURLOPT_POST => true,
                 CURLOPT_POSTFIELDS => $json,
                 CURLOPT_RETURNTRANSFER => true,
-                // CURLOPT_TIMEOUT => '60L'
             )
         );
         $output = curl_exec($handle);
-        // dd($output);
         curl_close($handle);
 
         $response = json_decode($output);

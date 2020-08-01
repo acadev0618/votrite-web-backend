@@ -19,9 +19,9 @@
 		</div>
 	</div>
 </div>
-<div class="page-container">
+<div class="page-container" style="margin-top: 0px;">
 	<div class="page-content-wrapper" style="background-color: #e0e5ec;">
-		<div class="page-content-fullwidth">
+		<div class="page-content-fullwidth" style="margin-top: 128px;">
             <div class="col-md-4 col-xs-12">
                 <div class="guide-desc-header">
                     <h2>{{$ballots->data[0]->board}}</h2>
@@ -31,7 +31,7 @@
                 </div>
             </div>
             <div class="col-md-8 col-xs-12">
-                <form class="guide-desc-body race-voter scroller" method="post" action="{{ url('client/propcount') }}" style="height: auto;">
+                <form class="guide-desc-body race-voter" method="post" action="{{ url('client/propcount') }}" style="height: 60%;">
                     @csrf
                     <div class="form-group">
                         <input type="hidden" name="ballot_id" value="{{$ballots->data[0]->ballot_id}}" />
@@ -118,7 +118,7 @@
 		</div>
 	</div>
 </div>
-<div class="page-footer-voter" style="text-align:center; padding-top: 35px; color:white;">
+<div class="page-footer-voter" style="text-align:center; padding-top: 35px; color:white; position: absolute; width: 100%;">
     <div class="col-md-3 col-xs-3" style="padding: 0px;">
         <button type="button" class="btn-voter-back">Go Back</button>
 	</div>
