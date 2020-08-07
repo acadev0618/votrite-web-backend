@@ -62,19 +62,20 @@
                                             $vraceresult = session('raceresult');
                                         ?>
                                         @if(array_key_exists($races[0]->race_id,$vraceresult))
-                                        @if(array_key_exists($candidate->candidate_id,$vraceresult[$races[0]->race_id]))
-                                        <input type="checkbox" id="checkbox{{$key}}" name="{{$candidate->candidate_id}}" value="{{$candidate->candidate_name}}" class="md-check" checked>
+                                            @if(array_key_exists($candidate->candidate_id,$vraceresult[$races[0]->race_id]))
+                                                <input type="checkbox" id="checkbox{{$key}}" name="{{$candidate->candidate_id}}" value="{{$candidate->candidate_name}}" class="md-check" checked>
+                                            @else
+                                                <input type="checkbox" id="checkbox{{$key}}" name="{{$candidate->candidate_id}}" value="{{$candidate->candidate_name}}" class="md-check">
+                                            @endif
                                         @else
-                                        <input type="checkbox" id="checkbox{{$key}}" name="{{$candidate->candidate_id}}" value="{{$candidate->candidate_name}}" class="md-check">
-                                        @endif
-                                        @else
-                                        <input type="checkbox" id="checkbox{{$key}}" name="{{$candidate->candidate_id}}" value="{{$candidate->candidate_name}}" class="md-check">
+                                            <input type="checkbox" id="checkbox{{$key}}" name="{{$candidate->candidate_id}}" value="{{$candidate->candidate_name}}" class="md-check">
                                         @endif
                                         <label for="checkbox{{$key}}">
-                                        <span></span>
-                                        <span class="check"></span>
-                                        <span class="box"></span>
-                                        {{$candidate->candidate_name}}</label>
+                                            <span></span>
+                                            <span class="check"></span>
+                                            <span class="box"></span>
+                                            {{$candidate->candidate_name}}
+                                        </label>
                                     </div>
                                     <div class="col-md-8 col-xs-6" style="margin-top: 15px;">
                                         @if($candidate->party_logo == null)
@@ -102,16 +103,18 @@
                                                 </button>
                                             </div>
                                             <?php
-                                                $vraceresult = session('raceresult') ;
+                                                $vraceresult = session('raceresult');
+                                                $name = $candidate->candidate_name;
+                                                $cand_name = str_replace(' ', '_', $name);
                                             ?>
                                             @if(count($vraceresult) == 0)
-                                                @if(array_key_exists($races[0]->race_id,$vraceresult))
-                                                    <input type="text" class="spinner-input form-control text-center" name="{{$candidate->candidate_id}}-{{$candidate->candidate_name}}" value="{{$vraceresult[$races[0]->race_id][$candidate->candidate_id.'-'.$candidate->candidate_name]}}" maxlength="3" readonly>
-                                                @else
-                                                    <input type="text" class="spinner-input form-control text-center" name="{{$candidate->candidate_id}}-{{$candidate->candidate_name}}" value="0" maxlength="3" readonly>
-                                                @endif
+                                                <input type="text" class="spinner-input form-control text-center" data-id="1" name="{{$candidate->candidate_id}}-{{$cand_name}}" value="0" maxlength="3" readonly>
                                             @else
-                                                <input type="text" class="spinner-input form-control text-center" name="{{$candidate->candidate_id}}-{{$candidate->candidate_name}}" value="0" maxlength="3" readonly>
+                                                @if(array_key_exists($races[0]->race_id, $vraceresult))
+                                                    <input type="text" class="spinner-input form-control text-center" data-id="2" name="{{$candidate->candidate_id}}-{{$cand_name}}" value="{{$vraceresult[$races[0]->race_id][$candidate->candidate_id.'-'.$cand_name]}}" maxlength="3" readonly>
+                                                @else
+                                                    <input type="text" class="spinner-input form-control text-center" data-id="3" name="{{$candidate->candidate_id}}-{{$cand_name}}" value="0" maxlength="3" readonly>
+                                                @endif
                                             @endif
                                             <div class="spinner-buttons input-group-btn">
                                                 <button type="button" class="btn spinner-down red">
@@ -287,7 +290,7 @@
                 $('#maxvotes').text(max-spin);
                 if(spin<min){
                     $('.btn-voter').hide();
-                }else{
+                } else {
                     $.ajax({
                         type: 'post',
                         url: "{{ url('client/updaterace') }}",

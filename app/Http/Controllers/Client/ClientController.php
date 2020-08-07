@@ -146,13 +146,9 @@ class ClientController extends Controller {
 
     public function updaterace(Request $request) {
 
-        // dd($request->all());
         $raceresult = session('raceresult');
         $raceresult[$request->only('race_id')['race_id']] = $request->except('_token', 'ballot_id', 'race_id');
         session(['raceresult'=> $raceresult]);
-        // if(count(session('races'))!=0){
-        //     session(['updaterace'=> true]);
-        // }
         return response()->json(['result' => 'success']);
     }
 
