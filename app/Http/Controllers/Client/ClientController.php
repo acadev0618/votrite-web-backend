@@ -14,6 +14,11 @@ use Illuminate\Support\Facades\Http;
 use Session;
 
 class ClientController extends Controller {
+    
+
+    public function welcome(Request $request) {
+        return view('client.welcome');
+    }
 
     public function ballot(Request $request) {
         $BallotController = new BallotController;

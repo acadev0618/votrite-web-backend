@@ -1,6 +1,7 @@
 <?php
 ////////////////////////////////////  Authentication Urls   //////////////////////////////////////
-Route::get('/', 'Client\ClientController@ballot')->name('client.ballot');
+Route::get('/', 'Client\ClientController@welcome')->name('client.welcome');
+Route::get('/client/ballot', 'Client\ClientController@ballot')->name('client.ballot');
 Route::get('client/', 'Client\ClientController@index')->name('client.index');
 Route::post('client/sendpincode', 'Client\ClientController@sendpincode')->name('client.sendpincode');
 
