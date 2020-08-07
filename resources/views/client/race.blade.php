@@ -111,7 +111,11 @@
                                                 <input type="text" class="spinner-input form-control text-center" data-id="1" name="{{$candidate->candidate_id}}-{{$cand_name}}" value="0" maxlength="3" readonly>
                                             @else
                                                 @if(array_key_exists($races[0]->race_id, $vraceresult))
+                                                <?php if(count($vraceresult[$races[0]->race_id]) != 0) { ?>
                                                     <input type="text" class="spinner-input form-control text-center" data-id="2" name="{{$candidate->candidate_id}}-{{$cand_name}}" value="{{$vraceresult[$races[0]->race_id][$candidate->candidate_id.'-'.$cand_name]}}" maxlength="3" readonly>
+                                                <?php } else { ?>
+                                                    <input type="text" class="spinner-input form-control text-center" data-id="3" name="{{$candidate->candidate_id}}-{{$cand_name}}" value="0" maxlength="3" readonly>
+                                                <?php } ?>    
                                                 @else
                                                     <input type="text" class="spinner-input form-control text-center" data-id="3" name="{{$candidate->candidate_id}}-{{$cand_name}}" value="0" maxlength="3" readonly>
                                                 @endif

@@ -130,7 +130,7 @@
     @endif
     </div>
     <div class="col-md-3 col-xs-3" style="padding: 0px;">
-        <h4>{{session('current')}} of {{session('totalcnt')}}</h4>
+        <h4>{{session('totalcnt')}} of {{session('totalcnt')}}</h4>
     </div>
     <div class="col-md-3 col-xs-3" style="padding: 0px;">
         <button type="button" class="btn-voter">Next</button>

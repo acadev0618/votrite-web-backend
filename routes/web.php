@@ -19,6 +19,7 @@ Route::group(['middleware' => 'client', 'prefix'=>'client', 'namespace'=>'Client
     Route::post('/racecount', 'ClientController@racecount')->name('client.racecount');
     Route::post('/updaterace', 'ClientController@updaterace')->name('client.updaterace');
     Route::get('/back/{id}', 'ClientController@back')->name('client.back');
+    Route::get('/backrace/{id}', 'ClientController@backrace')->name('client.backrace');
     Route::post('/racedecount', 'ClientController@racedecount')->name('client.racedecount');
     Route::post('/cast', 'ClientController@cast')->name('client.cast');
 });

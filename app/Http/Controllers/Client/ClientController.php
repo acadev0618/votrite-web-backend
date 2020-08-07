@@ -144,6 +144,39 @@ class ClientController extends Controller {
         return view('client.race')->with(['ballots' => session('ballots'), 'races' => $races, 'candidates' => $candidates]);
     }
 
+    public function review(Request $request) {
+        session(['showreview'=> true]);
+        if(session('reviewcnt') != null){
+            $reviewcnt = session('reviewcnt');
+            $races = session('races');
+            $lastrace = session('lastrace');
+            do {
+                $race = array_shift($races);
+                array_push($lastrace, $race);
+                $reviewcnt--;
+            }while($reviewcnt > 0);        
+            session(['lastrace'=> $lastrace]);
+            session(['races'=> $races]);
+            session(['current'=> session('totalcnt')]);
+        }
+        
+        $totalrace = [];
+        $ballot = session('ballots');
+        $CandidateController = new CandidateController;
+        $RaceController = new RaceController;
+        $races = $RaceController->getRaceOfBallot($ballot->data[0]->ballot_id);
+        foreach($races->data as $race){
+            foreach(session('raceresult') as $key => $raceresult){
+                if($key == $race->race_id){
+                    $mergerace = array_merge((array)$race, array('candidates'=>$raceresult));
+                    array_push($totalrace, $mergerace);
+                }
+            }
+        }
+
+        return view('client.review')->with(['ballots' => session('ballots'), 'totalrace' => $totalrace]);
+    }
+
     public function updaterace(Request $request) {
 
         $raceresult = session('raceresult');
@@ -219,7 +252,38 @@ class ClientController extends Controller {
         return response()->json(['result' => 'success']);
     }
 
+    public function backrace(Request $request, $id) {
+
+        $CandidateController = new CandidateController;
+        session(['current'=> $id]);
+        $races = session('races');
+        $lastrace = session('lastrace');
+        $cnt = count(session('lastrace'));
+        session(['reviewcnt'=> $cnt - $id]);
+        do {
+            $id++;
+            $race = array_pop($lastrace);
+            array_unshift($races, $race);
+        } while ($id < $cnt);
+        session(['lastrace'=> $lastrace]);
+        session(['races'=> $races]);
+        if(count($races) == 0){
+            return  redirect()->route('client.ballot');
+        }
+        $candidates = $CandidateController->getCandidateOfRace($races[0]->race_id);
+
+        return view('client.race')->with(['ballots' => session('ballots'), 'races' => $races, 'candidates' => $candidates]);
+    }
+
     public function back(Request $request, $id) {
+        
+        if(count(session('mass')) != 0){
+            return view('client.mass')->with(['ballots' => session('ballots')]);
+        }
+
+        if(count(session('props')) != 0){
+            return view('client.prop')->with(['ballots' => session('ballots')]);
+        }
 
         $CandidateController = new CandidateController;
         session(['current'=> $id]);
@@ -263,38 +327,6 @@ class ClientController extends Controller {
         $candidates = $CandidateController->getCandidateOfRace($races[0]->race_id);
 
         return view('client.race')->with(['ballots' => session('ballots'), 'races' => $races, 'candidates' => $candidates]);
-    }
-
-    public function review(Request $request) {
-        session(['showreview'=> true]);
-        if(session('reviewcnt') != null){
-            $reviewcnt = session('reviewcnt');
-            $races = session('races');
-            $lastrace = session('lastrace');
-            do {
-                $race = array_shift($races);
-                array_push($lastrace, $race);
-                $reviewcnt--;
-            }while($reviewcnt > 0);        
-            session(['lastrace'=> $lastrace]);
-            session(['races'=> $races]);
-        }
-        
-        $totalrace = [];
-        $ballot = session('ballots');
-        $CandidateController = new CandidateController;
-        $RaceController = new RaceController;
-        $races = $RaceController->getRaceOfBallot($ballot->data[0]->ballot_id);
-        foreach($races->data as $race){
-            foreach(session('raceresult') as $key => $raceresult){
-                if($key == $race->race_id){
-                    $mergerace = array_merge((array)$race, array('candidates'=>$raceresult));
-                    array_push($totalrace, $mergerace);
-                }
-            }
-        }
-
-        return view('client.review')->with(['ballots' => session('ballots'), 'totalrace' => $totalrace]);
     }
 
     public function cast(Request $request) {

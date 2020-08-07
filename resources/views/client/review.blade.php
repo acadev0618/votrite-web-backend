@@ -44,7 +44,7 @@
                         @if(count($totalrace) != 0)
                             @foreach($totalrace as $rkey=>$race)
                                 @if($race['race_type'] != "R")
-                                    <div  style="margin-left: 10px;"><h4 style="cursor:pointer" onclick="govote({{$rkey}})">Candidates For: {{$race['race_title']}}.</h4></div>
+                                    <div  style="margin-left: 10px;"><h4 style="cursor:pointer" onclick="gorace({{$rkey}})">Candidates For: {{$race['race_title']}}.</h4></div>
                                     @if(count($race['candidates']) != 0)
                                         @foreach($race['candidates'] as $key=>$candidate)
                                         <div class="form-group row" style="margin-left: 25px;">
@@ -67,14 +67,14 @@
                                     </div>
                                     @endif
                                 @else
-                                    <div  style="margin-left: 10px;"><h4 style="cursor:pointer" onclick="govote({{$rkey}})">Candidates For: {{$race['race_title']}}.</h4></div>
+                                    <div  style="margin-left: 10px;"><h4 style="cursor:pointer" onclick="gorace({{$rkey}})">Candidates For: {{$race['race_title']}}.</h4></div>
                                     <?php 
                                         $zcnt=0;
                                     ?>
                                     @foreach($race['candidates'] as $key=>$candidate)
                                         @if($candidate != 0)
                                         <div class="form-group row" style="margin-left: 10px;">
-                                            <div class="col-md-3"><h4>{{explode('-', $key)[1]}}</h4></div>
+                                            <div class="col-md-3"><h4>{{str_replace('_', ' ', explode('-', $key)[1])}}</h4></div>
                                             <div class="col-md-3"><h4>{{$candidate}}</h4></div>
                                         </div>
                                         @else
@@ -186,7 +186,7 @@
 </div>
 <div class="page-footer-voter" style="text-align:center; padding-top: 35px; color:white; position: absolute; width: 100%;">
 	<div class="col-md-3 col-xs-3" style="padding: 0px;">
-        <button type="button" class="btn-review" onclick="gomass()">Go Back</button>
+        <button type="button" class="btn-review" onclick="govote(<?php echo session('current')-1?>)">Go Back</button>
     </div>
     <div class="col-md-3 col-xs-3" style="padding: 0px;">
         <button type="button" class="btn-voter-back">Cancel Ballot</button>
@@ -199,6 +199,9 @@
 @endsection
 @section('script')
 <script>
+    function gorace(key) {
+        window.location.href="{{url('/client/backrace')}}"+'/'+key;
+    }
     function govote(key) {
         window.location.href="{{url('/client/back')}}"+'/'+key;
     }
