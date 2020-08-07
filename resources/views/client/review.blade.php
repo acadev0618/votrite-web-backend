@@ -220,8 +220,5 @@
     $('.btn-voter-back').click(function(){
         window.location.href="{{url('/')}}";
     });
-    function returnvote(){
-        window.location.href="{{url('client/returnvote')}}";
-    };
 </script>
 @endsection

@@ -159,6 +159,7 @@ class ClientController extends Controller {
             session(['races'=> $races]);
             session(['current'=> session('totalcnt')]);
         }
+        session(['current'=> session('totalcnt')]);
         
         $totalrace = [];
         $ballot = session('ballots');
@@ -198,7 +199,8 @@ class ClientController extends Controller {
         session(['lastrace'=> $lastrace]);
         session(['races'=> $races]);
         $current = session('current');
-        session(['current'=> $current-1]);
+        // session(['current'=> $current-1]);
+        // var_dump($current);die();
         if($current == 0){
             return  redirect()->route('client.ballot');
         }
@@ -276,7 +278,6 @@ class ClientController extends Controller {
     }
 
     public function back(Request $request, $id) {
-        
         if(count(session('mass')) != 0){
             return view('client.mass')->with(['ballots' => session('ballots')]);
         }
@@ -298,29 +299,6 @@ class ClientController extends Controller {
         } while ($id < $cnt);
         session(['lastrace'=> $lastrace]);
         session(['races'=> $races]);
-        if(count($races) == 0){
-            return  redirect()->route('client.ballot');
-        }
-        $candidates = $CandidateController->getCandidateOfRace($races[0]->race_id);
-
-        return view('client.race')->with(['ballots' => session('ballots'), 'races' => $races, 'candidates' => $candidates]);
-    }
-
-    public function returnvote(Request $request) {
-
-        $CandidateController = new CandidateController;
-        session(['current'=> 0]);
-        $cnt = count(session('lastrace'));
-        session(['reviewcnt'=> $cnt]);
-        $races = session('races');
-        $lastrace = session('lastrace');
-        do {
-            $race = array_pop($lastrace);
-            array_unshift($races, $race);
-        } while (count($lastrace) > 0);
-        session(['lastrace'=> $lastrace]);
-        session(['races'=> $races]);
-        // dd($request->session()->all());
         if(count($races) == 0){
             return  redirect()->route('client.ballot');
         }
