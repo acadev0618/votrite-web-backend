@@ -4,7 +4,7 @@
 <div class="page-header-voter -i navbar navbar-fixed-top">
 	<div class="page-header-inner row">
 		<div class="page-logo col-md-3">
-			<a href="{{url('/')}}">
+			<a href="{{url('/client/ballot')}}">
 			    <img width="100" src="{{asset('assets/img/favicon_dark.png')}}" alt="logo" class="logo-default"/>
             </a>            
         </div>

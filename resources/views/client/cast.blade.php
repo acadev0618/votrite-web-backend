@@ -14,12 +14,8 @@
 @endsection
 @section('script')
 <script>
-setTimeout(function(){
-    window.location.href = "{{url('/')}}"; 
-     window.location.href = "{{url('/')}}"; 
-    window.location.href = "{{url('/')}}"; 
-    window.location.href = "{{url('/')}}"; 
-    window.location.href = "{{url('/')}}"; 
-}, 5000);
+  setTimeout(function(){
+    window.location.href = "{{url('/')}}";
+  }, 5000);
 </script>
 @endsection

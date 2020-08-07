@@ -7,8 +7,6 @@
       <div class="text-center" style="margin-left: auto; margin-right: auto; width: 100%;">
       	<img src="{{asset('assets/img/favicon_dark.png')}}" style="color: white;" />
         <h1 class="cast-text" style="color: #7b6be2; font-size: 30px;">Welcome to on-line <br>secure voting by VotRite</h1>
-        <br>
-        <a class="btn btn-primary" type="button" href="{{url('/client/ballot')}}">Click to Vote</a>
       </div>
     </div>
 </div>
@@ -16,5 +14,8 @@
 @endsection
 @section('script')
 <script>
+  setTimeout(function(){
+    window.location.href = "{{url('/client/ballot')}}"; 
+  }, 3000);
 </script>
 @endsection
