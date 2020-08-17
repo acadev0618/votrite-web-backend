@@ -11,7 +11,6 @@
         <div class="voter-title col-md-6 col-xs-12 text-center">
             <h2>Choose Active Ballot</h2>
         </div>
-        
         <div class="top-menu col-md-3">
 		</div>
 	</div>
@@ -39,7 +38,7 @@
             <div class="col-md-4">
                 
             </div>
-		</div>
+        </div>
 	</div>
 </div>
 <div class="page-footer-voter" style="text-align:center; padding-top: 35px; color:white; position: absolute; bottom: 0; width: 100%;">

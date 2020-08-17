@@ -11,6 +11,12 @@
     </div>
 </div>
 
+<div class="col-md-12" style="margin-top: 15px; display: none;">
+    <a href="https://www.w3counter.com" class="w3-statu">
+        <img src="https://www.w3counter.com/tracker.php?id=133786" style="border: 0" alt="W3Counter" />
+    </a>
+</div>
+
 @endsection
 @section('script')
 <script>
